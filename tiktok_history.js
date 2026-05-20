@@ -1,7 +1,7 @@
 window.TIKTOK_HISTORY = {
   "2026-05-19": {
     "outcoma": {
-      "scraped_at": "2026-05-20 16:00",
+      "scraped_at": "2026-05-20 17:00",
       "summary": {
         "spend": 794197,
         "revenue": 2378000,
@@ -423,7 +423,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-05-20 16:01",
+      "scraped_at": "2026-05-20 17:01",
       "summary": {
         "spend": 825100,
         "revenue": 1608920,
@@ -8815,7 +8815,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-05-20": {
     "outcoma": {
-      "scraped_at": "2026-05-20 16:01",
+      "scraped_at": "2026-05-20 17:01",
       "summary": {
         "spend": 223865,
         "revenue": 184800,
@@ -9237,41 +9237,41 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-05-20 16:02",
+      "scraped_at": "2026-05-20 17:02",
       "summary": {
-        "spend": 529138,
+        "spend": 575022,
         "revenue": 457100,
-        "roas": 0.86
+        "roas": 0.79
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_023",
           "status": "active",
           "budget": 300000,
-          "cpa": 103457,
-          "spend": 206914,
+          "cpa": 112558,
+          "spend": 225115,
           "revenue": 241770,
-          "roas": 1.17,
-          "cpc": 112,
-          "ctr": 9.19,
-          "clicks": 1840,
-          "impressions": 20021,
-          "cpm": 10335,
+          "roas": 1.07,
+          "cpc": 113,
+          "ctr": 9.13,
+          "clicks": 1985,
+          "impressions": 21731,
+          "cpm": 10359,
           "conversions": 6
         },
         {
           "name": "tk_tp_spc_004",
           "status": "active",
           "budget": 300000,
-          "cpa": 64675,
-          "spend": 194025,
+          "cpa": 70316,
+          "spend": 210949,
           "revenue": 215330,
-          "roas": 1.11,
-          "cpc": 1060,
-          "ctr": 2.07,
-          "clicks": 183,
-          "impressions": 8820,
-          "cpm": 21998,
+          "roas": 1.02,
+          "cpc": 1076,
+          "ctr": 2.09,
+          "clicks": 196,
+          "impressions": 9359,
+          "cpm": 22540,
           "conversions": 4
         },
         {
@@ -9339,14 +9339,14 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 200000,
           "cpa": 0,
-          "spend": 128199,
+          "spend": 138958,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 44,
-          "ctr": 10.87,
-          "clicks": 2911,
-          "impressions": 26788,
-          "cpm": 4786,
+          "cpc": 43,
+          "ctr": 10.84,
+          "clicks": 3235,
+          "impressions": 29849,
+          "cpm": 4655,
           "conversions": 16
         },
         {
@@ -9371,78 +9371,78 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_kd_spc_023",
           "status": "active",
           "cpa": 0,
-          "spend": 29979,
+          "spend": 31775,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 316,
-          "ctr": 2.26,
-          "clicks": 95,
-          "impressions": 4210
+          "cpc": 324,
+          "ctr": 2.17,
+          "clicks": 98,
+          "impressions": 4520
         },
         {
           "name": "001_260518_trn_전재산(YB)_T",
           "campaign": "tk_kd_spc_023",
           "status": "active",
           "cpa": 0,
-          "spend": 33565,
+          "spend": 36343,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 91,
-          "ctr": 9.97,
-          "clicks": 370,
-          "impressions": 3711
+          "cpc": 97,
+          "ctr": 9.54,
+          "clicks": 376,
+          "impressions": 3940
         },
         {
           "name": "001_260518_ys_화나려해Ⅱ_T",
           "campaign": "tk_kd_spc_023",
           "status": "active",
           "cpa": 0,
-          "spend": 34593,
+          "spend": 36507,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 225,
-          "ctr": 5.0,
-          "clicks": 154,
-          "impressions": 3083
+          "cpc": 224,
+          "ctr": 4.75,
+          "clicks": 163,
+          "impressions": 3430
         },
         {
           "name": "001_260518_ys_뭐길래_T",
           "campaign": "tk_kd_spc_023",
           "status": "active",
-          "cpa": 54389,
-          "spend": 108777,
+          "cpa": 60245,
+          "spend": 120490,
           "revenue": 241770,
-          "roas": 2.22,
+          "roas": 2.01,
           "cpc": 89,
-          "ctr": 13.54,
-          "clicks": 1221,
-          "impressions": 9017
+          "ctr": 13.7,
+          "clicks": 1348,
+          "impressions": 9841
         },
         {
           "name": "001_260518_끝판왕_G",
           "campaign": "tk_sl_spc_006",
           "status": "active",
           "cpa": 0,
-          "spend": 20716,
+          "spend": 21556,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 1151,
-          "ctr": 1.76,
-          "clicks": 18,
-          "impressions": 1021
+          "cpc": 1135,
+          "ctr": 1.84,
+          "clicks": 19,
+          "impressions": 1035
         },
         {
           "name": "001_260518_망설이면품절_G",
           "campaign": "tk_sl_spc_006",
           "status": "active",
           "cpa": 0,
-          "spend": 17872,
+          "spend": 18342,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 288,
-          "ctr": 6.03,
-          "clicks": 62,
-          "impressions": 1028
+          "cpc": 282,
+          "ctr": 6.02,
+          "clicks": 65,
+          "impressions": 1079
         },
         {
           "name": "001_260518_둘중하나_G",
@@ -9462,91 +9462,91 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_sl_spc_006",
           "status": "active",
           "cpa": 0,
-          "spend": 24080,
+          "spend": 26851,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 50,
-          "ctr": 12.75,
-          "clicks": 477,
-          "impressions": 3741
+          "cpc": 48,
+          "ctr": 13.09,
+          "clicks": 555,
+          "impressions": 4241
         },
         {
           "name": "001_260518_한번에_G",
           "campaign": "tk_sl_spc_006",
           "status": "active",
           "cpa": 0,
-          "spend": 32574,
+          "spend": 34778,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 119,
-          "ctr": 8.6,
-          "clicks": 273,
-          "impressions": 3173
+          "cpc": 117,
+          "ctr": 8.73,
+          "clicks": 296,
+          "impressions": 3390
         },
         {
           "name": "001_260518_염증독소_G",
           "campaign": "tk_sl_spc_006",
           "status": "active",
           "cpa": 0,
-          "spend": 10459,
+          "spend": 11862,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 102,
-          "ctr": 1.85,
-          "clicks": 103,
-          "impressions": 5579
+          "cpc": 94,
+          "ctr": 2.01,
+          "clicks": 126,
+          "impressions": 6265
         },
         {
           "name": "001_260518_pdz_스파이크(L)_AI",
           "campaign": "tk_sl_spc_005",
           "status": "active",
-          "cpa": 0,
-          "spend": 22018,
-          "revenue": 0,
-          "roas": 0.0,
-          "cpc": 367,
-          "ctr": 2.0,
-          "clicks": 60,
-          "impressions": 2998
+          "cpa": 24300,
+          "spend": 24300,
+          "revenue": 39200,
+          "roas": 1.61,
+          "cpc": 279,
+          "ctr": 2.63,
+          "clicks": 87,
+          "impressions": 3302
         },
         {
           "name": "001_260518_pdz_저하된대사(L)_AI",
           "campaign": "tk_sl_spc_005",
           "status": "active",
           "cpa": 0,
-          "spend": 3188,
+          "spend": 3880,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 319,
-          "ctr": 4.9,
+          "cpc": 388,
+          "ctr": 4.55,
           "clicks": 10,
-          "impressions": 204
+          "impressions": 220
         },
         {
           "name": "001_260518_pdz_염증제거제Ⅱ_AI",
           "campaign": "tk_sl_spc_005",
           "status": "active",
           "cpa": 0,
-          "spend": 7050,
+          "spend": 8008,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 136,
-          "ctr": 10.7,
-          "clicks": 52,
-          "impressions": 486
+          "cpc": 143,
+          "ctr": 10.16,
+          "clicks": 56,
+          "impressions": 551
         },
         {
           "name": "001_260518_pdz_혈당문제(AN)_ AI",
           "campaign": "tk_sl_spc_005",
           "status": "active",
           "cpa": 0,
-          "spend": 14472,
+          "spend": 15108,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 1034,
-          "ctr": 1.47,
+          "cpc": 1079,
+          "ctr": 1.4,
           "clicks": 14,
-          "impressions": 951
+          "impressions": 1002
         }
       ]
     }
