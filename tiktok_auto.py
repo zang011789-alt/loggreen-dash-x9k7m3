@@ -66,12 +66,12 @@ def apply_custom_columns(page):
 
 # ── 스크래퍼 ──────────────────────────────────────────
 def scrape_campaigns(page, camp_pat):
-    page.wait_for_timeout(3000)
-    for _ in range(12):
-        page.evaluate("window.scrollBy(0, 500)")
+    page.wait_for_timeout(5000)
+    for _ in range(14):
+        page.evaluate("window.scrollBy(0, 450)")
         page.wait_for_timeout(300)
     page.evaluate("window.scrollTo(0, 0)")
-    page.wait_for_timeout(1000)
+    page.wait_for_timeout(1500)
 
     text  = page.evaluate("document.body.innerText")
     lines = [l.strip() for l in text.split('\n') if l.strip()]
@@ -138,19 +138,10 @@ def scrape_campaigns(page, camp_pat):
             m['roas'] = round(m['revenue'] / m['spend'], 2) if m['spend'] else 0
     return list(seen.values())
 
-def scrape_ads(page):
-    page.wait_for_timeout(3000)
-    for _ in range(20):
-        page.evaluate("window.scrollBy(0, 400)")
-        page.wait_for_timeout(200)
-    page.evaluate("window.scrollTo(0, 0)")
-    page.wait_for_timeout(1000)
-
-    text  = page.evaluate("document.body.innerText")
-    lines = [l.strip() for l in text.split('\n') if l.strip()]
-
+def _parse_ads_lines(lines):
+    """innerText lines → 소재 리스트 파싱"""
     ads = []
-    i   = 0
+    i = 0
     while i < len(lines):
         line = lines[i]
         if not re.match(r'^\d{3}_\d{6}_', line):
@@ -199,6 +190,108 @@ def scrape_ads(page):
         i += 1
     return ads
 
+def _sort_by_cost_desc(page):
+    """소재 탭 Cost 열 내림차순 정렬.
+    틱톡 헤더는 Shadow DOM 안 SPAN으로 렌더링 → bounding box로 위치 판별.
+    첫 클릭=오름차순, 두 번째 클릭=내림차순.
+    """
+    try:
+        page.wait_for_timeout(500)
+        els = page.get_by_text("Cost", exact=True)
+        n = els.count()
+        for i in range(n):
+            el = els.nth(i)
+            bb = el.bounding_box()
+            # 테이블 헤더 행 범위: y 30~300, 너비 100 미만
+            if bb and 30 < bb['y'] < 300 and bb['width'] < 150:
+                el.click(); page.wait_for_timeout(1000)
+                el.click(); page.wait_for_timeout(1500)  # 두 번 → 내림차순
+                print(f"  Cost 헤더 클릭 완료 (y={bb['y']:.0f})", flush=True)
+                return True
+        print("  [경고] Cost 헤더 못찾음 — 정렬 없이 진행", flush=True)
+        return False
+    except Exception as e:
+        print(f"  Cost 정렬 실패(무시): {e}", flush=True)
+        return False
+
+def _go_next_page(page):
+    """페이지네이션 다음 페이지 버튼 클릭.
+    틱톡 페이지네이션도 Shadow DOM이므로 여러 방법 시도.
+    """
+    try:
+        # 방법 1: aria-label
+        for sel in ['[aria-label="Next page"]', '[aria-label="next"]',
+                    'button[title="Next page"]', 'button[title="Next"]']:
+            btn = page.locator(sel).first
+            if btn.count() > 0 and btn.is_enabled():
+                btn.click(); page.wait_for_timeout(2500)
+                return True
+        # 방법 2: 텍스트 기반 (>, ›, Next)
+        for txt_val in ('>', '›', '»'):
+            btn = page.get_by_text(txt_val, exact=True).last
+            if btn.count() > 0:
+                bb = btn.bounding_box()
+                if bb and bb['y'] > 400:  # 페이지 하단 페이지네이션
+                    btn.click(); page.wait_for_timeout(2500)
+                    return True
+        # 방법 3: JS로 페이지네이션 버튼 찾기
+        clicked = page.evaluate("""
+        () => {
+            const btns = [...document.querySelectorAll('button, [role="button"]')];
+            const next = btns.find(b => {
+                const txt = b.textContent.trim();
+                const rect = b.getBoundingClientRect();
+                return (txt === '>' || txt === '›') && rect.y > 400 && !b.disabled;
+            });
+            if (next) { next.click(); return true; }
+            return false;
+        }
+        """)
+        if clicked:
+            page.wait_for_timeout(2500)
+            return True
+    except Exception as e:
+        print(f"  다음 페이지 실패(무시): {e}", flush=True)
+    return False
+
+def _read_page_ads(page):
+    """현재 페이지 스크롤 + 파싱"""
+    for _ in range(30):
+        page.evaluate("window.scrollBy(0, 400)")
+        page.wait_for_timeout(200)
+    page.evaluate("window.scrollTo(0, 0)")
+    page.wait_for_timeout(1000)
+    text  = page.evaluate("document.body.innerText")
+    lines = [l.strip() for l in text.split('\n') if l.strip()]
+    return _parse_ads_lines(lines)
+
+def scrape_ads(page):
+    page.wait_for_timeout(3000)
+    _sort_by_cost_desc(page)
+
+    all_ads = []
+    page_num = 1
+
+    while page_num <= 10:  # 안전 상한
+        page_ads = _read_page_ads(page)
+
+        if not page_ads:
+            break
+
+        all_ads.extend(page_ads)
+        min_spend = min(a['spend'] for a in page_ads)
+
+        if min_spend == 0:
+            break  # 0원 소재 등장 → 이후는 전부 0원, 수집 종료
+
+        # 현재 페이지 소재가 전부 spend > 0 → 다음 페이지에도 있을 수 있음
+        print(f"  [알림] 소재 p{page_num} 최소소진={min_spend:,}원 — 다음 페이지 수집 시도", flush=True)
+        if not _go_next_page(page):
+            break
+        page_num += 1
+
+    return all_ads
+
 # ── 수집 ──────────────────────────────────────────────
 def collect_day(page, target_date_str, brand="outcoma"):
     """단일 날짜·브랜드 하루치 수집"""
@@ -226,7 +319,8 @@ def collect_day(page, target_date_str, brand="outcoma"):
     ads = []
     try:
         page.keyboard.press("Alt+3")
-        page.wait_for_timeout(2000)
+        page.wait_for_timeout(2500)
+        apply_custom_columns(page)  # 소재 탭에서도 컬럼 프리셋 재적용
         ads = scrape_ads(page)
         print(f"  [{label}/{target_date_str}] 소재 {len(ads)}개", flush=True)
     except Exception as e:
@@ -279,16 +373,50 @@ def git_push():
 CHROME_EXE = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 CHROME_DIR = r"C:\Temp\chrome_tt2"
 
+def _kill_debug_chrome():
+    """포트 9222로 뜬 Chrome 프로세스 강제 종료"""
+    import wmi
+    try:
+        c = wmi.WMI()
+        for p in c.Win32_Process(name="chrome.exe"):
+            if p.CommandLine and ("9222" in p.CommandLine or "chrome_tt2" in p.CommandLine):
+                p.Terminate()
+    except Exception:
+        subprocess.run(
+            ["powershell", "-Command",
+             "Get-WmiObject Win32_Process | Where-Object { $_.CommandLine -match '9222|chrome_tt2' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -EA SilentlyContinue }"],
+            capture_output=True, timeout=10
+        )
+
+def _start_chrome():
+    """Chrome 디버그 모드로 실행"""
+    import time
+    subprocess.Popen([CHROME_EXE, "--remote-debugging-port=9222",
+                      f"--user-data-dir={CHROME_DIR}",
+                      "--no-first-run", "--no-default-browser-check"])
+    time.sleep(5)
+
 def ensure_chrome():
-    """포트 9222 응답 없으면 Chrome 자동 실행"""
-    import socket, time
+    """포트 + HTTP /json 응답까지 확인, 실패 시 Chrome 재시작"""
+    import socket, time, urllib.request
+    # 1단계: 소켓 체크
     s = socket.socket()
     try:
-        s.connect(("localhost", 9222)); s.close(); return
-    except: s.close()
-    print("  Chrome 디버그 모드 없음 → 자동 실행", flush=True)
-    subprocess.Popen([CHROME_EXE, f"--remote-debugging-port=9222", f"--user-data-dir={CHROME_DIR}"])
-    time.sleep(5)
+        s.connect(("localhost", 9222)); s.close()
+    except:
+        s.close()
+        print("  Chrome 없음 → 실행", flush=True)
+        _start_chrome()
+        return
+    # 2단계: HTTP /json 응답 체크 (CDP 통신 가능 여부)
+    try:
+        urllib.request.urlopen("http://localhost:9222/json", timeout=5)
+        return  # 정상
+    except Exception as e:
+        print(f"  Chrome /json 응답 없음({e}) → 재시작", flush=True)
+    _kill_debug_chrome()
+    time.sleep(2)
+    _start_chrome()
 
 def run(dates_to_collect, brands_to_collect=None, skip_push=False):
     if brands_to_collect is None:
@@ -297,7 +425,17 @@ def run(dates_to_collect, brands_to_collect=None, skip_push=False):
     ensure_chrome()
 
     with sync_playwright() as p:
-        browser = p.chromium.connect_over_cdp("http://localhost:9222")
+        import time
+        def _connect():
+            return p.chromium.connect_over_cdp("http://localhost:9222", timeout=30000)
+        try:
+            browser = _connect()
+        except Exception as e:
+            print(f"  CDP 연결 실패({e}) → Chrome 재시작 후 재시도", flush=True)
+            _kill_debug_chrome()
+            time.sleep(2)
+            _start_chrome()
+            browser = _connect()
         ctx     = browser.contexts[0]
         page    = next((pg for pg in ctx.pages if "ads.tiktok.com" in pg.url), ctx.pages[0])
 
