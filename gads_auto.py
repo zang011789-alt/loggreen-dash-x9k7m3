@@ -18,7 +18,11 @@ MAX_DAYS    = 180
 OCID = "1604778170"
 BASE_URL = f"https://ads.google.com/aw/campaigns?ocid={OCID}"
 
-# 캠페인명 → 제품 매핑 (틱톡/메타와 동일)
+# 보기 뷰 → gg_ 캠페인 목록. '스파' 뷰는 계정 전체 summary 수집용
+PRODUCT_VIEWS = ['노픽', '템퍼픽션', '검색 캠페인']
+SUMMARY_VIEW  = '스파'
+
+# 캠페인명 → 제품 매핑
 PRODUCT_MAP = {
     "gg_kd_": "키즈픽션",
     "gg_tp_": "템퍼픽션",
@@ -45,14 +49,6 @@ def _cdp_ok(port):
         return False
 
 def _kill_chrome(port):
-    try:
-        result = subprocess.run(
-            ["powershell", "-Command",
-             f"Get-Process chrome | Where-Object {{$_.MainWindowTitle -eq ''}} | ForEach-Object {{$_.Id}}"],
-            capture_output=True, text=True, timeout=10
-        )
-    except:
-        pass
     try:
         subprocess.run(
             ["powershell", "-Command",
@@ -87,14 +83,12 @@ def ensure_chrome():
 
 # ── 파싱 유틸 ──────────────────────────────────────────────────
 def parse_krw(text):
-    """₩1,234,567 → 1234567"""
     m = re.search(r'₩([\d,]+)', text.replace('\xa0', ''))
     if m:
         return int(m.group(1).replace(',', ''))
     return 0
 
 def parse_float(text):
-    """숫자 추출 (%, — 처리)"""
     text = text.strip().replace('%', '').replace(',', '').replace('—', '0').replace('\xa0', '')
     try:
         return float(text)
@@ -107,29 +101,83 @@ def guess_product(name):
             return prod
     return "기타"
 
+# ── 뷰 전환 ──────────────────────────────────────────────────────
+def switch_to_view(page, view_name):
+    """'보기' 드롭다운에서 특정 뷰 선택. 성공 여부 반환."""
+    # 드롭다운 열기 (JS 기반 — 위치 변화에 무관)
+    opened = page.evaluate("""
+    () => {
+        const btns = [...document.querySelectorAll('[role="button"]')];
+        const btn = btns.find(b => {
+            const t = (b.innerText || '');
+            const r = b.getBoundingClientRect();
+            return (t.includes('보기') || t.includes('필터')) && r.y > 60 && r.y < 150
+                   && r.x > 300 && r.x < 700;
+        });
+        if (btn) { btn.click(); return true; }
+        return false;
+    }
+    """)
+    if not opened:
+        print(f"  '보기' 드롭다운 열기 실패")
+        return False
+    page.wait_for_timeout(800)
+
+    # 뷰 아이템 클릭
+    result = page.evaluate(f"""
+    () => {{
+        const items = [...document.querySelectorAll('material-select-item')];
+        const item = items.find(i => (i.innerText || '').includes('{view_name}'));
+        if (item) {{ item.click(); return true; }}
+        return false;
+    }}
+    """)
+    if not result:
+        # 드롭다운 닫기
+        page.keyboard.press("Escape")
+        print(f"  '{view_name}' 아이템 없음")
+        return False
+    page.wait_for_timeout(2000)
+    return True
+
 # ── 날짜 범위 설정 ─────────────────────────────────────────────
+def _picker_is_open(page):
+    return page.evaluate("""
+    () => {
+        const opts = [...document.querySelectorAll('material-select-item[role="option"]')];
+        return opts.some(o => {
+            const r = o.getBoundingClientRect();
+            return r.width > 0 && r.x > 1400 && r.y > 50;
+        });
+    }
+    """)
+
 def _open_date_picker(page):
-    """날짜 버튼 클릭해서 피커 열기"""
-    try:
-        spans = page.evaluate("""
-        () => {
-            const spans = [...document.querySelectorAll('span')];
-            return spans
-                .filter(s => s.innerText && s.innerText.match(/\\d{4}년 \\d+월 \\d+일/))
-                .map(s => ({ text: s.innerText.trim(), y: Math.round(s.getBoundingClientRect().y) }));
+    if _picker_is_open(page):
+        return True
+    clicked = page.evaluate("""
+    () => {
+        const btns = [...document.querySelectorAll('[role="button"]')];
+        const candidates = btns.filter(b => {
+            const t = b.innerText || b.textContent || '';
+            const r = b.getBoundingClientRect();
+            return r.y > 50 && r.y < 300 && r.x > 900 && r.width >= 80 && r.width <= 280
+                   && t.includes('arrow_drop_down');
+        }).sort((a, b) => a.getBoundingClientRect().width - b.getBoundingClientRect().width);
+        if (candidates[0]) {
+            candidates[0].click();
+            const r = candidates[0].getBoundingClientRect();
+            return { y: Math.round(r.y), x: Math.round(r.x), text: (candidates[0].innerText||'').substring(0,40) };
         }
-        """)
-        target = [s for s in spans if s['y'] < 400]
-        if target:
-            page.get_by_text(target[0]['text'].split('\n')[0]).first.click()
-            page.wait_for_timeout(1200)
-            return True
-    except:
-        pass
-    return False
+        return null;
+    }
+    """)
+    if clicked:
+        print(f"  피커 클릭: y={clicked['y']} x={clicked['x']} '{clicked['text'][:30]}'")
+    page.wait_for_timeout(2500)
+    return clicked is not None
 
 def _apply_date_picker(page):
-    """적용 버튼 클릭"""
     try:
         apply = page.get_by_text("적용", exact=True)
         if apply.count() > 0:
@@ -138,106 +186,139 @@ def _apply_date_picker(page):
     except:
         pass
 
-def set_date_range(page, target_date):
-    """Google Ads 날짜 피커에서 target_date 단일 날짜로 설정"""
-    today = date.today()
-    yesterday = today - timedelta(days=1)
+def _get_dot_inputs(page):
+    return page.evaluate("""
+    () => {
+        const inputs = [...document.querySelectorAll('input[type="text"]')];
+        return inputs
+            .filter(i => {
+                const r = i.getBoundingClientRect();
+                const v = i.value || '';
+                return r.y > 100 && r.y < 700 && r.width > 30 && r.width < 200 && v.includes('.');
+            })
+            .map(i => ({ y: Math.round(i.getBoundingClientRect().y),
+                         w: Math.round(i.getBoundingClientRect().width),
+                         val: i.value }));
+    }
+    """)
 
-    # 현재 날짜 범위 텍스트 확인 → 이미 맞으면 스킵
-    try:
-        current_date_text = page.evaluate("""
-        () => {
-            const spans = [...document.querySelectorAll('span')];
-            for (const s of spans) {
-                const t = s.innerText ? s.innerText.trim() : '';
-                if (t.match(/\\d{4}년 \\d+월 \\d+일/)) return t;
-            }
-            return '';
-        }
-        """)
-        td_str = f"{target_date.year}년 {target_date.month}월 {target_date.day}일"
-        if td_str in current_date_text and ('~' not in current_date_text or
-                                             current_date_text.strip().startswith(td_str)):
-            print(f"  날짜 이미 {td_str} → 스킵")
-            return True
-    except:
-        pass
-
-    # 날짜 피커 열기
-    _open_date_picker(page)
-
-    # 오늘/어제: 프리셋 클릭
-    if target_date == today:
-        preset = "오늘"
-    elif target_date == yesterday:
-        preset = "어제"
-    else:
-        preset = None
-
-    if preset:
-        try:
-            btn = page.get_by_text(preset, exact=True)
-            if btn.count() > 0:
-                btn.first.click()
-                page.wait_for_timeout(1000)
-                _apply_date_picker(page)
-                return True
-        except:
-            pass
-
-    # 커스텀 날짜: input 필드에 직접 입력
-    # 포맷: "YYYY. M. D."
-    date_str = f"{target_date.year}. {target_date.month}. {target_date.day}."
-    try:
-        # input 필드 찾기 (y=200~400 범위, 날짜 값 있는 것)
-        inputs = page.evaluate("""
-        () => {
-            const inputs = [...document.querySelectorAll('input[type="text"]')];
-            return inputs
-                .filter(i => {
-                    const r = i.getBoundingClientRect();
-                    return r.y > 200 && r.y < 450 && r.width > 50;
-                })
-                .map((i, idx) => ({ idx, y: Math.round(i.getBoundingClientRect().y), val: i.value }));
-        }
-        """)
-        print(f"  커스텀 날짜 {date_str}, 입력 필드: {inputs}")
-
-        if inputs:
-            # 첫 번째 필드 = 시작일
-            field = page.locator('input[type="text"]').filter(
-                has=page.locator(':scope')
-            )
-            # bounding box로 필터
-            for inp in inputs[:2]:
-                all_inputs = page.locator('input[type="text"]')
-                for i in range(all_inputs.count()):
-                    el = all_inputs.nth(i)
-                    bb = el.bounding_box()
-                    if bb and abs(bb['y'] - inp['y']) < 5:
-                        el.triple_click()
-                        page.wait_for_timeout(200)
-                        el.type(date_str)
-                        page.wait_for_timeout(300)
-                        break
-
+def _fill_date_inputs(page, date_dot_str):
+    inputs = _get_dot_inputs(page)
+    if not inputs:
+        return False
+    all_inputs = page.locator('input[type="text"]')
+    target_inp = inputs[0]
+    for i in range(all_inputs.count()):
+        el = all_inputs.nth(i)
+        bb = el.bounding_box()
+        if bb and abs(bb['y'] - target_inp['y']) < 5 and abs(bb['width'] - target_inp['w']) < 5:
+            el.click(click_count=3)
+            page.wait_for_timeout(200)
+            el.fill(date_dot_str)
+            page.wait_for_timeout(400)
             page.keyboard.press("Tab")
+            page.wait_for_timeout(300)
+            page.keyboard.press("Control+a")
+            page.wait_for_timeout(100)
+            page.keyboard.type(date_dot_str, delay=30)
+            page.wait_for_timeout(400)
+            page.keyboard.press("Enter")
+            page.wait_for_timeout(300)
+            print(f"  시작일/종료일 {date_dot_str} 입력 완료")
+            return True
+    return False
+
+def set_date_range(page, target_date):
+    date_dot_str = f"{target_date.year}. {target_date.month}. {target_date.day}."
+
+    if not _open_date_picker(page):
+        print("  날짜 피커 열기 실패")
+        return False
+
+    # 이미 올바른 날짜면 피커 닫고 바로 반환
+    existing = _get_dot_inputs(page)
+    if existing and existing[0]['val'] == date_dot_str:
+        print(f"  날짜 이미 {date_dot_str}, 스킵")
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(400)
+        return True
+
+    # "맞춤" 클릭 (x>1200 제약 — 우측 date picker 영역, view selector와 분리)
+    clicked = page.evaluate("""
+    () => {
+        const items = [...document.querySelectorAll('material-select-item, [role="option"]')];
+        const item = items.find(i => {
+            const t = (i.innerText || '').trim();
+            const r = i.getBoundingClientRect();
+            return t === '맞춤' && r.x > 1200 && r.y > 100 && r.y < 700;
+        });
+        if (item) { item.click(); return true; }
+        return false;
+    }
+    """)
+    if clicked:
+        page.wait_for_timeout(1200)
+        print(f"  '맞춤' 옵션 클릭")
+
+    inputs = _get_dot_inputs(page)
+    print(f"  dot inputs: {len(inputs)}개 {inputs[:1]}")
+
+    if inputs:
+        ok = _fill_date_inputs(page, date_dot_str)
+        if ok:
             page.wait_for_timeout(500)
             _apply_date_picker(page)
+            page.wait_for_timeout(2000)
+            return True
+
+    # 폴백: "시작일" 클릭 후 타이핑
+    print("  시작일 클릭 폴백")
+    try:
+        start_pos = page.evaluate("""
+        () => {
+            const spans = [...document.querySelectorAll('div, span')];
+            const el = spans.find(e => {
+                const t = (e.innerText || '').trim();
+                const r = e.getBoundingClientRect();
+                return t === '시작일' && r.y > 80 && r.y < 300 && r.width > 20 && r.width < 200;
+            });
+            if (!el) return null;
+            const r = el.getBoundingClientRect();
+            return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
+        }
+        """)
+        if start_pos:
+            print(f"  시작일 클릭: ({start_pos['x']}, {start_pos['y']})")
+            page.mouse.click(start_pos['x'], start_pos['y'])
+            page.wait_for_timeout(400)
+            page.keyboard.press("Control+a")
+            page.wait_for_timeout(100)
+            page.keyboard.type(date_dot_str, delay=30)
+            page.wait_for_timeout(400)
+            page.keyboard.press("Tab")
+            page.wait_for_timeout(300)
+            page.keyboard.press("Control+a")
+            page.wait_for_timeout(100)
+            page.keyboard.type(date_dot_str, delay=30)
+            page.wait_for_timeout(400)
+            page.keyboard.press("Enter")
+            page.wait_for_timeout(300)
+            page.wait_for_timeout(500)
+            _apply_date_picker(page)
+            page.wait_for_timeout(2000)
             return True
     except Exception as e:
-        print(f"  커스텀 날짜 입력 실패: {e}")
+        print(f"  시작일 클릭 실패: {e}")
 
     return False
 
 # ── 데이터 추출 ────────────────────────────────────────────────
 def extract_summary(page):
-    """상단 KPI 카드 추출"""
+    """상단 KPI 카드 추출 (비용/노출수/전환수/전환가치)"""
     try:
         result = page.evaluate("""
         () => {
             const cards = {};
-            // KPI 카드: data-metric-id 또는 인접 텍스트 노드 기반
             const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
             let node;
             const labels = ['비용', '노출수', '전환수', '전환 가치', '클릭수'];
@@ -250,7 +331,7 @@ def extract_summary(page):
                     if (!cards[lastLabel]) cards[lastLabel] = t;
                     lastLabel = null;
                 } else if (lastLabel && t === '') {
-                    // 빈 노드는 스킵
+                    // skip
                 } else {
                     lastLabel = null;
                 }
@@ -263,18 +344,21 @@ def extract_summary(page):
         conv_val_str = result.get('전환 가치', '0').replace(',', '')
         conv_value = int(float(conv_val_str)) if conv_val_str else 0
         conversions = parse_float(result.get('전환수', '0'))
-        return {
-            "spend": spend,
-            "impressions": impressions,
-            "conv_value": conv_value,
-            "conversions": conversions,
-        }
+        return {"spend": spend, "impressions": impressions, "conv_value": conv_value, "conversions": conversions}
     except Exception as e:
         print(f"  summary 추출 실패: {e}")
         return {}
 
 def extract_campaigns(page):
-    """캠페인 테이블 행 추출"""
+    """캠페인 테이블 행 추출 (gg_ 캠페인만)
+    포맷 감지:
+      SHORT (8줄/템퍼픽션 DMG): lines[-1] ends with '%'
+        → ctr=[-1], roas=[-2], spend=[-3](₩), cpa=[-4]
+      LONG (18-20줄/노픽 DMG): lines[-2] has ₩
+        → spend=[-2](₩), cpa=[-3](₩), roas=[-5], ctr=[-7]
+      GSA (16줄/검색 캠페인): lines[-1] has ₩, lines[-2] is float
+        → conv_value=[-1](₩), conversions=[-2], spend=[-5](₩), ctr=[-7]
+    """
     campaigns = []
     try:
         rows = page.evaluate("""
@@ -282,17 +366,13 @@ def extract_campaigns(page):
             const results = [];
             const rows = document.querySelectorAll('[role="row"]');
             for (const row of rows) {
-                // A 태그 중 gg_ 로 시작하는 것 찾기 (href 빈 경우도 처리)
                 const links = [...row.querySelectorAll('a')];
                 const link = links.find(a => a.innerText.trim().startsWith('gg_'));
                 if (!link) continue;
                 const name = link.innerText.trim();
-
-                // 행 전체 텍스트를 줄 단위로 분리
                 const rawLines = row.innerText.split('\\n')
                     .map(l => l.trim())
                     .filter(l => l.length > 0 && l !== 'settings');
-
                 results.push({ name, rawLines });
             }
             return results;
@@ -302,9 +382,11 @@ def extract_campaigns(page):
         for row in rows:
             name = row['name']
             product = guess_product(name)
-            lines = row['rawLines']  # ['gg_...', '₩100,000/일', '예산 제약 있음', '—', '₩540,465', '—', '—']
+            lines = row['rawLines']
 
-            # budget: 첫 번째 /일 포함 줄
+            if len(lines) < 5:
+                continue
+
             budget = 0
             budget_idx = -1
             for i, l in enumerate(lines):
@@ -313,22 +395,51 @@ def extract_campaigns(page):
                     budget_idx = i
                     break
 
-            # 뒤에서: CTR[-1], ROAS[-2], spend[-3], CPA[-4]
-            ctr  = parse_float(lines[-1]) if len(lines) >= 1 else 0.0
-            roas = parse_float(lines[-2]) if len(lines) >= 2 else 0.0
-            spend_raw = lines[-3] if len(lines) >= 3 else '0'
-            cpa_raw   = lines[-4] if len(lines) >= 4 else '0'
-
-            spend = parse_krw(spend_raw) if '₩' in spend_raw else parse_float(spend_raw)
-            cpa   = parse_krw(cpa_raw)   if '₩' in cpa_raw   else 0
-
-            # status: budget 이후 ~ spend 이전의 줄들
-            status_lines = []
+            # 상태 추출
+            status = ''
             if budget_idx >= 0:
-                for l in lines[budget_idx+1:-4]:
-                    if '—' not in l and '₩' not in l:
-                        status_lines.append(l)
-            status = ', '.join(status_lines) if status_lines else ''
+                status_kws = ['운영 가능', '예산 제약', '제한', '일시정지', '삭제']
+                for l in lines[budget_idx+1:budget_idx+5]:
+                    if any(kw in l for kw in status_kws):
+                        status = l
+                        break
+
+            last = lines[-1]
+            second_last = lines[-2]
+
+            conv_value  = 0.0
+            conversions = 0.0
+
+            if last.endswith('%'):
+                # SHORT 포맷 (템퍼픽션 DMG 등, 7줄)
+                # [-3]=SPEND(₩), [-2]=ROAS, [-1]=CTR%
+                ctr   = parse_float(last)
+                roas  = parse_float(second_last)
+                spend = parse_krw(lines[-3]) if len(lines) >= 3 and '₩' in lines[-3] else 0
+                cpa   = 0  # SHORT 포맷엔 ₩CPA 없음
+                conv_value = round(spend * roas, 2)
+
+            elif '₩' in second_last:
+                # LONG 포맷 (노픽 DMG 등, 15~19줄)
+                # 고정 12열 블록 (끝에서):
+                # [-12]=SPEND, [-11]=ROAS, [-7]=CTR%, [-4]=CONVERSIONS, [-3]=CPC, [-2]=CPA, [-1]=CONV_VALUE
+                spend = parse_krw(lines[-12]) if len(lines) >= 12 and '₩' in lines[-12] else parse_krw(second_last)
+                cpa   = parse_krw(second_last)
+                roas  = parse_float(lines[-11]) if len(lines) >= 11 else 0.0
+                ctr   = parse_float(lines[-7]) if len(lines) >= 7 else 0.0
+                conversions = parse_float(lines[-4]) if len(lines) >= 4 else 0.0
+                conv_value  = parse_float(lines[-6]) if len(lines) >= 6 else 0.0
+
+            else:
+                # GSA 포맷 (검색 캠페인, 15줄)
+                # [-7]=CTR%, [-6]=CPC(₩), [-5]=SPEND(₩), [-4]=bidding, [-3]=CVR%, [-2]=CONV_CNT, [-1]=CONV_VALUE(₩)
+                conv_value  = parse_krw(last) if '₩' in last else 0.0
+                spend       = parse_krw(lines[-5]) if len(lines) >= 5 and '₩' in lines[-5] else 0
+                ctr         = parse_float(lines[-7]) if len(lines) >= 7 else 0.0
+                conv_cnt    = parse_float(second_last)
+                conversions = conv_cnt
+                roas = round(conv_value / spend, 2) if spend > 0 else 0.0
+                cpa  = int(spend / conv_cnt) if conv_cnt > 0 else 0
 
             campaigns.append({
                 "name": name,
@@ -339,6 +450,8 @@ def extract_campaigns(page):
                 "cpa": cpa,
                 "roas": roas,
                 "ctr": ctr,
+                "conv_value": conv_value,
+                "conversions": conversions,
             })
 
     except Exception as e:
@@ -347,44 +460,72 @@ def extract_campaigns(page):
     return campaigns
 
 # ── 메인 수집 ──────────────────────────────────────────────────
-def collect_day(page, target_date):
-    ds = target_date.isoformat()
-    url = BASE_URL
-    print(f"  Google Ads [{ds}] 수집 중...")
-
-    page.goto(url, wait_until="domcontentloaded", timeout=30000)
-    page.wait_for_timeout(3000)
-
-    # 날짜 설정 시도
-    date_set = set_date_range(page, target_date)
-    if not date_set:
-        print(f"  날짜 설정 실패 → 현재 보이는 데이터 그대로 수집")
-    page.wait_for_timeout(3000)
-
-    # 스크롤하여 모든 행 로드 (가상 스크롤 대응)
+def _scroll_and_collect(page):
+    """스크롤로 virtual scroll 완전 로드 후 캠페인 추출"""
+    if _picker_is_open(page):
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(800)
+    try:
+        page.wait_for_selector('[role="row"]', state="visible", timeout=8000)
+    except:
+        pass
+    page.wait_for_timeout(1500)
     for _ in range(20):
         page.evaluate("window.scrollBy(0, 600)")
-        page.wait_for_timeout(300)
-    page.wait_for_timeout(500)
+        page.wait_for_timeout(200)
     page.evaluate("window.scrollTo(0,0)")
-    page.wait_for_timeout(1000)
+    page.wait_for_timeout(800)
+    return extract_campaigns(page)
 
-    summary = extract_summary(page)
-    campaigns = extract_campaigns(page)
+def collect_day(page, target_date):
+    """모든 뷰를 순회하며 gg_ 캠페인 수집. 각 뷰 KPI를 집계해 summary 생성."""
+    ds = target_date.isoformat()
+    all_campaigns = []
 
-    total_spend = summary.get("spend", 0)
-    active = sum(1 for c in campaigns if "운영 가능" in c.get("status", ""))
-    print(f"  [{ds}] 캠페인 {len(campaigns)}개(활성:{active}) | 소진:{total_spend:,} | 전환:{summary.get('conversions',0)}")
+    for view_name in PRODUCT_VIEWS:
+        switched = switch_to_view(page, view_name)
+        if not switched:
+            continue
+        try:
+            page.wait_for_selector('[role="columnheader"]', timeout=8000)
+        except:
+            pass
+        page.wait_for_timeout(1000)
+
+        date_ok = set_date_range(page, target_date)
+        if not date_ok:
+            print(f"  [{view_name}] 날짜 설정 실패")
+        if _picker_is_open(page):
+            page.keyboard.press("Escape")
+            page.wait_for_timeout(500)
+        page.wait_for_timeout(1000)
+
+        camps = _scroll_and_collect(page)
+        all_campaigns.extend(camps)
+        print(f"  [{view_name}] {len(camps)}개")
+
+    # summary: 수집된 gg_ 캠페인 합산
+    total_spend = sum(c["spend"] for c in all_campaigns)
+    total_conv  = sum(c["conversions"] for c in all_campaigns)
+    total_cv    = sum(c["conv_value"] for c in all_campaigns)
+    summary = {
+        "spend": total_spend,
+        "impressions": 0,
+        "conv_value": int(total_cv),
+        "conversions": round(total_conv, 2),
+    }
+
+    active = sum(1 for c in all_campaigns if "운영 가능" in c.get("status", ""))
+    print(f"  [{ds}] 총 {len(all_campaigns)}개(활성:{active}) | 소진:{total_spend:,} | 전환:{total_conv}")
 
     return {
         "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "date": ds,
         "summary": summary,
-        "campaigns": campaigns,
+        "campaigns": all_campaigns,
     }
 
 def save_history(history):
-    # 180일 초과 삭제
     keys = sorted(history.keys())
     while len(keys) > MAX_DAYS:
         del history[keys.pop(0)]
@@ -445,7 +586,6 @@ def main():
         if page is None:
             page = ctx.new_page()
 
-        # 기존 히스토리 로드
         history = {}
         if os.path.exists(JSON_PATH):
             try:
@@ -453,6 +593,14 @@ def main():
                     history = json.load(f)
             except:
                 pass
+
+        # 페이지 초기 로드 (1회)
+        page.goto(BASE_URL, wait_until="load", timeout=40000)
+        try:
+            page.wait_for_selector('[role="columnheader"]', timeout=12000)
+        except:
+            pass
+        page.wait_for_timeout(2500)
 
         for target_date in dates:
             ds = target_date.isoformat()
