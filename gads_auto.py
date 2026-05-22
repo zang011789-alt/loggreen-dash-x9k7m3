@@ -108,12 +108,42 @@ def guess_product(name):
     return "기타"
 
 # ── 날짜 범위 설정 ─────────────────────────────────────────────
+def _open_date_picker(page):
+    """날짜 버튼 클릭해서 피커 열기"""
+    try:
+        spans = page.evaluate("""
+        () => {
+            const spans = [...document.querySelectorAll('span')];
+            return spans
+                .filter(s => s.innerText && s.innerText.match(/\\d{4}년 \\d+월 \\d+일/))
+                .map(s => ({ text: s.innerText.trim(), y: Math.round(s.getBoundingClientRect().y) }));
+        }
+        """)
+        target = [s for s in spans if s['y'] < 400]
+        if target:
+            page.get_by_text(target[0]['text'].split('\n')[0]).first.click()
+            page.wait_for_timeout(1200)
+            return True
+    except:
+        pass
+    return False
+
+def _apply_date_picker(page):
+    """적용 버튼 클릭"""
+    try:
+        apply = page.get_by_text("적용", exact=True)
+        if apply.count() > 0:
+            apply.first.click()
+            page.wait_for_timeout(2500)
+    except:
+        pass
+
 def set_date_range(page, target_date):
     """Google Ads 날짜 피커에서 target_date 단일 날짜로 설정"""
     today = date.today()
     yesterday = today - timedelta(days=1)
 
-    # 현재 날짜 범위 텍스트 확인
+    # 현재 날짜 범위 텍스트 확인 → 이미 맞으면 스킵
     try:
         current_date_text = page.evaluate("""
         () => {
@@ -128,47 +158,75 @@ def set_date_range(page, target_date):
         td_str = f"{target_date.year}년 {target_date.month}월 {target_date.day}일"
         if td_str in current_date_text and ('~' not in current_date_text or
                                              current_date_text.strip().startswith(td_str)):
-            print(f"  날짜 이미 {td_str} 설정됨 → 스킵")
+            print(f"  날짜 이미 {td_str} → 스킵")
             return True
     except:
         pass
 
-    # 날짜 피커 SPAN 클릭 (텍스트에 '년'과 '월' 포함된 SPAN)
-    try:
-        date_spans = page.get_by_text(re.compile(r'\d{4}년 \d+월 \d+일'))
-        for i in range(date_spans.count()):
-            el = date_spans.nth(i)
-            bb = el.bounding_box()
-            if bb and bb['y'] < 400:
-                el.click()
-                page.wait_for_timeout(1200)
-                break
-    except:
-        pass
+    # 날짜 피커 열기
+    _open_date_picker(page)
 
-    # 프리셋 버튼 찾기
-    preset = None
+    # 오늘/어제: 프리셋 클릭
     if target_date == today:
         preset = "오늘"
     elif target_date == yesterday:
         preset = "어제"
+    else:
+        preset = None
 
     if preset:
         try:
             btn = page.get_by_text(preset, exact=True)
             if btn.count() > 0:
                 btn.first.click()
-                page.wait_for_timeout(1500)
-                try:
-                    apply = page.get_by_text("적용", exact=True)
-                    if apply.count() > 0:
-                        apply.first.click()
-                        page.wait_for_timeout(2000)
-                except:
-                    pass
+                page.wait_for_timeout(1000)
+                _apply_date_picker(page)
                 return True
         except:
             pass
+
+    # 커스텀 날짜: input 필드에 직접 입력
+    # 포맷: "YYYY. M. D."
+    date_str = f"{target_date.year}. {target_date.month}. {target_date.day}."
+    try:
+        # input 필드 찾기 (y=200~400 범위, 날짜 값 있는 것)
+        inputs = page.evaluate("""
+        () => {
+            const inputs = [...document.querySelectorAll('input[type="text"]')];
+            return inputs
+                .filter(i => {
+                    const r = i.getBoundingClientRect();
+                    return r.y > 200 && r.y < 450 && r.width > 50;
+                })
+                .map((i, idx) => ({ idx, y: Math.round(i.getBoundingClientRect().y), val: i.value }));
+        }
+        """)
+        print(f"  커스텀 날짜 {date_str}, 입력 필드: {inputs}")
+
+        if inputs:
+            # 첫 번째 필드 = 시작일
+            field = page.locator('input[type="text"]').filter(
+                has=page.locator(':scope')
+            )
+            # bounding box로 필터
+            for inp in inputs[:2]:
+                all_inputs = page.locator('input[type="text"]')
+                for i in range(all_inputs.count()):
+                    el = all_inputs.nth(i)
+                    bb = el.bounding_box()
+                    if bb and abs(bb['y'] - inp['y']) < 5:
+                        el.triple_click()
+                        page.wait_for_timeout(200)
+                        el.type(date_str)
+                        page.wait_for_timeout(300)
+                        break
+
+            page.keyboard.press("Tab")
+            page.wait_for_timeout(500)
+            _apply_date_picker(page)
+            return True
+    except Exception as e:
+        print(f"  커스텀 날짜 입력 실패: {e}")
 
     return False
 
@@ -334,7 +392,7 @@ def save_history(history):
     with open(JSON_PATH, "w", encoding="utf-8") as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
 
-    js_content = "// auto-generated\nwindow.GADS_HISTORY = " + json.dumps(history, ensure_ascii=False) + ";\n"
+    js_content = "// auto-generated\nwindow.GADS_HISTORY = " + json.dumps(history, ensure_ascii=True) + ";\n"
     with open(JS_PATH, "w", encoding="utf-8") as f:
         f.write(js_content)
     print(f"  저장 완료 ({len(history)}개 날짜)")

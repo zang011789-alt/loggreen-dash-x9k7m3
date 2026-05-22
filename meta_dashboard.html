@@ -560,7 +560,7 @@ select option { background: #161b22; color: #c9d1d9; }
 <div id="gadsPanel">
 <div class="container">
 
-  <!-- 컨트롤 -->
+  <!-- 컨트롤 (메타 UI와 동일 구조) -->
   <div class="controls" style="margin-bottom:16px">
     <div class="ctrl-row">
       <div class="tab-group gads-date-group">
@@ -570,28 +570,32 @@ select option { background: #161b22; color: #c9d1d9; }
         <button class="tab-btn"        data-gadspre="last_14d"  onclick="setGadsPreset(this)">최근 14일</button>
         <button class="tab-btn"        data-gadspre="last_30d"  onclick="setGadsPreset(this)">최근 30일</button>
       </div>
+      <div class="date-range">
+        <input type="date" id="gadsStartDate" onchange="gadsCustomDateChanged()">
+        <span class="sep">~</span>
+        <input type="date" id="gadsEndDate" onchange="gadsCustomDateChanged()">
+        <button class="date-apply" onclick="applyGadsCustomDate()">적용</button>
+      </div>
     </div>
     <div class="ctrl-row" id="gadsProdRow"></div>
   </div>
 
   <!-- KPI -->
   <div class="kpi-grid">
-    <div class="kpi-card spend"><div class="kpi-label">총 소진금액</div><div class="kpi-value" id="gg-kpi-spend">—</div><div class="kpi-sub" id="gg-kpi-spend-sub"></div></div>
-    <div class="kpi-card purch"><div class="kpi-label">전환 수</div><div class="kpi-value" id="gg-kpi-conv">—</div><div class="kpi-sub" id="gg-kpi-conv-sub"></div></div>
-    <div class="kpi-card roas"><div class="kpi-label">전환 가치</div><div class="kpi-value" id="gg-kpi-convval">—</div><div class="kpi-sub" id="gg-kpi-convval-sub"></div></div>
-    <div class="kpi-card direct"><div class="kpi-label">직접 ROAS</div><div class="kpi-value" id="gg-kpi-direct-roas">—</div><div class="kpi-sub" id="gg-kpi-direct-roas-sub"></div></div>
-    <div class="kpi-card cpp"><div class="kpi-label">CPA</div><div class="kpi-value" id="gg-kpi-cpa">—</div><div class="kpi-sub" id="gg-kpi-cpa-sub"></div></div>
+    <div class="kpi-card spend"> <div class="kpi-label">총 소진금액</div> <div class="kpi-value" id="gg-kpi-spend">—</div>       <div class="kpi-sub" id="gg-kpi-spend-sub"></div></div>
+    <div class="kpi-card purch"> <div class="kpi-label">전환 수</div>     <div class="kpi-value" id="gg-kpi-conv">—</div>        <div class="kpi-sub" id="gg-kpi-conv-sub"></div></div>
+    <div class="kpi-card roas">  <div class="kpi-label">전환 가치</div>   <div class="kpi-value" id="gg-kpi-convval">—</div>     <div class="kpi-sub" id="gg-kpi-convval-sub"></div></div>
+    <div class="kpi-card direct"><div class="kpi-label">직접 ROAS</div>   <div class="kpi-value" id="gg-kpi-direct-roas">—</div> <div class="kpi-sub" id="gg-kpi-direct-roas-sub"></div></div>
+    <div class="kpi-card cpp">   <div class="kpi-label">CPA</div>         <div class="kpi-value" id="gg-kpi-cpa">—</div>         <div class="kpi-sub" id="gg-kpi-cpa-sub"></div></div>
   </div>
 
   <!-- 테이블 -->
   <div class="table-section">
     <div class="table-header-row">
-      <span class="table-title">Google Ads 캠페인별</span>
+      <span class="table-title" id="gadsTableTitle">Google Ads 캠페인별</span>
       <span class="table-meta" id="gadsTableMeta"></span>
     </div>
-    <div id="gadsTableContent">
-      <div class="gads-no-data">데이터를 불러오는 중...</div>
-    </div>
+    <div id="gadsTableContent"></div>
   </div>
 
 </div>
@@ -1427,6 +1431,9 @@ function setSource(src) {
     tiktokPanel.style.display = "none";
     gadsPanel.style.display   = "block";
     document.getElementById("refreshBtn").style.display = "none";
+    const { start: gs, end: ge } = getGadsDateRange();
+    document.getElementById("gadsStartDate").value = gs;
+    document.getElementById("gadsEndDate").value   = ge;
     buildGadsProdTabs();
     renderGads();
   } else { // tiktok
@@ -2622,13 +2629,32 @@ function setGadsPreset(btn) {
   document.querySelectorAll(".gads-date-group .tab-btn").forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
   gadsPre = btn.dataset.gadspre;
+  const { start, end } = getGadsDateRange();
+  document.getElementById("gadsStartDate").value = start;
+  document.getElementById("gadsEndDate").value   = end;
   renderGads();
+}
+
+function gadsCustomDateChanged() {
+  document.querySelectorAll(".gads-date-group .tab-btn").forEach(b => b.classList.remove("active"));
+  gadsPre = "custom";
+}
+
+function applyGadsCustomDate() {
+  const s = document.getElementById("gadsStartDate").value;
+  const e = document.getElementById("gadsEndDate").value;
+  if (s && e) { gadsPre = "custom"; renderGads(); }
 }
 
 function getGadsDateRange() {
   const today = new Date();
   const fmt = d => d.toISOString().slice(0,10);
   const off = n => { const d = new Date(today); d.setDate(d.getDate() - n); return d; };
+  if (gadsPre === "custom") {
+    const s = document.getElementById("gadsStartDate")?.value;
+    const e = document.getElementById("gadsEndDate")?.value;
+    if (s && e) return { start: s, end: e };
+  }
   switch (gadsPre) {
     case "today":     return { start: fmt(today), end: fmt(today) };
     case "yesterday": return { start: fmt(off(1)), end: fmt(off(1)) };
@@ -2677,7 +2703,10 @@ function renderGads() {
   const h = window.GADS_HISTORY;
   if (!h) {
     document.getElementById("gadsTableContent").innerHTML =
-      '<div class="gads-no-data">gads_history.js 파일이 없습니다.<br>gads_auto.py를 실행해 데이터를 수집하세요.</div>';
+      '<div class="gads-no-data">gads_history.js 없음 — gads_auto.py를 실행하세요.<br><small style="color:#4e5564">또는 페이지를 Ctrl+Shift+R로 강제 새로고침</small></div>';
+    ["gg-kpi-spend","gg-kpi-conv","gg-kpi-convval","gg-kpi-direct-roas","gg-kpi-cpa"].forEach(id => {
+      document.getElementById(id).textContent = "—";
+    });
     return;
   }
 
