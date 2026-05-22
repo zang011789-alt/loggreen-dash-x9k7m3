@@ -334,7 +334,7 @@ def save_history(history):
     with open(JSON_PATH, "w", encoding="utf-8") as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
 
-    js_content = "// auto-generated\nconst GADS_HISTORY = " + json.dumps(history, ensure_ascii=False) + ";\n"
+    js_content = "// auto-generated\nwindow.GADS_HISTORY = " + json.dumps(history, ensure_ascii=False) + ";\n"
     with open(JS_PATH, "w", encoding="utf-8") as f:
         f.write(js_content)
     print(f"  저장 완료 ({len(history)}개 날짜)")
