@@ -8,3 +8,8 @@ meta_refresh_log.txt
 # Python 캐시
 __pycache__/
 *.pyc
+
+# 히스토리 JSON (로컬 전용, JS 파일만 push)
+cafe24_history.json
+tiktok_history.json
+gads_history.json

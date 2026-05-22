@@ -8,6 +8,7 @@
 <script src="cafe24_data.js" onerror="window.CAFE24_DATA=null"></script>
 <script src="cafe24_history.js" onerror="window.CAFE24_HISTORY=null"></script>
 <script src="tiktok_history.js" onerror="window.TIKTOK_HISTORY=null"></script>
+<script src="gads_history.js" onerror="window.GADS_HISTORY=null"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #0d1117; color: #e2e8f0; font-family: 'Apple SD Gothic Neo', -apple-system, sans-serif; min-height: 100vh; }
@@ -182,6 +183,12 @@ tbody tr:hover td { background: #1c2128; }
 .source-tab.active.meta    { background: #388bfd20; color: #58a6ff; }
 .source-tab.active.cafe24  { background: #f0883e20; color: #f0883e; }
 .source-tab.active.tiktok  { background: #ff004f20; color: #ff6b8a; }
+.source-tab.active.gads    { background: #4285f420; color: #4285f4; }
+
+/* ── 구글 패널 ── */
+#gadsPanel { display: none; }
+.gads-no-data { padding: 40px; text-align: center; color: #6e7681; font-size: 14px; }
+.gads-date-group .tab-btn.active { background: #4285f420; color: #4285f4; }
 
 /* ── 틱톡 패널 ── */
 #tiktokPanel { display: none; }
@@ -373,6 +380,7 @@ select option { background: #161b22; color: #c9d1d9; }
       <button class="source-tab meta active" onclick="setSource('meta')">메타</button>
       <button class="source-tab cafe24" onclick="setSource('cafe24')">카페24</button>
       <button class="source-tab tiktok" onclick="setSource('tiktok')">TikTok</button>
+      <button class="source-tab gads"   onclick="setSource('gads')">구글</button>
     </div>
     <span class="last-updated" id="lastUpdated">—</span>
     <button class="refresh-btn" id="refreshBtn" onclick="loadData()">
@@ -542,6 +550,46 @@ select option { background: #161b22; color: #c9d1d9; }
     </div>
     <div id="ttTableContent">
       <div class="tt-no-data">데이터를 불러오는 중...</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ── 구글 애즈 패널 ── -->
+<div id="gadsPanel">
+<div class="container">
+
+  <!-- 컨트롤 -->
+  <div class="controls" style="margin-bottom:16px">
+    <div class="ctrl-row">
+      <div class="tab-group gads-date-group">
+        <button class="tab-btn active" data-gadspre="today"     onclick="setGadsPreset(this)">오늘</button>
+        <button class="tab-btn"        data-gadspre="yesterday" onclick="setGadsPreset(this)">어제</button>
+        <button class="tab-btn"        data-gadspre="last_7d"   onclick="setGadsPreset(this)">최근 7일</button>
+        <button class="tab-btn"        data-gadspre="last_14d"  onclick="setGadsPreset(this)">최근 14일</button>
+        <button class="tab-btn"        data-gadspre="last_30d"  onclick="setGadsPreset(this)">최근 30일</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI -->
+  <div class="kpi-grid">
+    <div class="kpi-card spend"><div class="kpi-label">총 소진금액</div><div class="kpi-value" id="gg-kpi-spend">—</div><div class="kpi-sub" id="gg-kpi-spend-sub"></div></div>
+    <div class="kpi-card purch"><div class="kpi-label">전환 수</div><div class="kpi-value" id="gg-kpi-conv">—</div><div class="kpi-sub" id="gg-kpi-conv-sub"></div></div>
+    <div class="kpi-card roas"><div class="kpi-label">전환 가치</div><div class="kpi-value" id="gg-kpi-convval">—</div><div class="kpi-sub" id="gg-kpi-convval-sub"></div></div>
+    <div class="kpi-card direct"><div class="kpi-label">직접 ROAS</div><div class="kpi-value" id="gg-kpi-direct-roas">—</div><div class="kpi-sub" id="gg-kpi-direct-roas-sub"></div></div>
+    <div class="kpi-card cpp"><div class="kpi-label">CPA</div><div class="kpi-value" id="gg-kpi-cpa">—</div><div class="kpi-sub" id="gg-kpi-cpa-sub"></div></div>
+  </div>
+
+  <!-- 테이블 -->
+  <div class="table-section">
+    <div class="table-header-row">
+      <span class="table-title">Google Ads 캠페인별</span>
+      <span class="table-meta" id="gadsTableMeta"></span>
+    </div>
+    <div id="gadsTableContent">
+      <div class="gads-no-data">데이터를 불러오는 중...</div>
     </div>
   </div>
 
@@ -1351,12 +1399,14 @@ function setSource(src) {
   const tblSection  = document.querySelector("#dashboard .table-section");
 
   const tiktokPanel = document.getElementById("tiktokPanel");
+  const gadsPanel   = document.getElementById("gadsPanel");
   if (src === "meta") {
     controls.style.display    = "";
     kpiGrid.style.display     = "";
     tblSection.style.display  = "";
     cafe24Panel.style.display = "none";
     tiktokPanel.style.display = "none";
+    gadsPanel.style.display   = "none";
     document.getElementById("refreshBtn").style.display = "";
   } else if (src === "cafe24") {
     controls.style.display    = "none";
@@ -1364,15 +1414,26 @@ function setSource(src) {
     tblSection.style.display  = "none";
     cafe24Panel.style.display = "block";
     tiktokPanel.style.display = "none";
+    gadsPanel.style.display   = "none";
     document.getElementById("refreshBtn").style.display = "none";
     buildC24DateSelects();
     renderC24();
+  } else if (src === "gads") {
+    controls.style.display    = "none";
+    kpiGrid.style.display     = "none";
+    tblSection.style.display  = "none";
+    cafe24Panel.style.display = "none";
+    tiktokPanel.style.display = "none";
+    gadsPanel.style.display   = "block";
+    document.getElementById("refreshBtn").style.display = "none";
+    renderGads();
   } else { // tiktok
     controls.style.display    = "none";
     kpiGrid.style.display     = "none";
     tblSection.style.display  = "none";
     cafe24Panel.style.display = "none";
     tiktokPanel.style.display = "block";
+    gadsPanel.style.display   = "none";
     document.getElementById("refreshBtn").style.display = "none";
     // 날짜 입력 초기값
     const { start, end } = getTtDateRange();
@@ -2511,6 +2572,172 @@ function renderTtAdDailyTable(start, end, dsMap) {
   });
   html += `</tbody></table>`;
   document.getElementById("ttTableContent").innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+// ── Google Ads 패널 로직 ──
+// ══════════════════════════════════════════
+let gadsPre = "today";
+let gadsSortKey = "spend";
+let gadsSortDir = -1;
+
+function setGadsPreset(btn) {
+  document.querySelectorAll(".gads-date-group .tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  gadsPre = btn.dataset.gadspre;
+  renderGads();
+}
+
+function getGadsDateRange() {
+  const today = new Date();
+  const fmt = d => d.toISOString().slice(0,10);
+  const off = n => { const d = new Date(today); d.setDate(d.getDate() - n); return d; };
+  switch (gadsPre) {
+    case "today":     return { start: fmt(today), end: fmt(today) };
+    case "yesterday": return { start: fmt(off(1)), end: fmt(off(1)) };
+    case "last_7d":   return { start: fmt(off(6)), end: fmt(today) };
+    case "last_14d":  return { start: fmt(off(13)), end: fmt(today) };
+    case "last_30d":  return { start: fmt(off(29)), end: fmt(today) };
+    default:          return { start: fmt(today), end: fmt(today) };
+  }
+}
+
+function aggregateGads(start, end) {
+  const h = window.GADS_HISTORY;
+  if (!h) return [];
+  const acc = {};
+  Object.keys(h).filter(d => d >= start && d <= end).forEach(date => {
+    const dayData = h[date];
+    if (!dayData || !dayData.campaigns) return;
+    dayData.campaigns.forEach(c => {
+      if (!acc[c.name]) {
+        acc[c.name] = { name: c.name, product: c.product, status: c.status,
+                        spend: 0, conversions: 0, conv_value: 0, cpa: 0, roas: 0, ctr: 0, days: 0 };
+      }
+      acc[c.name].spend      += c.spend;
+      acc[c.name].status      = c.status; // 최신 상태
+      acc[c.name].days       += 1;
+    });
+    // summary 합산 (전환/전환가치)
+    if (dayData.summary) {
+      if (!acc["__summary__"]) acc["__summary__"] = { spend:0, conversions:0, conv_value:0, impressions:0 };
+      acc["__summary__"].spend       += dayData.summary.spend || 0;
+      acc["__summary__"].conversions += dayData.summary.conversions || 0;
+      acc["__summary__"].conv_value  += dayData.summary.conv_value || 0;
+      acc["__summary__"].impressions += dayData.summary.impressions || 0;
+    }
+  });
+  return acc;
+}
+
+function setGadsSort(key) {
+  if (gadsSortKey === key) gadsSortDir *= -1;
+  else { gadsSortKey = key; gadsSortDir = -1; }
+  renderGads();
+}
+
+function renderGads() {
+  const h = window.GADS_HISTORY;
+  if (!h) {
+    document.getElementById("gadsTableContent").innerHTML =
+      '<div class="gads-no-data">gads_history.js 파일이 없습니다.<br>gads_auto.py를 실행해 데이터를 수집하세요.</div>';
+    return;
+  }
+
+  const { start, end } = getGadsDateRange();
+  const acc = aggregateGads(start, end);
+  const summary = acc["__summary__"] || {};
+  const campaigns = Object.values(acc).filter(c => c.name !== "__summary__");
+  const sorted = [...campaigns].sort((a, b) => gadsSortDir * (b[gadsSortKey] - a[gadsSortKey]));
+
+  const tSpend = summary.spend || 0;
+  const tConv  = summary.conversions || 0;
+  const tVal   = summary.conv_value || 0;
+  const tCpa   = tConv > 0 ? Math.round(tSpend / tConv) : 0;
+
+  // 직접ROAS (카페24 기반)
+  const dsMap = buildGadsDsMap(start, end);
+  const tDirect = campaigns.reduce((s, c) => {
+    const dv = lookupGadsDirect(c.name, dsMap);
+    return s + (dv || 0);
+  }, 0);
+  const directRoas = tDirect > 0 && tSpend > 0 ? tDirect / tSpend : null;
+
+  // KPI
+  document.getElementById("gg-kpi-spend").textContent         = tSpend > 0 ? fmtKRW(tSpend) : "—";
+  document.getElementById("gg-kpi-spend-sub").textContent     = campaigns.length + "개 캠페인";
+  document.getElementById("gg-kpi-conv").textContent          = tConv > 0 ? tConv.toFixed(1) + "건" : "—";
+  document.getElementById("gg-kpi-conv-sub").textContent      = campaigns.filter(c => c.status && c.status.includes("운영 가능")).length + "개 활성";
+  document.getElementById("gg-kpi-convval").textContent       = tVal > 0 ? fmtKRW(tVal) : "—";
+  document.getElementById("gg-kpi-convval-sub").textContent   = "전환 가치";
+  document.getElementById("gg-kpi-direct-roas").textContent   = directRoas != null ? (directRoas * 100).toFixed(0) + "%" : "—";
+  const drEl = document.getElementById("gg-kpi-direct-roas");
+  drEl.style.color = directRoas != null ? (directRoas >= 1 ? "#3fb950" : "#f78166") : "";
+  document.getElementById("gg-kpi-direct-roas-sub").textContent = directRoas != null ? "직접매출 " + fmtKRW(tDirect) : "데이터 없음";
+  document.getElementById("gg-kpi-cpa").textContent           = tCpa > 0 ? fmtKRW(tCpa) : "—";
+  document.getElementById("gg-kpi-cpa-sub").textContent       = start + " ~ " + end;
+  document.getElementById("gadsTableMeta").textContent        = campaigns.length + "개 캠페인";
+
+  // 테이블
+  const th = (key, label) =>
+    `<th style="cursor:pointer;white-space:nowrap" onclick="setGadsSort('${key}')">${label}${gadsSortKey===key?(gadsSortDir<0?" ↓":" ↑"):""}</th>`;
+
+  let html = `<table><thead><tr>
+    <th>캠페인명</th><th>제품</th><th>상태</th>
+    ${th("spend","광고비")}
+    <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
+  </tr></thead><tbody>`;
+
+  sorted.forEach(c => {
+    const dv  = lookupGadsDirect(c.name, dsMap);
+    const dr  = dv != null && c.spend > 0 ? dv / c.spend : null;
+    const isActive = c.status && c.status.includes("운영 가능");
+    const sb = isActive
+      ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
+      : `<span style="color:#6e7681;font-size:11px;">■ ${(c.status || "—").substring(0,10)}</span>`;
+    html += `<tr>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
+      <td>${c.product || "—"}</td>
+      <td>${sb}</td>
+      <td><b>${fmtKRW(c.spend)}</b></td>
+      <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
+      <td>${dr != null ? (dr*100).toFixed(0)+"%" : "—"}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  document.getElementById("gadsTableContent").innerHTML = html;
+}
+
+function buildGadsDsMap(start, end) {
+  const h = window.CAFE24_HISTORY;
+  if (!h) return {};
+  const map = {};
+  Object.keys(h).filter(d => d >= start && d <= end).forEach(date => {
+    const bd = h[date]?.ridermune;
+    if (!bd) return;
+    (bd.contents || []).forEach(item => {
+      const term = (item.term || item.keyword || "").toLowerCase();
+      if (!term) return;
+      map[term] = (map[term] || 0) + (item.revenue || item.sales || 0);
+    });
+  });
+  return map;
+}
+
+function lookupGadsDirect(name, dsMap) {
+  const n = name.toLowerCase();
+  // 1. 정확 매칭
+  if (dsMap[n] != null) return dsMap[n];
+  // 2. campaign name이 term 안에 있거나 그 반대
+  for (const [term, val] of Object.entries(dsMap)) {
+    if (term.includes(n) || (n.length >= 6 && n.includes(term))) return val;
+  }
+  // 3. gg_ 뒤 제품코드 기반 (gg_yb_ → yb 포함 term)
+  const parts = n.split('_').filter(p => p.length >= 2);
+  for (const [term, val] of Object.entries(dsMap)) {
+    if (parts.every(p => term.includes(p))) return val;
+  }
+  return null;
 }
 
 </script>
