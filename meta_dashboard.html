@@ -2675,10 +2675,13 @@ function aggregateGads(start, end) {
     dayData.campaigns.forEach(c => {
       if (!acc[c.name]) {
         acc[c.name] = { name: c.name, product: c.product, status: c.status,
-                        spend: 0, conversions: 0, conv_value: 0, cpa: 0, roas: 0, ctr: 0, days: 0 };
+                        spend: 0, conversions: 0, conv_value: 0, cpa: 0,
+                        roas_num: 0, ctr_num: 0, days: 0 };
       }
       acc[c.name].spend      += c.spend;
-      acc[c.name].status      = c.status; // 최신 상태
+      acc[c.name].roas_num   += (c.roas || 0) * (c.spend || 0); // spend-weighted
+      acc[c.name].ctr_num    += (c.ctr  || 0) * (c.spend || 0);
+      acc[c.name].status      = c.status;
       acc[c.name].days       += 1;
     });
     // summary 합산 (전환/전환가치)
@@ -2753,22 +2756,26 @@ function renderGads() {
 
   let html = `<table><thead><tr>
     <th>캠페인명</th><th>제품</th><th>상태</th>
-    ${th("spend","광고비")}
+    ${th("spend","광고비")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
     <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
   </tr></thead><tbody>`;
 
   sorted.forEach(c => {
     const dv  = lookupGadsDirect(c.name, dsMap);
     const dr  = dv != null && c.spend > 0 ? dv / c.spend : null;
+    const wRoas = c.spend > 0 ? c.roas_num / c.spend : 0;
+    const wCtr  = c.spend > 0 ? c.ctr_num  / c.spend : 0;
     const isActive = c.status && c.status.includes("운영 가능");
     const sb = isActive
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ ${(c.status || "—").substring(0,10)}</span>`;
     html += `<tr>
-      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
       <td>${c.product || "—"}</td>
       <td>${sb}</td>
       <td><b>${fmtKRW(c.spend)}</b></td>
+      <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
+      <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
       <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
       <td>${dr != null ? (dr*100).toFixed(0)+"%" : "—"}</td>
     </tr>`;
