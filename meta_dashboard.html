@@ -571,6 +571,7 @@ select option { background: #161b22; color: #c9d1d9; }
         <button class="tab-btn"        data-gadspre="last_30d"  onclick="setGadsPreset(this)">최근 30일</button>
       </div>
     </div>
+    <div class="ctrl-row" id="gadsProdRow"></div>
   </div>
 
   <!-- KPI -->
@@ -1426,6 +1427,7 @@ function setSource(src) {
     tiktokPanel.style.display = "none";
     gadsPanel.style.display   = "block";
     document.getElementById("refreshBtn").style.display = "none";
+    buildGadsProdTabs();
     renderGads();
   } else { // tiktok
     controls.style.display    = "none";
@@ -2580,6 +2582,41 @@ function renderTtAdDailyTable(start, end, dsMap) {
 let gadsPre = "today";
 let gadsSortKey = "spend";
 let gadsSortDir = -1;
+let gadsProd = "all";
+
+const GADS_PRODUCTS = [
+  { id: "all",  label: "전체",    re: null },
+  { id: "yb",   label: "노즈픽션", re: /gg_yb_/i  },
+  { id: "tp",   label: "템퍼픽션", re: /gg_tp_/i  },
+  { id: "kd",   label: "키즈픽션", re: /gg_kd_/i  },
+  { id: "ato",  label: "아토픽션", re: /gg_ato_/i },
+  { id: "np",   label: "노즈스파",  re: /gg_np_/i  },
+  { id: "km",   label: "키로메디", re: /gg_km_/i  },
+];
+
+function buildGadsProdTabs() {
+  const row = document.getElementById("gadsProdRow");
+  if (!row) return;
+  row.innerHTML = `<div class="tab-group" id="gadsProdTabs">${
+    GADS_PRODUCTS.map(p =>
+      `<button class="tab-btn${p.id === gadsProd ? ' active' : ''}"
+        data-gadsprod="${p.id}" onclick="setGadsProd(this)">${p.label}</button>`
+    ).join("")
+  }</div>`;
+}
+
+function setGadsProd(btn) {
+  document.querySelectorAll("#gadsProdTabs .tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  gadsProd = btn.dataset.gadsprod;
+  renderGads();
+}
+
+function gadsProdFilter(name) {
+  if (gadsProd === "all") return true;
+  const p = GADS_PRODUCTS.find(x => x.id === gadsProd);
+  return p && p.re ? p.re.test(name) : true;
+}
 
 function setGadsPreset(btn) {
   document.querySelectorAll(".gads-date-group .tab-btn").forEach(b => b.classList.remove("active"));
@@ -2647,12 +2684,15 @@ function renderGads() {
   const { start, end } = getGadsDateRange();
   const acc = aggregateGads(start, end);
   const summary = acc["__summary__"] || {};
-  const campaigns = Object.values(acc).filter(c => c.name !== "__summary__");
+  const allCampaigns = Object.values(acc).filter(c => c.name !== "__summary__");
+  const campaigns = allCampaigns.filter(c => gadsProdFilter(c.name));
   const sorted = [...campaigns].sort((a, b) => gadsSortDir * (b[gadsSortKey] - a[gadsSortKey]));
 
-  const tSpend = summary.spend || 0;
-  const tConv  = summary.conversions || 0;
-  const tVal   = summary.conv_value || 0;
+  const tSpend = gadsProd === "all"
+    ? (summary.spend || 0)
+    : campaigns.reduce((s, c) => s + c.spend, 0);
+  const tConv  = gadsProd === "all" ? (summary.conversions || 0) : 0;
+  const tVal   = gadsProd === "all" ? (summary.conv_value  || 0) : 0;
   const tCpa   = tConv > 0 ? Math.round(tSpend / tConv) : 0;
 
   // 직접ROAS (카페24 기반)
