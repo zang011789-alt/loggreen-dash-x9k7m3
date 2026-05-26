@@ -578,6 +578,12 @@ select option { background: #161b22; color: #c9d1d9; }
       </div>
     </div>
     <div class="ctrl-row" id="gadsProdRow"></div>
+    <div class="ctrl-row">
+      <div class="tab-group" id="gadsLevelTabs">
+        <button class="tab-btn active" onclick="setGadsLevel('campaign')">캠페인별</button>
+        <button class="tab-btn"        onclick="setGadsLevel('ad')">소재별</button>
+      </div>
+    </div>
   </div>
 
   <!-- KPI -->
@@ -2590,6 +2596,7 @@ let gadsPre = "today";
 let gadsSortKey = "spend";
 let gadsSortDir = -1;
 let gadsProd = "all";
+let gadsLevel = "campaign";
 
 const GADS_PRODUCTS = [
   { id: "all",  label: "전체",    re: null },
@@ -2696,10 +2703,43 @@ function aggregateGads(start, end) {
   return acc;
 }
 
+function setGadsLevel(level) {
+  gadsLevel = level;
+  document.querySelectorAll('#gadsLevelTabs .tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (i === 0 && level === 'campaign') || (i === 1 && level === 'ad'));
+  });
+  gadsSortKey = "spend";
+  gadsSortDir = -1;
+  renderGads();
+}
+
 function setGadsSort(key) {
   if (gadsSortKey === key) gadsSortDir *= -1;
   else { gadsSortKey = key; gadsSortDir = -1; }
   renderGads();
+}
+
+function aggregateGadsAds(start, end) {
+  const h = window.GADS_HISTORY;
+  if (!h) return {};
+  const acc = {};
+  Object.keys(h).filter(d => d >= start && d <= end).forEach(date => {
+    const dayData = h[date];
+    if (!dayData || !dayData.ads) return;
+    dayData.ads.forEach(a => {
+      if (!acc[a.name]) {
+        acc[a.name] = { name: a.name, campaign: a.campaign, adgroup: a.adgroup || '',
+                        product: a.product, spend: 0, conversions: 0,
+                        conv_value: 0, roas_num: 0, ctr_num: 0 };
+      }
+      acc[a.name].spend       += a.spend       || 0;
+      acc[a.name].roas_num    += (a.roas || 0) * (a.spend || 0);
+      acc[a.name].ctr_num     += (a.ctr  || 0) * (a.spend || 0);
+      acc[a.name].conversions += a.conversions || 0;
+      acc[a.name].conv_value  += a.conv_value  || 0;
+    });
+  });
+  return acc;
 }
 
 function renderGads() {
@@ -2748,40 +2788,72 @@ function renderGads() {
   document.getElementById("gg-kpi-direct-roas-sub").textContent = directRoas != null ? "직접매출 " + fmtKRW(tDirect) : "데이터 없음";
   document.getElementById("gg-kpi-cpa").textContent           = tCpa > 0 ? fmtKRW(tCpa) : "—";
   document.getElementById("gg-kpi-cpa-sub").textContent       = start + " ~ " + end;
-  document.getElementById("gadsTableMeta").textContent        = campaigns.length + "개 캠페인";
-
-  // 테이블
   const th = (key, label) =>
     `<th style="cursor:pointer;white-space:nowrap" onclick="setGadsSort('${key}')">${label}${gadsSortKey===key?(gadsSortDir<0?" ↓":" ↑"):""}</th>`;
 
-  let html = `<table><thead><tr>
-    <th>캠페인명</th><th>제품</th><th>상태</th>
-    ${th("spend","광고비")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
-    <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
-  </tr></thead><tbody>`;
+  if (gadsLevel === 'ad') {
+    // ── 소재별 ───────────────────────────────
+    const adAcc  = aggregateGadsAds(start, end);
+    const allAds = Object.values(adAcc).filter(a => gadsProdFilter(a.campaign));
+    const sortedAds = [...allAds].sort((a, b) => gadsSortDir * ((b[gadsSortKey] || 0) - (a[gadsSortKey] || 0)));
+    document.getElementById("gadsTableMeta").textContent = allAds.length + "개 소재";
 
-  sorted.forEach(c => {
-    const dv  = lookupGadsDirect(c.name, dsMap);
-    const dr  = dv != null && c.spend > 0 ? dv / c.spend : null;
-    const wRoas = c.spend > 0 ? c.roas_num / c.spend : 0;
-    const wCtr  = c.spend > 0 ? c.ctr_num  / c.spend : 0;
-    const isActive = c.status && c.status.includes("운영 가능");
-    const sb = isActive
-      ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
-      : `<span style="color:#6e7681;font-size:11px;">■ ${(c.status || "—").substring(0,10)}</span>`;
-    html += `<tr>
-      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
-      <td>${c.product || "—"}</td>
-      <td>${sb}</td>
-      <td><b>${fmtKRW(c.spend)}</b></td>
-      <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
-      <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
-      <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
-      <td>${dr != null ? (dr*100).toFixed(0)+"%" : "—"}</td>
-    </tr>`;
-  });
-  html += `</tbody></table>`;
-  document.getElementById("gadsTableContent").innerHTML = html;
+    let html = `<table><thead><tr>
+      <th>소재명</th><th>캠페인</th><th>제품</th>
+      ${th("spend","광고비")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
+      ${th("conversions","전환수")}${th("conv_value","전환가치")}
+    </tr></thead><tbody>`;
+    sortedAds.forEach(a => {
+      const wRoas = a.spend > 0 ? a.roas_num / a.spend : 0;
+      const wCtr  = a.spend > 0 ? a.ctr_num  / a.spend : 0;
+      const camp  = (a.campaign || "").replace(/\(.*?\)/, '').trim();
+      html += `<tr>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
+        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
+        <td>${a.product || "—"}</td>
+        <td><b>${fmtKRW(a.spend)}</b></td>
+        <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
+        <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
+        <td>${a.conversions > 0 ? a.conversions.toFixed(1) : "—"}</td>
+        <td>${a.conv_value  > 0 ? fmtKRW(Math.round(a.conv_value)) : "—"}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+    document.getElementById("gadsTableContent").innerHTML = html;
+
+  } else {
+    // ── 캠페인별 ─────────────────────────────
+    document.getElementById("gadsTableMeta").textContent = campaigns.length + "개 캠페인";
+
+    let html = `<table><thead><tr>
+      <th>캠페인명</th><th>제품</th><th>상태</th>
+      ${th("spend","광고비")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
+      <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
+    </tr></thead><tbody>`;
+
+    sorted.forEach(c => {
+      const dv  = lookupGadsDirect(c.name, dsMap);
+      const dr  = dv != null && c.spend > 0 ? dv / c.spend : null;
+      const wRoas = c.spend > 0 ? c.roas_num / c.spend : 0;
+      const wCtr  = c.spend > 0 ? c.ctr_num  / c.spend : 0;
+      const isActive = c.status && c.status.includes("운영 가능");
+      const sb = isActive
+        ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
+        : `<span style="color:#6e7681;font-size:11px;">■ ${(c.status || "—").substring(0,10)}</span>`;
+      html += `<tr>
+        <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
+        <td>${c.product || "—"}</td>
+        <td>${sb}</td>
+        <td><b>${fmtKRW(c.spend)}</b></td>
+        <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
+        <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
+        <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
+        <td>${dr != null ? (dr*100).toFixed(0)+"%" : "—"}</td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+    document.getElementById("gadsTableContent").innerHTML = html;
+  }
 }
 
 function buildGadsDsMap(start, end) {

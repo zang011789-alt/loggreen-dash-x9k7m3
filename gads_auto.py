@@ -17,6 +17,7 @@ MAX_DAYS    = 180
 
 OCID = "1604778170"
 BASE_URL = f"https://ads.google.com/aw/campaigns?ocid={OCID}"
+ADS_URL  = f"https://ads.google.com/aw/ads?ocid={OCID}"
 
 # 보기 뷰 → gg_ 캠페인 목록
 PRODUCT_VIEWS = ['노픽', '템퍼픽션', '검색 캠페인', '디맨드젠 캠페인']
@@ -498,6 +499,89 @@ def extract_campaigns(page):
 
     return campaigns
 
+# ── 소재별 추출 ───────────────────────────────────────────────
+def extract_ads(page):
+    """소재(광고) 행 파싱. 마지막 7줄 = CPA/비용/ROAS/CTR/전환당비용/전환수/전환가치"""
+    ads = []
+    try:
+        rows = page.evaluate("""
+        () => {
+            const results = [];
+            for (const row of document.querySelectorAll('[role="row"]')) {
+                const t = (row.innerText || '').trim();
+                if (!t.match(/\\d{3}_\\d{6}_/)) continue;
+                const lines = t.split('\\n').map(l => l.trim()).filter(l => l.length > 0);
+                results.push(lines);
+            }
+            return results;
+        }
+        """)
+        for lines in rows:
+            if len(lines) < 14:
+                continue
+            ad_name = lines[0]
+
+            # 캠페인명: "애셋 세부정보 보기" 다음 줄
+            asset_idx = next((i for i, l in enumerate(lines) if '애셋 세부정보' in l), -1)
+            campaign  = lines[asset_idx + 1] if asset_idx >= 0 and asset_idx + 1 < len(lines) else ''
+            adgroup   = lines[asset_idx + 2] if asset_idx >= 0 and asset_idx + 2 < len(lines) else ''
+
+            # gg_ 캠페인 소속 소재만 수집
+            if 'gg_' not in campaign:
+                continue
+
+            # 마지막 7줄: CPA / 비용(₩) / ROAS / CTR% / 전환당비용(₩) / 전환수 / 전환가치
+            cpa         = parse_float(lines[-7])
+            spend       = parse_krw(lines[-6])
+            roas        = parse_float(lines[-5])
+            ctr         = parse_float(lines[-4])
+            conversions = parse_float(lines[-2])
+            conv_value  = parse_float(lines[-1])
+
+            ads.append({
+                "name":        ad_name,
+                "campaign":    campaign,
+                "adgroup":     adgroup,
+                "product":     guess_product(campaign),
+                "spend":       spend,
+                "roas":        roas,
+                "ctr":         ctr,
+                "cpa":         cpa if cpa > 0 else (int(spend / conversions) if conversions > 0 else 0),
+                "conv_value":  conv_value,
+                "conversions": conversions,
+            })
+    except Exception as e:
+        print(f"  ads 추출 실패: {e}")
+    return ads
+
+def collect_ads(page, target_date):
+    """소재별 데이터 수집. /aw/ads URL 사용."""
+    page.goto(ADS_URL, wait_until="load", timeout=40000)
+    try:
+        page.wait_for_selector('[role="row"]', timeout=12000)
+    except:
+        pass
+    page.wait_for_timeout(3000)
+
+    date_ok = set_date_range(page, target_date)
+    if not date_ok:
+        print("  [소재] 날짜 설정 실패")
+    if _picker_is_open(page):
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(500)
+    page.wait_for_timeout(1500)
+
+    # 스크롤로 전체 로드
+    for _ in range(30):
+        page.evaluate("window.scrollBy(0, 600)")
+        page.wait_for_timeout(100)
+    page.evaluate("window.scrollTo(0,0)")
+    page.wait_for_timeout(800)
+
+    ads = extract_ads(page)
+    print(f"  [소재] {len(ads)}개 수집")
+    return ads
+
 # ── 메인 수집 ──────────────────────────────────────────────────
 def _scroll_and_collect(page):
     """스크롤로 virtual scroll 완전 로드 후 캠페인 추출"""
@@ -561,11 +645,27 @@ def collect_day(page, target_date):
     active = sum(1 for c in all_campaigns if "운영 가능" in c.get("status", ""))
     print(f"  [{ds}] 총 {len(all_campaigns)}개(활성:{active}) | 소진:{total_spend:,} | 전환:{total_conv}")
 
+    # 소재별 수집
+    try:
+        ads = collect_ads(page, target_date)
+    except Exception as e:
+        print(f"  [소재] 수집 실패: {e}")
+        ads = []
+
+    # 캠페인 뷰로 복귀 (다음 날짜 처리를 위해)
+    page.goto(BASE_URL, wait_until="load", timeout=40000)
+    try:
+        page.wait_for_selector('[role="columnheader"]', timeout=12000)
+    except:
+        pass
+    page.wait_for_timeout(4000)
+
     return {
         "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "date": ds,
         "summary": summary,
         "campaigns": all_campaigns,
+        "ads": ads,
     }
 
 def save_history(history):
