@@ -487,12 +487,13 @@ def extract_campaigns(page):
 
             if last.endswith('%'):
                 # SHORT 포맷 (템퍼픽션 DMG 등, 7줄)
-                # [-3]=SPEND(₩), [-2]=ROAS, [-1]=CTR%
-                ctr   = parse_float(last)
-                roas  = parse_float(second_last)
-                spend = parse_krw(lines[-3]) if len(lines) >= 3 and '₩' in lines[-3] else 0
-                cpa   = 0  # SHORT 포맷엔 ₩CPA 없음
+                # [-4]=CPA(float), [-3]=SPEND(₩), [-2]=ROAS, [-1]=CTR%
+                ctr        = parse_float(last)
+                roas       = parse_float(second_last)
+                spend      = parse_krw(lines[-3]) if len(lines) >= 3 and '₩' in lines[-3] else 0
+                cpa        = parse_float(lines[-4]) if len(lines) >= 4 else 0
                 conv_value = round(spend * roas, 2)
+                conversions = round(spend / cpa, 2) if cpa > 0 else 0.0
 
             elif '₩' in second_last:
                 # LONG 포맷 (노픽 DMG 등, 15~19줄)
