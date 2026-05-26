@@ -2685,11 +2685,17 @@ function aggregateGads(start, end) {
                         spend: 0, conversions: 0, conv_value: 0, cpa: 0,
                         roas_num: 0, ctr_num: 0, days: 0 };
       }
-      acc[c.name].spend      += c.spend;
-      acc[c.name].roas_num   += (c.roas || 0) * (c.spend || 0); // spend-weighted
-      acc[c.name].ctr_num    += (c.ctr  || 0) * (c.spend || 0);
-      acc[c.name].status      = c.status;
-      acc[c.name].days       += 1;
+      acc[c.name].spend       += c.spend;
+      acc[c.name].conversions += c.conversions || 0;
+      acc[c.name].conv_value  += c.conv_value  || 0;
+      acc[c.name].roas_num    += (c.roas || 0) * (c.spend || 0); // spend-weighted
+      acc[c.name].ctr_num     += (c.ctr  || 0) * (c.spend || 0);
+      acc[c.name].status       = c.status;
+      acc[c.name].days        += 1;
+    });
+    Object.values(acc).forEach(c => {
+      if (c.name !== "__summary__")
+        c.cpa = c.conversions > 0 ? Math.round(c.spend / c.conversions) : 0;
     });
     // summary 합산 (전환/전환가치)
     if (dayData.summary) {
@@ -2800,18 +2806,20 @@ function renderGads() {
 
     let html = `<table><thead><tr>
       <th>소재명</th><th>캠페인</th><th>제품</th>
-      ${th("spend","광고비")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
+      ${th("spend","광고비")}${th("cpa","CPA")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
       ${th("conversions","전환수")}${th("conv_value","전환가치")}
     </tr></thead><tbody>`;
     sortedAds.forEach(a => {
       const wRoas = a.spend > 0 ? a.roas_num / a.spend : 0;
       const wCtr  = a.spend > 0 ? a.ctr_num  / a.spend : 0;
+      const cpa   = a.conversions > 0 ? Math.round(a.spend / a.conversions) : 0;
       const camp  = (a.campaign || "").replace(/\(.*?\)/, '').trim();
       html += `<tr>
         <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
         <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
         <td>${a.product || "—"}</td>
         <td><b>${fmtKRW(a.spend)}</b></td>
+        <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
         <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
         <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
         <td>${a.conversions > 0 ? a.conversions.toFixed(1) : "—"}</td>
@@ -2827,7 +2835,7 @@ function renderGads() {
 
     let html = `<table><thead><tr>
       <th>캠페인명</th><th>제품</th><th>상태</th>
-      ${th("spend","광고비")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
+      ${th("spend","광고비")}${th("cpa","CPA")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
       <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
     </tr></thead><tbody>`;
 
@@ -2845,6 +2853,7 @@ function renderGads() {
         <td>${c.product || "—"}</td>
         <td>${sb}</td>
         <td><b>${fmtKRW(c.spend)}</b></td>
+        <td>${c.cpa > 0 ? fmtKRW(c.cpa) : "—"}</td>
         <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
         <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
         <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
