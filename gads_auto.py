@@ -286,6 +286,24 @@ def _fill_date_inputs(page, date_dot_str):
 def set_date_range(page, target_date):
     date_dot_str = f"{target_date.year}. {target_date.month}. {target_date.day}."
 
+    # 피커 버튼 텍스트 사전 체크 — 이미 단일 날짜로 설정됐으면 스킵
+    target_ko = f"{target_date.year}년 {target_date.month}월 {target_date.day}일"
+    quick_text = page.evaluate("""
+    () => {
+        const btns = [...document.querySelectorAll('[role="button"]')];
+        const cand = btns.find(b => {
+            const t = b.innerText || '';
+            const r = b.getBoundingClientRect();
+            return r.y > 50 && r.y < 300 && r.x > 900 && r.width >= 80 && t.includes('arrow_drop_down');
+        });
+        if (!cand) return '';
+        return (cand.innerText||'').split('\\n')[0].trim();
+    }
+    """)
+    if quick_text == target_ko:
+        print(f"  날짜 이미 {target_ko} (단일), 스킵")
+        return True
+
     if not _open_date_picker(page):
         print("  날짜 피커 열기 실패")
         return False
@@ -556,13 +574,14 @@ def extract_ads(page):
             if 'gg_' not in campaign:
                 continue
 
-            # 마지막 7줄: CPA / 비용(₩) / ROAS / CTR% / 전환당비용(₩) / 전환수 / 전환가치
-            cpa         = parse_float(lines[-7])
+            # 소재 행 끝 6줄: 비용(₩) / ?? / CTR% / CPA(₩) / 전환수 / 전환가치
             spend       = parse_krw(lines[-6])
-            roas        = parse_float(lines[-5])
             ctr         = parse_float(lines[-4])
             conversions = parse_float(lines[-2])
             conv_value  = parse_float(lines[-1])
+            # roas/cpa 직접 계산 (lines[-5]는 ROAS가 아닌 다른 지표)
+            roas        = round(conv_value / spend, 2) if spend > 0 else 0.0
+            cpa         = int(spend / conversions) if conversions > 0 else 0
 
             ads.append({
                 "name":        ad_name,
@@ -572,7 +591,7 @@ def extract_ads(page):
                 "spend":       spend,
                 "roas":        roas,
                 "ctr":         ctr,
-                "cpa":         cpa if cpa > 0 else (int(spend / conversions) if conversions > 0 else 0),
+                "cpa":         cpa,
                 "conv_value":  conv_value,
                 "conversions": conversions,
             })
@@ -583,11 +602,12 @@ def extract_ads(page):
 def collect_ads(page, target_date):
     """소재별 데이터 수집. /aw/ads URL 사용."""
     page.goto(ADS_URL, wait_until="load", timeout=40000)
+    # date-picker 컴포넌트가 렌더링될 때까지 대기 (goto 후 약 4~6초 소요)
     try:
-        page.wait_for_selector('[role="row"]', timeout=12000)
+        page.wait_for_selector('date-picker', timeout=12000)
     except:
         pass
-    page.wait_for_timeout(3000)
+    page.wait_for_timeout(2000)
 
     date_ok = set_date_range(page, target_date)
     if not date_ok:
