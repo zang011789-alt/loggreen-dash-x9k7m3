@@ -650,7 +650,7 @@ def collect_day(page, target_date):
     """모든 뷰를 순회하며 gg_ 캠페인 수집. 각 뷰 KPI를 집계해 summary 생성."""
     ds = target_date.isoformat()
     all_campaigns = []
-    seen_names = set()  # 중복 수집 방지 (여러 뷰에 같은 캠페인 등장 시)
+    seen_idx = {}  # name → all_campaigns 인덱스 (conv>0 데이터로 업데이트 허용)
 
     for view_name in PRODUCT_VIEWS:
         switched = switch_to_view(page, view_name)
@@ -676,11 +676,18 @@ def collect_day(page, target_date):
         page.wait_for_timeout(1500)
 
         camps = _scroll_and_collect(page)
-        new_camps = [c for c in camps if c['name'] not in seen_names]
-        for c in new_camps:
-            seen_names.add(c['name'])
-        all_campaigns.extend(new_camps)
-        print(f"  [{view_name}] {len(camps)}개 수집 ({len(new_camps)}개 신규)")
+        new_count = 0
+        upd_count = 0
+        for c in camps:
+            if c['name'] not in seen_idx:
+                seen_idx[c['name']] = len(all_campaigns)
+                all_campaigns.append(c)
+                new_count += 1
+            elif c.get('conversions', 0) > 0 and all_campaigns[seen_idx[c['name']]].get('conversions', 0) == 0:
+                # 이전 수집이 conv=0 (SHORT 포맷)이고 이번엔 conv>0 → 덮어쓰기
+                all_campaigns[seen_idx[c['name']]] = c
+                upd_count += 1
+        print(f"  [{view_name}] {len(camps)}개 수집 ({new_count}개 신규, {upd_count}개 갱신)")
 
     # summary: 수집된 gg_ 캠페인 합산
     total_spend = sum(c["spend"] for c in all_campaigns)

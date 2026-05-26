@@ -2829,6 +2829,16 @@ function renderGads() {
     // ── 캠페인별 ─────────────────────────────
     document.getElementById("gadsTableMeta").textContent = campaigns.length + "개 캠페인";
 
+    // 소재별 데이터로 캠페인별 conversions 보완 (SHORT 포맷 캠페인 대응)
+    const adAcc = aggregateGadsAds(start, end);
+    const adsByCamp = {};
+    Object.values(adAcc).forEach(a => {
+      const k = a.campaign;
+      if (!k) return;
+      if (!adsByCamp[k]) adsByCamp[k] = { conversions: 0 };
+      adsByCamp[k].conversions += a.conversions || 0;
+    });
+
     let html = `<table><thead><tr>
       <th>캠페인명</th><th>제품</th><th>상태</th>
       ${th("spend","광고비")}${th("cpa","CPA")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
@@ -2840,7 +2850,9 @@ function renderGads() {
       const dr  = dv != null && c.spend > 0 ? dv / c.spend : null;
       const wRoas = c.spend > 0 ? c.roas_num / c.spend : 0;
       const wCtr  = c.spend > 0 ? c.ctr_num  / c.spend : 0;
-      const cpa   = c.conversions > 0 ? Math.round(c.spend / c.conversions) : 0;
+      // conv=0이면 소재 데이터로 보완
+      const convs = c.conversions > 0 ? c.conversions : (adsByCamp[c.name]?.conversions || 0);
+      const cpa   = convs > 0 ? Math.round(c.spend / convs) : 0;
       const isActive = c.status && c.status.includes("운영 가능");
       const sb = isActive
         ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
