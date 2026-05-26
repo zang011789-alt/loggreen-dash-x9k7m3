@@ -408,6 +408,6 @@ if __name__ == "__main__":
         # python coupang_auto.py 2026-05-25
         target = date.fromisoformat(sys.argv[1])
     else:
-        target = date.today() - timedelta(days=1)
+        target = date.today()
 
     asyncio.run(collect(target))
