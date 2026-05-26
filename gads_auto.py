@@ -18,9 +18,8 @@ MAX_DAYS    = 180
 OCID = "1604778170"
 BASE_URL = f"https://ads.google.com/aw/campaigns?ocid={OCID}"
 
-# 보기 뷰 → gg_ 캠페인 목록. '스파' 뷰는 계정 전체 summary 수집용
-PRODUCT_VIEWS = ['노픽', '템퍼픽션', '검색 캠페인']
-SUMMARY_VIEW  = '스파'
+# 보기 뷰 → gg_ 캠페인 목록
+PRODUCT_VIEWS = ['노픽', '템퍼픽션', '검색 캠페인', '디맨드젠 캠페인']
 
 # 캠페인명 → 제품 매핑
 PRODUCT_MAP = {
@@ -104,40 +103,64 @@ def guess_product(name):
 # ── 뷰 전환 ──────────────────────────────────────────────────────
 def switch_to_view(page, view_name):
     """'보기' 드롭다운에서 특정 뷰 선택. 성공 여부 반환."""
-    # 드롭다운 열기 (JS 기반 — 위치 변화에 무관)
-    opened = page.evaluate("""
+    # 열려 있는 드롭다운/피커 먼저 닫기 (잔류 material-select-item 간섭 방지)
+    if _picker_is_open(page):
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(500)
+    # 드롭다운 버튼 위치 탐지
+    pos = page.evaluate("""
     () => {
         const btns = [...document.querySelectorAll('[role="button"]')];
         const btn = btns.find(b => {
             const t = (b.innerText || '');
             const r = b.getBoundingClientRect();
-            return (t.includes('보기') || t.includes('필터')) && r.y > 60 && r.y < 150
-                   && r.x > 300 && r.x < 700;
+            return (t.includes('보기') || t.includes('필터') || t.includes('View'))
+                   && r.y > 50 && r.y < 180 && r.x > 100 && r.x < 900 && r.width > 60;
         });
-        if (btn) { btn.click(); return true; }
-        return false;
+        if (!btn) return null;
+        const r = btn.getBoundingClientRect();
+        return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2),
+                 text: (btn.innerText || '').substring(0, 40).split('\\n').join('|') };
     }
     """)
-    if not opened:
+    if not pos:
         print(f"  '보기' 드롭다운 열기 실패")
         return False
-    page.wait_for_timeout(800)
+    print(f"  보기 버튼 클릭: ({pos['x']},{pos['y']}) '{pos['text']}'")
+    # mouse.click → Material Design 컴포넌트는 실제 클릭 이벤트 필요
+    page.mouse.click(pos['x'], pos['y'])
+    # 드롭다운 아이템이 실제로 나타날 때까지 대기 (최대 5초)
+    try:
+        page.wait_for_selector('material-select-item', state='visible', timeout=5000)
+    except:
+        page.wait_for_timeout(2500)
 
-    # 뷰 아이템 클릭
-    result = page.evaluate(f"""
+    # 아이템 탐색
+    items_info = page.evaluate(f"""
     () => {{
-        const items = [...document.querySelectorAll('material-select-item')];
-        const item = items.find(i => (i.innerText || '').includes('{view_name}'));
-        if (item) {{ item.click(); return true; }}
-        return false;
+        const all = [...document.querySelectorAll('material-select-item')];
+        const vis = all.filter(i => {{
+            const r = i.getBoundingClientRect();
+            return r.width > 0 && r.height > 0;
+        }});
+        const target = vis.find(i => (i.innerText || '').includes('{view_name}'));
+        if (!target) return {{ found: false, count: vis.length,
+            texts: vis.slice(0,8).map(i => (i.innerText||'').trim().substring(0,30)) }};
+        const r = target.getBoundingClientRect();
+        return {{ found: true, x: Math.round(r.x + r.width/2), y: Math.round(r.y + r.height/2) }};
     }}
     """)
-    if not result:
-        # 드롭다운 닫기
+
+    if not items_info.get('found'):
         page.keyboard.press("Escape")
-        print(f"  '{view_name}' 아이템 없음")
+        page.wait_for_timeout(400)
+        cnt = items_info.get('count', 0)
+        texts = items_info.get('texts', [])
+        print(f"  '{view_name}' 아이템 없음 (드롭다운 {cnt}개: {texts})")
         return False
-    page.wait_for_timeout(2000)
+
+    page.mouse.click(items_info['x'], items_info['y'])
+    page.wait_for_timeout(2500)
     return True
 
 # ── 날짜 범위 설정 ─────────────────────────────────────────────
@@ -155,6 +178,7 @@ def _picker_is_open(page):
 def _open_date_picker(page):
     if _picker_is_open(page):
         return True
+    # 날짜 버튼 탐색 (JS click — Material Design picker는 JS click으로 충분)
     clicked = page.evaluate("""
     () => {
         const btns = [...document.querySelectorAll('[role="button"]')];
@@ -174,8 +198,12 @@ def _open_date_picker(page):
     """)
     if clicked:
         print(f"  피커 클릭: y={clicked['y']} x={clicked['x']} '{clicked['text'][:30]}'")
+    else:
+        # 폴백: mouse.click 고정 좌표
+        page.mouse.click(1518, 195)
+        print(f"  피커 클릭 (폴백 좌표)")
     page.wait_for_timeout(2500)
-    return clicked is not None
+    return True
 
 def _apply_date_picker(page):
     try:
@@ -243,22 +271,24 @@ def set_date_range(page, target_date):
         page.wait_for_timeout(400)
         return True
 
-    # "맞춤" 클릭 (x>1200 제약 — 우측 date picker 영역, view selector와 분리)
-    clicked = page.evaluate("""
+    # "맞춤" 클릭 (mouse.click 사용 — Material Design 신뢰성)
+    custom_pos = page.evaluate("""
     () => {
         const items = [...document.querySelectorAll('material-select-item, [role="option"]')];
         const item = items.find(i => {
             const t = (i.innerText || '').trim();
             const r = i.getBoundingClientRect();
-            return t === '맞춤' && r.x > 1200 && r.y > 100 && r.y < 700;
+            return t.includes('맞춤') && r.x > 1200 && r.y > 100 && r.y < 700 && r.width > 0;
         });
-        if (item) { item.click(); return true; }
-        return false;
+        if (!item) return null;
+        const r = item.getBoundingClientRect();
+        return { x: Math.round(r.x + r.width/2), y: Math.round(r.y + r.height/2) };
     }
     """)
-    if clicked:
+    if custom_pos:
+        page.mouse.click(custom_pos['x'], custom_pos['y'])
         page.wait_for_timeout(1200)
-        print(f"  '맞춤' 옵션 클릭")
+        print(f"  '맞춤' 옵션 클릭 ({custom_pos['x']},{custom_pos['y']})")
 
     inputs = _get_dot_inputs(page)
     print(f"  dot inputs: {len(inputs)}개 {inputs[:1]}")
@@ -421,7 +451,6 @@ def extract_campaigns(page):
 
             elif '₩' in second_last:
                 # LONG 포맷 (노픽 DMG 등, 15~19줄)
-                # 고정 12열 블록 (끝에서):
                 # [-12]=SPEND, [-11]=ROAS, [-7]=CTR%, [-4]=CONVERSIONS, [-3]=CPC, [-2]=CPA, [-1]=CONV_VALUE
                 spend = parse_krw(lines[-12]) if len(lines) >= 12 and '₩' in lines[-12] else parse_krw(second_last)
                 cpa   = parse_krw(second_last)
@@ -429,6 +458,16 @@ def extract_campaigns(page):
                 ctr   = parse_float(lines[-7]) if len(lines) >= 7 else 0.0
                 conversions = parse_float(lines[-4]) if len(lines) >= 4 else 0.0
                 conv_value  = parse_float(lines[-6]) if len(lines) >= 6 else 0.0
+
+            elif '₩' in last and len(lines) >= 4 and '₩' in lines[-4]:
+                # DG 포맷 (디맨드젠 캠페인 뷰, 12~13줄)
+                # [-1]=SPEND(₩), [-2]=conv_value, [-3]=conversions, [-4]=CPC(₩), [-5]=CTR%, [-6]=clicks
+                spend      = parse_krw(last)
+                conv_value = parse_float(lines[-2])
+                conversions = parse_float(lines[-3])
+                ctr        = parse_float(lines[-5]) if len(lines) >= 5 else 0.0
+                roas       = round(conv_value / spend, 2) if spend > 0 else 0.0
+                cpa        = int(spend / conversions) if conversions > 0 else 0
 
             else:
                 # GSA 포맷 (검색 캠페인, 15줄)
@@ -481,6 +520,7 @@ def collect_day(page, target_date):
     """모든 뷰를 순회하며 gg_ 캠페인 수집. 각 뷰 KPI를 집계해 summary 생성."""
     ds = target_date.isoformat()
     all_campaigns = []
+    seen_names = set()  # 중복 수집 방지 (여러 뷰에 같은 캠페인 등장 시)
 
     for view_name in PRODUCT_VIEWS:
         switched = switch_to_view(page, view_name)
@@ -501,8 +541,11 @@ def collect_day(page, target_date):
         page.wait_for_timeout(1000)
 
         camps = _scroll_and_collect(page)
-        all_campaigns.extend(camps)
-        print(f"  [{view_name}] {len(camps)}개")
+        new_camps = [c for c in camps if c['name'] not in seen_names]
+        for c in new_camps:
+            seen_names.add(c['name'])
+        all_campaigns.extend(new_camps)
+        print(f"  [{view_name}] {len(camps)}개 수집 ({len(new_camps)}개 신규)")
 
     # summary: 수집된 gg_ 캠페인 합산
     total_spend = sum(c["spend"] for c in all_campaigns)
@@ -600,7 +643,7 @@ def main():
             page.wait_for_selector('[role="columnheader"]', timeout=12000)
         except:
             pass
-        page.wait_for_timeout(2500)
+        page.wait_for_timeout(4000)  # 초기 로드 충분히 대기 (뷰 드롭다운 렌더링)
 
         for target_date in dates:
             ds = target_date.isoformat()

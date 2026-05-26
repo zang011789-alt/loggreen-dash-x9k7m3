@@ -2791,10 +2791,11 @@ function buildGadsDsMap(start, end) {
   Object.keys(h).filter(d => d >= start && d <= end).forEach(date => {
     const bd = h[date]?.ridermune;
     if (!bd) return;
-    (bd.contents || []).forEach(item => {
-      const term = (item.term || item.keyword || "").toLowerCase();
+    // campaigns endpoint: UTM campaign별 직접매출 (gg_yb_dmg_01 등)
+    (bd.campaigns || []).forEach(item => {
+      const term = (item.campaign || "").toLowerCase();
       if (!term) return;
-      map[term] = (map[term] || 0) + (item.revenue || item.sales || 0);
+      map[term] = (map[term] || 0) + (item.order_amount || item.revenue || item.sales || 0);
     });
   });
   return map;
