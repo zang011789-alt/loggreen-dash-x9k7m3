@@ -9,6 +9,7 @@
 <script src="cafe24_history.js" onerror="window.CAFE24_HISTORY=null"></script>
 <script src="tiktok_history.js" onerror="window.TIKTOK_HISTORY=null"></script>
 <script src="gads_history.js" onerror="window.GADS_HISTORY=null"></script>
+<script src="coupang_history.js" onerror="window.COUPANG_HISTORY=null"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #0d1117; color: #e2e8f0; font-family: 'Apple SD Gothic Neo', -apple-system, sans-serif; min-height: 100vh; }
@@ -1859,69 +1860,193 @@ function renderC24() {
   document.getElementById("c24TableMeta").textContent  = `${sorted.length}개`;
 }
 
+function coupangProductType(name) {
+  if (!name) return '기타';
+  if (name.includes('노즈픽션')) return '노즈픽션';
+  if (name.includes('키즈픽션')) return '키즈픽션';
+  if (name.includes('템퍼픽션')) return '템퍼픽션';
+  if (name.includes('아토픽션')) return '아토픽션';
+  if (name.includes('노즈스파')) return '노즈스파';
+  if (name.includes('노즈브리즈')) return '노즈브리즈';
+  if (name.includes('디오스톡')) return '디오스톡';
+  if (name.includes('키로메디')) return '키로메디';
+  const m = name.match(/^([가-힣a-zA-Z]+)/);
+  return m ? m[1] : '기타';
+}
+
+function coupangBrandOf(name) {
+  if (!name) return null;
+  if (name.includes('리더뮨') || name.includes('노즈픽션') || name.includes('키즈픽션') ||
+      name.includes('템퍼픽션') || name.includes('아토픽션') || name.includes('노즈스파') || name.includes('노즈브리즈')) return 'ridermune';
+  if (name.includes('디오스톡') || name.includes('아웃코마')) return 'outcoma';
+  return null;
+}
+
 function renderTodayProductSales() {
   const container = document.getElementById("todayProductSales");
   if (!container) return;
-  const h = window.CAFE24_HISTORY;
-  if (!h) { container.style.display = "none"; return; }
-  const todayStr = new Date().toISOString().slice(0, 10);
-  const todayData = h[todayStr];
-  if (!todayData) { container.style.display = "none"; return; }
 
-  const TYPE_COLORS = {'노즈픽션':'#34d399','키즈픽션':'#38bdf8','템퍼픽션':'#fb923c','아토픽션':'#f87171','노즈스파':'#86efac','노즈브리즈':'#a3e635','슬로우픽션':'#e879f9','키로메디':'#fbbf24','바이오턴':'#60a5fa','디오스톡':'#a78bfa','기타':'#6e7681'};
+  const h  = window.CAFE24_HISTORY;
+  const ch = window.COUPANG_HISTORY;
+  if (!h && !ch) { container.style.display = "none"; return; }
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const yesterStr = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+  const todayC24 = h?.[todayStr];
+  const cpRaw    = ch?.[todayStr] || ch?.[yesterStr];
+  const cpLabel  = ch?.[todayStr] ? '오늘' : '어제';
+  const cpDate   = ch?.[todayStr] ? todayStr : yesterStr;
+
+  if (!todayC24 && !cpRaw) { container.style.display = "none"; return; }
+
+  const TYPE_COLORS = {'노즈픽션':'#34d399','키즈픽션':'#38bdf8','템퍼픽션':'#fb923c','아토픽션':'#f87171','노즈스파':'#86efac','노즈브리즈':'#a3e635','슬로우픽션':'#e879f9','키로메디':'#fmbf24','바이오턴':'#60a5fa','디오스톡':'#a78bfa','기타':'#6e7681'};
   const BRANDS_CFG = [
-    { id: 'ridermune', label: '리더뮨', color: '#4ade80' },
+    { id: 'ridermune', label: '리더뮨',  color: '#4ade80' },
     { id: 'outcoma',   label: '아웃코마', color: '#a78bfa' }
   ];
-
   const now = new Date();
   const updateLabel = `${now.getHours().toString().padStart(2,'0')}:00 기준`;
 
-  let html = `<div style="margin-bottom:14px;display:flex;align-items:center;gap:8px">
-    <span style="font-size:11px;color:#6e7681;letter-spacing:0.08em;text-transform:uppercase;font-weight:600">오늘 직접매출</span>
-    <span style="font-size:11px;color:#3a4050">${updateLabel} · 30분 자동 갱신</span>
-  </div>`;
+  /* ── 제품 타입별 합산 (리더뮨+아웃코마만) ── */
+  const KNOWN_TYPES = ['노즈픽션','키즈픽션','템퍼픽션','아토픽션','노즈스파','노즈브리즈','디오스톡','키로메디'];
+  const typeTotal = {}; // ptype → { c24, cp }
 
-  let hasAny = false;
   BRANDS_CFG.forEach(bc => {
-    const bd = todayData[bc.id];
-    if (!bd?.products?.length) return;
-
-    const typeMap = {};
-    bd.products.forEach(p => {
+    const bd = todayC24?.[bc.id];
+    bd?.products?.forEach(p => {
       const amt = parseInt(p.order_amount || 0);
       if (!amt) return;
       const ptype = c24ProductType(p.product_name);
-      if (!typeMap[ptype]) typeMap[ptype] = { sales: 0, orders: 0 };
-      typeMap[ptype].sales  += amt;
-      typeMap[ptype].orders += parseInt(p.order_count || 0);
+      if (!KNOWN_TYPES.includes(ptype)) return;
+      if (!typeTotal[ptype]) typeTotal[ptype] = { c24: 0, cp: 0 };
+      typeTotal[ptype].c24 += amt;
     });
-
-    const types = Object.entries(typeMap)
-      .filter(([, v]) => v.sales > 0)
-      .sort((a, b) => b[1].sales - a[1].sales);
-    if (!types.length) return;
-
-    hasAny = true;
-    const total = types.reduce((s, [, v]) => s + v.sales, 0);
-
-    html += `<div style="margin-bottom:18px">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:${bc.color};text-transform:uppercase;margin-bottom:10px">${bc.label} <span style="color:#4e5564;font-weight:400;font-size:11px">· 합계 ${fmtKRW(total)}</span></div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">`;
-
-    types.forEach(([ptype, data]) => {
-      const color = TYPE_COLORS[ptype] || '#6e7681';
-      html += `<div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:5px">
-        <span style="font-size:11px;font-weight:700;color:${color}">${ptype}</span>
-        <span style="font-size:20px;font-weight:800;color:#f0f6fc;letter-spacing:-0.5px">${fmtKRW(data.sales)}</span>
-        <span style="font-size:11px;color:#6e7681">${data.orders.toLocaleString()}건</span>
-      </div>`;
-    });
-
-    html += `</div></div>`;
   });
 
-  if (!hasAny) { container.style.display = "none"; return; }
+  cpRaw?.products?.forEach(p => {
+    const revenue = p.revenue || 0;
+    if (!revenue || !coupangBrandOf(p.name)) return;
+    const ptype = coupangProductType(p.name);
+    if (!KNOWN_TYPES.includes(ptype)) return;
+    if (!typeTotal[ptype]) typeTotal[ptype] = { c24: 0, cp: 0 };
+    typeTotal[ptype].cp += revenue;
+  });
+
+  const hasC24 = BRANDS_CFG.some(bc => todayC24?.[bc.id]?.products?.length);
+  const hasCp  = !!cpRaw?.products?.length;
+  if (!hasC24 && !hasCp) { container.style.display = "none"; return; }
+
+  /* ── HTML 생성 ── */
+  let html = `<div style="margin-bottom:14px;display:flex;align-items:center;gap:8px">
+    <span style="font-size:11px;color:#6e7681;letter-spacing:0.08em;text-transform:uppercase;font-weight:600">통합 매출</span>
+    <span style="font-size:11px;color:#3a4050">${updateLabel} · 카페24(오늘) + 쿠팡(${cpLabel}) · 30분 갱신</span>
+  </div>`;
+
+  /* 1. 제품 타입별 합산 총값 */
+  const typeSorted = Object.entries(typeTotal)
+    .filter(([, v]) => v.c24 + v.cp > 0)
+    .sort((a, b) => (b[1].c24 + b[1].cp) - (a[1].c24 + a[1].cp));
+
+  if (typeSorted.length) {
+    html += `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px">`;
+    typeSorted.forEach(([ptype, t]) => {
+      const total = t.c24 + t.cp;
+      const color = TYPE_COLORS[ptype] || '#6e7681';
+      html += `<div style="background:#0d1117;border:1px solid ${color}40;border-radius:12px;padding:16px 18px">
+        <div style="font-size:10px;font-weight:700;color:${color};letter-spacing:0.08em;margin-bottom:8px">${ptype}</div>
+        <div style="font-size:22px;font-weight:900;color:#f0f6fc;letter-spacing:-0.5px;margin-bottom:5px">${fmtKRW(total)}</div>
+        <div style="font-size:10px;color:#4e5564">C24 ${fmtKRW(t.c24)} · 쿠팡 ${fmtKRW(t.cp)}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  /* 2. 카페24 섹션 */
+  if (hasC24) {
+    html += `<div style="font-size:11px;color:#6e7681;letter-spacing:0.08em;font-weight:600;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #21262d">카페24 직접매출 · 오늘</div>`;
+    BRANDS_CFG.forEach(bc => {
+      const bd = todayC24?.[bc.id];
+      if (!bd?.products?.length) return;
+      const typeMap = {};
+      bd.products.forEach(p => {
+        const amt = parseInt(p.order_amount || 0);
+        if (!amt) return;
+        const ptype = c24ProductType(p.product_name);
+        if (!typeMap[ptype]) typeMap[ptype] = { sales: 0, orders: 0 };
+        typeMap[ptype].sales  += amt;
+        typeMap[ptype].orders += parseInt(p.order_count || 0);
+      });
+      const types = Object.entries(typeMap).filter(([, v]) => v.sales > 0).sort((a, b) => b[1].sales - a[1].sales);
+      if (!types.length) return;
+      const total = types.reduce((s, [, v]) => s + v.sales, 0);
+      html += `<div style="margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:${bc.color};margin-bottom:8px">${bc.label} <span style="color:#4e5564;font-weight:400">· ${fmtKRW(total)}</span></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">`;
+      types.forEach(([ptype, data]) => {
+        const color = TYPE_COLORS[ptype] || '#6e7681';
+        html += `<div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:10px;font-weight:700;color:${color}">${ptype}</span>
+          <span style="font-size:18px;font-weight:800;color:#f0f6fc;letter-spacing:-0.5px">${fmtKRW(data.sales)}</span>
+          <span style="font-size:10px;color:#6e7681">${data.orders.toLocaleString()}건</span>
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+  }
+
+  /* 3. 쿠팡 섹션 */
+  if (hasCp) {
+    html += `<div style="font-size:11px;color:#6e7681;letter-spacing:0.08em;font-weight:600;margin-top:20px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #21262d">쿠팡 매출 · ${cpLabel} (${cpDate}) · 판매량 ${(cpRaw.summary?.sales||0).toLocaleString()}개</div>`;
+
+    // 브랜드별 분리
+    const cpBrandMap = { ridermune: {}, outcoma: {}, other: {} };
+    cpRaw.products.forEach(p => {
+      const revenue = p.revenue || 0;
+      if (!revenue) return;
+      const brand = coupangBrandOf(p.name) || 'other';
+      const ptype = coupangProductType(p.name);
+      if (!cpBrandMap[brand][ptype]) cpBrandMap[brand][ptype] = { sales: 0, count: 0 };
+      cpBrandMap[brand][ptype].sales += revenue;
+      cpBrandMap[brand][ptype].count += (p.sales || 0);
+    });
+
+    BRANDS_CFG.forEach(bc => {
+      const typeMap = cpBrandMap[bc.id];
+      const types = Object.entries(typeMap).filter(([, v]) => v.sales > 0).sort((a, b) => b[1].sales - a[1].sales);
+      if (!types.length) return;
+      const total = types.reduce((s, [, v]) => s + v.sales, 0);
+      html += `<div style="margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:${bc.color};margin-bottom:8px">${bc.label} <span style="color:#4e5564;font-weight:400">· ${fmtKRW(total)}</span></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">`;
+      types.forEach(([ptype, data]) => {
+        const color = TYPE_COLORS[ptype] || '#6e7681';
+        html += `<div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:10px;font-weight:700;color:${color}">${ptype}</span>
+          <span style="font-size:18px;font-weight:800;color:#f0f6fc;letter-spacing:-0.5px">${fmtKRW(data.sales)}</span>
+          <span style="font-size:10px;color:#6e7681">${data.count.toLocaleString()}개</span>
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+
+    // 기타 브랜드
+    const otherTypes = Object.entries(cpBrandMap.other).filter(([, v]) => v.sales > 0).sort((a, b) => b[1].sales - a[1].sales);
+    if (otherTypes.length) {
+      const otherTotal = otherTypes.reduce((s, [, v]) => s + v.sales, 0);
+      html += `<div style="margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:#6e7681;margin-bottom:8px">기타 <span style="color:#4e5564;font-weight:400">· ${fmtKRW(otherTotal)}</span></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">`;
+      otherTypes.slice(0, 8).forEach(([ptype, data]) => {
+        html += `<div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:10px;font-weight:700;color:#6e7681">${ptype}</span>
+          <span style="font-size:18px;font-weight:800;color:#f0f6fc;letter-spacing:-0.5px">${fmtKRW(data.sales)}</span>
+          <span style="font-size:10px;color:#6e7681">${data.count.toLocaleString()}개</span>
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+  }
 
   container.innerHTML = html;
   container.style.display = "block";
