@@ -153,12 +153,38 @@ def switch_to_view(page, view_name):
     """)
 
     if not items_info.get('found'):
-        page.keyboard.press("Escape")
-        page.wait_for_timeout(400)
         cnt = items_info.get('count', 0)
         texts = items_info.get('texts', [])
         print(f"  '{view_name}' 아이템 없음 (드롭다운 {cnt}개: {texts})")
-        return False
+        if cnt == 0:
+            # 드롭다운이 아예 안 열린 경우 → 재시도
+            page.keyboard.press("Escape")
+            page.wait_for_timeout(1000)
+            page.mouse.click(pos['x'], pos['y'])
+            try:
+                page.wait_for_selector('material-select-item', state='visible', timeout=5000)
+            except:
+                page.wait_for_timeout(2500)
+            items_info = page.evaluate(f"""
+            () => {{
+                const all = [...document.querySelectorAll('material-select-item')];
+                const vis = all.filter(i => {{ const r = i.getBoundingClientRect(); return r.width > 0 && r.height > 0; }});
+                const target = vis.find(i => (i.innerText || '').includes('{view_name}'));
+                if (!target) return {{ found: false, count: vis.length,
+                    texts: vis.slice(0,8).map(i => (i.innerText||'').trim().substring(0,30)) }};
+                const r = target.getBoundingClientRect();
+                return {{ found: true, x: Math.round(r.x + r.width/2), y: Math.round(r.y + r.height/2) }};
+            }}
+            """)
+            if not items_info.get('found'):
+                page.keyboard.press("Escape")
+                page.wait_for_timeout(400)
+                print(f"  '{view_name}' 재시도 실패")
+                return False
+        else:
+            page.keyboard.press("Escape")
+            page.wait_for_timeout(400)
+            return False
 
     page.mouse.click(items_info['x'], items_info['y'])
     page.wait_for_timeout(2500)
@@ -179,29 +205,29 @@ def _picker_is_open(page):
 def _open_date_picker(page):
     if _picker_is_open(page):
         return True
-    # 날짜 버튼 탐색 (JS click — Material Design picker는 JS click으로 충분)
-    clicked = page.evaluate("""
+    # 피커 버튼 위치 탐지 후 mouse.click (JS click으로는 드롭다운이 열리지 않음)
+    pos = page.evaluate("""
     () => {
         const btns = [...document.querySelectorAll('[role="button"]')];
-        const candidates = btns.filter(b => {
+        const cands = btns.filter(b => {
             const t = b.innerText || b.textContent || '';
             const r = b.getBoundingClientRect();
             return r.y > 50 && r.y < 300 && r.x > 900 && r.width >= 80 && r.width <= 280
                    && t.includes('arrow_drop_down');
         }).sort((a, b) => a.getBoundingClientRect().width - b.getBoundingClientRect().width);
-        if (candidates[0]) {
-            candidates[0].click();
-            const r = candidates[0].getBoundingClientRect();
-            return { y: Math.round(r.y), x: Math.round(r.x), text: (candidates[0].innerText||'').substring(0,40) };
+        if (cands[0]) {
+            const r = cands[0].getBoundingClientRect();
+            return { x: Math.round(r.x + r.width/2), y: Math.round(r.y + r.height/2),
+                     text: (cands[0].innerText||'').substring(0,40) };
         }
         return null;
     }
     """)
-    if clicked:
-        print(f"  피커 클릭: y={clicked['y']} x={clicked['x']} '{clicked['text'][:30]}'")
+    if pos:
+        page.mouse.click(pos['x'], pos['y'])
+        print(f"  피커 클릭: ({pos['x']},{pos['y']}) '{pos['text'][:30]}'")
     else:
-        # 폴백: mouse.click 고정 좌표
-        page.mouse.click(1518, 195)
+        page.mouse.click(1602, 195)
         print(f"  피커 클릭 (폴백 좌표)")
     page.wait_for_timeout(2500)
     return True
@@ -622,7 +648,12 @@ def collect_day(page, target_date):
         if _picker_is_open(page):
             page.keyboard.press("Escape")
             page.wait_for_timeout(500)
-        page.wait_for_timeout(1000)
+        # 날짜 설정 후 페이지 안정화 대기
+        try:
+            page.wait_for_selector('[role="row"]', state="visible", timeout=5000)
+        except:
+            pass
+        page.wait_for_timeout(1500)
 
         camps = _scroll_and_collect(page)
         new_camps = [c for c in camps if c['name'] not in seen_names]
