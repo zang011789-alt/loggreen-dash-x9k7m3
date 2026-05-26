@@ -2693,10 +2693,6 @@ function aggregateGads(start, end) {
       acc[c.name].status       = c.status;
       acc[c.name].days        += 1;
     });
-    Object.values(acc).forEach(c => {
-      if (c.name !== "__summary__")
-        c.cpa = c.conversions > 0 ? Math.round(c.spend / c.conversions) : 0;
-    });
     // summary 합산 (전환/전환가치)
     if (dayData.summary) {
       if (!acc["__summary__"]) acc["__summary__"] = { spend:0, conversions:0, conv_value:0, impressions:0 };
@@ -2844,6 +2840,7 @@ function renderGads() {
       const dr  = dv != null && c.spend > 0 ? dv / c.spend : null;
       const wRoas = c.spend > 0 ? c.roas_num / c.spend : 0;
       const wCtr  = c.spend > 0 ? c.ctr_num  / c.spend : 0;
+      const cpa   = c.conversions > 0 ? Math.round(c.spend / c.conversions) : 0;
       const isActive = c.status && c.status.includes("운영 가능");
       const sb = isActive
         ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
@@ -2853,7 +2850,7 @@ function renderGads() {
         <td>${c.product || "—"}</td>
         <td>${sb}</td>
         <td><b>${fmtKRW(c.spend)}</b></td>
-        <td>${c.cpa > 0 ? fmtKRW(c.cpa) : "—"}</td>
+        <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
         <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
         <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
         <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
