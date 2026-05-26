@@ -188,12 +188,18 @@ tbody tr:hover td { background: #1c2128; }
 /* ── 구글 패널 ── */
 #gadsPanel { display: none; }
 .gads-no-data { padding: 40px; text-align: center; color: #6e7681; font-size: 14px; }
-.gads-date-group .tab-btn.active { background: #4285f420; color: #4285f4; }
+.gads-date-group  .tab-btn.active { background: #4285f420; color: #4285f4; }
+#gadsProdTabs     .tab-btn.active { background: #3fb95020; color: #3fb950; }
+#gadsLevelTabs    .tab-btn.active { background: #e3b34120; color: #e3b341; }
+#gadsViewTabs     .tab-btn.active { background: #4285f420; color: #4285f4; }
 
 /* ── 틱톡 패널 ── */
 #tiktokPanel { display: none; }
 .tt-no-data { padding: 40px; text-align: center; color: #6e7681; font-size: 14px; }
 .tt-date-group .tab-btn.active { background: #ff004f20; color: #ff6b8a; }
+#ttProdTabs    .tab-btn.active { background: #3fb95020; color: #3fb950; }
+#ttLevelTabs   .tab-btn.active { background: #e3b34120; color: #e3b341; }
+#ttViewTabs    .tab-btn.active { background: #ff004f20; color: #ff6b8a; }
 .kpi-card.tt-rev { --accent: #ff6b8a; }
 
 /* ── 카페24 패널 ── */
@@ -300,7 +306,7 @@ select option { background: #161b22; color: #c9d1d9; }
   .table-section { border-radius: 8px; overflow: hidden; }
   .table-section > .table-header-row { padding: 10px 12px; }
   .table-title { font-size: 12px; }
-  #tableContent, #c24TableContent { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  #tableContent, #c24TableContent, #ttTableContent, #gadsTableContent { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   table { min-width: unset; width: 100%; }
   th { padding: 7px 8px; font-size: 10px; }
   td { padding: 6px 8px; font-size: 11px; white-space: nowrap; }
@@ -582,6 +588,10 @@ select option { background: #161b22; color: #c9d1d9; }
       <div class="tab-group" id="gadsLevelTabs">
         <button class="tab-btn active" onclick="setGadsLevel('campaign')">캠페인별</button>
         <button class="tab-btn"        onclick="setGadsLevel('ad')">소재별</button>
+      </div>
+      <div class="tab-group" id="gadsViewTabs">
+        <button class="tab-btn active" data-gadsview="summary" onclick="setGadsView(this)">기간별</button>
+        <button class="tab-btn"        data-gadsview="daily"   onclick="setGadsView(this)">일별로 보기</button>
       </div>
     </div>
   </div>
@@ -2348,15 +2358,19 @@ function renderTikTok() {
 }
 
 function renderTtSummaryTable(data, dsMap) {
+  const mob = window.innerWidth <= 768;
+  const mh  = mob ? " m-hide" : "";
   const sorted = [...data].sort((a, b) => ttSortDir * (b[ttSortKey] - a[ttSortKey]));
-  const th = (key, label) =>
-    `<th style="cursor:pointer;white-space:nowrap" onclick="setTtSort('${key}')">${label}${ttSortKey===key?(ttSortDir<0?" ↓":" ↑"):""}</th>`;
+  const th = (key, label, hide) => {
+    const sc = ttSortKey===key?(ttSortDir<0?"sort-desc":"sort-asc"):"";
+    return `<th class="${sc}${hide?" m-hide":""}" style="cursor:pointer;white-space:nowrap" onclick="setTtSort('${key}')">${label}</th>`;
+  };
 
   let html = `<table><thead><tr>
-    <th>캠페인명</th><th>상태</th>
-    ${th("cpa","CPA")}${th("spend","광고비")}${th("revenue","매출")}${th("roas","ROAS")}
+    <th>캠페인명</th><th class="${mh}">상태</th>
+    ${th("cpa","CPA")}${th("spend","광고비")}${th("revenue","매출",mob)}${th("roas","ROAS")}
     <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
-    ${th("conversions","전환")}${th("cpc","CPC")}${th("ctr","CTR")}${th("clicks","클릭")}${th("impressions","노출")}
+    ${th("conversions","전환",mob)}${th("cpc","CPC",mob)}${th("ctr","CTR",mob)}${th("clicks","클릭",mob)}${th("impressions","노출",mob)}
   </tr></thead><tbody>`;
 
   sorted.forEach(c => {
@@ -2368,18 +2382,18 @@ function renderTtSummaryTable(data, dsMap) {
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
     html += `<tr>
       <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
-      <td>${sb}</td>
+      <td class="${mh}">${sb}</td>
       <td>${c.cpa > 0 ? fmtKRW(c.cpa) : "—"}</td>
       <td><b>${fmtKRW(c.spend)}</b></td>
-      <td>${c.revenue > 0 ? fmtKRW(c.revenue) : "—"}</td>
+      <td class="${mh}">${c.revenue > 0 ? fmtKRW(c.revenue) : "—"}</td>
       <td><b>${rp}</b></td>
       <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
       <td>${dr != null ? (dr*100).toFixed(0)+"%" : "—"}</td>
-      <td>${c.conversions > 0 ? c.conversions.toLocaleString() : "—"}</td>
-      <td>${c.cpc > 0 ? fmtKRW(c.cpc) : "—"}</td>
-      <td>${c.ctr > 0 ? c.ctr.toFixed(2) + "%" : "—"}</td>
-      <td>${c.clicks > 0 ? c.clicks.toLocaleString() : "—"}</td>
-      <td>${c.impressions > 0 ? c.impressions.toLocaleString() : "—"}</td>
+      <td class="${mh}">${c.conversions > 0 ? c.conversions.toLocaleString() : "—"}</td>
+      <td class="${mh}">${c.cpc > 0 ? fmtKRW(c.cpc) : "—"}</td>
+      <td class="${mh}">${c.ctr > 0 ? c.ctr.toFixed(2) + "%" : "—"}</td>
+      <td class="${mh}">${c.clicks > 0 ? c.clicks.toLocaleString() : "—"}</td>
+      <td class="${mh}">${c.impressions > 0 ? c.impressions.toLocaleString() : "—"}</td>
     </tr>`;
   });
   html += `</tbody></table>`;
@@ -2426,10 +2440,12 @@ function renderTtDailyTable(start, end, dsMapTotal) {
     };
   }).filter(g => g.tS > 0).sort((a,b) => b.tS - a.tS);
 
+  const mob = window.innerWidth <= 768;
+  const mh  = mob ? " m-hide" : "";
   let html = `<table><thead><tr>
-    <th>캠페인명</th><th>상태</th><th>CPA</th><th>광고비</th><th>매출</th>
+    <th>캠페인명</th><th class="${mh}">상태</th><th>CPA</th><th>광고비</th><th class="${mh}">매출</th>
     <th>ROAS</th><th style="color:#f0883e">직접값</th><th>직접ROAS</th>
-    <th>전환</th><th>CPC</th><th>CTR</th><th>클릭</th><th>노출</th>
+    <th class="${mh}">전환</th><th class="${mh}">CPC</th><th class="${mh}">CTR</th><th class="${mh}">클릭</th><th class="${mh}">노출</th>
   </tr></thead><tbody>`;
 
   groupList.forEach(g => {
@@ -2439,27 +2455,27 @@ function renderTtDailyTable(start, end, dsMapTotal) {
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
     html += `<tr class="daily-header-row">
       <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${g.name}"><b>${g.name}</b></td>
-      <td>${sb}</td>
+      <td class="${mh}">${sb}</td>
       <td>${g.tCpa>0?fmtKRW(g.tCpa):"—"}</td><td><b>${fmtKRW(g.tS)}</b></td>
-      <td>${g.tR>0?fmtKRW(g.tR):"—"}</td><td><b>${rp}</b></td>
+      <td class="${mh}">${g.tR>0?fmtKRW(g.tR):"—"}</td><td><b>${rp}</b></td>
       <td style="color:${g.tD!=null&&g.tD>0?"#f0883e":"#4e5564"}">${g.tD!=null?fmtKRW(g.tD):"—"}</td>
       <td>${g.tDR!=null?(g.tDR*100).toFixed(0)+"%":"—"}</td>
-      <td>${g.tC>0?g.tC.toLocaleString():"—"}</td><td>${g.tCpc>0?fmtKRW(g.tCpc):"—"}</td>
-      <td>${g.tCtr.toFixed(2)}%</td><td>${g.tK>0?g.tK.toLocaleString():"—"}</td><td>${g.tI>0?g.tI.toLocaleString():"—"}</td>
+      <td class="${mh}">${g.tC>0?g.tC.toLocaleString():"—"}</td><td class="${mh}">${g.tCpc>0?fmtKRW(g.tCpc):"—"}</td>
+      <td class="${mh}">${g.tCtr.toFixed(2)}%</td><td class="${mh}">${g.tK>0?g.tK.toLocaleString():"—"}</td><td class="${mh}">${g.tI>0?g.tI.toLocaleString():"—"}</td>
     </tr>`;
     g.rows.sort((a,b) => b.date.localeCompare(a.date)).forEach(r => {
       const rpr = r.roas>0 ? (r.roas*100).toFixed(0)+"%" : "—";
       const dv  = lookupTtDirect(g.name, dsByDate[r.date] || {});
       const dr  = dv!=null && r.spend>0 ? dv/r.spend : null;
       html += `<tr class="daily-sub-row">
-        <td>${r.date}</td><td>—</td>
+        <td>${r.date}</td><td class="${mh}">—</td>
         <td>${r.cpa>0?fmtKRW(r.cpa):"—"}</td><td>${fmtKRW(r.spend)}</td>
-        <td>${r.revenue>0?fmtKRW(r.revenue):"—"}</td><td>${rpr}</td>
+        <td class="${mh}">${r.revenue>0?fmtKRW(r.revenue):"—"}</td><td>${rpr}</td>
         <td style="color:${dv!=null&&dv>0?"#f0883e":"#4e5564"}">${dv!=null?fmtKRW(dv):"—"}</td>
         <td>${dr!=null?(dr*100).toFixed(0)+"%":"—"}</td>
-        <td>${r.conversions>0?r.conversions.toLocaleString():"—"}</td>
-        <td>${r.cpc>0?fmtKRW(r.cpc):"—"}</td><td>${r.ctr>0?r.ctr.toFixed(2)+"%":"—"}</td>
-        <td>${r.clicks>0?r.clicks.toLocaleString():"—"}</td><td>${r.impressions>0?r.impressions.toLocaleString():"—"}</td>
+        <td class="${mh}">${r.conversions>0?r.conversions.toLocaleString():"—"}</td>
+        <td class="${mh}">${r.cpc>0?fmtKRW(r.cpc):"—"}</td><td class="${mh}">${r.ctr>0?r.ctr.toFixed(2)+"%":"—"}</td>
+        <td class="${mh}">${r.clicks>0?r.clicks.toLocaleString():"—"}</td><td class="${mh}">${r.impressions>0?r.impressions.toLocaleString():"—"}</td>
       </tr>`;
     });
   });
@@ -2469,15 +2485,19 @@ function renderTtDailyTable(start, end, dsMapTotal) {
 
 // ── 소재별 기간합산 테이블 ──
 function renderTtAdSummaryTable(data, dsMap) {
+  const mob = window.innerWidth <= 768;
+  const mh  = mob ? " m-hide" : "";
   const sorted = [...data].sort((a, b) => ttSortDir * (b[ttSortKey] - a[ttSortKey]));
-  const th = (key, label) =>
-    `<th style="cursor:pointer;white-space:nowrap" onclick="setTtSort('${key}')">${label}${ttSortKey===key?(ttSortDir<0?" ↓":" ↑"):""}</th>`;
+  const th = (key, label, hide) => {
+    const sc = ttSortKey===key?(ttSortDir<0?"sort-desc":"sort-asc"):"";
+    return `<th class="${sc}${hide?" m-hide":""}" style="cursor:pointer;white-space:nowrap" onclick="setTtSort('${key}')">${label}</th>`;
+  };
 
   let html = `<table><thead><tr>
-    <th>소재명</th><th>캠페인</th><th>상태</th>
-    ${th("cpc","CPC")}${th("spend","광고비")}${th("revenue","매출")}${th("roas","ROAS")}
+    <th>소재명</th><th class="${mh}">캠페인</th><th class="${mh}">상태</th>
+    ${th("cpc","CPC",mob)}${th("spend","광고비")}${th("revenue","매출",mob)}${th("roas","ROAS")}
     <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
-    ${th("ctr","CTR")}${th("clicks","클릭")}${th("impressions","노출")}
+    ${th("ctr","CTR",mob)}${th("clicks","클릭",mob)}${th("impressions","노출",mob)}
   </tr></thead><tbody>`;
 
   sorted.forEach(a => {
@@ -2490,17 +2510,17 @@ function renderTtAdSummaryTable(data, dsMap) {
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
     html += `<tr>
       <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
-      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
-      <td>${sb}</td>
-      <td>${a.cpc > 0 ? fmtKRW(a.cpc) : "—"}</td>
+      <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
+      <td class="${mh}">${sb}</td>
+      <td class="${mh}">${a.cpc > 0 ? fmtKRW(a.cpc) : "—"}</td>
       <td><b>${fmtKRW(a.spend)}</b></td>
-      <td>${a.revenue > 0 ? fmtKRW(a.revenue) : "—"}</td>
+      <td class="${mh}">${a.revenue > 0 ? fmtKRW(a.revenue) : "—"}</td>
       <td><b>${rp}</b></td>
       <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
       <td>${dr != null ? (dr*100).toFixed(0)+"%" : "—"}</td>
-      <td>${a.ctr > 0 ? a.ctr.toFixed(2) + "%" : "—"}</td>
-      <td>${a.clicks > 0 ? a.clicks.toLocaleString() : "—"}</td>
-      <td>${a.impressions > 0 ? a.impressions.toLocaleString() : "—"}</td>
+      <td class="${mh}">${a.ctr > 0 ? a.ctr.toFixed(2) + "%" : "—"}</td>
+      <td class="${mh}">${a.clicks > 0 ? a.clicks.toLocaleString() : "—"}</td>
+      <td class="${mh}">${a.impressions > 0 ? a.impressions.toLocaleString() : "—"}</td>
     </tr>`;
   });
   html += `</tbody></table>`;
@@ -2547,11 +2567,13 @@ function renderTtAdDailyTable(start, end, dsMap) {
     };
   }).filter(g => g.tS > 0).sort((a,b) => b.tS - a.tS);
 
+  const mob2 = window.innerWidth <= 768;
+  const mh2  = mob2 ? " m-hide" : "";
   let html = `<table><thead><tr>
-    <th>소재명</th><th>캠페인</th><th>상태</th>
-    <th>CPC</th><th>광고비</th><th>매출</th><th>ROAS</th>
+    <th>소재명</th><th class="${mh2}">캠페인</th><th class="${mh2}">상태</th>
+    <th class="${mh2}">CPC</th><th>광고비</th><th class="${mh2}">매출</th><th>ROAS</th>
     <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
-    <th>CTR</th><th>클릭</th><th>노출</th>
+    <th class="${mh2}">CTR</th><th class="${mh2}">클릭</th><th class="${mh2}">노출</th>
   </tr></thead><tbody>`;
 
   groupList.forEach(g => {
@@ -2562,26 +2584,26 @@ function renderTtAdDailyTable(start, end, dsMap) {
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
     html += `<tr class="daily-header-row">
       <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${g.name}"><b>${g.name}</b></td>
-      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
-      <td>${sb}</td>
-      <td>${g.tCpc>0?fmtKRW(g.tCpc):"—"}</td><td><b>${fmtKRW(g.tS)}</b></td>
-      <td>${g.tR>0?fmtKRW(g.tR):"—"}</td><td><b>${rp}</b></td>
+      <td class="${mh2}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
+      <td class="${mh2}">${sb}</td>
+      <td class="${mh2}">${g.tCpc>0?fmtKRW(g.tCpc):"—"}</td><td><b>${fmtKRW(g.tS)}</b></td>
+      <td class="${mh2}">${g.tR>0?fmtKRW(g.tR):"—"}</td><td><b>${rp}</b></td>
       <td style="color:${g.tD!=null&&g.tD>0?"#f0883e":"#4e5564"}">${g.tD!=null?fmtKRW(g.tD):"—"}</td>
       <td>${g.tDR!=null?(g.tDR*100).toFixed(0)+"%":"—"}</td>
-      <td>${g.tCtr.toFixed(2)}%</td><td>${g.tK>0?g.tK.toLocaleString():"—"}</td><td>${g.tI>0?g.tI.toLocaleString():"—"}</td>
+      <td class="${mh2}">${g.tCtr.toFixed(2)}%</td><td class="${mh2}">${g.tK>0?g.tK.toLocaleString():"—"}</td><td class="${mh2}">${g.tI>0?g.tI.toLocaleString():"—"}</td>
     </tr>`;
     g.rows.sort((a,b) => b.date.localeCompare(a.date)).forEach(r => {
       const rpr = r.roas>0 ? (r.roas*100).toFixed(0)+"%" : "—";
       const dv  = lookupTtAdDirect(g.name, dsByDate[r.date] || {});
       const dr  = dv!=null && r.spend>0 ? dv/r.spend : null;
       html += `<tr class="daily-sub-row">
-        <td>${r.date}</td><td>—</td><td>—</td>
-        <td>${r.cpc>0?fmtKRW(r.cpc):"—"}</td><td>${fmtKRW(r.spend)}</td>
-        <td>${r.revenue>0?fmtKRW(r.revenue):"—"}</td><td>${rpr}</td>
+        <td>${r.date}</td><td class="${mh2}">—</td><td class="${mh2}">—</td>
+        <td class="${mh2}">${r.cpc>0?fmtKRW(r.cpc):"—"}</td><td>${fmtKRW(r.spend)}</td>
+        <td class="${mh2}">${r.revenue>0?fmtKRW(r.revenue):"—"}</td><td>${rpr}</td>
         <td style="color:${dv!=null&&dv>0?"#f0883e":"#4e5564"}">${dv!=null?fmtKRW(dv):"—"}</td>
         <td>${dr!=null?(dr*100).toFixed(0)+"%":"—"}</td>
-        <td>${r.ctr>0?r.ctr.toFixed(2)+"%":"—"}</td>
-        <td>${r.clicks>0?r.clicks.toLocaleString():"—"}</td><td>${r.impressions>0?r.impressions.toLocaleString():"—"}</td>
+        <td class="${mh2}">${r.ctr>0?r.ctr.toFixed(2)+"%":"—"}</td>
+        <td class="${mh2}">${r.clicks>0?r.clicks.toLocaleString():"—"}</td><td class="${mh2}">${r.impressions>0?r.impressions.toLocaleString():"—"}</td>
       </tr>`;
     });
   });
@@ -2597,6 +2619,7 @@ let gadsSortKey = "spend";
 let gadsSortDir = -1;
 let gadsProd = "all";
 let gadsLevel = "campaign";
+let gadsViewMode = "summary";
 
 const GADS_PRODUCTS = [
   { id: "all",  label: "전체",    re: null },
@@ -2715,6 +2738,12 @@ function setGadsLevel(level) {
   renderGads();
 }
 
+function setGadsView(btn) {
+  document.querySelectorAll('#gadsViewTabs .tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+  gadsViewMode = btn.dataset.gadsview;
+  renderGads();
+}
+
 function setGadsSort(key) {
   if (gadsSortKey === key) gadsSortDir *= -1;
   else { gadsSortKey = key; gadsSortDir = -1; }
@@ -2790,20 +2819,41 @@ function renderGads() {
   document.getElementById("gg-kpi-direct-roas-sub").textContent = directRoas != null ? "직접매출 " + fmtKRW(tDirect) : "데이터 없음";
   document.getElementById("gg-kpi-cpa").textContent           = tCpa > 0 ? fmtKRW(tCpa) : "—";
   document.getElementById("gg-kpi-cpa-sub").textContent       = start + " ~ " + end;
-  const th = (key, label) =>
-    `<th style="cursor:pointer;white-space:nowrap" onclick="setGadsSort('${key}')">${label}${gadsSortKey===key?(gadsSortDir<0?" ↓":" ↑"):""}</th>`;
+  const mob = window.innerWidth <= 768;
+  const mh  = mob ? " m-hide" : "";
+  const th = (key, label, hide) =>
+    `<th class="${gadsSortKey===key?(gadsSortDir<0?"sort-desc":"sort-asc"):""}${hide?" m-hide":""}" style="cursor:pointer;white-space:nowrap" onclick="setGadsSort('${key}')">${label}</th>`;
+
+  // 소재별 conversions → 캠페인별 보완 (SHORT 포맷 대응)
+  const adAcc = aggregateGadsAds(start, end);
+  const adsByCamp = {};
+  Object.values(adAcc).forEach(a => {
+    const k = a.campaign; if (!k) return;
+    if (!adsByCamp[k]) adsByCamp[k] = { conversions: 0 };
+    adsByCamp[k].conversions += a.conversions || 0;
+  });
+
+  if (gadsViewMode === "daily") {
+    if (gadsLevel === "ad") {
+      document.getElementById("gadsTableMeta").textContent = "일별 소재";
+      renderGadsAdDailyTable(start, end, mob);
+    } else {
+      document.getElementById("gadsTableMeta").textContent = campaigns.length + "개 캠페인 · 일별";
+      renderGadsDailyTable(start, end, dsMap, adsByCamp, mob);
+    }
+    return;
+  }
 
   if (gadsLevel === 'ad') {
-    // ── 소재별 ───────────────────────────────
-    const adAcc  = aggregateGadsAds(start, end);
+    // ── 소재별 기간합산 ───────────────────────────────
     const allAds = Object.values(adAcc).filter(a => gadsProdFilter(a.campaign));
     const sortedAds = [...allAds].sort((a, b) => gadsSortDir * ((b[gadsSortKey] || 0) - (a[gadsSortKey] || 0)));
     document.getElementById("gadsTableMeta").textContent = allAds.length + "개 소재";
 
     let html = `<table><thead><tr>
-      <th>소재명</th><th>캠페인</th><th>제품</th>
-      ${th("spend","광고비")}${th("cpa","CPA")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
-      ${th("conversions","전환수")}${th("conv_value","전환가치")}
+      <th>소재명</th><th class="${mh}">캠페인</th><th class="${mh}">제품</th>
+      ${th("spend","광고비")}${th("cpa","CPA")}${th("roas_num","ROAS")}${th("ctr_num","CTR",mob)}
+      ${th("conversions","전환수",mob)}${th("conv_value","전환가치",mob)}
     </tr></thead><tbody>`;
     sortedAds.forEach(a => {
       const wRoas = a.spend > 0 ? a.roas_num / a.spend : 0;
@@ -2812,37 +2862,27 @@ function renderGads() {
       const camp  = (a.campaign || "").replace(/\(.*?\)/, '').trim();
       html += `<tr>
         <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
-        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
-        <td>${a.product || "—"}</td>
+        <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
+        <td class="${mh}">${a.product || "—"}</td>
         <td><b>${fmtKRW(a.spend)}</b></td>
         <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
         <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
-        <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
-        <td>${a.conversions > 0 ? a.conversions.toFixed(1) : "—"}</td>
-        <td>${a.conv_value  > 0 ? fmtKRW(Math.round(a.conv_value)) : "—"}</td>
+        <td class="${mh}">${wCtr > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
+        <td class="${mh}">${a.conversions > 0 ? a.conversions.toFixed(1) : "—"}</td>
+        <td class="${mh}">${a.conv_value > 0 ? fmtKRW(Math.round(a.conv_value)) : "—"}</td>
       </tr>`;
     });
     html += `</tbody></table>`;
     document.getElementById("gadsTableContent").innerHTML = html;
 
   } else {
-    // ── 캠페인별 ─────────────────────────────
+    // ── 캠페인별 기간합산 ─────────────────────────────
     document.getElementById("gadsTableMeta").textContent = campaigns.length + "개 캠페인";
 
-    // 소재별 데이터로 캠페인별 conversions 보완 (SHORT 포맷 캠페인 대응)
-    const adAcc = aggregateGadsAds(start, end);
-    const adsByCamp = {};
-    Object.values(adAcc).forEach(a => {
-      const k = a.campaign;
-      if (!k) return;
-      if (!adsByCamp[k]) adsByCamp[k] = { conversions: 0 };
-      adsByCamp[k].conversions += a.conversions || 0;
-    });
-
     let html = `<table><thead><tr>
-      <th>캠페인명</th><th>제품</th><th>상태</th>
-      ${th("spend","광고비")}${th("cpa","CPA")}${th("roas_num","ROAS")}${th("ctr_num","CTR")}
-      <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
+      <th>캠페인명</th><th class="${mh}">제품</th><th class="${mh}">상태</th>
+      ${th("spend","광고비")}${th("cpa","CPA")}${th("roas_num","ROAS")}${th("ctr_num","CTR",mob)}
+      <th class="${mh}" style="color:#f0883e">직접값</th><th>직접ROAS</th>
     </tr></thead><tbody>`;
 
     sorted.forEach(c => {
@@ -2850,7 +2890,6 @@ function renderGads() {
       const dr  = dv != null && c.spend > 0 ? dv / c.spend : null;
       const wRoas = c.spend > 0 ? c.roas_num / c.spend : 0;
       const wCtr  = c.spend > 0 ? c.ctr_num  / c.spend : 0;
-      // conv=0이면 소재 데이터로 보완
       const convs = c.conversions > 0 ? c.conversions : (adsByCamp[c.name]?.conversions || 0);
       const cpa   = convs > 0 ? Math.round(c.spend / convs) : 0;
       const isActive = c.status && c.status.includes("운영 가능");
@@ -2859,19 +2898,176 @@ function renderGads() {
         : `<span style="color:#6e7681;font-size:11px;">■ ${(c.status || "—").substring(0,10)}</span>`;
       html += `<tr>
         <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
-        <td>${c.product || "—"}</td>
-        <td>${sb}</td>
+        <td class="${mh}">${c.product || "—"}</td>
+        <td class="${mh}">${sb}</td>
         <td><b>${fmtKRW(c.spend)}</b></td>
         <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
         <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
-        <td>${wCtr  > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
-        <td style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
+        <td class="${mh}">${wCtr > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
+        <td class="${mh}" style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
         <td>${dr != null ? (dr*100).toFixed(0)+"%" : "—"}</td>
       </tr>`;
     });
     html += `</tbody></table>`;
     document.getElementById("gadsTableContent").innerHTML = html;
   }
+}
+
+function buildGadsDsMapByDate(start, end) {
+  const h = window.CAFE24_HISTORY;
+  if (!h) return {};
+  const byDate = {};
+  Object.keys(h).filter(d => d >= start && d <= end).forEach(date => {
+    const bd = h[date]?.ridermune;
+    if (!bd) return;
+    const map = {};
+    (bd.campaigns || []).forEach(item => {
+      const term = (item.campaign || "").toLowerCase();
+      if (!term) return;
+      map[term] = (map[term] || 0) + (item.order_amount || item.revenue || item.sales || 0);
+    });
+    byDate[date] = map;
+  });
+  return byDate;
+}
+
+function renderGadsDailyTable(start, end, dsMapTotal, adsByCamp, mob) {
+  const h = window.GADS_HISTORY;
+  if (!h) return;
+  const mh = mob ? " m-hide" : "";
+  const dsByDate = buildGadsDsMapByDate(start, end);
+
+  const groups = {};
+  Object.keys(h).filter(d => d >= start && d <= end).sort().forEach(date => {
+    const dayData = h[date];
+    if (!dayData || !dayData.campaigns) return;
+    dayData.campaigns.filter(c => gadsProdFilter(c.name)).forEach(c => {
+      if (!groups[c.name]) groups[c.name] = { name: c.name, product: c.product, status: c.status, rows: [] };
+      groups[c.name].rows.push({ date, ...c });
+      groups[c.name].status = c.status;
+    });
+  });
+
+  const groupList = Object.values(groups).map(g => {
+    const tS   = g.rows.reduce((a,r) => a + r.spend, 0);
+    const tC   = g.rows.reduce((a,r) => a + (r.conversions || 0), 0);
+    const tV   = g.rows.reduce((a,r) => a + (r.conv_value  || 0), 0);
+    const tCtrN= g.rows.reduce((a,r) => a + (r.ctr || 0) * r.spend, 0);
+    let tD = null, dSum = 0;
+    g.rows.forEach(r => {
+      const dv = lookupGadsDirect(g.name, dsByDate[r.date] || {});
+      if (dv != null) { dSum += dv; tD = dSum; }
+    });
+    const convs = tC > 0 ? tC : (adsByCamp[g.name]?.conversions || 0);
+    return { ...g, tS, tC, tV,
+      tCpa:  convs > 0 ? Math.round(tS / convs) : 0,
+      tRoas: tS > 0 ? tV / tS : 0,
+      tCtr:  tS > 0 ? tCtrN / tS : 0,
+      tD, tDR: tD != null && tS > 0 ? tD / tS : null };
+  }).filter(g => g.tS > 0).sort((a,b) => b.tS - a.tS);
+
+  let html = `<table><thead><tr>
+    <th>캠페인명</th><th class="${mh}">제품</th><th class="${mh}">상태</th>
+    <th>광고비</th><th>CPA</th><th>ROAS</th><th class="${mh}">CTR</th>
+    <th class="${mh}" style="color:#f0883e">직접값</th><th>직접ROAS</th>
+  </tr></thead><tbody>`;
+
+  groupList.forEach(g => {
+    const isActive = g.status && g.status.includes("운영 가능");
+    const sb = isActive
+      ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
+      : `<span style="color:#6e7681;font-size:11px;">■ ${(g.status||"—").substring(0,10)}</span>`;
+    html += `<tr class="daily-header-row">
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${g.name}"><b>${g.name}</b></td>
+      <td class="${mh}">${g.product || "—"}</td><td class="${mh}">${sb}</td>
+      <td><b>${fmtKRW(g.tS)}</b></td>
+      <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td>
+      <td>${g.tRoas > 0 ? (g.tRoas*100).toFixed(0)+"%" : "—"}</td>
+      <td class="${mh}">${g.tCtr > 0 ? g.tCtr.toFixed(2)+"%" : "—"}</td>
+      <td class="${mh}" style="color:${g.tD!=null&&g.tD>0?"#f0883e":"#4e5564"}">${g.tD!=null?fmtKRW(g.tD):"—"}</td>
+      <td>${g.tDR!=null?(g.tDR*100).toFixed(0)+"%":"—"}</td>
+    </tr>`;
+    g.rows.sort((a,b) => b.date.localeCompare(a.date)).forEach(r => {
+      const dv  = lookupGadsDirect(g.name, dsByDate[r.date] || {});
+      const dr  = dv != null && r.spend > 0 ? dv / r.spend : null;
+      const roas = r.roas || (r.conv_value && r.spend ? r.conv_value / r.spend : 0);
+      const cpa  = r.cpa  || (r.conversions && r.spend ? Math.round(r.spend / r.conversions) : 0);
+      html += `<tr class="daily-sub-row">
+        <td>${r.date}</td><td class="${mh}">—</td><td class="${mh}">—</td>
+        <td>${fmtKRW(r.spend)}</td>
+        <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
+        <td>${roas > 0 ? (roas*100).toFixed(0)+"%" : "—"}</td>
+        <td class="${mh}">${r.ctr > 0 ? r.ctr.toFixed(2)+"%" : "—"}</td>
+        <td class="${mh}" style="color:${dv!=null&&dv>0?"#f0883e":"#4e5564"}">${dv!=null?fmtKRW(dv):"—"}</td>
+        <td>${dr!=null?(dr*100).toFixed(0)+"%":"—"}</td>
+      </tr>`;
+    });
+  });
+  html += `</tbody></table>`;
+  document.getElementById("gadsTableContent").innerHTML = html;
+}
+
+function renderGadsAdDailyTable(start, end, mob) {
+  const h = window.GADS_HISTORY;
+  if (!h) return;
+  const mh = mob ? " m-hide" : "";
+
+  const groups = {};
+  Object.keys(h).filter(d => d >= start && d <= end).sort().forEach(date => {
+    const dayData = h[date];
+    if (!dayData || !dayData.ads) return;
+    dayData.ads.filter(a => gadsProdFilter(a.campaign)).forEach(a => {
+      if (!groups[a.name]) groups[a.name] = { name: a.name, campaign: a.campaign, product: a.product, rows: [] };
+      groups[a.name].rows.push({ date, ...a });
+    });
+  });
+
+  const groupList = Object.values(groups).map(g => {
+    const tS   = g.rows.reduce((a,r) => a + r.spend, 0);
+    const tC   = g.rows.reduce((a,r) => a + (r.conversions || 0), 0);
+    const tV   = g.rows.reduce((a,r) => a + (r.conv_value  || 0), 0);
+    const tCtrN= g.rows.reduce((a,r) => a + (r.ctr || 0) * r.spend, 0);
+    return { ...g, tS, tC, tV,
+      tCpa:  tC > 0 ? Math.round(tS / tC) : 0,
+      tRoas: tS > 0 ? tV / tS : 0,
+      tCtr:  tS > 0 ? tCtrN / tS : 0 };
+  }).filter(g => g.tS > 0).sort((a,b) => b.tS - a.tS);
+
+  let html = `<table><thead><tr>
+    <th>소재명</th><th class="${mh}">캠페인</th><th class="${mh}">제품</th>
+    <th>광고비</th><th>CPA</th><th>ROAS</th><th class="${mh}">CTR</th>
+    <th class="${mh}">전환수</th><th class="${mh}">전환가치</th>
+  </tr></thead><tbody>`;
+
+  groupList.forEach(g => {
+    const camp = (g.campaign || "").replace(/\(.*?\)/, "").trim();
+    html += `<tr class="daily-header-row">
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${g.name}"><b>${g.name}</b></td>
+      <td class="${mh}" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e">${camp}</td>
+      <td class="${mh}">${g.product || "—"}</td>
+      <td><b>${fmtKRW(g.tS)}</b></td>
+      <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td>
+      <td>${g.tRoas > 0 ? (g.tRoas*100).toFixed(0)+"%" : "—"}</td>
+      <td class="${mh}">${g.tCtr > 0 ? g.tCtr.toFixed(2)+"%" : "—"}</td>
+      <td class="${mh}">${g.tC > 0 ? g.tC.toFixed(1) : "—"}</td>
+      <td class="${mh}">${g.tV > 0 ? fmtKRW(Math.round(g.tV)) : "—"}</td>
+    </tr>`;
+    g.rows.sort((a,b) => b.date.localeCompare(a.date)).forEach(r => {
+      const roas = r.roas || (r.conv_value && r.spend ? r.conv_value / r.spend : 0);
+      const cpa  = r.cpa  || (r.conversions && r.spend ? Math.round(r.spend / r.conversions) : 0);
+      html += `<tr class="daily-sub-row">
+        <td>${r.date}</td><td class="${mh}">—</td><td class="${mh}">—</td>
+        <td>${fmtKRW(r.spend)}</td>
+        <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
+        <td>${roas > 0 ? (roas*100).toFixed(0)+"%" : "—"}</td>
+        <td class="${mh}">${r.ctr > 0 ? r.ctr.toFixed(2)+"%" : "—"}</td>
+        <td class="${mh}">${r.conversions > 0 ? r.conversions.toFixed(1) : "—"}</td>
+        <td class="${mh}">${r.conv_value > 0 ? fmtKRW(Math.round(r.conv_value)) : "—"}</td>
+      </tr>`;
+    });
+  });
+  html += `</tbody></table>`;
+  document.getElementById("gadsTableContent").innerHTML = html;
 }
 
 function buildGadsDsMap(start, end) {
