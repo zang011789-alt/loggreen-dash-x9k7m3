@@ -1924,7 +1924,7 @@ function renderTodayProductSales() {
     dermacollection: { label: '더마콜렉션', color: '#f472b6' },
   };
   const now = new Date();
-  const updateLabel = `${now.getHours().toString().padStart(2,'0')}:00 기준`;
+  const updateLabel = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')} 기준`;
   const KNOWN_TYPES = ['노즈픽션','키즈픽션','템퍼픽션','아토픽션','노즈스파','노즈브리즈','디오스톡','키로메디'];
   const typeTotal = {};
 
@@ -2216,6 +2216,16 @@ function showBrandScreen() {
 
 window.addEventListener('load', () => {
   setTimeout(() => { renderTodayProductSales(); renderDailyTrendCharts(); }, 200);
+
+  // 브랜드 선택 화면: 매분 타임스탬프 갱신, 30분마다 데이터 reload
+  setInterval(() => {
+    const bs = document.getElementById('brandScreen');
+    if (bs && bs.style.display !== 'none') renderTodayProductSales();
+  }, 60 * 1000); // 1분마다 타임스탬프 갱신
+
+  setInterval(() => {
+    location.reload();
+  }, 30 * 60 * 1000); // 30분마다 페이지 전체 reload (JS 파일 최신화)
 });
 
 // ══════════════════════════════════════════════════════
