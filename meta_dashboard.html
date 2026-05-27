@@ -1394,8 +1394,9 @@ function renderTable(data) {
 
     if (isAd) {
       const aov = (c.revenue > 0 && c.purchases > 0) ? c.revenue / c.purchases : 0;
+      const adJson = JSON.stringify(c.name);
       html += `<tr>
-        <td class="cell-name" title="${c.name}">${c.name}${budgetBadge(c.adset)}</td>
+        <td class="cell-name" title="${c.name}" style="cursor:pointer;color:#79c0ff;text-decoration:underline dotted" onclick="openAdPopup(${adJson},'meta')">${c.name}${budgetBadge(c.adset)}</td>
         <td class="cell-sub m-hide" title="${c.parent}">${c.parent}</td>
         <td>${c.cpa > 0 ? fmtKRW(c.cpa) : "—"}</td>
         <td>${fN(c.spend)}</td>
@@ -3232,7 +3233,7 @@ function renderGads() {
   const { start, end } = getGadsDateRange();
   const acc = aggregateGads(start, end);
   const summary = acc["__summary__"] || {};
-  const allCampaigns = Object.values(acc).filter(c => c.name !== "__summary__");
+  const allCampaigns = Object.entries(acc).filter(([k]) => k !== "__summary__").map(([, v]) => v);
   const campaigns = allCampaigns.filter(c => gadsProdFilter(c.name));
   const sorted = [...campaigns].sort((a, b) => gadsSortDir * (b[gadsSortKey] - a[gadsSortKey]));
 
@@ -3564,6 +3565,7 @@ function buildGadsDsMap(start, end) {
 }
 
 function lookupGadsDirect(name, dsMap) {
+  if (!name) return null;
   const n = name.toLowerCase();
   // 1. 정확 매칭
   if (dsMap[n] != null) return dsMap[n];
@@ -4077,11 +4079,11 @@ function renderCompare() {
 // ── 소재 추이 팝업 ──
 // ══════════════════════════════════════════════════════
 
-function openAdPopup(adName, medium) {
+async function openAdPopup(adName, medium) {
   const modal = document.getElementById('adPopupModal');
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
-  renderAdPopupChart(adName, medium);
+  await renderAdPopupChart(adName, medium);
 }
 
 function closeAdPopup() {
@@ -4091,31 +4093,78 @@ function closeAdPopup() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAdPopup(); });
 
-function renderAdPopupChart(adName, medium) {
-  const content = document.getElementById('adPopupContent');
-  const days = 14;
-  const entries = [];
+// Meta 소재의 오늘 포함 최근 N일 일별 광고비/매출을 API로 조회
+async function fetchMetaAdDaily(adName, dates) {
+  const brand = BRANDS[currentBrand];
+  if (!brand) return dates.map(ds => ({ date: ds, spend: 0, revenue: 0 }));
+  const since = dates[0], until = dates[dates.length - 1];
+  const acc = {};
+  dates.forEach(ds => acc[ds] = { spend: 0, revenue: 0 });
 
+  for (const accountId of brand.accountIds) {
+    try {
+      const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);
+      url.searchParams.set('access_token', TOKEN);
+      url.searchParams.set('fields', 'ad_name,spend,purchase_roas,date_start');
+      url.searchParams.set('level', 'ad');
+      url.searchParams.set('time_increment', '1');
+      url.searchParams.set('time_range', JSON.stringify({ since, until }));
+      url.searchParams.set('limit', '500');
+      let next = url.toString();
+      while (next) {
+        const r = await fetch(next);
+        const j = await r.json();
+        (j.data || []).forEach(row => {
+          if ((row.ad_name || '') !== adName) return;
+          const ds = row.date_start;
+          if (!acc[ds]) return;
+          const sp = parseFloat(row.spend || 0);
+          const roas = parseFloat((row.purchase_roas || [])[0]?.value || 0);
+          acc[ds].spend   += sp;
+          acc[ds].revenue += sp * roas;
+        });
+        next = j.paging?.next;
+      }
+    } catch (e) { /* silent */ }
+  }
+  return dates.map(ds => ({ date: ds, spend: acc[ds].spend, revenue: acc[ds].revenue }));
+}
+
+async function renderAdPopupChart(adName, medium) {
+  const content = document.getElementById('adPopupContent');
+  const days = 7;
+
+  // 오늘 포함 최근 7일 날짜 배열
+  const dates = [];
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const ds = d.toISOString().slice(0, 10);
-    let spend = 0, revenue = 0;
+    dates.push(d.toISOString().slice(0, 10));
+  }
 
-    if (medium === 'tiktok') {
-      ['outcoma', 'ridermune'].forEach(brand => {
-        const bd = window.TIKTOK_HISTORY?.[ds]?.[brand];
-        if (!bd) return;
-        (bd.ads || []).filter(a => a.name === adName).forEach(a => {
-          spend   += a.spend   || 0;
-          revenue += a.revenue || 0;
+  let entries;
+  if (medium === 'meta') {
+    content.innerHTML = `<div style="text-align:center;padding:60px 20px;color:#6e7681">
+      <div class="spinner" style="margin:0 auto 14px"></div>최근 7일 데이터 불러오는 중...</div>`;
+    entries = await fetchMetaAdDaily(adName, dates);
+  } else {
+    entries = dates.map(ds => {
+      let spend = 0, revenue = 0;
+      if (medium === 'tiktok') {
+        ['outcoma', 'ridermune'].forEach(brand => {
+          const bd = window.TIKTOK_HISTORY?.[ds]?.[brand];
+          if (!bd) return;
+          (bd.ads || []).filter(a => a.name === adName).forEach(a => {
+            spend   += a.spend   || 0;
+            revenue += a.revenue || 0;
+          });
         });
-      });
-    } else if (medium === 'google') {
-      const ad = (window.GADS_HISTORY?.[ds]?.ads || []).find(a => a.name === adName);
-      if (ad) { spend = ad.spend || 0; revenue = ad.conv_value || 0; }
-    }
-    entries.push({ date: ds, spend, revenue });
+      } else if (medium === 'google') {
+        const ad = (window.GADS_HISTORY?.[ds]?.ads || []).find(a => a.name === adName);
+        if (ad) { spend = ad.spend || 0; revenue = ad.conv_value || 0; }
+      }
+      return { date: ds, spend, revenue };
+    });
   }
 
   const totalSpend   = entries.reduce((s, e) => s + e.spend, 0);
@@ -4166,7 +4215,7 @@ function renderAdPopupChart(adName, medium) {
     ${xLabels}
   </svg>`;
 
-  const medLabel = medium === 'tiktok' ? 'TikTok' : 'Google';
+  const medLabel = medium === 'tiktok' ? 'TikTok' : medium === 'meta' ? 'Meta' : 'Google';
 
   // ── 날짜별 상세 테이블 (최신순, spend > 0인 날만) ──
   const tableRows = [...entries].reverse().filter(e => e.spend > 0).map(e => {
@@ -4187,11 +4236,11 @@ function renderAdPopupChart(adName, medium) {
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px">
       <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
-        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">14일 광고비</div>
+        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">7일 광고비</div>
         <div style="font-size:20px;font-weight:800;color:#f0883e">${fmtKRW(Math.round(totalSpend))}</div>
       </div>
       <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
-        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">14일 매출</div>
+        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">7일 매출</div>
         <div style="font-size:20px;font-weight:800;color:#3fb950">${fmtKRW(Math.round(totalRevenue))}</div>
       </div>
       <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
@@ -4214,7 +4263,7 @@ function renderAdPopupChart(adName, medium) {
         <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">광고비</th>
         <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">매출</th>
         <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">ROAS</th>
-      </thead><tbody>${tableRows}</tbody></table>` : `<div style="text-align:center;color:#4e5564;padding:20px;font-size:13px">최근 14일간 데이터 없음</div>`}`;
+      </thead><tbody>${tableRows}</tbody></table>` : `<div style="text-align:center;color:#4e5564;padding:20px;font-size:13px">최근 7일간 데이터 없음</div>`}`;
 }
 
 </script>
