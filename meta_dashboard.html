@@ -706,6 +706,41 @@ const BRANDS = {
   }
 };
 
+// ── Meta 오늘 소진 캐시 (브랜드 선택 화면용) ──
+let _metaTodayCache     = null;   // { '노즈픽션': spend, ... }
+let _metaTodayCacheTime = 0;
+let _metaTodayFetching  = false;
+
+async function fetchMetaTodaySpend() {
+  const now = Date.now();
+  if (_metaTodayCache !== null && now - _metaTodayCacheTime < 30 * 60 * 1000) return;
+  if (_metaTodayFetching) return;
+  _metaTodayFetching = true;
+  const KWS = { '노즈픽션':'yb','키즈픽션':'kd','템퍼픽션':'tp','아토픽션':'ato','노즈스파':'np','디오스톡':'do' };
+  const acc = {};
+  const allAccountIds = Object.values(BRANDS).flatMap(b => b.accountIds);
+  for (const accountId of allAccountIds) {
+    try {
+      const url = `https://graph.facebook.com/v21.0/${accountId}/insights?fields=campaign_name,spend&date_preset=today&level=campaign&access_token=${TOKEN}&limit=500`;
+      const r = await fetch(url);
+      const j = await r.json();
+      (j.data || []).forEach(c => {
+        const spend = parseFloat(c.spend) || 0;
+        if (!spend) return;
+        const name = c.campaign_name || '';
+        const hit = Object.entries(KWS).find(([, kw]) => new RegExp(kw, 'i').test(name));
+        if (!hit) return;
+        acc[hit[0]] = (acc[hit[0]] || 0) + spend;
+      });
+    } catch(e) { /* silent */ }
+  }
+  _metaTodayCache = acc;
+  _metaTodayCacheTime = Date.now();
+  _metaTodayFetching = false;
+  const bs = document.getElementById('brandScreen');
+  if (bs && bs.style.display !== 'none') renderTodayProductSales();
+}
+
 // ── 상태 ──
 let currentBrand  = null;
 let dateConfig    = { preset: "last_7d" };
@@ -2034,50 +2069,42 @@ function renderTodayProductSales() {
   const grandTotal = typeSorted.reduce((s, [, v]) => s + v.c24 + v.cp + v.ss, 0);
 
   // 오늘 광고비 (Meta + TikTok + Google) — 제품별 집계
-  const TYPE_KWMAP = { '노즈픽션':'yb','키즈픽션':'kd','템퍼픽션':'tp','아토픽션':'ato','노즈스파':'np','디오스톡':'do' };
+  const KW = { '노즈픽션':'yb','키즈픽션':'kd','템퍼픽션':'tp','아토픽션':'ato','노즈스파':'np','디오스톡':'do' };
   const adSpendByType = {};
 
-  // Meta (allData — "오늘" 프리셋으로 로드된 경우에만 유효)
-  const metaIsToday = dateConfig && dateConfig.preset === 'today';
-  if (metaIsToday && Array.isArray(allData) && allData.length > 0) {
-    allData.forEach(c => {
-      const spend = parseFloat(c.spend) || 0;
-      if (!spend) return;
-      const kwEntry = Object.entries(TYPE_KWMAP).find(([, kw]) => new RegExp(kw, 'i').test(c.name));
-      if (!kwEntry) return;
-      const ptype = kwEntry[0];
-      if (!adSpendByType[ptype]) adSpendByType[ptype] = { meta: 0, tt: 0, gg: 0 };
-      adSpendByType[ptype].meta += spend;
-    });
-  }
+  // Meta — 캐시에서 즉시 사용, 없으면 백그라운드 fetch 후 재렌더
+  fetchMetaTodaySpend();
+  Object.entries(_metaTodayCache || {}).forEach(([ptype, v]) => {
+    if (!v) return;
+    if (!adSpendByType[ptype]) adSpendByType[ptype] = { meta: 0, tt: 0, gg: 0 };
+    adSpendByType[ptype].meta += v;
+  });
 
   // TikTok
   const ttHToday = window.TIKTOK_HISTORY?.[todayStr];
   if (ttHToday) {
     ['outcoma','ridermune'].forEach(brand => {
       (ttHToday[brand]?.campaigns || []).forEach(c => {
-        const kwEntry = Object.entries(TYPE_KWMAP).find(([, kw]) => new RegExp(kw, 'i').test(c.name));
-        if (!kwEntry) return;
-        const ptype = kwEntry[0];
-        if (!adSpendByType[ptype]) adSpendByType[ptype] = { meta: 0, tt: 0, gg: 0 };
-        adSpendByType[ptype].tt += c.spend || 0;
+        const hit = Object.entries(KW).find(([, kw]) => new RegExp(kw, 'i').test(c.name));
+        if (!hit) return;
+        if (!adSpendByType[hit[0]]) adSpendByType[hit[0]] = { meta: 0, tt: 0, gg: 0 };
+        adSpendByType[hit[0]].tt += c.spend || 0;
       });
     });
   }
 
-  // Google (이상치 감지: 전날 대비 5배 초과 시 사용 안 함)
+  // Google (이상치 감지: 전날 대비 5배 초과 시 제외)
   const ggHToday    = window.GADS_HISTORY?.[todayStr];
   const ggHYest     = window.GADS_HISTORY?.[yesterStr];
-  const ggYestSpend = ggHYest ? (ggHYest.summary?.spend || 0) : 0;
-  const ggTodaySpend= ggHToday ? (ggHToday.summary?.spend || 0) : 0;
+  const ggYestSpend = ggHYest?.summary?.spend || 0;
+  const ggTodaySpend= ggHToday?.summary?.spend || 0;
   const ggOk        = !(ggYestSpend > 10000 && ggTodaySpend > ggYestSpend * 5);
   if (ggHToday && ggOk) {
     (ggHToday.campaigns || []).forEach(c => {
-      const kwEntry = Object.entries(TYPE_KWMAP).find(([, kw]) => new RegExp(`gg_${kw}_`, 'i').test(c.name));
-      if (!kwEntry) return;
-      const ptype = kwEntry[0];
-      if (!adSpendByType[ptype]) adSpendByType[ptype] = { meta: 0, tt: 0, gg: 0 };
-      adSpendByType[ptype].gg += c.spend || 0;
+      const hit = Object.entries(KW).find(([, kw]) => new RegExp(`gg_${kw}_`, 'i').test(c.name));
+      if (!hit) return;
+      if (!adSpendByType[hit[0]]) adSpendByType[hit[0]] = { meta: 0, tt: 0, gg: 0 };
+      adSpendByType[hit[0]].gg += c.spend || 0;
     });
   }
 
@@ -2112,7 +2139,6 @@ function renderTodayProductSales() {
       <span style="font-size:10px;color:#3a4050">${updateLabel} · C24(오늘) + 쿠팡(${cpLabel}) + SS(${ssLabel}) · 30분 갱신</span>
     </div>
     <div style="font-size:44px;font-weight:900;color:#f0f6fc;letter-spacing:-2px;line-height:1;margin-bottom:22px">${fmtKRW(grandTotal)}</div>
-    ${!metaIsToday ? `<div style="font-size:10px;color:#4e5564;margin-bottom:10px">※ 카드 하단 광고비: 메타 탭에서 브랜드·<b style="color:#f0f6fc">오늘</b> 선택 후 새로고침 시 메타 소진 포함</div>` : ''}
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">`;
 
   typeSorted.forEach(([ptype, t]) => {
