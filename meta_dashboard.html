@@ -2094,13 +2094,15 @@ function renderTodayProductSales() {
   }
 
   // Google (이상치 감지: 전날 대비 5배 초과 시 제외 / 오늘 없으면 어제 fallback)
-  const ggHToday    = window.GADS_HISTORY?.[todayStr];
-  const ggHYest     = window.GADS_HISTORY?.[yesterStr];
-  const ggYestSpend = ggHYest?.summary?.spend || 0;
-  const ggTodaySpend= ggHToday?.summary?.spend || 0;
-  const ggOk        = !(ggYestSpend > 10000 && ggTodaySpend > ggYestSpend * 5);
-  const ggSrc       = (ggHToday && ggOk) ? ggHToday : (!ggHToday && ggHYest ? ggHYest : null);
-  const ggIsYest    = !ggHToday && !!ggHYest;
+  const ggHToday     = window.GADS_HISTORY?.[todayStr];
+  const ggHYest      = window.GADS_HISTORY?.[yesterStr];
+  const ggYestSpend  = ggHYest?.summary?.spend || 0;
+  const ggTodaySpend = ggHToday?.summary?.spend || 0;
+  const ggHasCamps   = (ggHToday?.campaigns || []).length > 0;
+  const ggOk         = !(ggYestSpend > 10000 && ggTodaySpend > ggYestSpend * 5);
+  // 오늘 데이터가 없거나 캠페인이 비어있으면 어제 fallback
+  const ggSrc        = (ggHToday && ggOk && ggHasCamps) ? ggHToday : (ggHYest || null);
+  const ggIsYest     = ggSrc === ggHYest;
   if (ggSrc) {
     (ggSrc.campaigns || []).forEach(c => {
       const hit = Object.entries(KW).find(([, kw]) => new RegExp(`gg_${kw}_`, 'i').test(c.name));
