@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2026-05-26 -->
+<!-- v2026-05-27b 소재팝업 7일+전매체 일별보기 -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -1279,8 +1279,9 @@ function renderDailyTable(data) {
     const escapedName = g.name.replace(/'/g, "\\'");
     if (isAd) {
       const tAov = (g.tRevenue > 0 && g.tPurch > 0) ? g.tRevenue / g.tPurch : 0;
+      const adJson = JSON.stringify(g.name);
       html += `<tr class="daily-header-row">
-        <td title="${g.name}"><b>${g.name}</b>${budgetBadge(g.adset)}</td><td class="cell-sub${mh}">${g.parent}</td>
+        <td title="${g.name}" style="cursor:pointer;color:#79c0ff;text-decoration:underline dotted" onclick="openAdPopup(${adJson},'meta')"><b>${g.name}</b>${budgetBadge(g.adset)}</td><td class="cell-sub${mh}">${g.parent}</td>
         <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td><td><b>${fmtKRW(g.tSpend)}</b></td>
         <td class="${mh.trim()}">${g.tRevenue > 0 ? fmtKRW(g.tRevenue) : "—"}</td><td><b>${tRoasPct}</b></td>
         ${tDirectCell}
@@ -3000,8 +3001,9 @@ function renderTtAdDailyTable(start, end, dsMap) {
     const sb = g.status === "active"
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
+    const adJson = JSON.stringify(g.name);
     html += `<tr class="daily-header-row">
-      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${g.name}"><b>${g.name}</b></td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${g.name}" onclick="openAdPopup(${adJson},'tiktok')"><b>${g.name}</b></td>
       <td class="${mh2}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
       <td class="${mh2}">${sb}</td>
       <td class="${mh2}">${g.tCpc>0?fmtKRW(g.tCpc):"—"}</td><td><b>${fmtKRW(g.tS)}</b></td>
@@ -3512,8 +3514,9 @@ function renderGadsAdDailyTable(start, end, mob) {
 
   groupList.forEach(g => {
     const camp = (g.campaign || "").replace(/\(.*?\)/, "").trim();
+    const adJson = JSON.stringify(g.name);
     html += `<tr class="daily-header-row">
-      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${g.name}"><b>${g.name}</b></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${g.name}" onclick="openAdPopup(${adJson},'google')"><b>${g.name}</b></td>
       <td class="${mh}" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e">${camp}</td>
       <td class="${mh}">${g.product || "—"}</td>
       <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td>
