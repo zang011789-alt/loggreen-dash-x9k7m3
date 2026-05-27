@@ -665,9 +665,38 @@ def collect_day(page, target_date):
             pass
         page.wait_for_timeout(1000)
 
-        date_ok = set_date_range(page, target_date)
+        # 날짜 설정 — 최대 3회 재시도
+        date_ok = False
+        for attempt in range(3):
+            date_ok = set_date_range(page, target_date)
+            if date_ok:
+                break
+            print(f"  [{view_name}] 날짜 설정 실패 (시도 {attempt+1}/3), 재시도...")
+            if _picker_is_open(page):
+                page.keyboard.press("Escape")
+                page.wait_for_timeout(500)
+            page.wait_for_timeout(1500)
         if not date_ok:
-            print(f"  [{view_name}] 날짜 설정 실패")
+            # 날짜 피커 조작 실패 — 현재 표시 날짜가 target_date인지 확인
+            date_fragment = f"{target_date.month}. {target_date.day}."
+            current_text = page.evaluate("""
+            () => {
+                const btns = [...document.querySelectorAll('[role="button"]')];
+                const cand = btns.find(b => {
+                    const r = b.getBoundingClientRect();
+                    return r.y > 50 && r.y < 300 && r.x > 900 && r.width >= 80 && (b.innerText||'').includes('arrow_drop_down');
+                });
+                return cand ? (cand.innerText||'').split('\\n')[0].trim() : '';
+            }
+            """)
+            if date_fragment in current_text:
+                print(f"  [{view_name}] 피커 조작 실패 / 현재 날짜 확인됨({current_text[:30]}) — 수집 진행")
+            else:
+                print(f"  [{view_name}] 날짜 불일치(현재:{current_text[:30]}) — 이 뷰 건너뜀")
+                if _picker_is_open(page):
+                    page.keyboard.press("Escape")
+                    page.wait_for_timeout(300)
+                continue
         if _picker_is_open(page):
             page.keyboard.press("Escape")
             page.wait_for_timeout(500)
@@ -810,6 +839,12 @@ def main():
                 today_spend = data.get('summary', {}).get('spend', 0) if data else 0
                 if yest_spend > 10000 and today_spend > yest_spend * 5:
                     print(f"  [경고] {ds} 소진({today_spend:,.0f})이 전날({yest_spend:,.0f})의 5배 초과 — 날짜 설정 오류 의심, 저장 건너뜀")
+                    continue
+                # 수집 0개면 기존 데이터 보존
+                new_camps = len((data or {}).get('campaigns', []))
+                old_camps = len(history.get(ds, {}).get('campaigns', []))
+                if new_camps == 0 and old_camps > 0:
+                    print(f"  [경고] {ds} 캠페인 0개 수집 — 기존 데이터({old_camps}개) 보존")
                     continue
                 history[ds] = data
             except Exception as e:
