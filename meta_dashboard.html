@@ -330,8 +330,8 @@ select option { background: #161b22; color: #c9d1d9; }
   .c24-kpi { padding: 10px 12px; min-width: 90px; }
   .c24-kpi .kpi-value { font-size: 16px; }
 
-  /* 드릴다운 바 */
-  #drilldownBar { font-size: 11px; padding: 6px 10px; flex-wrap: wrap; gap: 6px; }
+  /* 드릴다운 바 (메타/틱톡/구글 공통) */
+  #drilldownBar, #ttDrilldownBar, #gadsDrilldownBar { font-size: 11px; padding: 6px 10px; flex-wrap: wrap; gap: 6px; }
 
   /* 일별 뷰 */
   .daily-header-row td { padding: 9px 8px; font-size: 11px; }
@@ -550,6 +550,13 @@ select option { background: #161b22; color: #c9d1d9; }
     <div class="ctrl-row" id="ttProdRow" style="display:none"></div>
   </div>
 
+  <!-- 틱톡 드릴다운 브레드크럼 -->
+  <div id="ttDrilldownBar" style="display:none;margin-bottom:10px;padding:8px 14px;background:#161b22;border:1px solid #30363d;border-radius:8px;align-items:center;gap:10px;">
+    <span style="font-size:12px;color:#6e7681;">캠페인</span>
+    <span id="ttDrilldownName" style="font-size:13px;color:#f0f6fc;font-weight:600;max-width:500px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+    <button onclick="ttClearDrilldown()" style="margin-left:auto;background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 10px;border-radius:5px;cursor:pointer;font-size:12px;">✕ 전체보기</button>
+  </div>
+
   <!-- KPI -->
   <div class="kpi-grid">
     <div class="kpi-card spend">  <div class="kpi-label">총 소진금액</div>  <div class="kpi-value" id="tt-kpi-spend">—</div>       <div class="kpi-sub" id="tt-kpi-spend-sub"></div></div>
@@ -614,6 +621,13 @@ select option { background: #161b22; color: #c9d1d9; }
     <div class="kpi-card roas">  <div class="kpi-label">전환 가치</div>   <div class="kpi-value" id="gg-kpi-convval">—</div>     <div class="kpi-sub" id="gg-kpi-convval-sub"></div></div>
     <div class="kpi-card direct"><div class="kpi-label">직접 ROAS</div>   <div class="kpi-value" id="gg-kpi-direct-roas">—</div> <div class="kpi-sub" id="gg-kpi-direct-roas-sub"></div></div>
     <div class="kpi-card cpp">   <div class="kpi-label">CPA</div>         <div class="kpi-value" id="gg-kpi-cpa">—</div>         <div class="kpi-sub" id="gg-kpi-cpa-sub"></div></div>
+  </div>
+
+  <!-- 구글 드릴다운 브레드크럼 -->
+  <div id="gadsDrilldownBar" style="display:none;margin-bottom:10px;padding:8px 14px;background:#161b22;border:1px solid #30363d;border-radius:8px;align-items:center;gap:10px;">
+    <span style="font-size:12px;color:#6e7681;">캠페인</span>
+    <span id="gadsDrilldownName" style="font-size:13px;color:#f0f6fc;font-weight:600;max-width:500px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+    <button onclick="gadsClearDrilldown()" style="margin-left:auto;background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:3px 10px;border-radius:5px;cursor:pointer;font-size:12px;">✕ 전체보기</button>
   </div>
 
   <!-- 테이블 -->
@@ -2231,14 +2245,37 @@ window.addEventListener('load', () => {
 // ══════════════════════════════════════════════════════
 // ── TikTok 패널 로직 ──
 // ══════════════════════════════════════════════════════
-let ttPreset      = "last_7d";
-let ttViewMode    = "summary";
-let ttLevel       = "campaign";  // "campaign" | "ad"
-let ttProd        = "all";       // 제품 필터
-let ttCustomStart = null;
-let ttCustomEnd   = null;
-let ttSortKey     = "spend";
-let ttSortDir     = -1;
+let ttPreset        = "last_7d";
+let ttViewMode      = "summary";
+let ttLevel         = "campaign";  // "campaign" | "ad"
+let ttProd          = "all";       // 제품 필터
+let ttCustomStart   = null;
+let ttCustomEnd     = null;
+let ttSortKey       = "spend";
+let ttSortDir       = -1;
+let ttFilterCampaign = null;       // 드릴다운 캠페인 필터
+
+function ttDrillDown(campaignName) {
+  ttFilterCampaign = campaignName;
+  ttLevel = "ad";
+  document.querySelectorAll("#ttLevelTabs .tab-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.ttlevel === "ad");
+  });
+  const bar = document.getElementById("ttDrilldownBar");
+  if (bar) { bar.style.display = "flex"; document.getElementById("ttDrilldownName").textContent = campaignName; }
+  renderTikTok();
+}
+
+function ttClearDrilldown() {
+  ttFilterCampaign = null;
+  const bar = document.getElementById("ttDrilldownBar");
+  if (bar) bar.style.display = "none";
+  ttLevel = "campaign";
+  document.querySelectorAll("#ttLevelTabs .tab-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.ttlevel === "campaign");
+  });
+  renderTikTok();
+}
 
 // 구형식(h[date].scraped_at) → 신형식(h[date][brand]) 폴백
 function getTtBrandData(date) {
@@ -2280,6 +2317,11 @@ function setTtViewMode(btn) {
 }
 
 function setTtLevel(btn) {
+  if (btn.dataset.ttlevel === "campaign") {
+    ttFilterCampaign = null;
+    const bar = document.getElementById("ttDrilldownBar");
+    if (bar) bar.style.display = "none";
+  }
   ttLevel   = btn.dataset.ttlevel;
   ttSortKey = "spend"; ttSortDir = -1;
   document.querySelectorAll("#ttLevelTabs .tab-btn").forEach(b => b.classList.toggle("active", b === btn));
@@ -2488,7 +2530,7 @@ function renderTikTok() {
   const isAd = ttLevel === "ad";
 
   const data = isAd
-    ? aggregateTtAds(start, end).filter(a => a.spend > 0)
+    ? aggregateTtAds(start, end).filter(a => a.spend > 0 && (!ttFilterCampaign || a.campaign === ttFilterCampaign))
     : aggregateTt(start, end).filter(c => c.spend > 0);
 
   const tSpend = data.reduce((a, c) => a + c.spend, 0);
@@ -2556,8 +2598,12 @@ function renderTtSummaryTable(data, dsMap) {
     const sb  = c.status === "active"
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
+    const escN = c.name.replace(/'/g, "\\'");
     html += `<tr>
-      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" title="${c.name}" onclick="ttDrillDown('${escN}')">
+        <span style="color:#58a6ff;text-decoration:underline dotted;">${c.name}</span>
+        <span style="font-size:10px;color:#4e5564;margin-left:4px;">▶</span>
+      </td>
       <td class="${mh}">${sb}</td>
       <td>${c.cpa > 0 ? fmtKRW(c.cpa) : "—"}</td>
       <td><b>${fmtKRW(c.spend)}</b></td>
@@ -2629,8 +2675,12 @@ function renderTtDailyTable(start, end, dsMapTotal) {
     const sb = g.status === "active"
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
+    const escGN = g.name.replace(/'/g, "\\'");
     html += `<tr class="daily-header-row">
-      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${g.name}"><b>${g.name}</b></td>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" title="${g.name}" onclick="ttDrillDown('${escGN}')">
+        <span style="color:#58a6ff;text-decoration:underline dotted;"><b>${g.name}</b></span>
+        <span style="font-size:10px;color:#4e5564;margin-left:4px;">▶</span>
+      </td>
       <td class="${mh}">${sb}</td>
       <td>${g.tCpa>0?fmtKRW(g.tCpa):"—"}</td><td><b>${fmtKRW(g.tS)}</b></td>
       <td class="${mh}">${g.tR>0?fmtKRW(g.tR):"—"}</td><td><b>${rp}</b></td>
@@ -2714,7 +2764,7 @@ function renderTtAdDailyTable(start, end, dsMap) {
   Object.keys(h).filter(d => d >= start && d <= end).sort().forEach(date => {
     const bd = getTtBrandData(date);
     if (!bd) return;
-    (bd.ads || []).filter(a => a.spend > 0 && ttProdFilter(a.campaign || a.name)).forEach(a => {
+    (bd.ads || []).filter(a => a.spend > 0 && ttProdFilter(a.campaign || a.name) && (!ttFilterCampaign || a.campaign === ttFilterCampaign)).forEach(a => {
       if (!groups[a.name]) groups[a.name] = { name: a.name, campaign: a.campaign, status: a.status, rows: [] };
       groups[a.name].rows.push({ date, ...a });
       groups[a.name].status   = a.status;
@@ -2790,12 +2840,35 @@ function renderTtAdDailyTable(start, end, dsMap) {
 // ══════════════════════════════════════════
 // ── Google Ads 패널 로직 ──
 // ══════════════════════════════════════════
-let gadsPre = "today";
-let gadsSortKey = "spend";
-let gadsSortDir = -1;
-let gadsProd = "all";
-let gadsLevel = "campaign";
-let gadsViewMode = "summary";
+let gadsPre           = "today";
+let gadsSortKey       = "spend";
+let gadsSortDir       = -1;
+let gadsProd          = "all";
+let gadsLevel         = "campaign";
+let gadsViewMode      = "summary";
+let gadsFilterCampaign = null;  // 드릴다운 캠페인 필터
+
+function gadsDrillDown(campaignName) {
+  gadsFilterCampaign = campaignName;
+  gadsLevel = "ad";
+  document.querySelectorAll("#gadsLevelTabs .tab-btn").forEach((b, i) => {
+    b.classList.toggle("active", i === 1);
+  });
+  const bar = document.getElementById("gadsDrilldownBar");
+  if (bar) { bar.style.display = "flex"; document.getElementById("gadsDrilldownName").textContent = campaignName; }
+  renderGads();
+}
+
+function gadsClearDrilldown() {
+  gadsFilterCampaign = null;
+  const bar = document.getElementById("gadsDrilldownBar");
+  if (bar) bar.style.display = "none";
+  gadsLevel = "campaign";
+  document.querySelectorAll("#gadsLevelTabs .tab-btn").forEach((b, i) => {
+    b.classList.toggle("active", i === 0);
+  });
+  renderGads();
+}
 
 const GADS_PRODUCTS = [
   { id: "all",  label: "전체",    re: null },
@@ -2905,6 +2978,11 @@ function aggregateGads(start, end) {
 }
 
 function setGadsLevel(level) {
+  if (level === "campaign") {
+    gadsFilterCampaign = null;
+    const bar = document.getElementById("gadsDrilldownBar");
+    if (bar) bar.style.display = "none";
+  }
   gadsLevel = level;
   document.querySelectorAll('#gadsLevelTabs .tab-btn').forEach((b, i) => {
     b.classList.toggle('active', (i === 0 && level === 'campaign') || (i === 1 && level === 'ad'));
@@ -3022,20 +3100,25 @@ function renderGads() {
 
   if (gadsLevel === 'ad') {
     // ── 소재별 기간합산 ───────────────────────────────
-    const allAds = Object.values(adAcc).filter(a => gadsProdFilter(a.campaign));
+    const allAds = Object.values(adAcc).filter(a =>
+      gadsProdFilter(a.campaign) && (!gadsFilterCampaign || a.campaign === gadsFilterCampaign)
+    );
     const sortedAds = [...allAds].sort((a, b) => gadsSortDir * ((b[gadsSortKey] || 0) - (a[gadsSortKey] || 0)));
     document.getElementById("gadsTableMeta").textContent = allAds.length + "개 소재";
 
     let html = `<table><thead><tr>
       <th>소재명</th><th class="${mh}">캠페인</th><th class="${mh}">제품</th>
-      ${th("cpa","CPA")}${th("spend","광고비")}${th("roas_num","ROAS")}${th("ctr_num","CTR",mob)}
-      ${th("conversions","전환수",mob)}${th("conv_value","전환가치",mob)}
+      ${th("cpa","CPA")}${th("spend","광고비")}${th("roas_num","ROAS")}
+      <th class="${mh}" style="color:#f0883e">직접값</th><th>직접ROAS</th>
+      ${th("ctr_num","CTR",mob)}${th("conversions","전환수",mob)}${th("conv_value","전환가치",mob)}
     </tr></thead><tbody>`;
     sortedAds.forEach(a => {
       const wRoas = a.spend > 0 ? a.roas_num / a.spend : 0;
       const wCtr  = a.spend > 0 ? a.ctr_num  / a.spend : 0;
       const cpa   = a.conversions > 0 ? Math.round(a.spend / a.conversions) : 0;
       const camp  = (a.campaign || "").replace(/\(.*?\)/, '').trim();
+      const dv    = lookupGadsDirect(a.campaign || a.name, dsMap);
+      const dr    = dv != null && a.spend > 0 ? dv / a.spend : null;
       html += `<tr>
         <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
         <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
@@ -3043,6 +3126,8 @@ function renderGads() {
         <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
         <td><b>${fmtKRW(a.spend)}</b></td>
         <td>${wRoas > 0 ? (wRoas * 100).toFixed(0) + "%" : "—"}</td>
+        <td class="${mh}" style="color:${dv != null && dv > 0 ? "#f0883e" : "#4e5564"}">${dv != null ? fmtKRW(dv) : "—"}</td>
+        <td>${dr != null ? (dr*100).toFixed(0)+"%" : "—"}</td>
         <td class="${mh}">${wCtr > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
         <td class="${mh}">${a.conversions > 0 ? a.conversions.toFixed(1) : "—"}</td>
         <td class="${mh}">${a.conv_value > 0 ? fmtKRW(Math.round(a.conv_value)) : "—"}</td>
@@ -3072,8 +3157,12 @@ function renderGads() {
       const sb = isActive
         ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
         : `<span style="color:#6e7681;font-size:11px;">■ ${(c.status || "—").substring(0,10)}</span>`;
+      const escCN = c.name.replace(/'/g, "\\'");
       html += `<tr>
-        <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name}">${c.name}</td>
+        <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" title="${c.name}" onclick="gadsDrillDown('${escCN}')">
+          <span style="color:#58a6ff;text-decoration:underline dotted;">${c.name}</span>
+          <span style="font-size:10px;color:#4e5564;margin-left:4px;">▶</span>
+        </td>
         <td class="${mh}">${c.product || "—"}</td>
         <td class="${mh}">${sb}</td>
         <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
@@ -3153,8 +3242,12 @@ function renderGadsDailyTable(start, end, dsMapTotal, adsByCamp, mob) {
     const sb = isActive
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ ${(g.status||"—").substring(0,10)}</span>`;
+    const escGCN = g.name.replace(/'/g, "\\'");
     html += `<tr class="daily-header-row">
-      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${g.name}"><b>${g.name}</b></td>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" title="${g.name}" onclick="gadsDrillDown('${escGCN}')">
+        <span style="color:#58a6ff;text-decoration:underline dotted;"><b>${g.name}</b></span>
+        <span style="font-size:10px;color:#4e5564;margin-left:4px;">▶</span>
+      </td>
       <td class="${mh}">${g.product || "—"}</td><td class="${mh}">${sb}</td>
       <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td>
       <td><b>${fmtKRW(g.tS)}</b></td>
@@ -3192,27 +3285,36 @@ function renderGadsAdDailyTable(start, end, mob) {
   Object.keys(h).filter(d => d >= start && d <= end).sort().forEach(date => {
     const dayData = h[date];
     if (!dayData || !dayData.ads) return;
-    dayData.ads.filter(a => gadsProdFilter(a.campaign)).forEach(a => {
+    dayData.ads.filter(a => gadsProdFilter(a.campaign) && (!gadsFilterCampaign || a.campaign === gadsFilterCampaign)).forEach(a => {
       if (!groups[a.name]) groups[a.name] = { name: a.name, campaign: a.campaign, product: a.product, rows: [] };
       groups[a.name].rows.push({ date, ...a });
     });
   });
+
+  const dsByDate = buildGadsDsMapByDate(start, end);
 
   const groupList = Object.values(groups).map(g => {
     const tS   = g.rows.reduce((a,r) => a + r.spend, 0);
     const tC   = g.rows.reduce((a,r) => a + (r.conversions || 0), 0);
     const tV   = g.rows.reduce((a,r) => a + (r.conv_value  || 0), 0);
     const tCtrN= g.rows.reduce((a,r) => a + (r.ctr || 0) * r.spend, 0);
+    let tD = null, dSum = 0;
+    g.rows.forEach(r => {
+      const dv = lookupGadsDirect(g.campaign || g.name, dsByDate[r.date] || {});
+      if (dv != null) { dSum += dv; tD = dSum; }
+    });
     return { ...g, tS, tC, tV,
       tCpa:  tC > 0 ? Math.round(tS / tC) : 0,
       tRoas: tS > 0 ? tV / tS : 0,
-      tCtr:  tS > 0 ? tCtrN / tS : 0 };
+      tCtr:  tS > 0 ? tCtrN / tS : 0,
+      tD, tDR: tD != null && tS > 0 ? tD / tS : null };
   }).filter(g => g.tS > 0).sort((a,b) => b.tS - a.tS);
 
   let html = `<table><thead><tr>
     <th>소재명</th><th class="${mh}">캠페인</th><th class="${mh}">제품</th>
-    <th>CPA</th><th>광고비</th><th>ROAS</th><th class="${mh}">CTR</th>
-    <th class="${mh}">전환수</th><th class="${mh}">전환가치</th>
+    <th>CPA</th><th>광고비</th><th>ROAS</th>
+    <th class="${mh}" style="color:#f0883e">직접값</th><th>직접ROAS</th>
+    <th class="${mh}">CTR</th><th class="${mh}">전환수</th><th class="${mh}">전환가치</th>
   </tr></thead><tbody>`;
 
   groupList.forEach(g => {
@@ -3224,6 +3326,8 @@ function renderGadsAdDailyTable(start, end, mob) {
       <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td>
       <td><b>${fmtKRW(g.tS)}</b></td>
       <td>${g.tRoas > 0 ? (g.tRoas*100).toFixed(0)+"%" : "—"}</td>
+      <td class="${mh}" style="color:${g.tD!=null&&g.tD>0?"#f0883e":"#4e5564"}">${g.tD!=null?fmtKRW(g.tD):"—"}</td>
+      <td>${g.tDR!=null?(g.tDR*100).toFixed(0)+"%":"—"}</td>
       <td class="${mh}">${g.tCtr > 0 ? g.tCtr.toFixed(2)+"%" : "—"}</td>
       <td class="${mh}">${g.tC > 0 ? g.tC.toFixed(1) : "—"}</td>
       <td class="${mh}">${g.tV > 0 ? fmtKRW(Math.round(g.tV)) : "—"}</td>
@@ -3231,11 +3335,15 @@ function renderGadsAdDailyTable(start, end, mob) {
     g.rows.sort((a,b) => b.date.localeCompare(a.date)).forEach(r => {
       const roas = r.roas || (r.conv_value && r.spend ? r.conv_value / r.spend : 0);
       const cpa  = r.cpa  || (r.conversions && r.spend ? Math.round(r.spend / r.conversions) : 0);
+      const dv   = lookupGadsDirect(g.campaign || g.name, dsByDate[r.date] || {});
+      const dr   = dv != null && r.spend > 0 ? dv / r.spend : null;
       html += `<tr class="daily-sub-row">
         <td>${r.date}</td><td class="${mh}">—</td><td class="${mh}">—</td>
         <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
         <td>${fmtKRW(r.spend)}</td>
         <td>${roas > 0 ? (roas*100).toFixed(0)+"%" : "—"}</td>
+        <td class="${mh}" style="color:${dv!=null&&dv>0?"#f0883e":"#4e5564"}">${dv!=null?fmtKRW(dv):"—"}</td>
+        <td>${dr!=null?(dr*100).toFixed(0)+"%":"—"}</td>
         <td class="${mh}">${r.ctr > 0 ? r.ctr.toFixed(2)+"%" : "—"}</td>
         <td class="${mh}">${r.conversions > 0 ? r.conversions.toFixed(1) : "—"}</td>
         <td class="${mh}">${r.conv_value > 0 ? fmtKRW(Math.round(r.conv_value)) : "—"}</td>
