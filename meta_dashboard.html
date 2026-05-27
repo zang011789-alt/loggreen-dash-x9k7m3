@@ -2093,18 +2093,21 @@ function renderTodayProductSales() {
     });
   }
 
-  // Google (이상치 감지: 전날 대비 5배 초과 시 제외)
+  // Google (이상치 감지: 전날 대비 5배 초과 시 제외 / 오늘 없으면 어제 fallback)
   const ggHToday    = window.GADS_HISTORY?.[todayStr];
   const ggHYest     = window.GADS_HISTORY?.[yesterStr];
   const ggYestSpend = ggHYest?.summary?.spend || 0;
   const ggTodaySpend= ggHToday?.summary?.spend || 0;
   const ggOk        = !(ggYestSpend > 10000 && ggTodaySpend > ggYestSpend * 5);
-  if (ggHToday && ggOk) {
-    (ggHToday.campaigns || []).forEach(c => {
+  const ggSrc       = (ggHToday && ggOk) ? ggHToday : (!ggHToday && ggHYest ? ggHYest : null);
+  const ggIsYest    = !ggHToday && !!ggHYest;
+  if (ggSrc) {
+    (ggSrc.campaigns || []).forEach(c => {
       const hit = Object.entries(KW).find(([, kw]) => new RegExp(`gg_${kw}_`, 'i').test(c.name));
       if (!hit) return;
-      if (!adSpendByType[hit[0]]) adSpendByType[hit[0]] = { meta: 0, tt: 0, gg: 0 };
+      if (!adSpendByType[hit[0]]) adSpendByType[hit[0]] = { meta: 0, tt: 0, gg: 0, ggIsYest };
       adSpendByType[hit[0]].gg += c.spend || 0;
+      adSpendByType[hit[0]].ggIsYest = ggIsYest;
     });
   }
 
@@ -2158,7 +2161,7 @@ function renderTodayProductSales() {
       const adParts = [];
       if (adInfo.meta) adParts.push(`메타 ${fmtKRW(Math.round(adInfo.meta))}`);
       if (adInfo.tt)   adParts.push(`TT ${fmtKRW(Math.round(adInfo.tt))}`);
-      if (adInfo.gg)   adParts.push(`GG ${fmtKRW(Math.round(adInfo.gg))}`);
+      if (adInfo.gg)   adParts.push(`GG ${fmtKRW(Math.round(adInfo.gg))}${adInfo.ggIsYest ? '(어제)' : ''}`);
       adSection = `<div style="margin-top:14px;padding-top:14px;border-top:1px solid #21262d40">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
           <span style="font-size:10px;color:#6e7681">광고비</span>
