@@ -10221,5 +10221,49 @@ window.TIKTOK_HISTORY = {
         }
       ]
     }
+  },
+  "2026-05-26": {
+    "outcoma": {
+      "scraped_at": "2026-05-27 12:43",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    },
+    "ridermune": {
+      "scraped_at": "2026-05-27 12:46",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    }
+  },
+  "2026-05-27": {
+    "outcoma": {
+      "scraped_at": "2026-05-27 12:45",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    },
+    "ridermune": {
+      "scraped_at": "2026-05-27 12:48",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    }
   }
 };
