@@ -2033,6 +2033,32 @@ function renderTodayProductSales() {
 
   const grandTotal = typeSorted.reduce((s, [, v]) => s + v.c24 + v.cp + v.ss, 0);
 
+  // 오늘 광고비 (TikTok + Google) — 제품별 집계
+  const TYPE_KWMAP = { '노즈픽션':'yb','키즈픽션':'kd','템퍼픽션':'tp','아토픽션':'ato','노즈스파':'np','디오스톡':'do' };
+  const adSpendByType = {};
+  const ttHToday = window.TIKTOK_HISTORY?.[todayStr];
+  if (ttHToday) {
+    ['outcoma','ridermune'].forEach(brand => {
+      (ttHToday[brand]?.campaigns || []).forEach(c => {
+        const kwEntry = Object.entries(TYPE_KWMAP).find(([, kw]) => new RegExp(kw, 'i').test(c.name));
+        if (!kwEntry) return;
+        const ptype = kwEntry[0];
+        if (!adSpendByType[ptype]) adSpendByType[ptype] = { tt: 0, gg: 0 };
+        adSpendByType[ptype].tt += c.spend || 0;
+      });
+    });
+  }
+  const ggHToday = window.GADS_HISTORY?.[todayStr];
+  if (ggHToday) {
+    (ggHToday.campaigns || []).forEach(c => {
+      const kwEntry = Object.entries(TYPE_KWMAP).find(([, kw]) => new RegExp(`gg_${kw}_`, 'i').test(c.name));
+      if (!kwEntry) return;
+      const ptype = kwEntry[0];
+      if (!adSpendByType[ptype]) adSpendByType[ptype] = { tt: 0, gg: 0 };
+      adSpendByType[ptype].gg += c.spend || 0;
+    });
+  }
+
   // 판매처별 compact 행 생성 헬퍼
   const compactRow = (label, color, typeMap) => {
     const types = Object.entries(typeMap)
@@ -2073,10 +2099,34 @@ function renderTodayProductSales() {
     if (t.c24) parts.push(`C24 ${fmtKRW(t.c24)}`);
     if (t.cp)  parts.push(`쿠팡 ${fmtKRW(t.cp)}`);
     if (t.ss)  parts.push(`SS ${fmtKRW(t.ss)}`);
+
+    const adInfo = adSpendByType[ptype];
+    const totalAd = adInfo ? (adInfo.tt + adInfo.gg) : 0;
+    const roas = totalAd > 0 ? total / totalAd : null;
+    let adSection = '';
+    if (totalAd > 0) {
+      const roasColor = roas >= 1 ? '#3fb950' : '#f78166';
+      const adParts = [];
+      if (adInfo.tt) adParts.push(`TT ${fmtKRW(Math.round(adInfo.tt))}`);
+      if (adInfo.gg) adParts.push(`GG ${fmtKRW(Math.round(adInfo.gg))}`);
+      adSection = `<div style="margin-top:14px;padding-top:14px;border-top:1px solid #21262d20">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+          <span style="font-size:10px;color:#6e7681">광고비</span>
+          <span style="font-size:14px;font-weight:800;color:#f0883e">${fmtKRW(Math.round(totalAd))}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:10px;color:#6e7681">ROAS</span>
+          <span style="font-size:14px;font-weight:800;color:${roasColor}">${(roas*100).toFixed(0)}%</span>
+        </div>
+        <div style="font-size:10px;color:#4e5564">${adParts.join(' · ')}</div>
+      </div>`;
+    }
+
     html += `<div style="background:#0d1117;border:1px solid ${color}40;border-radius:14px;padding:22px 24px">
       <div style="font-size:11px;font-weight:700;color:${color};letter-spacing:0.08em;margin-bottom:12px">${ptype}</div>
       <div style="font-size:30px;font-weight:900;color:#f0f6fc;letter-spacing:-1px;margin-bottom:10px">${fmtKRW(total)}</div>
       <div style="font-size:10px;color:#4e5564;line-height:1.8">${parts.join(' · ')}</div>
+      ${adSection}
     </div>`;
   });
 
@@ -2809,7 +2859,6 @@ function renderTtAdSummaryTable(data, dsMap) {
     ${th("cpc","CPC",mob)}${th("spend","광고비")}${th("revenue","매출",mob)}${th("roas","ROAS")}
     <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
     ${th("ctr","CTR",mob)}${th("clicks","클릭",mob)}${th("impressions","노출",mob)}
-    <th class="${mh}">추이(7일)</th>
   </tr></thead><tbody>`;
 
   sorted.forEach(a => {
@@ -2820,12 +2869,9 @@ function renderTtAdSummaryTable(data, dsMap) {
     const sb = a.status === "active"
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
-    const spkVals = getTtAdSparkVals(a.name, 7);
-    const spkHtml = spkVals && spkVals.some(v => v > 0)
-      ? sparklineSvg(spkVals, 70, 22, null)
-      : `<span style="color:#4e5564;font-size:10px">—</span>`;
+    const adJson = JSON.stringify(a.name);
     html += `<tr>
-      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${a.name}" onclick="openAdPopup(${adJson},'tiktok')">${a.name}</td>
       <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
       <td class="${mh}">${sb}</td>
       <td class="${mh}">${a.cpc > 0 ? fmtKRW(a.cpc) : "—"}</td>
@@ -2837,7 +2883,6 @@ function renderTtAdSummaryTable(data, dsMap) {
       <td class="${mh}">${a.ctr > 0 ? a.ctr.toFixed(2) + "%" : "—"}</td>
       <td class="${mh}">${a.clicks > 0 ? a.clicks.toLocaleString() : "—"}</td>
       <td class="${mh}">${a.impressions > 0 ? a.impressions.toLocaleString() : "—"}</td>
-      <td class="${mh} spark-cell">${spkHtml}</td>
     </tr>`;
   });
   html += `</tbody></table>`;
@@ -3202,7 +3247,6 @@ function renderGads() {
       ${th("cpa","CPA")}${th("spend","광고비")}${th("roas_num","ROAS")}
       <th class="${mh}" style="color:#f0883e">직접값</th><th>직접ROAS</th>
       ${th("ctr_num","CTR",mob)}${th("conversions","전환수",mob)}${th("conv_value","전환가치",mob)}
-      <th class="${mh}">추이(7일)</th>
     </tr></thead><tbody>`;
     sortedAds.forEach(a => {
       const wRoas = a.spend > 0 ? a.roas_num / a.spend : 0;
@@ -3211,12 +3255,9 @@ function renderGads() {
       const camp  = (a.campaign || "").replace(/\(.*?\)/, '').trim();
       const dv    = lookupGadsDirect(a.campaign || a.name, dsMap);
       const dr    = dv != null && a.spend > 0 ? dv / a.spend : null;
-      const spkVals = getGadsAdSparkVals(a.name, 7);
-      const spkHtml = spkVals && spkVals.some(v => v > 0)
-        ? sparklineSvg(spkVals, 70, 22, null)
-        : `<span style="color:#4e5564;font-size:10px">—</span>`;
+      const adJson = JSON.stringify(a.name);
       html += `<tr>
-        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${a.name}" onclick="openAdPopup(${adJson},'google')">${a.name}</td>
         <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
         <td class="${mh}">${a.product || "—"}</td>
         <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
@@ -3227,7 +3268,6 @@ function renderGads() {
         <td class="${mh}">${wCtr > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
         <td class="${mh}">${a.conversions > 0 ? a.conversions.toFixed(1) : "—"}</td>
         <td class="${mh}">${a.conv_value > 0 ? fmtKRW(Math.round(a.conv_value)) : "—"}</td>
-        <td class="${mh} spark-cell">${spkHtml}</td>
       </tr>`;
     });
     html += `</tbody></table>`;
@@ -3978,6 +4018,159 @@ function renderCompare() {
   el.innerHTML = html;
 }
 
+// ══════════════════════════════════════════════════════
+// ── 소재 추이 팝업 ──
+// ══════════════════════════════════════════════════════
+
+function openAdPopup(adName, medium) {
+  const modal = document.getElementById('adPopupModal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  renderAdPopupChart(adName, medium);
+}
+
+function closeAdPopup() {
+  document.getElementById('adPopupModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAdPopup(); });
+
+function renderAdPopupChart(adName, medium) {
+  const content = document.getElementById('adPopupContent');
+  const days = 14;
+  const entries = [];
+
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    let spend = 0, revenue = 0;
+
+    if (medium === 'tiktok') {
+      ['outcoma', 'ridermune'].forEach(brand => {
+        const bd = window.TIKTOK_HISTORY?.[ds]?.[brand];
+        if (!bd) return;
+        (bd.ads || []).filter(a => a.name === adName).forEach(a => {
+          spend   += a.spend   || 0;
+          revenue += a.revenue || 0;
+        });
+      });
+    } else if (medium === 'google') {
+      const ad = (window.GADS_HISTORY?.[ds]?.ads || []).find(a => a.name === adName);
+      if (ad) { spend = ad.spend || 0; revenue = ad.conv_value || 0; }
+    }
+    entries.push({ date: ds, spend, revenue });
+  }
+
+  const totalSpend   = entries.reduce((s, e) => s + e.spend, 0);
+  const totalRevenue = entries.reduce((s, e) => s + e.revenue, 0);
+  const avgRoas      = totalSpend > 0 ? totalRevenue / totalSpend : 0;
+
+  // ── SVG 차트 ──
+  const W = 640, H = 180, PL = 62, PR = 16, PT = 16, PB = 38;
+  const cW = W - PL - PR, cH = H - PT - PB;
+  const spendVals = entries.map(e => e.spend);
+  const revVals   = entries.map(e => e.revenue);
+  const maxVal = Math.max(...spendVals, ...revVals, 1);
+  const xPos = i => PL + (i / (days - 1)) * cW;
+  const yPos = v => PT + cH - (v / maxVal) * cH;
+
+  const spendPts = entries.map((e, i) => `${xPos(i).toFixed(1)},${yPos(e.spend).toFixed(1)}`).join(' ');
+  const revPts   = entries.map((e, i) => `${xPos(i).toFixed(1)},${yPos(e.revenue).toFixed(1)}`).join(' ');
+
+  // 격자선 + y축 레이블
+  const yTicks = [0, 0.5, 1].map(f => {
+    const yv = maxVal * f;
+    const yt = (PT + cH - f * cH).toFixed(1);
+    const lbl = yv >= 10000 ? Math.round(yv / 10000) + '만' : Math.round(yv).toLocaleString();
+    return `<line x1="${PL}" y1="${yt}" x2="${W - PR}" y2="${yt}" stroke="#21262d" stroke-width="1" ${f > 0 && f < 1 ? 'stroke-dasharray="3,3"' : ''}/>
+            <text x="${PL - 4}" y="${(parseFloat(yt) + 4).toFixed(1)}" text-anchor="end" font-size="9" fill="#4e5564">${lbl}</text>`;
+  }).join('');
+
+  // x축 날짜 레이블 (2일 간격)
+  const xLabels = entries.map((e, i) => {
+    if (i % 2 !== 0 && i !== days - 1) return '';
+    return `<text x="${xPos(i).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-size="9" fill="#4e5564">${e.date.slice(5)}</text>`;
+  }).join('');
+
+  // ROAS 바 (하단 점 대신 각 날짜에 소형 표시)
+  const roasDots = entries.map((e, i) => {
+    if (e.spend <= 0) return '';
+    const r = e.revenue / e.spend;
+    const c = r >= 1 ? '#3fb950' : '#f78166';
+    return `<circle cx="${xPos(i).toFixed(1)}" cy="${yPos(e.spend).toFixed(1)}" r="3" fill="#f0883e"/>
+            <circle cx="${xPos(i).toFixed(1)}" cy="${yPos(e.revenue).toFixed(1)}" r="3" fill="#3fb950"/>`;
+  }).join('');
+
+  const svgHtml = `<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible;display:block">
+    ${yTicks}
+    <polyline fill="none" stroke="#f0883e" stroke-width="2" stroke-linejoin="round" points="${spendPts}"/>
+    <polyline fill="none" stroke="#3fb950" stroke-width="2" stroke-linejoin="round" points="${revPts}"/>
+    ${roasDots}
+    ${xLabels}
+  </svg>`;
+
+  const medLabel = medium === 'tiktok' ? 'TikTok' : 'Google';
+
+  // ── 날짜별 상세 테이블 (최신순, spend > 0인 날만) ──
+  const tableRows = [...entries].reverse().filter(e => e.spend > 0).map(e => {
+    const r = e.spend > 0 ? (e.revenue / e.spend * 100).toFixed(0) : 0;
+    const rc = r >= 100 ? '#3fb950' : '#f78166';
+    return `<tr style="border-top:1px solid #161b22">
+      <td style="padding:7px 10px;color:#8b949e;font-size:12px">${e.date}</td>
+      <td style="padding:7px 10px;text-align:right;font-size:12px;color:#f0883e">${fmtKRW(Math.round(e.spend))}</td>
+      <td style="padding:7px 10px;text-align:right;font-size:12px;color:#3fb950">${e.revenue > 0 ? fmtKRW(Math.round(e.revenue)) : '—'}</td>
+      <td style="padding:7px 10px;text-align:right;font-size:12px;font-weight:700;color:${rc}">${r > 0 ? r + '%' : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  content.innerHTML = `
+    <div style="margin-bottom:20px">
+      <div style="font-size:10px;color:#6e7681;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">${medLabel} · 소재 추이</div>
+      <div style="font-size:15px;font-weight:700;color:#f0f6fc;word-break:break-all;line-height:1.4">${adName}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px">
+      <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
+        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">14일 광고비</div>
+        <div style="font-size:20px;font-weight:800;color:#f0883e">${fmtKRW(Math.round(totalSpend))}</div>
+      </div>
+      <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
+        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">14일 매출</div>
+        <div style="font-size:20px;font-weight:800;color:#3fb950">${fmtKRW(Math.round(totalRevenue))}</div>
+      </div>
+      <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
+        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">평균 ROAS</div>
+        <div style="font-size:20px;font-weight:800;color:${avgRoas >= 1 ? '#3fb950' : (avgRoas > 0 ? '#f78166' : '#4e5564')}">${avgRoas > 0 ? (avgRoas * 100).toFixed(0) + '%' : '—'}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;margin-bottom:10px">
+      <span style="font-size:11px;color:#8b949e;display:flex;align-items:center;gap:6px">
+        <span style="display:inline-block;width:20px;height:2px;background:#f0883e;border-radius:2px;vertical-align:middle"></span>광고비
+      </span>
+      <span style="font-size:11px;color:#8b949e;display:flex;align-items:center;gap:6px">
+        <span style="display:inline-block;width:20px;height:2px;background:#3fb950;border-radius:2px;vertical-align:middle"></span>매출
+      </span>
+    </div>
+    <div style="background:#0d1117;border-radius:10px;padding:16px 10px;margin-bottom:20px">${svgHtml}</div>
+    ${tableRows ? `<table style="width:100%;border-collapse:collapse;background:#0d1117;border-radius:10px;overflow:hidden">
+      <thead><tr style="background:#161b22">
+        <th style="padding:8px 10px;text-align:left;font-size:11px;color:#4e5564;font-weight:500">날짜</th>
+        <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">광고비</th>
+        <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">매출</th>
+        <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">ROAS</th>
+      </thead><tbody>${tableRows}</tbody></table>` : `<div style="text-align:center;color:#4e5564;padding:20px;font-size:13px">최근 14일간 데이터 없음</div>`}`;
+}
+
 </script>
+
+<!-- 소재 추이 팝업 모달 -->
+<div id="adPopupModal" onclick="if(event.target===this)closeAdPopup()" style="display:none;position:fixed;inset:0;z-index:9999;background:#00000088;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto">
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:20px;width:min(720px,100%);position:relative;padding:32px 32px 28px">
+    <button onclick="closeAdPopup()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:#6e7681;font-size:22px;cursor:pointer;line-height:1;padding:4px 8px;border-radius:6px;transition:background .15s" onmouseover="this.style.background='#21262d'" onmouseout="this.style.background='none'">✕</button>
+    <div id="adPopupContent"></div>
+  </div>
+</div>
+
 </body>
 </html>
