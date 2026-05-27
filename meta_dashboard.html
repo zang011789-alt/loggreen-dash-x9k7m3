@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2026-05-27e 소재팝업 밑줄제거+Meta로딩 0.9초(서버필터+병렬+캐시) -->
+<!-- v2026-05-27f CPA색상방향(낮을수록녹색)+직접값/직접ROAS탭 -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -4089,19 +4089,21 @@ function popupArg(name) {
   return `'${attr}'`;
 }
 
-// 메트릭 정의 (entry → 값 계산 + 포맷)
+// 메트릭 정의 (entry → 값 계산 + 포맷). better: 높을수록 좋음(high) / 낮을수록 좋음(low) / 중립(neutral)
 const POPUP_METRICS = {
-  roas:    { label: 'ROAS',    fmt: v => v.toFixed(0) + '%',          calc: e => e.spend > 0 ? e.revenue / e.spend * 100 : null },
-  cpa:     { label: 'CPA',     fmt: v => fmtKRW(Math.round(v)),        calc: e => e.conv > 0 ? e.spend / e.conv : null },
-  spend:   { label: '광고비',   fmt: v => fmtKRW(Math.round(v)),        calc: e => e.spend },
-  revenue: { label: '매출',     fmt: v => fmtKRW(Math.round(v)),        calc: e => e.revenue },
-  ctr:     { label: 'CTR',     fmt: v => v.toFixed(2) + '%',          calc: e => e.ctr },
-  cvr:     { label: 'CVR',     fmt: v => v.toFixed(2) + '%',          calc: e => e.clicks > 0 ? e.conv / e.clicks * 100 : null },
-  cpc:     { label: 'CPC',     fmt: v => fmtKRW(Math.round(v)),        calc: e => e.clicks > 0 ? e.spend / e.clicks : null },
-  cpm:     { label: 'CPM',     fmt: v => fmtKRW(Math.round(v)),        calc: e => e.impr > 0 ? e.spend / e.impr * 1000 : null },
-  cart:    { label: '장바구니', fmt: v => Math.round(v).toLocaleString(), calc: e => e.cart },
+  roas:       { label: 'ROAS',     fmt: v => v.toFixed(0) + '%',          calc: e => e.spend > 0 ? e.revenue / e.spend * 100 : null, better: 'high' },
+  directRoas: { label: '직접ROAS',  fmt: v => v.toFixed(0) + '%',          calc: e => e.spend > 0 ? e.direct / e.spend * 100 : null, better: 'high' },
+  cpa:        { label: 'CPA',      fmt: v => fmtKRW(Math.round(v)),        calc: e => e.conv > 0 ? e.spend / e.conv : null, better: 'low' },
+  spend:      { label: '광고비',    fmt: v => fmtKRW(Math.round(v)),        calc: e => e.spend, better: 'neutral' },
+  revenue:    { label: '매출',      fmt: v => fmtKRW(Math.round(v)),        calc: e => e.revenue, better: 'high' },
+  direct:     { label: '직접값',    fmt: v => fmtKRW(Math.round(v)),        calc: e => e.direct, better: 'high' },
+  ctr:        { label: 'CTR',      fmt: v => v.toFixed(2) + '%',          calc: e => e.ctr, better: 'high' },
+  cvr:        { label: 'CVR',      fmt: v => v.toFixed(2) + '%',          calc: e => e.clicks > 0 ? e.conv / e.clicks * 100 : null, better: 'high' },
+  cpc:        { label: 'CPC',      fmt: v => fmtKRW(Math.round(v)),        calc: e => e.clicks > 0 ? e.spend / e.clicks : null, better: 'low' },
+  cpm:        { label: 'CPM',      fmt: v => fmtKRW(Math.round(v)),        calc: e => e.impr > 0 ? e.spend / e.impr * 1000 : null, better: 'low' },
+  cart:       { label: '장바구니',  fmt: v => Math.round(v).toLocaleString(), calc: e => e.cart, better: 'high' },
 };
-// 매체별 가용 메트릭 탭
+// 매체별 가용 메트릭 탭 (직접값/직접ROAS는 Cafe24 데이터 있을 때만 동적 추가)
 const MEDIUM_METRICS = {
   meta:   ['roas','cpa','spend','revenue','ctr','cvr','cpc','cpm','cart'],
   tiktok: ['roas','cpa','spend','revenue','ctr','cpc','cpm'],
@@ -4130,7 +4132,7 @@ async function openAdPopup(adName, medium) {
     entries = await fetchMetaAdDaily(adName, dates);
   } else if (medium === 'tiktok') {
     entries = dates.map(ds => {
-      const e = { date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0 };
+      const e = { date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0, direct: 0 };
       ['outcoma', 'ridermune'].forEach(brand => {
         const bd = window.TIKTOK_HISTORY?.[ds]?.[brand];
         if (!bd) return;
@@ -4145,7 +4147,7 @@ async function openAdPopup(adName, medium) {
     });
   } else { // google
     entries = dates.map(ds => {
-      const e = { date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0 };
+      const e = { date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0, direct: 0 };
       const ads = (window.GADS_HISTORY?.[ds]?.ads || []).filter(a => a.name === adName);
       ads.forEach(a => { e.spend += a.spend || 0; e.revenue += a.conv_value || 0; e.conv += a.conversions || 0; });
       if (ads[0]) e.ctr = ads[0].ctr || 0;
@@ -4153,7 +4155,18 @@ async function openAdPopup(adName, medium) {
     });
   }
 
-  _adPopupState = { adName, medium, entries, metric: 'roas' };
+  // 직접값(Cafe24 직접 전환매출)을 일별로 채움 — 매체 공통
+  let hasDirect = false;
+  if (window.CAFE24_HISTORY && currentBrand) {
+    const dsMapByDate = buildDirectSalesMapByDate(true);
+    entries.forEach(e => {
+      const dv = lookupDirectSales(adName, true, dsMapByDate[e.date] || {});
+      if (dv != null) { e.direct = dv; hasDirect = true; }
+      else if (e.direct == null) e.direct = 0;
+    });
+  }
+
+  _adPopupState = { adName, medium, entries, metric: 'roas', hasDirect };
   renderAdPopupBody();
 }
 
@@ -4225,9 +4238,20 @@ async function fetchMetaAdDaily(adName, dates) {
 }
 
 function renderAdPopupBody() {
-  const { adName, medium, entries, metric } = _adPopupState;
+  const { adName, medium, entries, metric, hasDirect } = _adPopupState;
   const content = document.getElementById('adPopupContent');
-  const tabs = MEDIUM_METRICS[medium] || ['roas', 'spend', 'revenue'];
+  let tabs = [...(MEDIUM_METRICS[medium] || ['roas', 'spend', 'revenue'])];
+  // 직접값/직접ROAS는 Cafe24 데이터가 있을 때만 탭 추가 (매출 옆에 직접값, ROAS 옆에 직접ROAS)
+  if (hasDirect) {
+    if (!tabs.includes('direct')) {
+      const ri = tabs.indexOf('revenue');
+      tabs.splice(ri >= 0 ? ri + 1 : tabs.length, 0, 'direct');
+    }
+    if (!tabs.includes('directRoas')) {
+      const ti = tabs.indexOf('roas');
+      tabs.splice(ti >= 0 ? ti + 1 : tabs.length, 0, 'directRoas');
+    }
+  }
   const M = POPUP_METRICS[metric];
   const medLabel = medium === 'tiktok' ? 'TikTok' : medium === 'meta' ? 'Meta' : 'Google';
 
@@ -4256,10 +4280,16 @@ function renderAdPopupBody() {
       <div style="font-size:11px;color:#6e7681;margin-bottom:6px">${label}</div>
       <div style="font-size:21px;font-weight:800;color:${color}">${val}</div>
     </div>`;
+  // 좋은 방향에 따라 최고/최저 색 결정 (CPA/CPC/CPM은 낮을수록 좋음)
+  const GOOD = '#3fb950', BAD = '#f78166', NEUTRAL = '#8b949e';
+  let hiColor, loColor;
+  if (M.better === 'low')       { hiColor = BAD;     loColor = GOOD; }
+  else if (M.better === 'high') { hiColor = GOOD;    loColor = BAD;  }
+  else                          { hiColor = NEUTRAL; loColor = NEUTRAL; }
   const kpiHtml = `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 22px">
     ${kpi('평균 ' + M.label, vals.length ? M.fmt(avg) : '—', '#f0f6fc')}
-    ${kpi('최고', vals.length ? M.fmt(mx) : '—', '#3fb950')}
-    ${kpi('최저', vals.length ? M.fmt(mn) : '—', '#f78166')}
+    ${kpi('최고', vals.length ? M.fmt(mx) : '—', hiColor)}
+    ${kpi('최저', vals.length ? M.fmt(mn) : '—', loColor)}
     ${kpi('일수', vals.length + '일', '#a371f7')}
   </div>`;
 
