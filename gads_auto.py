@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Google Ads 캠페인 데이터 수집 (DOM 스크래핑)
-포트 9223 / user-data-dir: C:\Temp\chrome_gg
+포트 9223 / user-data-dir: C:\Temp\chrome_gads_profile
 실행: python gads_auto.py [YYYY-MM-DD [YYYY-MM-DD]] [--no-push]
 """
 import sys, json, os, re, time, socket, subprocess, argparse
@@ -11,7 +11,7 @@ SCRIPT_DIR  = r"C:\Users\zang0\Desktop\my-site"
 JSON_PATH   = os.path.join(SCRIPT_DIR, "gads_history.json")
 JS_PATH     = os.path.join(SCRIPT_DIR, "gads_history.js")
 CHROME_EXE  = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-USER_DATA   = r"C:\Temp\chrome_gg"
+USER_DATA   = r"C:\Temp\chrome_gads_profile"
 DEBUG_PORT  = 9223
 MAX_DAYS    = 180
 
@@ -52,7 +52,7 @@ def _kill_chrome(port):
     try:
         subprocess.run(
             ["powershell", "-Command",
-             f"Get-CimInstance Win32_Process | Where-Object {{$_.CommandLine -like '*chrome_gg*'}} | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}"],
+             f"Get-CimInstance Win32_Process | Where-Object {{$_.CommandLine -like '*chrome_gads_profile*'}} | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }}"],
             capture_output=True, timeout=10
         )
     except:
