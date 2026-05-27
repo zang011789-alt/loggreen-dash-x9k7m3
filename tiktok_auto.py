@@ -17,7 +17,7 @@ SITE_DIR     = r"C:\Users\zang0\Desktop\my-site"
 
 BRANDS = {
     "outcoma":  {
-        "adv_id":   "7556508952121393153",
+        "adv_id":   "7642243611500806165",  # 아웃코마3 (2026-05-27 이전: 7556508952121393153)
         "label":    "아웃코마",
         "camp_pat": r'(tk_do|TK_DO|do_|spc_)',
     },
@@ -56,7 +56,9 @@ def parse_num(s):
 def apply_custom_columns(page):
     try:
         page.wait_for_timeout(2000)
-        page.locator('text="Custom Columns"').first.click()
+        # 영문/한국어 UI 모두 지원
+        btn = page.locator('text="Custom Columns"').or_(page.locator('text="사용자 지정 열"'))
+        btn.first.click()
         page.wait_for_timeout(1000)
         page.locator('text="장동훈"').first.click()
         page.wait_for_timeout(2500)
@@ -75,7 +77,6 @@ def scrape_campaigns(page, camp_pat):
 
     text  = page.evaluate("document.body.innerText")
     lines = [l.strip() for l in text.split('\n') if l.strip()]
-
     campaigns = []
     i = 0
     while i < len(lines):
@@ -85,7 +86,8 @@ def scrape_campaigns(page, camp_pat):
         try:
             name       = line
             status_raw = lines[i+1] if i+1 < len(lines) else ''
-            if status_raw not in ('Active', 'Paused', 'Deleted', 'Not delivering'):
+            if status_raw not in ('Active', 'Paused', 'Deleted', 'Not delivering',
+                               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중'):
                 i += 1; continue
 
             offset = 2
@@ -103,7 +105,7 @@ def scrape_campaigns(page, camp_pat):
 
             camp = {
                 'name':        name,
-                'status':      'active' if status_raw == 'Active' else 'paused',
+                'status':      'active' if status_raw in ('Active', '게재 중', '학습 중') else 'paused',
                 'budget':      parse_krw(gl(0)),
                 'cpa':         parse_krw(gl(2)),
                 'spend':       parse_krw(gl(3)),
@@ -149,7 +151,8 @@ def _parse_ads_lines(lines):
         try:
             name       = line
             status_raw = lines[i+1] if i+1 < len(lines) else ''
-            if status_raw not in ('Active', 'Paused', 'Deleted', 'Not delivering'):
+            if status_raw not in ('Active', 'Paused', 'Deleted', 'Not delivering',
+                               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중'):
                 i += 1; continue
 
             camp_name   = ''
@@ -172,7 +175,7 @@ def _parse_ads_lines(lines):
             ad = {
                 'name':        name,
                 'campaign':    camp_name,
-                'status':      'active' if status_raw == 'Active' else 'paused',
+                'status':      'active' if status_raw in ('Active', '게재 중', '학습 중') else 'paused',
                 'cpa':         parse_krw(gv(0)),
                 'spend':       parse_krw(gv(1)),
                 'revenue':     parse_krw(gv(2)),
@@ -197,7 +200,8 @@ def _sort_by_cost_desc(page):
     """
     try:
         page.wait_for_timeout(500)
-        els = page.get_by_text("Cost", exact=True)
+        # 영어 UI: "Cost", 한국어 UI: "비용"
+        els = page.get_by_text("Cost", exact=True).or_(page.get_by_text("비용", exact=True))
         n = els.count()
         for i in range(n):
             el = els.nth(i)
@@ -206,9 +210,9 @@ def _sort_by_cost_desc(page):
             if bb and 30 < bb['y'] < 300 and bb['width'] < 150:
                 el.click(); page.wait_for_timeout(1000)
                 el.click(); page.wait_for_timeout(1500)  # 두 번 → 내림차순
-                print(f"  Cost 헤더 클릭 완료 (y={bb['y']:.0f})", flush=True)
+                print(f"  Cost/비용 헤더 클릭 완료 (y={bb['y']:.0f})", flush=True)
                 return True
-        print("  [경고] Cost 헤더 못찾음 — 정렬 없이 진행", flush=True)
+        print("  [경고] Cost/비용 헤더 못찾음 — 정렬 없이 진행", flush=True)
         return False
     except Exception as e:
         print(f"  Cost 정렬 실패(무시): {e}", flush=True)
@@ -294,7 +298,7 @@ def scrape_ads(page):
 
 # ── 수집 ──────────────────────────────────────────────
 def collect_day(page, target_date_str, brand="outcoma"):
-    """단일 날짜·브랜드 하루치 수집"""
+    """단일 날짜·브랜드 하루치 수집. 로그인 페이지 감지 시 None 반환."""
     cfg   = BRANDS[brand]
     label = cfg["label"]
     url   = (f"https://ads.tiktok.com/i18n/manage/campaign"
@@ -304,6 +308,11 @@ def collect_day(page, target_date_str, brand="outcoma"):
     except Exception as e:
         print(f"  [{label}/{target_date_str}] 이동 오류(무시): {e}", flush=True)
     page.wait_for_timeout(3000)
+
+    # 로그인 페이지 감지
+    if "/login" in page.url or "/i18n/login" in page.url:
+        print(f"  [{label}/{target_date_str}] ⚠️  TikTok 로그인 필요 — 수집 스킵 (chrome_tt2 프로필에서 수동 로그인 필요)", flush=True)
+        return None
 
     apply_custom_columns(page)
     campaigns = scrape_campaigns(page, cfg["camp_pat"])
@@ -337,7 +346,7 @@ def collect_day(page, target_date_str, brand="outcoma"):
 def load_history():
     if not os.path.exists(HISTORY_JSON):
         return {}
-    with open(HISTORY_JSON, "r", encoding="utf-8") as f:
+    with open(HISTORY_JSON, "r", encoding="utf-8-sig") as f:
         h = json.load(f)
     # 구형식 마이그레이션: h[date] 직접 scraped_at → h[date]["outcoma"]
     for date_key, v in list(h.items()):
@@ -362,38 +371,28 @@ def save_history(history):
     print(f"  저장 완료 ({len(history)}개 날짜)", flush=True)
 
 def git_push():
-    try:
-        subprocess.run(["git", "-C", SITE_DIR, "add", "tiktok_history.js"], capture_output=True, timeout=30)
-        subprocess.run(["git", "-C", SITE_DIR, "commit", "-m", f"tiktok auto {datetime.now().strftime('%Y-%m-%d %H:%M')}"], capture_output=True, timeout=30)
-        r = subprocess.run(["git", "-C", SITE_DIR, "push"], capture_output=True, text=True, timeout=60)
-        print(f"  git push: {'OK' if r.returncode == 0 else r.stderr[:80]}", flush=True)
-    except Exception as e:
-        print(f"  git push 실패: {e}", flush=True)
+    print("  git push 생략 (push_all.py에서 통합 처리)", flush=True)
 
 CHROME_EXE = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 CHROME_DIR = r"C:\Temp\chrome_tt2"
 
 def _kill_debug_chrome():
     """포트 9222로 뜬 Chrome 프로세스 강제 종료"""
-    import wmi
-    try:
-        c = wmi.WMI()
-        for p in c.Win32_Process(name="chrome.exe"):
-            if p.CommandLine and ("9222" in p.CommandLine or "chrome_tt2" in p.CommandLine):
-                p.Terminate()
-    except Exception:
-        subprocess.run(
-            ["powershell", "-Command",
-             "Get-WmiObject Win32_Process | Where-Object { $_.CommandLine -match '9222|chrome_tt2' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -EA SilentlyContinue }"],
-            capture_output=True, timeout=10
-        )
+    subprocess.run(
+        ["powershell", "-Command",
+         "Get-WmiObject Win32_Process | Where-Object { $_.CommandLine -match '9222|chrome_tt2' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"],
+        capture_output=True, timeout=10
+    )
 
 def _start_chrome():
     """Chrome 디버그 모드로 실행"""
     import time
     subprocess.Popen([CHROME_EXE, "--remote-debugging-port=9222",
                       f"--user-data-dir={CHROME_DIR}",
-                      "--no-first-run", "--no-default-browser-check"])
+                      "--no-first-run", "--no-default-browser-check",
+                      "--remote-allow-origins=*",
+                      "--start-minimized", "--window-position=-9999,-9999"],
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(5)
 
 def ensure_chrome():
@@ -443,6 +442,8 @@ def run(dates_to_collect, brands_to_collect=None, skip_push=False):
             for d in dates_to_collect:
                 d_str = d.isoformat() if hasattr(d, 'isoformat') else d
                 data  = collect_day(page, d_str, brand)
+                if data is None:
+                    continue  # 로그인 페이지 → 저장 스킵
                 if d_str not in history:
                     history[d_str] = {}
                 history[d_str][brand] = data
