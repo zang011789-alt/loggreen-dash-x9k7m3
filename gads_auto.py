@@ -65,6 +65,8 @@ def _start_chrome():
         f"--user-data-dir={USER_DATA}",
         "--no-first-run",
         "--no-default-browser-check",
+        "--start-minimized",
+        "--window-position=-9999,-9999",
     ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(4)
 
@@ -741,13 +743,7 @@ def save_history(history):
     print(f"  저장 완료 ({len(history)}개 날짜)")
 
 def git_push():
-    try:
-        subprocess.run(["git", "-C", SCRIPT_DIR, "add", "gads_history.js"], timeout=15)
-        subprocess.run(["git", "-C", SCRIPT_DIR, "commit", "-m", "auto: gads history update"], timeout=15)
-        subprocess.run(["git", "-C", SCRIPT_DIR, "push"], timeout=30)
-        print("  git push 완료")
-    except Exception as e:
-        print(f"  git push 실패: {e}")
+    print("  git push 생략 (push_all.py에서 통합 처리)")
 
 # ── 진입점 ────────────────────────────────────────────────────
 def main():
@@ -808,6 +804,13 @@ def main():
             ds = target_date.isoformat()
             try:
                 data = collect_day(page, target_date)
+                # ── 소진 이상치 체크: 전날 대비 5배 초과면 날짜 설정 오류 의심 ──
+                yest_ds = (target_date - timedelta(days=1)).isoformat()
+                yest_spend = history.get(yest_ds, {}).get('summary', {}).get('spend', 0)
+                today_spend = data.get('summary', {}).get('spend', 0) if data else 0
+                if yest_spend > 10000 and today_spend > yest_spend * 5:
+                    print(f"  [경고] {ds} 소진({today_spend:,.0f})이 전날({yest_spend:,.0f})의 5배 초과 — 날짜 설정 오류 의심, 저장 건너뜀")
+                    continue
                 history[ds] = data
             except Exception as e:
                 print(f"  [{ds}] 오류: {e}")

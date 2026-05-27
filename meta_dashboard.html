@@ -2033,9 +2033,25 @@ function renderTodayProductSales() {
 
   const grandTotal = typeSorted.reduce((s, [, v]) => s + v.c24 + v.cp + v.ss, 0);
 
-  // 오늘 광고비 (TikTok + Google) — 제품별 집계
+  // 오늘 광고비 (Meta + TikTok + Google) — 제품별 집계
   const TYPE_KWMAP = { '노즈픽션':'yb','키즈픽션':'kd','템퍼픽션':'tp','아토픽션':'ato','노즈스파':'np','디오스톡':'do' };
   const adSpendByType = {};
+
+  // Meta (allData — "오늘" 프리셋으로 로드된 경우에만 유효)
+  const metaIsToday = dateConfig && dateConfig.preset === 'today';
+  if (metaIsToday && Array.isArray(allData) && allData.length > 0) {
+    allData.forEach(c => {
+      const spend = parseFloat(c.spend) || 0;
+      if (!spend) return;
+      const kwEntry = Object.entries(TYPE_KWMAP).find(([, kw]) => new RegExp(kw, 'i').test(c.name));
+      if (!kwEntry) return;
+      const ptype = kwEntry[0];
+      if (!adSpendByType[ptype]) adSpendByType[ptype] = { meta: 0, tt: 0, gg: 0 };
+      adSpendByType[ptype].meta += spend;
+    });
+  }
+
+  // TikTok
   const ttHToday = window.TIKTOK_HISTORY?.[todayStr];
   if (ttHToday) {
     ['outcoma','ridermune'].forEach(brand => {
@@ -2043,18 +2059,24 @@ function renderTodayProductSales() {
         const kwEntry = Object.entries(TYPE_KWMAP).find(([, kw]) => new RegExp(kw, 'i').test(c.name));
         if (!kwEntry) return;
         const ptype = kwEntry[0];
-        if (!adSpendByType[ptype]) adSpendByType[ptype] = { tt: 0, gg: 0 };
+        if (!adSpendByType[ptype]) adSpendByType[ptype] = { meta: 0, tt: 0, gg: 0 };
         adSpendByType[ptype].tt += c.spend || 0;
       });
     });
   }
-  const ggHToday = window.GADS_HISTORY?.[todayStr];
-  if (ggHToday) {
+
+  // Google (이상치 감지: 전날 대비 5배 초과 시 사용 안 함)
+  const ggHToday    = window.GADS_HISTORY?.[todayStr];
+  const ggHYest     = window.GADS_HISTORY?.[yesterStr];
+  const ggYestSpend = ggHYest ? (ggHYest.summary?.spend || 0) : 0;
+  const ggTodaySpend= ggHToday ? (ggHToday.summary?.spend || 0) : 0;
+  const ggOk        = !(ggYestSpend > 10000 && ggTodaySpend > ggYestSpend * 5);
+  if (ggHToday && ggOk) {
     (ggHToday.campaigns || []).forEach(c => {
       const kwEntry = Object.entries(TYPE_KWMAP).find(([, kw]) => new RegExp(`gg_${kw}_`, 'i').test(c.name));
       if (!kwEntry) return;
       const ptype = kwEntry[0];
-      if (!adSpendByType[ptype]) adSpendByType[ptype] = { tt: 0, gg: 0 };
+      if (!adSpendByType[ptype]) adSpendByType[ptype] = { meta: 0, tt: 0, gg: 0 };
       adSpendByType[ptype].gg += c.spend || 0;
     });
   }
@@ -2090,6 +2112,7 @@ function renderTodayProductSales() {
       <span style="font-size:10px;color:#3a4050">${updateLabel} · C24(오늘) + 쿠팡(${cpLabel}) + SS(${ssLabel}) · 30분 갱신</span>
     </div>
     <div style="font-size:44px;font-weight:900;color:#f0f6fc;letter-spacing:-2px;line-height:1;margin-bottom:22px">${fmtKRW(grandTotal)}</div>
+    ${!metaIsToday ? `<div style="font-size:10px;color:#4e5564;margin-bottom:10px">※ 카드 하단 광고비: 메타 탭에서 브랜드·<b style="color:#f0f6fc">오늘</b> 선택 후 새로고침 시 메타 소진 포함</div>` : ''}
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">`;
 
   typeSorted.forEach(([ptype, t]) => {
@@ -2101,15 +2124,16 @@ function renderTodayProductSales() {
     if (t.ss)  parts.push(`SS ${fmtKRW(t.ss)}`);
 
     const adInfo = adSpendByType[ptype];
-    const totalAd = adInfo ? (adInfo.tt + adInfo.gg) : 0;
+    const totalAd = adInfo ? ((adInfo.meta || 0) + adInfo.tt + adInfo.gg) : 0;
     const roas = totalAd > 0 ? total / totalAd : null;
     let adSection = '';
     if (totalAd > 0) {
       const roasColor = roas >= 1 ? '#3fb950' : '#f78166';
       const adParts = [];
-      if (adInfo.tt) adParts.push(`TT ${fmtKRW(Math.round(adInfo.tt))}`);
-      if (adInfo.gg) adParts.push(`GG ${fmtKRW(Math.round(adInfo.gg))}`);
-      adSection = `<div style="margin-top:14px;padding-top:14px;border-top:1px solid #21262d20">
+      if (adInfo.meta) adParts.push(`메타 ${fmtKRW(Math.round(adInfo.meta))}`);
+      if (adInfo.tt)   adParts.push(`TT ${fmtKRW(Math.round(adInfo.tt))}`);
+      if (adInfo.gg)   adParts.push(`GG ${fmtKRW(Math.round(adInfo.gg))}`);
+      adSection = `<div style="margin-top:14px;padding-top:14px;border-top:1px solid #21262d40">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
           <span style="font-size:10px;color:#6e7681">광고비</span>
           <span style="font-size:14px;font-weight:800;color:#f0883e">${fmtKRW(Math.round(totalAd))}</span>
@@ -2118,7 +2142,7 @@ function renderTodayProductSales() {
           <span style="font-size:10px;color:#6e7681">ROAS</span>
           <span style="font-size:14px;font-weight:800;color:${roasColor}">${(roas*100).toFixed(0)}%</span>
         </div>
-        <div style="font-size:10px;color:#4e5564">${adParts.join(' · ')}</div>
+        <div style="font-size:9px;color:#4e5564;line-height:1.7">${adParts.join(' · ')}</div>
       </div>`;
     }
 
