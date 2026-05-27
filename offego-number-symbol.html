@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>OFFEGO — Number Symbol Direction</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #080808;
+    color: #f0f0f0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding: 60px 40px 100px;
+  }
+  .header {
+    margin-bottom: 72px;
+  }
+  .header-label {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header-title {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: #444;
+    border-left: 2px solid #222;
+    padding-left: 14px;
+    line-height: 1.7;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    margin-top: 72px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+
+  .card {
+    background: #0f0f0f;
+    padding: 44px 32px 32px;
+    position: relative;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card.dark { background: #000; }
+  .card.white { background: #f0f0f0; }
+  .card.white .card-num { color: #bbb; }
+  .card.white .card-title { color: #111; }
+  .card.white .card-desc { color: #888; }
+  .card.lime { background: #c8ff00; }
+  .card.lime .card-num { color: #8ab000; }
+  .card.lime .card-title { color: #111; }
+  .card.lime .card-desc { color: #5a7500; }
+
+  .card.span2 { grid-column: span 2; }
+  .card.span3 { grid-column: span 3; }
+
+  .card-num {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: #2a2a2a;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .symbol-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0 28px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: #ddd;
+  }
+  .card-desc {
+    font-size: 11.5px;
+    line-height: 1.9;
+    color: #444;
+  }
+  .card-desc b { color: #777; font-weight: 600; }
+
+  /* ─────────────────────────────── */
+  /* BIG NUMBER — raw CSS type       */
+  /* ─────────────────────────────── */
+  .big-num {
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .big-num.invert { transform: rotate(180deg); display: inline-block; }
+  .big-num.flip-h { transform: scaleX(-1); display: inline-block; }
+  .big-num.flip-v { transform: scaleY(-1); display: inline-block; }
+  .big-num.tilt { transform: rotate(-15deg); display: inline-block; }
+  .big-num.tilt2 { transform: rotate(90deg); display: inline-block; }
+
+  .num-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0.85;
+  }
+  .num-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">OFFEGO / Symbol Direction 02</div>
+  <div class="header-title">NUMBERS DON'T LIE.<br>BUT THEY CAN REBEL.</div>
+  <div class="header-sub">
+    숫자를 뒤집고, 조합하고, 부수고, 다시 읽는다.<br>
+    반항은 새로운 기호를 만드는 것에서 시작한다.
+  </div>
+</div>
+
+<!-- ── SECTION 1: ZERO AS EGO ── -->
+<div class="section-label">01 — ZERO = EGO</div>
+<div class="grid">
+
+  <div class="card dark">
+    <div class="card-num">01-A / OFF + 0</div>
+    <div class="symbol-area">
+      <svg width="200" height="120" viewBox="0 0 200 120">
+        <text x="100" y="98" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="88" fill="#f0f0f0" letter-spacing="-4">
+          OFF<tspan fill="#c8ff00">0</tspan>
+        </text>
+      </svg>
+    </div>
+    <div class="card-title">OFF + ZERO</div>
+    <div class="card-desc">
+      OFFEGO의 EGO → <b>숫자 0</b>으로 치환.<br>
+      "자아를 꺼서 0으로 만든다"는 의미를 로고 자체에 박아버림.
+    </div>
+  </div>
+
+  <div class="card white">
+    <div class="card-num">01-B / EGO = 0</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <text x="100" y="105" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="72" fill="#111" letter-spacing="-2">
+          EG<tspan text-decoration="line-through">0</tspan>
+        </text>
+        <line x1="130" y1="28" x2="168" y2="108" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="card-title">EGO Strikethrough</div>
+    <div class="card-desc">
+      EGO 마지막 글자 O를 숫자 <b>0으로 바꾸고</b> 취소선.<br>
+      "내가 0이다 = 그들이 만든 나를 지운다"
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">01-C / ∅ NULL</div>
+    <div class="symbol-area">
+      <svg width="180" height="130" viewBox="0 0 180 130">
+        <circle cx="90" cy="62" r="52" fill="none" stroke="#f0f0f0" stroke-width="7"/>
+        <line x1="38" y1="18" x2="142" y2="108" stroke="#f0f0f0" stroke-width="7" stroke-linecap="round"/>
+        <text x="90" y="126" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="700"
+          font-size="10" fill="#333" letter-spacing="6">OFFEGO</text>
+      </svg>
+    </div>
+    <div class="card-title">∅ Null Symbol</div>
+    <div class="card-desc">
+      수학에서 "공집합"을 뜻하는 기호.<br>
+      <b>자아가 텅 빈 상태</b>. 비어있음이 자유.
+    </div>
+  </div>
+
+  <div class="card lime">
+    <div class="card-num">01-D / −0</div>
+    <div class="symbol-area">
+      <svg width="180" height="120" viewBox="0 0 180 120">
+        <text x="90" y="98" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="100" fill="#111" letter-spacing="-6">
+          −0
+        </text>
+      </svg>
+    </div>
+    <div class="card-title">Minus Zero</div>
+    <div class="card-desc">
+      수학적으로 의미 없는 기호.<br>
+      <b>규칙 밖에 존재</b>하는 OFFEGO의 포지션.
+    </div>
+  </div>
+
+</div>
+
+<!-- ── SECTION 2: FLIPPED / INVERTED ── -->
+<div class="section-label">02 — FLIPPED & INVERTED</div>
+<div class="grid-3">
+
+  <div class="card">
+    <div class="card-num">02-A / 6 ↔ 9</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <!-- 6 normal -->
+        <text x="52" y="108" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="100" fill="#f0f0f0">6</text>
+        <!-- divider -->
+        <line x1="100" y1="15" x2="100" y2="115" stroke="#222" stroke-width="1.5"/>
+        <!-- 9 = 6 flipped -->
+        <text x="150" y="108" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="100" fill="#c8ff00">9</text>
+        <!-- small label -->
+        <text x="100" y="128" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="700"
+          font-size="8" fill="#333" letter-spacing="4">SAME / DIFFERENT</text>
+      </svg>
+    </div>
+    <div class="card-title">6 / 9 Duality</div>
+    <div class="card-desc">
+      보는 방향에 따라 <b>6이 9가 되고, 9가 6이 된다.</b><br>
+      관점을 뒤집는 것 = 반항의 시작.<br>
+      로고 단독 심볼 후보 중 가장 간결함.
+    </div>
+  </div>
+
+  <div class="card dark">
+    <div class="card-num">02-B / 1 뒤집기</div>
+    <div class="symbol-area">
+      <svg width="200" height="140" viewBox="0 0 200 140">
+        <!-- upside down 1 -->
+        <g transform="translate(100, 70)">
+          <!-- serif style 1 inverted -->
+          <text x="0" y="0" text-anchor="middle"
+            font-family="Georgia, serif" font-weight="900"
+            font-size="110" fill="#f0f0f0"
+            transform="scale(1,-1) translate(0,10)">1</text>
+        </g>
+        <text x="100" y="132" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="700"
+          font-size="9" fill="#333" letter-spacing="5">THE ONLY ONE</text>
+      </svg>
+    </div>
+    <div class="card-title">Inverted 1</div>
+    <div class="card-desc">
+      "1"은 개인, 유일, 독립의 상징.<br>
+      <b>거꾸로 서있는 1</b> = 시스템 바깥에 홀로 선 자아.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">02-C / 거울 7</div>
+    <div class="symbol-area">
+      <svg width="200" height="140" viewBox="0 0 200 140">
+        <!-- normal 7 -->
+        <text x="60" y="115" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="100" fill="#f0f0f0">7</text>
+        <!-- mirrored 7 -->
+        <text x="140" y="115" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="100" fill="#f0f0f0"
+          transform="scale(-1,1) translate(-280,0)">7</text>
+        <!-- center line -->
+        <line x1="100" y1="10" x2="100" y2="125" stroke="#222" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="card-title">Mirror 7</div>
+    <div class="card-desc">
+      7을 거울로 마주보게 배치.<br>
+      <b>창살처럼 맞닿는 형태</b> — 탈리마크 방향과 연결 가능.
+    </div>
+  </div>
+
+</div>
+
+<!-- ── SECTION 3: COMBINATIONS ── -->
+<div class="section-label">03 — NUMBER COMBINATIONS</div>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-num">03-A / 0FF</div>
+    <div class="symbol-area">
+      <svg width="200" height="120" viewBox="0 0 200 120">
+        <text x="100" y="98" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="84" fill="#f0f0f0" letter-spacing="-3">
+          <tspan fill="#c8ff00">0</tspan>FF
+        </text>
+      </svg>
+    </div>
+    <div class="card-title">0FF — Zero as O</div>
+    <div class="card-desc">
+      OFF의 첫 글자 O를 <b>숫자 0</b>으로 치환.<br>
+      "전원을 끄다" + "자아를 0으로 리셋".
+    </div>
+  </div>
+
+  <div class="card dark">
+    <div class="card-num">03-B / 0/∞</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <text x="100" y="100" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="72" fill="#f0f0f0" letter-spacing="-2">0/∞</text>
+      </svg>
+    </div>
+    <div class="card-title">Zero to Infinity</div>
+    <div class="card-desc">
+      자아 = 0으로 비울 때<br>
+      <b>가능성 = 무한대</b>가 된다는 방정식.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">03-C / 01</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <!-- binary 01 -->
+        <text x="100" y="108" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="108" fill="#f0f0f0" letter-spacing="-8">01</text>
+        <!-- binary noise background -->
+        <text x="12" y="28" font-family="monospace" font-size="8" fill="#1e1e1e">10110100011010001101</text>
+        <text x="12" y="40" font-family="monospace" font-size="8" fill="#1a1a1a">01001011010110010110</text>
+        <text x="12" y="52" font-family="monospace" font-size="8" fill="#181818">11010001011010010010</text>
+      </svg>
+    </div>
+    <div class="card-title">Binary 01</div>
+    <div class="card-desc">
+      시스템의 언어 = 이진수 0과 1.<br>
+      <b>그 코드로 짜인 나</b>를 다시 읽는다.
+    </div>
+  </div>
+
+  <div class="card lime">
+    <div class="card-num">03-D / #1</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <text x="100" y="108" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="96" fill="#111" letter-spacing="-4">#1</text>
+      </svg>
+    </div>
+    <div class="card-title">#1 — HashTag One</div>
+    <div class="card-desc">
+      해시태그 = 분류 시스템.<br>
+      <b>#1 = 카테고리 없는 1위</b> — 규칙 바깥의 1등.
+    </div>
+  </div>
+
+</div>
+
+<!-- ── SECTION 4: BROKEN / DECONSTRUCTED ── -->
+<div class="section-label">04 — BROKEN NUMBERS</div>
+<div class="grid-3">
+
+  <div class="card dark span2">
+    <div class="card-num">04-A / 숫자가 부서진다</div>
+    <div class="symbol-area">
+      <svg width="440" height="150" viewBox="0 0 440 150">
+        <!-- 0 breaking apart — segments scattered -->
+        <!-- left half of 0 -->
+        <path d="M 60 20 Q 20 75 60 130" fill="none" stroke="#f0f0f0" stroke-width="10" stroke-linecap="round"/>
+        <!-- right half — shifted + rotated -->
+        <path d="M 100 30 Q 130 75 100 120" fill="none" stroke="#f0f0f0" stroke-width="10" stroke-linecap="round"
+          transform="rotate(12, 115, 75) translate(18, -10)"/>
+        <!-- scattered pieces -->
+        <line x1="115" y1="22" x2="130" y2="14" stroke="#c8ff00" stroke-width="5" stroke-linecap="round"/>
+        <line x1="122" y1="35" x2="138" y2="28" stroke="#c8ff00" stroke-width="3" stroke-linecap="round"/>
+        <line x1="108" y1="118" x2="128" y2="128" stroke="#c8ff00" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- ∞ forming from broken pieces -->
+        <text x="280" y="110" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="100" fill="#333">∞</text>
+        <text x="280" y="110" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="100" fill="none" stroke="#f0f0f0" stroke-width="2" opacity="0.4">∞</text>
+
+        <!-- arrow between -->
+        <line x1="165" y1="75" x2="215" y2="75" stroke="#333" stroke-width="2"/>
+        <polygon points="215,70 225,75 215,80" fill="#333"/>
+
+        <text x="220" y="140" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="700"
+          font-size="8" fill="#2a2a2a" letter-spacing="5">0 BREAKS → BECOMES ∞</text>
+      </svg>
+    </div>
+    <div class="card-title">0 Shatters Into ∞</div>
+    <div class="card-desc">
+      0(자아)이 부서지는 순간 <b>∞(무한)가 된다</b>는 서사.<br>
+      로고 애니메이션으로 쓰기 완벽한 구조 — 정적 마크는 깨진 0 단독으로.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">04-B / 7이 꺾인다</div>
+    <div class="symbol-area">
+      <svg width="180" height="150" viewBox="0 0 180 150">
+        <!-- 7 with the horizontal stroke breaking off -->
+        <!-- horizontal top -->
+        <line x1="30" y1="28" x2="115" y2="28" stroke="#f0f0f0" stroke-width="9" stroke-linecap="round"/>
+        <!-- broken piece flying off -->
+        <line x1="115" y1="28" x2="148" y2="14" stroke="#f0f0f0" stroke-width="9" stroke-linecap="round" opacity="0.3"/>
+        <!-- diagonal stem -->
+        <line x1="108" y1="30" x2="68" y2="130" stroke="#f0f0f0" stroke-width="9" stroke-linecap="round"/>
+        <!-- crack point -->
+        <circle cx="112" cy="28" r="4" fill="#c8ff00"/>
+        <text x="90" y="148" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="700"
+          font-size="9" fill="#333" letter-spacing="5">BREAKING POINT</text>
+      </svg>
+    </div>
+    <div class="card-title">Broken 7</div>
+    <div class="card-desc">
+      7의 수평선이 <b>부러지는 순간.</b><br>
+      "한계선이 꺾이는 지점" — 무기처럼 읽힐 수도 있음.
+    </div>
+  </div>
+
+</div>
+
+<!-- ── SECTION 5: SYSTEM CODES ── -->
+<div class="section-label">05 — SYSTEM CODES</div>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-num">05-A / ERROR 404</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <text x="100" y="60" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="18" fill="#333" letter-spacing="3">ERROR</text>
+        <text x="100" y="115" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="72" fill="#f0f0f0" letter-spacing="-3">404</text>
+      </svg>
+    </div>
+    <div class="card-title">404 Not Found</div>
+    <div class="card-desc">
+      "자아를 찾을 수 없음".<br>
+      <b>시스템이 나를 정의 못 하는 상태.</b><br>
+      서브그래픽/태그라인으로 강력함.
+    </div>
+  </div>
+
+  <div class="card dark">
+    <div class="card-num">05-B / 000</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <text x="100" y="108" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="88" fill="#f0f0f0" letter-spacing="-6">000</text>
+        <text x="100" y="126" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="700"
+          font-size="8" fill="#333" letter-spacing="6">RESET / REBORN</text>
+      </svg>
+    </div>
+    <div class="card-title">000 — Total Reset</div>
+    <div class="card-desc">
+      세 자리 0 = <b>완전한 초기화.</b><br>
+      "그들이 만든 나를 모두 지우고 남은 것."
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">05-C / −1</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <text x="100" y="108" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="100" fill="#f0f0f0" letter-spacing="-4">−1</text>
+      </svg>
+    </div>
+    <div class="card-title">Minus One</div>
+    <div class="card-desc">
+      존재에서 하나 빼기.<br>
+      <b>"나를 한 겹 벗어낸 상태"</b>의 기호.<br>
+      단순하면서 철학적으로 가장 날카로움.
+    </div>
+  </div>
+
+  <div class="card lime">
+    <div class="card-num">05-D / ∞</div>
+    <div class="symbol-area">
+      <svg width="200" height="130" viewBox="0 0 200 130">
+        <text x="100" y="108" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="110" fill="#111" letter-spacing="-4">∞</text>
+        <text x="100" y="126" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="700"
+          font-size="8" fill="#5a7500" letter-spacing="5">8 ON ITS SIDE</text>
+      </svg>
+    </div>
+    <div class="card-title">∞ — 8 Sideways</div>
+    <div class="card-desc">
+      8을 옆으로 눕히면 무한대.<br>
+      <b>한 숫자가 다른 의미로 전복되는 것</b> 자체가 OFFEGO.
+    </div>
+  </div>
+
+</div>
+
+<!-- ── SECTION 6: WORDMARK HYBRIDS ── -->
+<div class="section-label">06 — WORDMARK HYBRIDS</div>
+<div class="grid-2">
+
+  <div class="card dark">
+    <div class="card-num">06-A / 0FF3G0</div>
+    <div class="symbol-area">
+      <svg width="340" height="120" viewBox="0 0 340 120">
+        <text x="170" y="98" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="76" fill="#f0f0f0" letter-spacing="-2">
+          <tspan fill="#c8ff00">0</tspan>FF<tspan fill="#555">3</tspan>G<tspan fill="#c8ff00">0</tspan>
+        </text>
+      </svg>
+    </div>
+    <div class="card-title">0FF3G0 — Leet Speak</div>
+    <div class="card-desc">
+      O→0, E→3 으로 치환하는 <b>리트스피크(Leet)</b> 방식.<br>
+      해커 문화 + 반항적 언어 감각. 서브 로고 or 한정판 각인용.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">06-B / OFF · EG · 0</div>
+    <div class="symbol-area">
+      <svg width="340" height="130" viewBox="0 0 340 130">
+        <!-- three parts stacked -->
+        <text x="100" y="55" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="46" fill="#f0f0f0" letter-spacing="2">OFF</text>
+        <line x1="148" y1="15" x2="148" y2="120" stroke="#222" stroke-width="1.5"/>
+        <text x="210" y="55" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="46" fill="#555" letter-spacing="2">EG</text>
+        <line x1="258" y1="15" x2="258" y2="120" stroke="#222" stroke-width="1.5"/>
+        <text x="305" y="55" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="900"
+          font-size="46" fill="#c8ff00" letter-spacing="0">0</text>
+        <!-- equation below -->
+        <text x="170" y="100" text-anchor="middle"
+          font-family="Helvetica Neue, Arial" font-weight="400"
+          font-size="10" fill="#333" letter-spacing="3">TURN OFF · YOUR EGO · TO ZERO</text>
+      </svg>
+    </div>
+    <div class="card-title">OFF / EGO / 0 — Triptych</div>
+    <div class="card-desc">
+      브랜드 이름을 3개로 분해 + 의미 부여.<br>
+      <b>0이 마침표이자 목적지</b>가 되는 구조.
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FINAL RANKING ── -->
+<div style="margin-top: 72px; padding: 40px; background: #0f0f0f; display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
+  <div>
+    <div style="font-size:10px; letter-spacing:0.35em; color:#333; text-transform:uppercase; margin-bottom:20px;">PICK LIST — 가장 날카로운 것들</div>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div style="display:flex; align-items:baseline; gap:16px;">
+        <span style="font-size:22px; font-weight:900; color:#c8ff00; min-width:52px;">−1</span>
+        <span style="font-size:12px; color:#555; line-height:1.6;">"나를 한 겹 벗어낸 상태" — 가장 철학적이고 단순함</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:16px;">
+        <span style="font-size:22px; font-weight:900; color:#f0f0f0; min-width:52px;">0FF</span>
+        <span style="font-size:12px; color:#555; line-height:1.6;">브랜드 이름 + 리셋 = 자연스러운 합체</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:16px;">
+        <span style="font-size:22px; font-weight:900; color:#f0f0f0; min-width:52px;">6/9</span>
+        <span style="font-size:12px; color:#555; line-height:1.6;">보는 방향에 따라 달라지는 심볼 — 제품에 각인 시 강함</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:16px;">
+        <span style="font-size:22px; font-weight:900; color:#f0f0f0; min-width:52px;">∅</span>
+        <span style="font-size:12px; color:#555; line-height:1.6;">공집합 — 자아가 텅 빈 상태의 시각화</span>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:16px;">
+        <span style="font-size:22px; font-weight:900; color:#f0f0f0; min-width:52px;">404</span>
+        <span style="font-size:12px; color:#555; line-height:1.6;">"자아를 찾을 수 없음" — 서브 그래픽으로 강력</span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="font-size:10px; letter-spacing:0.35em; color:#333; text-transform:uppercase; margin-bottom:20px;">NOTE</div>
+    <div style="font-size:12px; color:#444; line-height:1.9;">
+      숫자 방향은 탈리마크와 충돌하지 않음.<br>
+      <span style="color:#666">탈리 = 시간/감옥 서사</span><br>
+      <span style="color:#666">숫자 = 자아/시스템 서사</span><br><br>
+      둘을 합칠 수도 있음 — 예: 탈리마크 안에 −1을 새기거나, 감옥 벽에 0FF를 긁어놓은 느낌.
+    </div>
+    <div style="margin-top: 28px; font-size: 20px; font-weight: 900; letter-spacing: -0.02em; color: #f0f0f0;">OFFEGO</div>
+    <div style="font-size: 9px; color: #2a2a2a; letter-spacing: 0.25em; margin-top: 4px;">DROP SELF THEY BUILT.</div>
+  </div>
+</div>
+
+</body>
+</html>

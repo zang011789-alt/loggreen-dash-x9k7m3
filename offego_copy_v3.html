@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFEGO — 카피 추가 라운드</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #e8e8e8;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    padding: 60px 40px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  header .brand {
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+
+  header .sub {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #444;
+    letter-spacing: 3px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: #111;
+    padding: 36px 32px;
+    border: 1px solid #1c1c1c;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: #333; }
+
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .num {
+    font-size: 11px;
+    color: #333;
+    letter-spacing: 2px;
+  }
+
+  .flavor-name {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 300;
+  }
+
+  .flavor-note {
+    font-size: 10px;
+    color: #333;
+    letter-spacing: 1px;
+    margin-left: auto;
+    font-style: italic;
+  }
+
+  /* 스탯 */
+  .stats {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #333;
+    width: 44px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+
+  .stat-bar { display: flex; gap: 3px; }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1e1e1e;
+  }
+
+  .dot.on { background: #c8ff00; }
+
+  .stat-divider {
+    height: 1px;
+    background: #1a1a1a;
+    margin-bottom: 20px;
+  }
+
+  /* 카피 리스트 */
+  .copy-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .copy-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #181818;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .copy-item:last-child { border-bottom: none; }
+
+  .copy-index {
+    font-size: 9px;
+    color: #2a2a2a;
+    letter-spacing: 1px;
+    padding-top: 3px;
+    flex-shrink: 0;
+    width: 14px;
+  }
+
+  .copy-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #ccc;
+    font-weight: 300;
+    letter-spacing: 0.2px;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #2a2a2a;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">OFFEGO</div>
+  <h1>DROP SELF THEY BUILT</h1>
+  <div class="sub">카피 추가 라운드 — +5</div>
+</header>
+
+<div class="grid">
+
+  <!-- 01 알로에그레이프 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">01</span>
+      <span class="flavor-name">Aloe Grape</span>
+      <span class="flavor-note">포도만 어필</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="copy-list">
+      <div class="copy-item"><span class="copy-index">01</span><span class="copy-text">포도를 통째로 베어물었다. 껍질이 터지고 진하고 즉각적인.</span></div>
+      <div class="copy-item"><span class="copy-index">02</span><span class="copy-text">냉장고 깊은 곳 포도 한 알. 차갑고 묵직하고 오래가는.</span></div>
+      <div class="copy-item"><span class="copy-index">03</span><span class="copy-text">포도즙이 혀 위에서 번진다. 진하고 차갑고 달지 않은.</span></div>
+      <div class="copy-item"><span class="copy-index">04</span><span class="copy-text">포도가 세게 터진다. 그게 전부다.</span></div>
+      <div class="copy-item"><span class="copy-index">05</span><span class="copy-text">포도를 꼭 쥐었다가 놓았다. 진하고 서늘하고 즉각적인.</span></div>
+    </div>
+  </div>
+
+  <!-- 02 레몬라임 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">02</span>
+      <span class="flavor-name">Lemon Lime</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="copy-list">
+      <div class="copy-item"><span class="copy-index">01</span><span class="copy-text">레몬과 라임을 동시에 깨물었다. 산미가 두 겹이고 달지 않은.</span></div>
+      <div class="copy-item"><span class="copy-index">02</span><span class="copy-text">시다. 계속 시다. 그게 끝까지 간다.</span></div>
+      <div class="copy-item"><span class="copy-index">03</span><span class="copy-text">혀가 오그라든다. 그게 이 맛의 시작이다.</span></div>
+      <div class="copy-item"><span class="copy-index">04</span><span class="copy-text">산미가 앞에서 달려온다. 피할 생각이 없는.</span></div>
+      <div class="copy-item"><span class="copy-index">05</span><span class="copy-text">레몬즙을 짜다 눈이 찡그려졌다. 그 느낌이 이 맛이다.</span></div>
+    </div>
+  </div>
+
+  <!-- 05 블루이온 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">05</span>
+      <span class="flavor-name">Blue Ion</span>
+      <span class="flavor-note">아는 맛, 포카리 계열</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="copy-list">
+      <div class="copy-item"><span class="copy-index">01</span><span class="copy-text">운동 끝나고 벌컥 마시던 그 맛. 설명 안 해도 안다.</span></div>
+      <div class="copy-item"><span class="copy-index">02</span><span class="copy-text">어디서 마셔본 것 같다. 맞다, 그 맛이다.</span></div>
+      <div class="copy-item"><span class="copy-index">03</span><span class="copy-text">처음 마시는 맛인데 낯설지 않다.</span></div>
+      <div class="copy-item"><span class="copy-index">04</span><span class="copy-text">몸이 먼저 알아챈다. 이 맛이라고.</span></div>
+      <div class="copy-item"><span class="copy-index">05</span><span class="copy-text">달지 않은데 계속 마시게 된다. 몸이 원하는 맛은 이렇다.</span></div>
+    </div>
+  </div>
+
+  <!-- 06 멘솔민트 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">06</span>
+      <span class="flavor-name">Menthol Mint</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="copy-list">
+      <div class="copy-item"><span class="copy-index">01</span><span class="copy-text">냉동실 문을 열었다. 그 공기를 한 모금 마셨다.</span></div>
+      <div class="copy-item"><span class="copy-index">02</span><span class="copy-text">차갑다. 더 차갑다. 그게 끝이다.</span></div>
+      <div class="copy-item"><span class="copy-index">03</span><span class="copy-text">민트가 아니다. 겨울이다. 입 안의 겨울.</span></div>
+      <div class="copy-item"><span class="copy-index">04</span><span class="copy-text">혀가 마비된다. 잠깐. 그리고 차가워진다.</span></div>
+      <div class="copy-item"><span class="copy-index">05</span><span class="copy-text">숨을 내쉬면 하얗게 보일 것 같다. 이걸 마신 후엔.</span></div>
+    </div>
+  </div>
+
+  <!-- 07 트로피칼믹스 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">07</span>
+      <span class="flavor-name">Tropical Mix</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="copy-list">
+      <div class="copy-item"><span class="copy-index">01</span><span class="copy-text">과일이 너무 많아서 이름을 못 댄다. 전부 달고 전부 강하다.</span></div>
+      <div class="copy-item"><span class="copy-index">02</span><span class="copy-text">망고가 왔다. 파인애플이 밀었다. 패션프루트가 마무리했다.</span></div>
+      <div class="copy-item"><span class="copy-index">03</span><span class="copy-text">달다. 시다. 또 달다. 순서가 없다.</span></div>
+      <div class="copy-item"><span class="copy-index">04</span><span class="copy-text">열대는 여름이 두 배다. 이 맛도 그렇다.</span></div>
+      <div class="copy-item"><span class="copy-index">05</span><span class="copy-text">한 번에 여러 곳에서 온다. 전부 덥고 전부 달다.</span></div>
+    </div>
+  </div>
+
+  <!-- 08 아이스피치 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">08</span>
+      <span class="flavor-name">Ice Peach</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="copy-list">
+      <div class="copy-item"><span class="copy-index">01</span><span class="copy-text">반냉동 복숭아. 아직 즙이 살아있다. 차갑고 달고 풍부한.</span></div>
+      <div class="copy-item"><span class="copy-index">02</span><span class="copy-text">복숭아를 얼음 위에 올렸다. 그대로 입에 넣었다.</span></div>
+      <div class="copy-item"><span class="copy-index">03</span><span class="copy-text">달콤함이 차갑게 온다. 그게 이 맛의 순서다.</span></div>
+      <div class="copy-item"><span class="copy-index">04</span><span class="copy-text">복숭아인데 더 복숭아 같다. 얼었기 때문에.</span></div>
+      <div class="copy-item"><span class="copy-index">05</span><span class="copy-text">여름 과일을 겨울처럼 마셨다. 더 강해졌다.</span></div>
+    </div>
+  </div>
+
+  <!-- 09 클래식 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">09</span>
+      <span class="flavor-name">Classic</span>
+      <span class="flavor-note">카라멜타바코</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="copy-list">
+      <div class="copy-item"><span class="copy-index">01</span><span class="copy-text">담배 한 모금처럼 묵직하다. 카라멜이 달지 않게 깔린다.</span></div>
+      <div class="copy-item"><span class="copy-index">02</span><span class="copy-text">타는 것 같은데 달다. 달지 않은데 달다.</span></div>
+      <div class="copy-item"><span class="copy-index">03</span><span class="copy-text">달지 않은 카라멜. 쓰지 않은 타바코. 딱 그 사이.</span></div>
+      <div class="copy-item"><span class="copy-index">04</span><span class="copy-text">처음엔 달콤하다. 끝엔 묵직하다. 그게 이 맛의 순서다.</span></div>
+      <div class="copy-item"><span class="copy-index">05</span><span class="copy-text">카라멜인데 안 달다. 그래서 계속 든다.</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>OFFEGO — DROP SELF THEY BUILT</footer>
+
+</body>
+</html>

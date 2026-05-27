@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFEGO — 맛별 카피 New Round</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #e8e8e8;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    padding: 60px 40px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  header .brand {
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+
+  header .sub {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #444;
+    letter-spacing: 3px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: #111;
+    padding: 36px 32px;
+    border: 1px solid #1c1c1c;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover {
+    border-color: #333;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .num {
+    font-size: 11px;
+    color: #333;
+    font-weight: 400;
+    letter-spacing: 2px;
+  }
+
+  .flavor-name {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 300;
+  }
+
+  /* 스탯 */
+  .stats {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #333;
+    width: 44px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+  }
+
+  .stat-bar {
+    display: flex;
+    gap: 3px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1e1e1e;
+  }
+
+  .dot.on {
+    background: #c8ff00;
+  }
+
+  .stat-divider {
+    height: 1px;
+    background: #1a1a1a;
+    margin-bottom: 20px;
+  }
+
+  /* 카피 */
+  .ver-block {
+    margin-bottom: 22px;
+  }
+
+  .ver-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .ver-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #2a2a2a;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .ver1 .copy {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #ddd;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+  }
+
+  .ver2 .copy {
+    font-size: 14px;
+    line-height: 2;
+    color: #aaa;
+    font-weight: 300;
+    font-style: italic;
+    border-left: 1px solid #222;
+    padding-left: 14px;
+  }
+
+  .ver3 .copy {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #666;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+  }
+
+  .divider {
+    height: 1px;
+    background: #1a1a1a;
+    margin: 18px 0;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #2a2a2a;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">OFFEGO</div>
+  <h1>DROP SELF THEY BUILT</h1>
+  <div class="sub">맛별 카피 — New Round</div>
+</header>
+
+<div class="grid">
+
+  <!-- 01 알로에그레이프 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">01</span>
+      <span class="flavor-name">Aloe Grape</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">서늘한 포도알 하나. 터지고 차갑고 뒤끝이 조용한.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">포도알이 터진다.<br>알로에가 닫는다.<br>차갑게.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">시작은 포도다. 끝은 서늘함이다. 그 사이가 이 맛이다.</div>
+    </div>
+  </div>
+
+  <!-- 02 레몬라임 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">02</span>
+      <span class="flavor-name">Lemon Lime</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">라임을 쥐어짜다 손등을 적셨다. 시고 날카롭고 달이 없는.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">라임이 먼저다.<br>레몬이 밀어붙인다.<br>둘 다 참을 생각이 없다.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">이 맛은 사과하지 않는다. 그냥 시다.</div>
+    </div>
+  </div>
+
+  <!-- 03 베리워터멜론 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">03</span>
+      <span class="flavor-name">Berry Watermelon</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">수박 한 덩이에 베리를 눌러 박았다. 달고 두껍고 붉은 것이 두 개인.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">수박이다.<br>베리가 끼어들었다.<br>둘 다 달다, 다르게.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">여름이 두 번 온다. 한 입에.</div>
+    </div>
+  </div>
+
+  <!-- 04 아이스 콜라 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">04</span>
+      <span class="flavor-name">Ice Cola</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">목이 타는 날 얼음 가득 들이켰다. 차갑게 타고 날카롭고 검은.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">차가운 검정.<br>탄산이 먼저 온다.<br>단맛은 나중이다.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">콜라를 얼렸다. 더 검어졌다. 더 날카로워졌다.</div>
+    </div>
+  </div>
+
+  <!-- 05 블루이온 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">05</span>
+      <span class="flavor-name">Blue Ion</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">새벽 한강 공기를 한 입 삼킨 것 같다. 달지 않고 맑고 텅 빈.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">아무 맛도 없다.<br>그게 정확하다.<br>그래서 또 든다.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">이온음료는 맛있으면 안 된다. 이건 제대로 만든 거다.</div>
+    </div>
+  </div>
+
+  <!-- 06 멘솔민트 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">06</span>
+      <span class="flavor-name">Menthol Mint</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">눈밭에 쓰러져 숨을 들이켰다. 폐가 차갑고 날카롭고 아무것도 없는.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">들이쉬었다.<br>폐가 하얘졌다.<br>그게 다다.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">박하가 아니다. 공기 자체를 차갑게 만드는 맛이다.</div>
+    </div>
+  </div>
+
+  <!-- 07 트로피칼 믹스 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">07</span>
+      <span class="flavor-name">Tropical Mix</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">열대 과일 네댓 개를 한 주먹에 쥐었다. 달고 겹겹이 복잡하고 끝이 없는.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">하나가 아니다.<br>전부 달려든다.<br>전부 달다.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">어느 과일인지 따질 필요 없다. 순서 없이 전부 온다.</div>
+    </div>
+  </div>
+
+  <!-- 08 아이스 피치 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">08</span>
+      <span class="flavor-name">Ice Peach</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">냉동실 복숭아를 손바닥으로 눌렀다. 차갑고 달고 즙이 손목까지 내려가는.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">복숭아다.<br>얼어있다.<br>더 달다, 그래서.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">여름을 얼렸더니 겨울이 됐다. 맛은 그대로 여름이다.</div>
+    </div>
+  </div>
+
+  <!-- 09 클래식 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">09</span>
+      <span class="flavor-name">Classic</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">처음엔 아무것도 없는 것 같다. 담백하고 깊고 가장 오래 남는.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">설명이 없다.<br>맛도 조용하다.<br>그래서 가장 오래다.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">모든 맛을 뺐더니 이게 남았다. 이게 원래 맛이다.</div>
+    </div>
+  </div>
+
+  <!-- 10 사워애플 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="num">10</span>
+      <span class="flavor-name">Sour Apple</span>
+    </div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="ver-block ver1">
+      <div class="ver-label">VER 1</div>
+      <div class="copy">풋사과 껍질을 이로 깎았다. 시고 푸릇하고 달지 않은 것이 맞는.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver2">
+      <div class="ver-label">VER 2</div>
+      <div class="copy">날것이다.<br>달게 익기 전이다.<br>그래서 이 맛이다.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="ver-block ver3">
+      <div class="ver-label">VER 3</div>
+      <div class="copy">사과에서 단맛을 뺐다. 나머지가 이 맛이다.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>OFFEGO — DROP SELF THEY BUILT</footer>
+
+</body>
+</html>

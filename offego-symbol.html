@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFEGO — Brand Symbol Proposals</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --green: #0DFF4A;
+    --white: #FFFFFF;
+    --gray: #1a1a1a;
+    --dim: #555555;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid #222;
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .brand-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--green);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .brand-sub {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-top: 8px;
+  }
+
+  .header-right {
+    text-align: right;
+  }
+
+  .slogan {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+  }
+
+  /* INTRO */
+  .intro {
+    padding: 60px;
+    border-bottom: 1px solid #111;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  .intro-block h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .intro-block p {
+    font-size: 14px;
+    color: #888;
+    line-height: 1.7;
+  }
+
+  /* SYMBOLS GRID */
+  .section-label {
+    padding: 40px 60px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .symbols-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #111;
+    margin-top: 40px;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+  }
+
+  .symbol-card {
+    background: var(--black);
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .symbol-card:hover {
+    background: #0a0a0a;
+  }
+
+  .symbol-card.featured {
+    background: #030f06;
+    border: 1px solid #0DFF4A22;
+  }
+
+  .symbol-card.featured:hover {
+    background: #051209;
+  }
+
+  .symbol-canvas {
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .symbol-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .symbol-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+  }
+
+  .symbol-name {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .symbol-name .eng {
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .symbol-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.7;
+  }
+
+  .symbol-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid #222;
+    color: #555;
+  }
+
+  .tag.hot {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  /* FULL WIDTH FEATURED */
+  .featured-full {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: #030f06;
+    border: 1px solid #0DFF4A22;
+  }
+
+  .featured-full .symbol-canvas {
+    max-width: 320px;
+    margin: auto;
+  }
+
+  .featured-full .symbol-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    padding: 60px;
+    border-left: 1px solid #0DFF4A11;
+  }
+
+  .featured-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--green);
+    letter-spacing: 0.2em;
+    border: 1px solid var(--green);
+    padding: 4px 10px;
+    width: fit-content;
+  }
+
+  .featured-full .symbol-name {
+    font-size: 36px;
+  }
+
+  .featured-full .symbol-desc {
+    font-size: 15px;
+    color: #888;
+    line-height: 1.8;
+    max-width: 380px;
+  }
+
+  /* COLOR PALETTE */
+  .palette-section {
+    padding: 60px;
+    border-top: 1px solid #111;
+  }
+
+  .palette-section h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  .palette {
+    display: flex;
+    gap: 20px;
+  }
+
+  .color-swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .swatch-box {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #222;
+  }
+
+  .swatch-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #555;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid #111;
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #333;
+    letter-spacing: 0.1em;
+  }
+
+  /* RECOMMENDED BADGE */
+  .rec {
+    background: var(--green);
+    color: var(--black);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 3px 8px;
+    display: inline-block;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div class="brand-title">Brand Symbol Proposals · 2025</div>
+    <div class="brand-sub">OFFEGO</div>
+  </div>
+  <div class="header-right">
+    <div class="slogan">
+      "Drop self they built"<br>
+      그들이 만든 나를 꺼라<br>
+      <span style="color:#333">— 무니코틴 흡입기 브랜드</span>
+    </div>
+  </div>
+</header>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="intro-block">
+    <h3>Brand Mood</h3>
+    <p>자아 해방 · 반항 · 이고 디졸루션<br>도식적인 것에 대한 거부<br>자유와 공허 사이의 어딘가</p>
+  </div>
+  <div class="intro-block">
+    <h3>Visual DNA</h3>
+    <p>Brain Dead · Fragment Design<br>Liquid Death · Playboy(심볼 기준)<br>블랙 + 네온 그린 · 날카로운 형태</p>
+  </div>
+  <div class="intro-block">
+    <h3>Direction</h3>
+    <p>역삼각형 탐구 중<br>퍼펫마스터 손 방향으로 발전<br>아래 향한 손바닥 · 줄은 있고 인형은 없음</p>
+  </div>
+</div>
+
+<!-- SYMBOL PROPOSALS -->
+<div class="section-label">— 07 Symbol Proposals</div>
+
+<div class="symbols-grid">
+
+  <!-- 01: PUPPET VOID — FEATURED FULL WIDTH -->
+  <div class="featured-full symbol-card">
+    <div class="symbol-canvas" style="padding: 40px;">
+      <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Downward palm with strings -->
+        <!-- Palm base -->
+        <rect x="105" y="90" width="90" height="60" rx="8" fill="#0DFF4A"/>
+        <!-- Thumb -->
+        <rect x="82" y="100" width="30" height="20" rx="10" fill="#0DFF4A"/>
+        <!-- Fingers -->
+        <rect x="110" y="60" width="16" height="42" rx="8" fill="#0DFF4A"/>
+        <rect x="132" y="52" width="16" height="50" rx="8" fill="#0DFF4A"/>
+        <rect x="154" y="55" width="16" height="47" rx="8" fill="#0DFF4A"/>
+        <rect x="176" y="62" width="14" height="38" rx="7" fill="#0DFF4A"/>
+        <!-- Strings going down into void -->
+        <line x1="118" y1="150" x2="118" y2="230" stroke="#0DFF4A" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.7"/>
+        <line x1="140" y1="150" x2="140" y2="250" stroke="#0DFF4A" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.7"/>
+        <line x1="162" y1="150" x2="162" y2="240" stroke="#0DFF4A" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.7"/>
+        <line x1="184" y1="150" x2="184" y2="225" stroke="#0DFF4A" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.7"/>
+        <!-- String ends dissolve -->
+        <circle cx="118" cy="232" r="2" fill="#0DFF4A" opacity="0.4"/>
+        <circle cx="140" cy="252" r="2" fill="#0DFF4A" opacity="0.4"/>
+        <circle cx="162" cy="242" r="2" fill="#0DFF4A" opacity="0.4"/>
+        <circle cx="184" cy="227" r="2" fill="#0DFF4A" opacity="0.4"/>
+        <!-- Void gradient hint -->
+        <ellipse cx="150" cy="260" rx="60" ry="12" fill="url(#voidGrad)" opacity="0.3"/>
+        <defs>
+          <radialGradient id="voidGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0DFF4A" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#0DFF4A" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="symbol-info">
+      <div class="featured-badge">STRONGEST DIRECTION</div>
+      <div class="symbol-name">
+        <span class="eng">PUPPET VOID</span>
+        퍼펫 보이드
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="tag hot">기존 방향 발전</span>
+        <span class="tag hot">고유성 최강</span>
+        <span class="tag">퍼펫마스터</span>
+        <span class="tag">이고 디졸루션</span>
+      </div>
+      <div class="symbol-desc">
+        아래를 향한 손바닥. 줄은 내려가지만 인형이 없다.<br>
+        조종하던 자아를 스스로 놓아버린 순간.<br>
+        "그들이 만든 나"는 이미 사라졌다.<br><br>
+        Brain Dead의 해체미학 + Fragment의 절제된 선.<br>
+        역삼각형으로 변형 가능, 워드마크와 조합 시 강력.
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:#0DFF4A;margin-top:8px;">
+        → 역삼각형 프레임 안에 손 실루엣으로도 발전 가능
+      </div>
+    </div>
+  </div>
+
+  <!-- 02: DROP TRIANGLE -->
+  <div class="symbol-card">
+    <div class="symbol-canvas">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Inverted triangle solid -->
+        <polygon points="100,155 20,45 180,45" fill="#0DFF4A"/>
+        <!-- Drip from bottom vertex -->
+        <ellipse cx="100" cy="168" rx="6" ry="10" fill="#0DFF4A"/>
+        <ellipse cx="100" cy="185" rx="3" ry="4" fill="#0DFF4A" opacity="0.5"/>
+        <circle cx="100" cy="195" r="2" fill="#0DFF4A" opacity="0.3"/>
+        <!-- Cut lines on triangle -->
+        <line x1="55" y1="45" x2="40" y2="80" stroke="#000" stroke-width="3"/>
+        <line x1="145" y1="45" x2="160" y2="80" stroke="#000" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="symbol-meta">
+      <span class="symbol-number">02 / 07</span>
+      <div class="symbol-name">
+        <span class="eng">DROP △</span>
+        드롭 트라이앵글
+      </div>
+      <div class="symbol-tags">
+        <span class="tag">역삼각형</span>
+        <span class="tag">슬로건 직결</span>
+      </div>
+      <p class="symbol-desc">역삼각형이 아래로 녹아내린다. "Drop" 슬로건의 시각적 번역. 단순하고 강하지만 고유성은 낮음.</p>
+    </div>
+  </div>
+
+  <!-- 03: DEAD SIGNAL -->
+  <div class="symbol-card">
+    <div class="symbol-canvas">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Signal bars decreasing then cut -->
+        <rect x="20" y="140" width="20" height="40" fill="#0DFF4A"/>
+        <rect x="50" y="115" width="20" height="65" fill="#0DFF4A"/>
+        <rect x="80" y="90" width="20" height="90" fill="#0DFF4A"/>
+        <!-- Cut signal -->
+        <rect x="110" y="60" width="20" height="120" fill="#222"/>
+        <rect x="140" y="30" width="20" height="150" fill="#111"/>
+        <!-- X slash on cut area -->
+        <line x1="108" y1="55" x2="162" y2="185" stroke="#0DFF4A" stroke-width="3"/>
+        <line x1="162" y1="55" x2="108" y2="185" stroke="#0DFF4A" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="symbol-meta">
+      <span class="symbol-number">03 / 07</span>
+      <div class="symbol-name">
+        <span class="eng">DEAD SIGNAL</span>
+        데드 시그널
+      </div>
+      <div class="symbol-tags">
+        <span class="tag">OFF 개념</span>
+        <span class="tag">흡입기 연결</span>
+      </div>
+      <p class="symbol-desc">"OFF"EGO — 신호가 꺼지는 순간. 브랜드명과 개념이 직결. 제품 카테고리(흡입기=호흡=생명신호)와도 연결.</p>
+    </div>
+  </div>
+
+  <!-- 04: ANTI-EGO EYE -->
+  <div class="symbol-card">
+    <div class="symbol-canvas">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Eye outline -->
+        <path d="M20 100 Q100 30 180 100 Q100 170 20 100Z" stroke="#0DFF4A" stroke-width="3" fill="none"/>
+        <!-- Pupil X -->
+        <line x1="80" y1="80" x2="120" y2="120" stroke="#0DFF4A" stroke-width="4"/>
+        <line x1="120" y1="80" x2="80" y2="120" stroke="#0DFF4A" stroke-width="4"/>
+        <!-- Iris circle -->
+        <circle cx="100" cy="100" r="25" stroke="#0DFF4A" stroke-width="2" fill="none" opacity="0.5"/>
+        <!-- Tear drop -->
+        <ellipse cx="100" cy="178" rx="5" ry="8" fill="#0DFF4A" opacity="0.7"/>
+        <line x1="100" y1="170" x2="100" y2="155" stroke="#0DFF4A" stroke-width="1.5" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="symbol-meta">
+      <span class="symbol-number">04 / 07</span>
+      <div class="symbol-name">
+        <span class="eng">ANTI-EGO EYE</span>
+        안티이고 아이
+      </div>
+      <div class="symbol-tags">
+        <span class="tag">이고 디졸루션</span>
+        <span class="tag">반항</span>
+      </div>
+      <p class="symbol-desc">눈을 보지 않겠다 — 타인의 시선과 사회적 자아를 거부. X 눈은 죽음과 해방 동시에. Playboy 심볼 대응.</p>
+    </div>
+  </div>
+
+  <!-- 05: VOID CROWN -->
+  <div class="symbol-card">
+    <div class="symbol-canvas">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Inverted crown -->
+        <path d="M30 70 L30 150 L170 150 L170 70 L140 110 L100 70 L60 110 Z" fill="#0DFF4A"/>
+        <!-- Crown base at top -->
+        <rect x="30" y="55" width="140" height="18" fill="#0DFF4A"/>
+        <!-- Void inside crown -->
+        <path d="M50 140 L50 90 L68 115 L100 85 L132 115 L150 90 L150 140 Z" fill="#000"/>
+        <!-- Gems replaced with dots -->
+        <circle cx="65" cy="63" r="5" fill="#000"/>
+        <circle cx="100" cy="63" r="5" fill="#000"/>
+        <circle cx="135" cy="63" r="5" fill="#000"/>
+      </svg>
+    </div>
+    <div class="symbol-meta">
+      <span class="symbol-number">05 / 07</span>
+      <div class="symbol-name">
+        <span class="eng">VOID CROWN</span>
+        보이드 크라운
+      </div>
+      <div class="symbol-tags">
+        <span class="tag">권위 거부</span>
+        <span class="tag">반도식적</span>
+      </div>
+      <p class="symbol-desc">왕관을 뒤집어 내부를 공허로 채운다. 사회가 씌운 왕관을 거부. Liquid Death의 반전 코드와 같은 맥락.</p>
+    </div>
+  </div>
+
+  <!-- 06: UNTETHER -->
+  <div class="symbol-card">
+    <div class="symbol-canvas">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Human silhouette fading up -->
+        <ellipse cx="100" cy="55" rx="18" ry="18" fill="#0DFF4A" opacity="0.9"/>
+        <path d="M72 95 Q100 75 128 95 L135 150 L100 145 L65 150 Z" fill="#0DFF4A" opacity="0.7"/>
+        <!-- Arms -->
+        <path d="M72 105 Q50 120 45 140" stroke="#0DFF4A" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+        <path d="M128 105 Q150 120 155 140" stroke="#0DFF4A" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+        <!-- Legs dissolving -->
+        <path d="M88 145 L78 185" stroke="#0DFF4A" stroke-width="7" stroke-linecap="round" opacity="0.3"/>
+        <path d="M112 145 L122 185" stroke="#0DFF4A" stroke-width="7" stroke-linecap="round" opacity="0.15"/>
+        <!-- Cut line at waist -->
+        <line x1="55" y1="148" x2="145" y2="148" stroke="#000" stroke-width="5"/>
+        <line x1="50" y1="152" x2="150" y2="152" stroke="#000" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="symbol-meta">
+      <span class="symbol-number">06 / 07</span>
+      <div class="symbol-name">
+        <span class="eng">UNTETHER</span>
+        언테더
+      </div>
+      <div class="symbol-tags">
+        <span class="tag">자아 해방</span>
+        <span class="tag">자유</span>
+      </div>
+      <p class="symbol-desc">인간 실루엣의 하체가 지워진다. 사회적 자아로부터 분리되는 순간. 가장 서사적이지만 단순화 필요.</p>
+    </div>
+  </div>
+
+  <!-- 07: STATIC NOISE -->
+  <div class="symbol-card">
+    <div class="symbol-canvas">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Glitch / noise pattern forming an O shape -->
+        <!-- Outer ring segments -->
+        <path d="M100 20 A80 80 0 0 1 180 100" stroke="#0DFF4A" stroke-width="8" fill="none" opacity="1"/>
+        <path d="M100 20 A80 80 0 0 0 20 100" stroke="#0DFF4A" stroke-width="8" fill="none" opacity="0.6"/>
+        <path d="M20 100 A80 80 0 0 0 100 180" stroke="#0DFF4A" stroke-width="8" fill="none" opacity="0.3"/>
+        <path d="M180 100 A80 80 0 0 1 100 180" stroke="#0DFF4A" stroke-width="8" fill="none" opacity="0.15"/>
+        <!-- Glitch cuts -->
+        <rect x="85" y="15" width="30" height="12" fill="#000"/>
+        <rect x="150" y="75" width="35" height="10" fill="#000"/>
+        <rect x="25" y="110" width="28" height="10" fill="#000"/>
+        <!-- Inner circle -->
+        <circle cx="100" cy="100" r="35" stroke="#0DFF4A" stroke-width="3" fill="none" opacity="0.4"/>
+        <rect x="88" y="75" width="24" height="10" fill="#000"/>
+        <!-- OFF text -->
+        <text x="100" y="106" font-family="monospace" font-size="14" font-weight="bold" fill="#0DFF4A" text-anchor="middle" letter-spacing="3">OFF</text>
+      </svg>
+    </div>
+    <div class="symbol-meta">
+      <span class="symbol-number">07 / 07</span>
+      <div class="symbol-name">
+        <span class="eng">STATIC / GLITCH</span>
+        스태틱
+      </div>
+      <div class="symbol-tags">
+        <span class="tag">글리치 미학</span>
+        <span class="tag">디지털 반항</span>
+      </div>
+      <p class="symbol-desc">O자 형태가 글리치로 끊긴다. OFF의 'O'와 연결. 브랜드명 자체가 심볼로. 워드마크형 심볼로 발전 가능.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- APPLICATION SECTION -->
+<div style="padding: 80px 60px; border-top: 1px solid #111;">
+  <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:40px;">— How it looks on packaging</div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+
+    <!-- Black packaging mockup 01 -->
+    <div style="background:#0a0a0a;border:1px solid #1a1a1a;padding:30px;display:flex;flex-direction:column;align-items:center;gap:20px;">
+      <svg viewBox="0 0 80 140" width="80" style="opacity:0.9">
+        <rect x="5" y="5" width="70" height="130" rx="8" fill="#111" stroke="#0DFF4A" stroke-width="0.5"/>
+        <!-- Puppet hand symbol small -->
+        <rect x="26" y="30" width="28" height="18" rx="3" fill="#0DFF4A"/>
+        <rect x="20" y="33" width="10" height="8" rx="4" fill="#0DFF4A"/>
+        <rect x="28" y="20" width="5" height="14" rx="2.5" fill="#0DFF4A"/>
+        <rect x="35" y="17" width="5" height="16" rx="2.5" fill="#0DFF4A"/>
+        <rect x="42" y="18" width="5" height="15" rx="2.5" fill="#0DFF4A"/>
+        <rect x="49" y="21" width="4" height="12" rx="2" fill="#0DFF4A"/>
+        <line x1="30" y1="48" x2="30" y2="68" stroke="#0DFF4A" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.7"/>
+        <line x1="37" y1="48" x2="37" y2="73" stroke="#0DFF4A" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.7"/>
+        <line x1="44" y1="48" x2="44" y2="70" stroke="#0DFF4A" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.7"/>
+        <line x1="51" y1="48" x2="51" y2="66" stroke="#0DFF4A" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.7"/>
+        <!-- Brand text -->
+        <text x="40" y="100" font-family="monospace" font-size="7" font-weight="bold" fill="#0DFF4A" text-anchor="middle" letter-spacing="2">OFFEGO</text>
+        <text x="40" y="112" font-family="monospace" font-size="4" fill="#555" text-anchor="middle" letter-spacing="1">COOL GRAPE</text>
+      </svg>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:#444;text-align:center;letter-spacing:0.1em;">PUPPET VOID<br>ON BLACK</div>
+    </div>
+
+    <!-- White packaging mockup -->
+    <div style="background:#f0f0f0;border:1px solid #ccc;padding:30px;display:flex;flex-direction:column;align-items:center;gap:20px;">
+      <svg viewBox="0 0 80 140" width="80">
+        <rect x="5" y="5" width="70" height="130" rx="8" fill="#fff" stroke="#000" stroke-width="0.8"/>
+        <rect x="26" y="30" width="28" height="18" rx="3" fill="#000"/>
+        <rect x="20" y="33" width="10" height="8" rx="4" fill="#000"/>
+        <rect x="28" y="20" width="5" height="14" rx="2.5" fill="#000"/>
+        <rect x="35" y="17" width="5" height="16" rx="2.5" fill="#000"/>
+        <rect x="42" y="18" width="5" height="15" rx="2.5" fill="#000"/>
+        <rect x="49" y="21" width="4" height="12" rx="2" fill="#000"/>
+        <line x1="30" y1="48" x2="30" y2="68" stroke="#000" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.5"/>
+        <line x1="37" y1="48" x2="37" y2="73" stroke="#000" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.5"/>
+        <line x1="44" y1="48" x2="44" y2="70" stroke="#000" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.5"/>
+        <line x1="51" y1="48" x2="51" y2="66" stroke="#000" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.5"/>
+        <text x="40" y="100" font-family="monospace" font-size="7" font-weight="bold" fill="#000" text-anchor="middle" letter-spacing="2">OFFEGO</text>
+        <text x="40" y="112" font-family="monospace" font-size="4" fill="#888" text-anchor="middle" letter-spacing="1">WILD MELON</text>
+      </svg>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:#888;text-align:center;letter-spacing:0.1em;">PUPPET VOID<br>ON WHITE</div>
+    </div>
+
+    <!-- Triangle variation -->
+    <div style="background:#0a0a0a;border:1px solid #1a1a1a;padding:30px;display:flex;flex-direction:column;align-items:center;gap:20px;">
+      <svg viewBox="0 0 80 140" width="80" style="opacity:0.9">
+        <rect x="5" y="5" width="70" height="130" rx="8" fill="#111" stroke="#333" stroke-width="0.5"/>
+        <!-- Triangle frame with hand inside -->
+        <polygon points="40,28 15,58 65,58" fill="none" stroke="#0DFF4A" stroke-width="1.5"/>
+        <!-- Mini hand inside triangle -->
+        <rect x="26" y="38" width="28" height="14" rx="3" fill="#0DFF4A"/>
+        <rect x="20" y="41" width="8" height="6" rx="3" fill="#0DFF4A"/>
+        <rect x="28" y="30" width="4" height="11" rx="2" fill="#0DFF4A"/>
+        <rect x="34" y="27" width="4" height="13" rx="2" fill="#0DFF4A"/>
+        <rect x="40" y="28" width="4" height="12" rx="2" fill="#0DFF4A"/>
+        <rect x="46" y="31" width="3" height="10" rx="1.5" fill="#0DFF4A"/>
+        <text x="40" y="90" font-family="monospace" font-size="7" font-weight="bold" fill="#0DFF4A" text-anchor="middle" letter-spacing="2">OFFEGO</text>
+        <text x="40" y="102" font-family="monospace" font-size="4" fill="#555" text-anchor="middle" letter-spacing="1">OLD SMOKE</text>
+      </svg>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:#444;text-align:center;letter-spacing:0.1em;">△ FRAME COMBO<br>VARIATION</div>
+    </div>
+
+    <!-- Minimal monogram -->
+    <div style="background:#000;border:1px solid #0DFF4A22;padding:30px;display:flex;flex-direction:column;align-items:center;gap:20px;">
+      <svg viewBox="0 0 80 140" width="80">
+        <rect x="5" y="5" width="70" height="130" rx="8" fill="#000" stroke="#0DFF4A" stroke-width="1"/>
+        <!-- Minimal just the hand + lines -->
+        <rect x="22" y="55" width="36" height="22" rx="5" fill="#0DFF4A"/>
+        <rect x="14" y="59" width="12" height="10" rx="5" fill="#0DFF4A"/>
+        <rect x="24" y="42" width="6" height="17" rx="3" fill="#0DFF4A"/>
+        <rect x="32" y="38" width="6" height="20" rx="3" fill="#0DFF4A"/>
+        <rect x="40" y="40" width="6" height="19" rx="3" fill="#0DFF4A"/>
+        <rect x="48" y="44" width="5" height="15" rx="2.5" fill="#0DFF4A"/>
+        <line x1="27" y1="77" x2="27" y2="100" stroke="#0DFF4A" stroke-width="1" stroke-dasharray="2 4" opacity="0.8"/>
+        <line x1="35" y1="77" x2="35" y2="108" stroke="#0DFF4A" stroke-width="1" stroke-dasharray="2 4" opacity="0.8"/>
+        <line x1="43" y1="77" x2="43" y2="104" stroke="#0DFF4A" stroke-width="1" stroke-dasharray="2 4" opacity="0.8"/>
+        <line x1="51" y1="77" x2="51" y2="98" stroke="#0DFF4A" stroke-width="1" stroke-dasharray="2 4" opacity="0.8"/>
+        <text x="40" y="128" font-family="monospace" font-size="7" font-weight="bold" fill="#0DFF4A" text-anchor="middle" letter-spacing="3">OFFEGO</text>
+      </svg>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;color:#444;text-align:center;letter-spacing:0.1em;">HERO PACK<br>FULL GREEN</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RECOMMENDATION -->
+<div style="padding: 60px; border-top: 1px solid #111; background: #030f06;">
+  <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--green);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:30px;">— Recommendation</div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:60px;align-items:start;">
+    <div>
+      <div style="font-size:28px;font-weight:700;line-height:1.3;margin-bottom:20px;">
+        PUPPET VOID가 가장 강하다.<br>
+        <span style="color:var(--green);">여기에 역삼각형을 얹어라.</span>
+      </div>
+      <div style="font-size:14px;color:#666;line-height:1.8;max-width:480px;">
+        손바닥이 아래를 향하고, 줄은 있지만 인형이 없다는 개념은 이 카테고리 어디에도 없다.
+        자아 해방의 서사를 하나의 형태로 압축한 유일한 심볼이다.
+        여기에 역삼각형 프레임을 씌우면 — Brain Dead의 기이함과 Fragment의 절제가 동시에 성립한다.
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:0.15em;margin-bottom:8px;">PRIORITY ORDER</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--green);">01</span>
+        <span style="font-size:14px;font-weight:600;">PUPPET VOID</span>
+        <span class="rec">GO</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:#555;">02</span>
+        <span style="font-size:14px;color:#666;">PUPPET VOID + △ FRAME</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:#555;">03</span>
+        <span style="font-size:14px;color:#666;">DEAD SIGNAL (서브 심볼)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:#555;">04</span>
+        <span style="font-size:14px;color:#666;">ANTI-EGO EYE (에디션용)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COLOR -->
+<div class="palette-section">
+  <h3>— Brand Color System</h3>
+  <div class="palette">
+    <div class="color-swatch">
+      <div class="swatch-box" style="background:#000000;border-color:#333;"></div>
+      <div class="swatch-label">#000000<br>VOID BLACK</div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-box" style="background:#0DFF4A;border-color:#0DFF4A;"></div>
+      <div class="swatch-label">#0DFF4A<br>SIGNAL GREEN</div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-box" style="background:#FFFFFF;border-color:#555;"></div>
+      <div class="swatch-label">#FFFFFF<br>PURE WHITE</div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-box" style="background:#111111;border-color:#333;"></div>
+      <div class="swatch-label">#111111<br>DEEP GRAY</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>OFFEGO BRAND SYSTEM — SYMBOL PROPOSALS 2025</p>
+  <p>"Drop self they built" — EGO DISSOLUTION BRAND</p>
+</footer>
+
+</body>
+</html>

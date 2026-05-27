@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFEGO — 섬네일 연출 레퍼런스</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0d0d0d;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    padding: 60px 32px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  header .brand {
+    font-size: 10px;
+    letter-spacing: 8px;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  header h1 {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 3px;
+    max-width: 1260px;
+    margin: 0 auto;
+  }
+
+  /* 카드 기본 */
+  .card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px;
+    position: relative;
+  }
+
+  /* 번호 */
+  .bg-num {
+    position: absolute;
+    font-size: 180px;
+    font-weight: 900;
+    letter-spacing: -8px;
+    opacity: 0.06;
+    bottom: -20px;
+    right: -10px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  /* 상단 */
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .flavor-num {
+    font-size: 10px;
+    letter-spacing: 3px;
+    font-weight: 400;
+    opacity: 0.4;
+  }
+
+  /* 스탯 */
+  .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stat-label {
+    font-size: 7px;
+    letter-spacing: 1px;
+    opacity: 0.35;
+    text-transform: uppercase;
+  }
+
+  .dots {
+    display: flex;
+    gap: 2px;
+  }
+
+  .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    opacity: 0.2;
+  }
+
+  .dot.on { opacity: 1; }
+
+  /* 메인 카피 */
+  .copy-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 0 10px;
+  }
+
+  .copy-main {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.3px;
+    word-break: keep-all;
+  }
+
+  /* 하단 */
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .flavor-name {
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .brand-mark {
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.25;
+  }
+
+  /* ── 개별 컬러 ── */
+
+  /* 블루이온 — 포카리 블루 */
+  .blue-ion {
+    background: #0A4EBF;
+    color: #fff;
+  }
+  .blue-ion .dot.on { background: #7EB8FF; }
+  .blue-ion .dot { background: #fff; }
+  .blue-ion .bg-num { color: #fff; }
+
+  /* 아이스피치 — 복숭아 */
+  .ice-peach {
+    background: #FF6240;
+    color: #fff;
+  }
+  .ice-peach .dot.on { background: #FFE0B2; }
+  .ice-peach .dot { background: #fff; }
+  .ice-peach .bg-num { color: #fff; }
+
+  /* 베리워터멜론 — 딥레드 */
+  .berry-wm {
+    background: #C8003A;
+    color: #fff;
+  }
+  .berry-wm .dot.on { background: #FFB3C6; }
+  .berry-wm .dot { background: #fff; }
+  .berry-wm .bg-num { color: #fff; }
+
+  /* 멘솔민트 — 아이스 화이트 */
+  .menthol {
+    background: #E8F4F0;
+    color: #0a0a0a;
+  }
+  .menthol .dot.on { background: #00B894; }
+  .menthol .dot { background: #0a0a0a; }
+  .menthol .bg-num { color: #0a0a0a; }
+
+  /* 사워애플 — 산성 그린 */
+  .sour-apple {
+    background: #ADDC00;
+    color: #0a0a0a;
+  }
+  .sour-apple .dot.on { background: #1A4700; }
+  .sour-apple .dot { background: #0a0a0a; }
+  .sour-apple .bg-num { color: #0a0a0a; }
+
+  /* 클래식 — 번트 브라운 */
+  .classic {
+    background: #1A0F07;
+    color: #D4A96A;
+  }
+  .classic .dot.on { background: #D4A96A; }
+  .classic .dot { background: #D4A96A; }
+  .classic .brand-mark { color: #D4A96A; }
+  .classic .bg-num { color: #D4A96A; }
+
+  /* 아이스콜라 — 블랙 */
+  .ice-cola {
+    background: #0A0A0A;
+    color: #fff;
+    border: 1px solid #1a1a1a;
+  }
+  .ice-cola .dot.on { background: #fff; }
+  .ice-cola .dot { background: #fff; }
+  .ice-cola .bg-num { color: #fff; }
+
+  /* 트로피칼 — 저니 오렌지 */
+  .tropical {
+    background: #FF8C00;
+    color: #0a0a0a;
+  }
+  .tropical .dot.on { background: #1A0500; }
+  .tropical .dot { background: #0a0a0a; }
+  .tropical .bg-num { color: #0a0a0a; }
+
+  /* 알로에그레이프 — 딥퍼플 */
+  .aloe-grape {
+    background: #2D0F5E;
+    color: #fff;
+  }
+  .aloe-grape .dot.on { background: #C8A8FF; }
+  .aloe-grape .dot { background: #fff; }
+  .aloe-grape .bg-num { color: #fff; }
+
+  /* 레몬라임 — 크리스프 라임 */
+  .lemon-lime {
+    background: #D4E800;
+    color: #0a0a0a;
+  }
+  .lemon-lime .dot.on { background: #1A2B00; }
+  .lemon-lime .dot { background: #0a0a0a; }
+  .lemon-lime .bg-num { color: #0a0a0a; }
+
+  /* 호버 */
+  .card:hover .card-inner { opacity: 0.92; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">OFFEGO</div>
+  <h1>Thumbnail Direction — 섬네일 연출 레퍼런스</h1>
+</header>
+
+<div class="grid">
+
+  <!-- 블루이온 -->
+  <div class="card blue-ion">
+    <div class="card-inner">
+      <div class="bg-num">05</div>
+      <div class="top">
+        <span class="flavor-num">05</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">운동 끝나고 마시던 그것.<br>달지 않고 맑고 즉각적인.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Blue Ion</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 아이스피치 -->
+  <div class="card ice-peach">
+    <div class="card-inner">
+      <div class="bg-num">08</div>
+      <div class="top">
+        <span class="flavor-num">08</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">반냉동 복숭아.<br>아직 즙이 살아있다.<br>차갑고 달고 풍부한.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Ice Peach</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 베리워터멜론 -->
+  <div class="card berry-wm">
+    <div class="card-inner">
+      <div class="bg-num">03</div>
+      <div class="top">
+        <span class="flavor-num">03</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">쩍, 속살을 드러내는<br>붉은 웃음.<br>여름의 뼛속까지<br>적시는 달콤한 냉기.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Berry Watermelon</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 멘솔민트 -->
+  <div class="card menthol">
+    <div class="card-inner">
+      <div class="bg-num">06</div>
+      <div class="top">
+        <span class="flavor-num">06</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">겨울 새벽 공기를<br>한 번 들이켰다.<br>차갑고 날카롭고<br>단순한.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Menthol Mint</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 사워애플 -->
+  <div class="card sour-apple">
+    <div class="card-inner">
+      <div class="bg-num">10</div>
+      <div class="top">
+        <span class="flavor-num">10</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">덜 익은 사과를<br>손톱으로 긁었다.<br>시고 풋내 나고 날것인.<br>덜 익었지만 그게 맞다.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Sour Apple</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 클래식 -->
+  <div class="card classic">
+    <div class="card-inner">
+      <div class="bg-num">09</div>
+      <div class="top">
+        <span class="flavor-num">09</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">달지 않은 카라멜.<br>쓰지 않은 타바코.<br>딱 그 사이.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Classic</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 아이스콜라 -->
+  <div class="card ice-cola">
+    <div class="card-inner">
+      <div class="bg-num">04</div>
+      <div class="top">
+        <span class="flavor-num">04</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">목을 긁고 내려가는<br>첫 모금의 그 느낌.<br>차갑고 날카롭고 검다.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Ice Cola</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 트로피칼믹스 -->
+  <div class="card tropical">
+    <div class="card-inner">
+      <div class="bg-num">07</div>
+      <div class="top">
+        <span class="flavor-num">07</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">무질서하게 뒤섞인<br>정글의 과즙.<br>뜨거운 열대의 환상.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Tropical Mix</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 알로에그레이프 -->
+  <div class="card aloe-grape">
+    <div class="card-inner">
+      <div class="bg-num">01</div>
+      <div class="top">
+        <span class="flavor-num">01</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">얼음 위에 뭉갠<br>포도 한 알.<br>차갑고 짙은.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Aloe Grape</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 레몬라임 -->
+  <div class="card lemon-lime">
+    <div class="card-inner">
+      <div class="bg-num">02</div>
+      <div class="top">
+        <span class="flavor-num">02</span>
+        <div class="stats">
+          <div class="stat-row"><span class="stat-label">타격감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">상큼함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">달콤함</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">쿨링감</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="stat-row"><span class="stat-label">맛표현</span><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+      <div class="copy-wrap">
+        <div class="copy-main">산미가 앞에서<br>달려온다.<br>피할 생각이 없는.</div>
+      </div>
+      <div class="bottom">
+        <span class="flavor-name">Lemon Lime</span>
+        <span class="brand-mark">OFFEGO</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

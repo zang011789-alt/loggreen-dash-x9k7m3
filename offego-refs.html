@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OFFEGO — Reference Brands</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 60px 60px 40px;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    header .brand {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: #555;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    header h1 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #444;
+      letter-spacing: 0.05em;
+    }
+
+    .highlight-bar {
+      background: #0f0800;
+      border-bottom: 1px solid #ff6b0020;
+      padding: 40px 60px;
+    }
+
+    .highlight-bar h2 {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      color: #ff6b00;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .top3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .top3-item {
+      border-left: 1px solid #ff6b0040;
+      padding-left: 20px;
+    }
+
+    .top3-item .name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .top3-item .reason {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1px;
+      background: #111;
+      padding: 1px;
+    }
+
+    .card {
+      background: #0a0a0a;
+      padding: 36px 32px;
+      transition: background 0.2s;
+    }
+
+    .card:hover {
+      background: #111;
+    }
+
+    .card-num {
+      font-size: 10px;
+      color: #2a2a2a;
+      letter-spacing: 0.2em;
+      margin-bottom: 20px;
+    }
+
+    .card-name {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .card-pronounce {
+      font-size: 11px;
+      color: #444;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border: 1px solid;
+    }
+
+    .badge-origin { color: #333; border-color: #1e1e1e; }
+    .badge-ego { color: #1abc9c; border-color: #1abc9c30; background: #000f0a; }
+    .badge-system { color: #f39c12; border-color: #f39c1230; background: #0f0a00; }
+    .badge-dark { color: #9b59b6; border-color: #9b59b630; background: #0a000f; }
+    .badge-deconstruct { color: #7ed321; border-color: #7ed32130; background: #0a0f00; }
+
+    .card-concept {
+      font-size: 12px;
+      line-height: 1.75;
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    .card-keyword {
+      font-size: 11px;
+      color: #333;
+      font-style: italic;
+      margin-bottom: 22px;
+    }
+
+    .card-link {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #333;
+      text-decoration: none;
+      border-bottom: 1px solid #1e1e1e;
+      padding-bottom: 2px;
+      transition: all 0.2s;
+    }
+
+    .card-link:hover {
+      color: #fff;
+      border-color: #fff;
+    }
+
+    footer {
+      padding: 40px 60px;
+      border-top: 1px solid #1a1a1a;
+      font-size: 10px;
+      color: #2a2a2a;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">OFFEGO — DROP SELF THEY BUILT</div>
+  <h1>Reference Brands</h1>
+  <p>자아 해체 / 반도식 / 심볼 중심 — 진짜 모를 만한 것들만</p>
+</header>
+
+<div class="highlight-bar">
+  <h2>OFFEGO 방향성과 가장 가까운 TOP 3</h2>
+  <div class="top3">
+    <div class="top3-item">
+      <div class="name">PERTE D'EGO</div>
+      <div class="reason">프랑스어 "자아의 상실". 컨셉이 OFFEGO랑 거의 동일. 경쟁 분석 필수.</div>
+    </div>
+    <div class="top3-item">
+      <div class="name">NOMEN NESCIO</div>
+      <div class="reason">"이름 모름". 정체성 지우기 + 로고 최소화. N.N. 두 글자가 전부인 심볼 구조.</div>
+    </div>
+    <div class="top3-item">
+      <div class="name">PUPPETS AND PUPPETS</div>
+      <div class="reason">마리오네트를 브랜드 언어로 만든 케이스. OFFEGO 로고 방향이랑 직접 겹침.</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-num">001</div>
+    <div class="card-name">PERTE D'EGO</div>
+    <div class="card-pronounce">페르트 데고</div>
+    <div class="meta">
+      <span class="badge badge-origin">FRANCE</span>
+      <span class="badge badge-ego">EGO DISSOLUTION</span>
+    </div>
+    <div class="card-concept">프랑스어로 "자아의 상실". 브랜드명 자체가 OFFEGO 슬로건이랑 동일한 개념. 미니멀 오렌지+블랙 팔레트, 군더더기 없는 선언형 브랜드.</div>
+    <div class="card-keyword">"자아를 잃는 것이 철학이다"</div>
+    <a href="https://pertedego.com" target="_blank" class="card-link">pertedego.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">002</div>
+    <div class="card-name">FALSE EGO</div>
+    <div class="card-pronounce">폴스 에고</div>
+    <div class="meta">
+      <span class="badge badge-origin">DENVER, USA</span>
+      <span class="badge badge-ego">EGO DISSOLUTION</span>
+    </div>
+    <div class="card-concept">에고가 세상과의 연결을 막는다는 철학에서 출발. 슬로건이나 로고보다 브랜드 선언 자체가 곧 심볼. 지속가능성 기반 스트리트웨어.</div>
+    <div class="card-keyword">"에고가 관계를 끊는다"</div>
+    <a href="https://falseego.com" target="_blank" class="card-link">falseego.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">003</div>
+    <div class="card-name">NOMEN NESCIO</div>
+    <div class="card-pronounce">노멘 네시오</div>
+    <div class="meta">
+      <span class="badge badge-origin">HELSINKI, FINLAND</span>
+      <span class="badge badge-ego">EGO DISSOLUTION</span>
+    </div>
+    <div class="card-concept">라틴어 "이름 모름(Name Unknown)". 로고는 N.N. 두 글자가 전부. 젠더리스 올블랙. 이름을 지운다 = 정체성을 지운다. 트렌드를 입지 말고 가치를 입어라.</div>
+    <div class="card-keyword">"Wear Values. Not Trends."</div>
+    <a href="https://nomennescio.fi" target="_blank" class="card-link">nomennescio.fi →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">004</div>
+    <div class="card-name">PUPPETS AND PUPPETS</div>
+    <div class="card-pronounce">퍼펫츠 앤 퍼펫츠</div>
+    <div class="meta">
+      <span class="badge badge-origin">NEW YORK, USA</span>
+      <span class="badge badge-system">ANTI-SYSTEM</span>
+    </div>
+    <div class="card-concept">마리오네트 + 자본주의 비판. 조각 작가 출신 Carly Mark가 창립. "자본주의 구조에 대한 혐오"가 컬렉션 동기. 2024년 마지막 런웨이. OFFEGO 로고 방향과 직접 겹침.</div>
+    <div class="card-keyword">"패션과 조각의 경계를 지운다"</div>
+    <a href="https://puppetsandpuppets.com" target="_blank" class="card-link">puppetsandpuppets.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">005</div>
+    <div class="card-name">KUSIKOHC</div>
+    <div class="card-pronounce">쿠시코크</div>
+    <div class="meta">
+      <span class="badge badge-origin">SEOUL, KOREA</span>
+      <span class="badge badge-ego">EGO DISSOLUTION</span>
+    </div>
+    <div class="card-concept">조기석의 멀티디시플리너리 프로젝트. "실패할 권리(Right to Fail)"가 모토. 자아·감정·정체성 해체 컬렉션. 사진, 조각, 드로잉이 옷 안에 녹아 있음.</div>
+    <div class="card-keyword">"Right to Fail"</div>
+    <a href="https://kusikohc.com" target="_blank" class="card-link">kusikohc.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">006</div>
+    <div class="card-name">NILøS</div>
+    <div class="card-pronounce">닐로스</div>
+    <div class="meta">
+      <span class="badge badge-origin">TOKYO, JAPAN</span>
+      <span class="badge badge-system">ANTI-SYSTEM</span>
+    </div>
+    <div class="card-concept">Julius 디자이너 Tatsuro Horikawa의 세컨드 라인. "공통 이데올로기를 거부한다"는 선언. 이름 안에 Ø(빈 원)을 박아 넣음. 비어있음이 정체성.</div>
+    <div class="card-keyword">"이데올로기를 거부하는 자유"</div>
+    <a href="https://www.ssense.com/en-us/men/designers/nils" target="_blank" class="card-link">SSENSE에서 보기 →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">007</div>
+    <div class="card-name">D.HYGEN</div>
+    <div class="card-pronounce">디하이겐</div>
+    <div class="meta">
+      <span class="badge badge-origin">OSAKA, JAPAN</span>
+      <span class="badge badge-deconstruct">DECONSTRUCT</span>
+    </div>
+    <div class="card-concept">2016년 오사카 창립. "Stranism" — 긴장감을 옷으로 구현. 일상적 스타일을 해체하고 재조립. 일본적 이중성(전통 vs 반역). 산업적 각인 스타일의 브랜드 언어.</div>
+    <div class="card-keyword">"일상을 해체하고 재조립"</div>
+    <a href="https://dhygen-artefact.com" target="_blank" class="card-link">dhygen-artefact.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">008</div>
+    <div class="card-name">POST ARCHIVE FACTION</div>
+    <div class="card-pronounce">포스트 아카이브 팩션 (PAF)</div>
+    <div class="meta">
+      <span class="badge badge-origin">SEOUL, KOREA</span>
+      <span class="badge badge-deconstruct">DECONSTRUCT</span>
+    </div>
+    <div class="card-concept">2018년 창립. 컬렉션을 Right / Center / Left로 나눔 — 추상화 단계. Left 피스가 가장 급진적. 해체+미래주의+산업 디자인. 구조 자체가 철학.</div>
+    <div class="card-keyword">"컬렉션이 스펙트럼이다"</div>
+    <a href="https://postarchivefaction.com" target="_blank" class="card-link">postarchivefaction.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">009</div>
+    <div class="card-name">TOURNE DE TRANSMISSION</div>
+    <div class="card-pronounce">투르 드 트랜스미시옹</div>
+    <div class="meta">
+      <span class="badge badge-origin">LONDON, UK</span>
+      <span class="badge badge-system">ANTI-SYSTEM</span>
+    </div>
+    <div class="card-concept">"회전 전송"이라는 뜻. 옷이 살아있는 미디어. 이미지+텍스트 충돌로 사회 비판. 걸어다니는 선언문. 슬로건 티셔츠를 예술 수준으로 끌어올린 브랜드.</div>
+    <div class="card-keyword">"걸어다니는 선언문"</div>
+    <a href="https://hypebeast.com/tags/tourne-de-transmission" target="_blank" class="card-link">Hypebeast에서 보기 →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">010</div>
+    <div class="card-name">DEVÁ STATES</div>
+    <div class="card-pronounce">데바 스테이츠</div>
+    <div class="meta">
+      <span class="badge badge-origin">JAKARTA, INDONESIA</span>
+      <span class="badge badge-dark">DARK AVANT-GARDE</span>
+    </div>
+    <div class="card-concept">산스크리트어 "빛나는 자(Devá)". 자카르타 스트리트 + 디스토피안 SF + 무너지는 자아. 강렬한 타이포와 심볼 언어. SSENSE, END Clothing 입점.</div>
+    <div class="card-keyword">"빛나는 자의 붕괴"</div>
+    <a href="https://www.devastates.us" target="_blank" class="card-link">devastates.us →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">011</div>
+    <div class="card-name">C2H4</div>
+    <div class="card-pronounce">씨투에이치포</div>
+    <div class="meta">
+      <span class="badge badge-origin">LOS ANGELES, USA</span>
+      <span class="badge badge-system">ANTI-SYSTEM</span>
+    </div>
+    <div class="card-concept">에틸렌 분자식이 브랜드명이자 로고. "우주 과학자 유니폼"이 컨셉. 시스템 바깥의 존재가 입는 옷. 사이보그+지하 문화+SF 서사를 동시에.</div>
+    <div class="card-keyword">"시스템 밖에서 온 유니폼"</div>
+    <a href="https://c2h4losangeles.com" target="_blank" class="card-link">c2h4losangeles.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">012</div>
+    <div class="card-name">KANGHYUK</div>
+    <div class="card-pronounce">강혁</div>
+    <div class="meta">
+      <span class="badge badge-origin">SEOUL, KOREA</span>
+      <span class="badge badge-deconstruct">DECONSTRUCT</span>
+    </div>
+    <div class="card-concept">RCA 졸업. 에어백 원단, 자동차 방음재, 미끄럼방지 철판으로 옷 제작. 옷의 재료 개념 자체를 해체. "생산은 삶 자체를 기반으로 한다"는 철학.</div>
+    <div class="card-keyword">"자동차 부품이 옷이 된다"</div>
+    <a href="https://kanghyuk.com" target="_blank" class="card-link">kanghyuk.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">013</div>
+    <div class="card-name">MISBHV</div>
+    <div class="card-pronounce">미스비헤이브</div>
+    <div class="meta">
+      <span class="badge badge-origin">WARSAW, POLAND</span>
+      <span class="badge badge-system">ANTI-SYSTEM</span>
+    </div>
+    <div class="card-concept">"Misbehave"를 브랜드명으로 박아버린 폴란드 브랜드. 동유럽 레이브 문화+해체적 스트리트웨어. 반사회적 태도가 곧 아이덴티티. 그래픽 강도 높음.</div>
+    <div class="card-keyword">"오작동이 곧 정체성"</div>
+    <a href="https://misbhv.com" target="_blank" class="card-link">misbhv.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">014</div>
+    <div class="card-name">ROMBAUT</div>
+    <div class="card-pronounce">롬보</div>
+    <div class="meta">
+      <span class="badge badge-origin">BRUSSELS, BELGIUM</span>
+      <span class="badge badge-dark">DARK AVANT-GARDE</span>
+    </div>
+    <div class="card-concept">"지속가능한 디스토피아"가 공식 슬로건. 신발 브랜드인데 세계관이 패션 브랜드 수준. "디자인이 자연과 조화를 이루는 세상". 미래적이고 어두운 미학.</div>
+    <div class="card-keyword">"Sustainable Dystopia"</div>
+    <a href="https://rombaut.com" target="_blank" class="card-link">rombaut.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">015</div>
+    <div class="card-name">99%IS-</div>
+    <div class="card-pronounce">나인티나인퍼센트이즈</div>
+    <div class="meta">
+      <span class="badge badge-origin">TOKYO, JAPAN</span>
+      <span class="badge badge-dark">DARK AVANT-GARDE</span>
+    </div>
+    <div class="card-concept">Bajowoo, 2012년 도쿄. 브랜드명 끝 대시(-)가 미완성/부정을 의미. 스터드, 지퍼, 핸드피니시. 펑크를 아방가르드로 승화. 1%는 항상 빠져있다.</div>
+    <div class="card-keyword">"1%는 항상 빠져있다"</div>
+    <a href="https://082plus.com/en/collections/99-is" target="_blank" class="card-link">082plus에서 보기 →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">016</div>
+    <div class="card-name">VAQUERA</div>
+    <div class="card-pronounce">바퀘라</div>
+    <div class="meta">
+      <span class="badge badge-origin">NEW YORK, USA</span>
+      <span class="badge badge-system">ANTI-SYSTEM</span>
+    </div>
+    <div class="card-concept">"패션 팬픽션"이라고 스스로 정의. 기존 패션 언어를 조롱하고 전복. 팝컬처+아방가르드의 역설적 혼합. Galliano, Margiela의 파괴적 DNA 계승.</div>
+    <div class="card-keyword">"Fashion Fan Fiction"</div>
+    <a href="https://vaquera.nyc" target="_blank" class="card-link">vaquera.nyc →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">017</div>
+    <div class="card-name">ECKHAUS LATTA</div>
+    <div class="card-pronounce">에크하우스 라타</div>
+    <div class="meta">
+      <span class="badge badge-origin">NEW YORK, USA</span>
+      <span class="badge badge-deconstruct">DECONSTRUCT</span>
+    </div>
+    <div class="card-concept">젠더·정체성 경계 해체. 예상치 못한 재료, 실험적 실루엣. 퀴어 커뮤니티 중심 캐스팅으로 런웨이 자체가 메시지. 옷이 선언이 되는 구조.</div>
+    <div class="card-keyword">"경계가 없는 것이 정체성"</div>
+    <a href="https://www.eckhauslatta.com" target="_blank" class="card-link">eckhauslatta.com →</a>
+  </div>
+
+  <div class="card">
+    <div class="card-num">018</div>
+    <div class="card-name">BLACKCRAFT CULT</div>
+    <div class="card-pronounce">블랙크래프트 컬트</div>
+    <div class="meta">
+      <span class="badge badge-origin">SOUTHERN CALIFORNIA, USA</span>
+      <span class="badge badge-dark">DARK AVANT-GARDE</span>
+    </div>
+    <div class="card-concept">"Believe in yourself, not a God." — 반체제를 종교적 언어로 뒤집음. 고딕+메탈+위치 아이덴티티. 브랜드명 자체가 컬트 선언. 신을 지우고 자아를 믿는다.</div>
+    <div class="card-keyword">"Believe in yourself, not a God."</div>
+    <a href="https://blackcraftcult.com" target="_blank" class="card-link">blackcraftcult.com →</a>
+  </div>
+
+</div>
+
+<footer>
+  OFFEGO INTERNAL REFERENCE — DROP SELF THEY BUILT — 2026
+</footer>
+
+</body>
+</html>

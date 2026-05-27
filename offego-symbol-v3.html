@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>OFFEGO — Symbol Direction 03</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#080808;
+  color:#f0f0f0;
+  font-family:'Helvetica Neue', Arial, sans-serif;
+  padding: 56px 36px 120px;
+}
+.header { margin-bottom: 64px; }
+.header-eyebrow { font-size:10px; letter-spacing:.4em; color:#333; text-transform:uppercase; margin-bottom:10px; }
+.header-title { font-size:42px; font-weight:900; letter-spacing:-.03em; line-height:1; margin-bottom:14px; }
+.header-sub { font-size:12px; color:#3a3a3a; border-left:2px solid #1e1e1e; padding-left:14px; line-height:1.8; }
+
+.sec-label {
+  font-size:9px; letter-spacing:.4em; color:#282828;
+  text-transform:uppercase; padding:14px 0;
+  border-bottom:1px solid #111; margin:64px 0 3px;
+}
+
+.g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; }
+.g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; }
+.g2 { display:grid; grid-template-columns:repeat(2,1fr); gap:3px; }
+.g5 { display:grid; grid-template-columns:repeat(5,1fr); gap:3px; }
+
+.c {
+  background:#0d0d0d; padding:38px 28px 28px;
+  display:flex; flex-direction:column; min-height:260px;
+  position:relative; transition:background .15s;
+}
+.c:hover { background:#131313; }
+.c.w  { background:#f0f0f0; }
+.c.w  .cn,.c.w  .cd { color:#aaa; }
+.c.w  .ct { color:#111; }
+.c.lime { background:#c8ff00; }
+.c.lime .cn,.c.lime .cd { color:#7a9900; }
+.c.lime .ct { color:#111; }
+.c.red { background:#ff2020; }
+.c.red .cn,.c.red .cd { color:#aa0000; }
+.c.red .ct { color:#fff; }
+.c.blk { background:#000; }
+.c.s2 { grid-column:span 2; }
+.c.s3 { grid-column:span 3; }
+
+.cn { font-size:9px; letter-spacing:.3em; color:#202020; text-transform:uppercase; margin-bottom:28px; }
+.sym { flex:1; display:flex; align-items:center; justify-content:center; padding:8px 0 24px; }
+.ct { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#ccc; margin-bottom:7px; }
+.cd { font-size:11px; line-height:1.85; color:#383838; }
+.cd b { color:#666; font-weight:600; }
+
+.huge { font-family:'Helvetica Neue',Arial,sans-serif; font-weight:900; line-height:1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">OFFEGO / Symbol Direction 03</div>
+  <div class="header-title">기호가 반항이다</div>
+  <div class="header-sub">
+    숫자와 기호의 조합 — 수학, 코드, 논리, 방정식으로 자아를 해체한다
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  01. MATH OPERATORS               -->
+<!-- ══════════════════════════════════ -->
+<div class="sec-label">01 — 수학 연산자</div>
+<div class="g4">
+
+  <div class="c blk">
+    <div class="cn">01-A</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="100" fill="#f0f0f0" letter-spacing="-4">−1</text>
+      </svg>
+    </div>
+    <div class="ct">Minus One</div>
+    <div class="cd">"나를 한 겹 벗겨낸 상태"<br><b>가장 단순하고 날카로운 후보.</b></div>
+  </div>
+
+  <div class="c">
+    <div class="cn">01-B</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="90" fill="#f0f0f0" letter-spacing="-3">±0</text>
+      </svg>
+    </div>
+    <div class="ct">Plus-Minus Zero</div>
+    <div class="cd"><b>어느 방향도 될 수 있는 0.</b><br>규정 불가능한 자아.</div>
+  </div>
+
+  <div class="c lime">
+    <div class="cn">01-C</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="100" fill="#111" letter-spacing="-3">0!</text>
+      </svg>
+    </div>
+    <div class="ct">Zero Factorial</div>
+    <div class="cd">수학에서 0! = 1.<br><b>자아가 0이어도 결과는 1.</b><br>역설적 존재감.</div>
+  </div>
+
+  <div class="c w">
+    <div class="cn">01-D</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="106" fill="#111" letter-spacing="-2">≠</text>
+      </svg>
+    </div>
+    <div class="ct">Not Equal</div>
+    <div class="cd"><b>시스템이 정의한 나와<br>같지 않다.</b></div>
+  </div>
+
+</div>
+
+<div class="g4" style="margin-top:3px">
+
+  <div class="c">
+    <div class="cn">01-E</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="78" fill="#f0f0f0" letter-spacing="-2">x=0</text>
+      </svg>
+    </div>
+    <div class="ct">Variable = Zero</div>
+    <div class="cd">자아(x)를 방정식으로.<br><b>해답이 0이다.</b></div>
+  </div>
+
+  <div class="c">
+    <div class="cn">01-F</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="100" fill="#f0f0f0" letter-spacing="-3">~0</text>
+      </svg>
+    </div>
+    <div class="ct">Approximately Zero</div>
+    <div class="cd"><b>완전히 0은 아닌,<br>거의 0인 상태.</b><br>경계 위에 선 자아.</div>
+  </div>
+
+  <div class="c blk">
+    <div class="cn">01-G</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="96" fill="#c8ff00" letter-spacing="-3">&gt;0</text>
+      </svg>
+    </div>
+    <div class="ct">Greater Than Zero</div>
+    <div class="cd">어떤 상황에서도<br><b>0보다는 크다.</b><br>생존의 선언.</div>
+  </div>
+
+  <div class="c">
+    <div class="cn">01-H</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="65" y="96" text-anchor="middle" class="huge" font-size="80" fill="#f0f0f0">n</text>
+        <text x="112" y="54" text-anchor="middle" class="huge" font-size="48" fill="#f0f0f0">0</text>
+        <text x="90" y="108" text-anchor="middle" font-family="Helvetica Neue" font-size="7.5" fill="#282828" letter-spacing="3">ANY n TO ZERO = 1</text>
+      </svg>
+    </div>
+    <div class="ct">n⁰ = 1</div>
+    <div class="cd"><b>어떤 수든 0승은 항상 1.</b><br>자아를 0으로 줄여도<br>결과는 1이 된다.</div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  02. CODE / LOGIC                 -->
+<!-- ══════════════════════════════════ -->
+<div class="sec-label">02 — 코드 / 논리 기호</div>
+<div class="g3">
+
+  <div class="c s2">
+    <div class="cn">02-A</div>
+    <div class="sym">
+      <svg width="380" height="120" viewBox="0 0 380 120">
+        <text x="20" y="40" font-family="'Courier New',monospace" font-size="13" fill="#2a2a2a" letter-spacing="1">// self they built</text>
+        <text x="20" y="108" class="huge" font-size="88" fill="#f0f0f0" letter-spacing="-2">//OFFEGO</text>
+      </svg>
+    </div>
+    <div class="ct">// Comment Out</div>
+    <div class="cd">코드에서 <b>//는 그 줄을 무력화</b>시킨다.<br>"그들이 만든 나를 주석 처리한다." — 가장 현대적인 반항 언어.</div>
+  </div>
+
+  <div class="c lime">
+    <div class="cn">02-B</div>
+    <div class="sym">
+      <svg width="180" height="120" viewBox="0 0 180 120">
+        <text x="90" y="105" text-anchor="middle" class="huge" font-size="84" fill="#111" letter-spacing="-3">!ego</text>
+      </svg>
+    </div>
+    <div class="ct">NOT Ego</div>
+    <div class="cd">프로그래밍에서 <b>! = 부정.</b><br>ego를 논리적으로 반전.</div>
+  </div>
+
+</div>
+
+<div class="g4" style="margin-top:3px">
+
+  <div class="c w">
+    <div class="cn">02-C</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="108" fill="#111">¬</text>
+      </svg>
+    </div>
+    <div class="ct">Logical NOT</div>
+    <div class="cd">논리학의 부정 기호.<br><b>현재 상태를 반전한다.</b></div>
+  </div>
+
+  <div class="c">
+    <div class="cn">02-D</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="100" fill="#f0f0f0" letter-spacing="-6">{}</text>
+      </svg>
+    </div>
+    <div class="ct">Empty Block</div>
+    <div class="cd"><b>코드의 빈 블록.</b><br>내용 없는 컨테이너.<br>자아가 비워진 형태.</div>
+  </div>
+
+  <div class="c blk">
+    <div class="cn">02-E</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="98" text-anchor="middle" class="huge" font-size="100" fill="#c8ff00" letter-spacing="-3">!0</text>
+      </svg>
+    </div>
+    <div class="ct">NOT Zero</div>
+    <div class="cd">코드에서 !0 = true.<br><b>0이 아님 = 살아있음.</b><br>존재의 증명.</div>
+  </div>
+
+  <div class="c">
+    <div class="cn">02-F</div>
+    <div class="sym">
+      <svg width="180" height="110" viewBox="0 0 180 110">
+        <text x="90" y="82" text-anchor="middle" class="huge" font-size="32" fill="#f0f0f0" letter-spacing="2">_OFFEGO</text>
+        <line x1="32" y1="94" x2="150" y2="94" stroke="#333" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="ct">Underscore Prefix</div>
+    <div class="cd">코드에서 _는 <b>내부/숨겨진 변수.</b><br>시스템 바깥의 존재.</div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  03. SPECIAL CHARS                -->
+<!-- ══════════════════════════════════ -->
+<div class="sec-label">03 — 특수기호 단독</div>
+<div class="g5">
+
+  <div class="c">
+    <div class="cn">03-A</div>
+    <div class="sym">
+      <svg width="130" height="130" viewBox="0 0 130 130">
+        <text x="65" y="112" text-anchor="middle" class="huge" font-size="120" fill="#f0f0f0">/</text>
+      </svg>
+    </div>
+    <div class="ct">Slash</div>
+    <div class="cd">가르다, 탈출하다.<br><b>하나의 선.</b></div>
+  </div>
+
+  <div class="c w">
+    <div class="cn">03-B</div>
+    <div class="sym">
+      <svg width="130" height="130" viewBox="0 0 130 130">
+        <text x="65" y="112" text-anchor="middle" class="huge" font-size="110" fill="#111">×</text>
+      </svg>
+    </div>
+    <div class="ct">Cross Out</div>
+    <div class="cd">취소, 부정, 말소.<br><b>그들의 정의를 X.</b></div>
+  </div>
+
+  <div class="c lime">
+    <div class="cn">03-C</div>
+    <div class="sym">
+      <svg width="130" height="130" viewBox="0 0 130 130">
+        <text x="65" y="108" text-anchor="middle" class="huge" font-size="110" fill="#111">°</text>
+      </svg>
+    </div>
+    <div class="ct">Zero Degree</div>
+    <div class="cd">출발점의 각도.<br><b>리셋의 기준선.</b></div>
+  </div>
+
+  <div class="c blk">
+    <div class="cn">03-D</div>
+    <div class="sym">
+      <svg width="130" height="130" viewBox="0 0 130 130">
+        <text x="65" y="108" text-anchor="middle" class="huge" font-size="96" fill="#f0f0f0">@</text>
+      </svg>
+    </div>
+    <div class="ct">At Sign</div>
+    <div class="cd">귀속된 존재.<br><b>@offego = 거기에 있다.</b></div>
+  </div>
+
+  <div class="c">
+    <div class="cn">03-E</div>
+    <div class="sym">
+      <svg width="130" height="130" viewBox="0 0 130 130">
+        <text x="65" y="108" text-anchor="middle" class="huge" font-size="96" fill="#f0f0f0">%</text>
+      </svg>
+    </div>
+    <div class="ct">Percent</div>
+    <div class="cd">시스템이 나를<br><b>수치화한 방식.</b></div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  04. COMPOUND SYMBOLS             -->
+<!-- ══════════════════════════════════ -->
+<div class="sec-label">04 — 조합형 심볼</div>
+<div class="g3">
+
+  <div class="c blk">
+    <div class="cn">04-A / BRAND LOCKUP</div>
+    <div class="sym">
+      <svg width="280" height="140" viewBox="0 0 280 140">
+        <text x="20" y="118" class="huge" font-size="108" fill="#f0f0f0" letter-spacing="-4">−1</text>
+        <line x1="190" y1="20" x2="190" y2="130" stroke="#222" stroke-width="1"/>
+        <text x="240" y="80" text-anchor="middle" class="huge" font-size="13" fill="#c8ff00" letter-spacing="4"
+          transform="rotate(-90,240,80)">OFFEGO</text>
+      </svg>
+    </div>
+    <div class="ct">−1 + OFFEGO Lockup</div>
+    <div class="cd">−1이 메인 심볼, OFFEGO는 세로 서브텍스트.<br><b>패키지 전면에 바로 쓸 수 있는 구성.</b></div>
+  </div>
+
+  <div class="c">
+    <div class="cn">04-B</div>
+    <div class="sym">
+      <svg width="280" height="140" viewBox="0 0 280 140">
+        <text x="140" y="118" text-anchor="middle" class="huge" font-size="100" fill="#f0f0f0" letter-spacing="-4">//0</text>
+      </svg>
+    </div>
+    <div class="ct">Double Slash Zero</div>
+    <div class="cd">0을 주석 처리하다.<br><b>자아를 코드에서 지운다.</b></div>
+  </div>
+
+  <div class="c w">
+    <div class="cn">04-C</div>
+    <div class="sym">
+      <svg width="280" height="140" viewBox="0 0 280 140">
+        <text x="140" y="118" text-anchor="middle" class="huge" font-size="104" fill="#111" letter-spacing="-4">#0</text>
+      </svg>
+    </div>
+    <div class="ct">#0 — Hash Zero</div>
+    <div class="cd">#1이 경쟁의 1등이라면,<br><b>#0은 그 이전 단계.</b><br>카테고리 자체를 이탈.</div>
+  </div>
+
+</div>
+
+<div class="g2" style="margin-top:3px">
+
+  <div class="c">
+    <div class="cn">04-D / FULL LOCKUP</div>
+    <div class="sym">
+      <svg width="440" height="130" viewBox="0 0 440 130">
+        <text x="30" y="108" class="huge" font-size="96" fill="#c8ff00" letter-spacing="-2">¬ego</text>
+        <text x="420" y="108" text-anchor="end" class="huge" font-size="20" fill="#333" letter-spacing="6">OFFEGO</text>
+        <line x1="0" y1="118" x2="440" y2="118" stroke="#1e1e1e" stroke-width="1"/>
+        <text x="0" y="128" font-family="Helvetica Neue" font-size="8" fill="#1e1e1e" letter-spacing="4">DROP SELF THEY BUILT.</text>
+      </svg>
+    </div>
+    <div class="ct">¬ego Full Lockup</div>
+    <div class="cd">논리 부정 기호 ¬ + ego 조합.<br><b>"낫 에고" → "Not Ego"</b> — 슬로건과 완벽히 연결됨.</div>
+  </div>
+
+  <div class="c lime">
+    <div class="cn">04-E</div>
+    <div class="sym">
+      <svg width="440" height="130" viewBox="0 0 440 130">
+        <text x="220" y="108" text-anchor="middle" class="huge" font-size="96" fill="#111" letter-spacing="-4">−1°</text>
+      </svg>
+    </div>
+    <div class="ct">Minus One Degree</div>
+    <div class="cd"><b>한 겹 벗겨낸 상태의 각도.</b> 0도가 시작이면 −1도는 그 이전.<br>시스템의 출발선 바깥에 서있다.</div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════ -->
+<!--  05. FINAL PICKS                  -->
+<!-- ══════════════════════════════════ -->
+<div class="sec-label">05 — 최종 후보 모음</div>
+<div class="g5">
+
+  <div class="c blk" style="min-height:200px">
+    <div class="sym">
+      <svg width="130" height="90" viewBox="0 0 130 90">
+        <text x="65" y="78" text-anchor="middle" class="huge" font-size="86" fill="#f0f0f0" letter-spacing="-3">−1</text>
+      </svg>
+    </div>
+    <div class="ct" style="text-align:center">−1</div>
+    <div class="cd" style="text-align:center;font-size:10px">단독 최강</div>
+  </div>
+
+  <div class="c" style="min-height:200px">
+    <div class="sym">
+      <svg width="130" height="90" viewBox="0 0 130 90">
+        <text x="65" y="78" text-anchor="middle" class="huge" font-size="74" fill="#f0f0f0" letter-spacing="-2">¬ego</text>
+      </svg>
+    </div>
+    <div class="ct" style="text-align:center">¬ego</div>
+    <div class="cd" style="text-align:center;font-size:10px">철학적 선언</div>
+  </div>
+
+  <div class="c lime" style="min-height:200px">
+    <div class="sym">
+      <svg width="130" height="90" viewBox="0 0 130 90">
+        <text x="65" y="78" text-anchor="middle" class="huge" font-size="80" fill="#111" letter-spacing="-3">0!</text>
+      </svg>
+    </div>
+    <div class="ct" style="text-align:center">0!</div>
+    <div class="cd" style="text-align:center;font-size:10px">수학적 역설</div>
+  </div>
+
+  <div class="c w" style="min-height:200px">
+    <div class="sym">
+      <svg width="130" height="90" viewBox="0 0 130 90">
+        <text x="65" y="78" text-anchor="middle" class="huge" font-size="66" fill="#111" letter-spacing="-2">//0</text>
+      </svg>
+    </div>
+    <div class="ct" style="text-align:center;color:#111">//0</div>
+    <div class="cd" style="text-align:center;font-size:10px;color:#888">코드적 반항</div>
+  </div>
+
+  <div class="c" style="min-height:200px">
+    <div class="sym">
+      <svg width="130" height="90" viewBox="0 0 130 90">
+        <text x="65" y="78" text-anchor="middle" class="huge" font-size="78" fill="#c8ff00" letter-spacing="-2">!0</text>
+      </svg>
+    </div>
+    <div class="ct" style="text-align:center">!0</div>
+    <div class="cd" style="text-align:center;font-size:10px">존재의 증명</div>
+  </div>
+
+</div>
+
+<!-- footer -->
+<div style="margin-top:64px; padding-top:28px; border-top:1px solid #111;
+  display:flex; justify-content:space-between; align-items:flex-end;">
+  <div style="font-size:11px; color:#2a2a2a; line-height:2; max-width:500px;">
+    탈리마크(시간/감옥) + 숫자기호(자아/시스템) — 두 방향은 충돌하지 않음.<br>
+    조합 예: 탈리마크 배경에 <span style="color:#555">−1</span> 오버레이 / 패키지 전면 <span style="color:#555">¬ego</span> 스탬프
+  </div>
+  <div style="text-align:right;">
+    <div style="font-size:28px; font-weight:900; letter-spacing:-.02em">OFFEGO</div>
+    <div style="font-size:9px; color:#222; letter-spacing:.25em; margin-top:5px">DROP SELF THEY BUILT.</div>
+  </div>
+</div>
+
+</body>
+</html>

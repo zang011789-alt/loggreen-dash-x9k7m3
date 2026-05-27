@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>노즈픽션 원고 학습 보고서</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d0d0d; color: #e0e0e0; font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif; line-height: 1.7; padding: 40px 20px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 28px; color: #fff; margin-bottom: 8px; }
+  .subtitle { color: #888; font-size: 14px; margin-bottom: 40px; }
+  .stat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 40px; }
+  .stat { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 20px; text-align: center; }
+  .stat-num { font-size: 36px; font-weight: 700; color: #4ade80; }
+  .stat-num.orange { color: #fb923c; }
+  .stat-num.blue { color: #60a5fa; }
+  .stat-num.purple { color: #c084fc; }
+  .stat-num.yellow { color: #fbbf24; }
+  .stat-label { font-size: 12px; color: #666; margin-top: 4px; }
+  .section { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 28px; margin-bottom: 24px; }
+  .section h2 { font-size: 18px; color: #fff; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #2a2a2a; }
+  .section-sub { font-size: 12px; color: #555; font-weight: 400; margin-left: 8px; }
+  .tag { display: inline-block; background: #2a2a2a; color: #ccc; border-radius: 6px; padding: 4px 10px; font-size: 12px; margin: 3px; }
+  .tag.green { background: #1a3a2a; color: #4ade80; }
+  .tag.yellow { background: #3a3000; color: #fbbf24; }
+  .tag.red { background: #3a1a1a; color: #f87171; }
+  .tag.blue { background: #1a2a3a; color: #60a5fa; }
+  .tag.orange { background: #3a2010; color: #fb923c; }
+  .tag.purple { background: #2a1a3a; color: #c084fc; }
+  .pattern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pattern-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .pattern-card { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 16px; }
+  .pattern-card h3 { font-size: 14px; color: #fbbf24; margin-bottom: 8px; }
+  .pattern-card p { font-size: 13px; color: #aaa; line-height: 1.9; }
+  .example { background: #111; border-left: 3px solid #4ade80; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 13px; color: #ccc; font-style: italic; }
+  .example.red { border-left-color: #f87171; }
+  .example.yellow { border-left-color: #fbbf24; }
+  .example.blue { border-left-color: #60a5fa; }
+  .example.orange { border-left-color: #fb923c; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #2a2a2a; color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; }
+  td { padding: 10px 14px; border-bottom: 1px solid #222; color: #ccc; vertical-align: top; }
+  tr:hover td { background: #1f1f1f; }
+  .hook-type { display: flex; flex-direction: column; gap: 12px; }
+  .hook-item { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 14px; }
+  .hook-item:hover { border-color: #3a3a3a; }
+  .hook-name { font-size: 14px; color: #fbbf24; font-weight: 600; margin-bottom: 6px; }
+  .hook-freq { font-size: 11px; color: #555; margin-left: 8px; font-weight: 400; }
+  .hook-example { font-size: 12px; color: #888; line-height: 1.8; }
+  .hook-example span { color: #ccc; }
+  .censor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .censor-item { background: #111; border-radius: 6px; padding: 10px 12px; font-size: 13px; }
+  .censor-orig { color: #f87171; }
+  .censor-arrow { color: #555; margin: 0 6px; }
+  .censor-new { color: #4ade80; }
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin-top: 12px; }
+  .flow-step { background: #111; border: 1px solid #333; border-radius: 8px; padding: 10px 14px; font-size: 13px; text-align: center; flex: 1; min-width: 100px; }
+  .flow-step .num { font-size: 10px; color: #666; margin-bottom: 4px; }
+  .flow-step .text { color: #ccc; }
+  .flow-arrow { color: #444; padding: 0 6px; font-size: 18px; }
+  .insight-list { list-style: none; }
+  .insight-list li { padding: 10px 0; border-bottom: 1px solid #222; font-size: 14px; color: #ccc; padding-left: 20px; position: relative; }
+  .insight-list li:last-child { border-bottom: none; }
+  .insight-list li::before { content: '→'; position: absolute; left: 0; color: #4ade80; }
+  .insight-list li strong { color: #fff; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge-t { background: #1a3a2a; color: #4ade80; }
+  .badge-ai { background: #1a2a4a; color: #60a5fa; }
+  .badge-an { background: #3a2a1a; color: #f97316; }
+  .badge-aa { background: #3a1a3a; color: #c084fc; }
+  .badge-o { background: #2a2a1a; color: #eab308; }
+  .badge-r { background: #3a1a2a; color: #f43f5e; }
+  .num-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .num-card { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 12px 16px; text-align: center; min-width: 120px; flex: 1; }
+  .num-big { font-size: 24px; font-weight: 700; color: #fbbf24; }
+  .num-desc { font-size: 11px; color: #666; margin-top: 4px; }
+  .story-type { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .story-card { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 16px; }
+  .story-card h3 { font-size: 13px; color: #60a5fa; margin-bottom: 10px; font-weight: 600; }
+  .story-step { font-size: 12px; color: #aaa; padding: 4px 0; border-bottom: 1px solid #1a1a1a; display: flex; align-items: flex-start; gap: 8px; }
+  .story-step:last-child { border-bottom: none; }
+  .step-n { color: #555; font-size: 11px; min-width: 18px; }
+  .divider { height: 1px; background: #222; margin: 20px 0; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .copy-lib { background: #111; border-radius: 8px; padding: 16px; margin-bottom: 10px; }
+  .copy-lib-title { font-size: 12px; color: #fb923c; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .copy-phrase { font-size: 13px; color: #ccc; line-height: 2; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>노즈픽션 원고 학습 보고서</h1>
+  <div class="subtitle">~180개 원고 실독 완료 — 2026-05-26 업데이트</div>
+
+  <!-- KPI 통계 -->
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-num">180+</div>
+      <div class="stat-label">실독 원고 수</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num orange">14</div>
+      <div class="stat-label">검증된 Hook 유형</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num blue">40+</div>
+      <div class="stat-label">검열 우회 표현</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num purple">8</div>
+      <div class="stat-label">스토리 전개 패턴</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num yellow">14</div>
+      <div class="stat-label">완판 차수</div>
+    </div>
+  </div>
+
+  <!-- 원고 유형 분류 -->
+  <div class="section">
+    <h2>원고 유형 분류 <span class="section-sub">전체 네이밍 패턴 정리</span></h2>
+    <table>
+      <tr><th>유형 코드</th><th>의미</th><th>특징</th><th>구조</th></tr>
+      <tr>
+        <td><span class="badge badge-t">_T</span></td>
+        <td>틱톡 / 숏폼</td>
+        <td>가장 많음. 전문가 1인칭 구어체. 짧은 호흡. 30~60초 분량</td>
+        <td>AI음성용 텍스트 + 자막용 텍스트(검열버전) <strong>2세트</strong></td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-ai">_AI</span></td>
+        <td>AI 영상 광고</td>
+        <td>AI소스 기반 영상. 커뮤니티/뉴스/고백 톤. 3인칭 서술 多</td>
+        <td>레퍼런스 영상 첨부 + 원고 1세트</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-an">_AN</span></td>
+        <td>애니메이션 광고</td>
+        <td>카툰/픽사 스타일 영상. 대화체 가능. 아이 타겟 多</td>
+        <td>AI음성용 + 자막용 2세트</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-aa">_AA</span></td>
+        <td>성우 녹음 광고</td>
+        <td>성우 체크박스 YES. 전문가 강연 형식 多. 긴 호흡 가능</td>
+        <td>단일 원고 (성우 전달용)</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-o">_O</span></td>
+        <td>외부소스</td>
+        <td>타 소스 참고. _OA는 외부소스+애니 결합형</td>
+        <td>원고 1세트 (소스 명기)</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-r">R prefix</span></td>
+        <td>리메이크</td>
+        <td>기존 원고 앵글/표현 수정본. 예: 정상아냐R_T</td>
+        <td>원본과 동일 구조, 후킹 강화</td>
+      </tr>
+      <tr>
+        <td><span class="badge" style="background:#2a2a2a;color:#aaa;">남 / 여</span></td>
+        <td>성별 타겟 구분</td>
+        <td>강연망가진_남_T, 강연망가진_여_T처럼 성별 버전 별도 제작</td>
+        <td>후킹 문구와 공감 포인트만 달라짐</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 핵심 수치 라이브러리 -->
+  <div class="section">
+    <h2>핵심 수치 라이브러리 <span class="section-sub">원고에서 반복 등장하는 숫자 전부</span></h2>
+    <div class="num-row">
+      <div class="num-card"><div class="num-big">99.9%</div><div class="num-desc">비염균 분해율</div></div>
+      <div class="num-card"><div class="num-big">92%</div><div class="num-desc">염증 제거율</div></div>
+      <div class="num-card"><div class="num-big">189%</div><div class="num-desc">섬모세포 재생률</div></div>
+      <div class="num-card"><div class="num-big">126%</div><div class="num-desc">면역 증가율 (일부 원고)</div></div>
+      <div class="num-card"><div class="num-big">-89.7%</div><div class="num-desc">콧물 감소율 (일부 원고)</div></div>
+      <div class="num-card"><div class="num-big">18층</div><div class="num-desc">비강 깊이 표현 ("18층 아래")</div></div>
+      <div class="num-card"><div class="num-big">13배</div><div class="num-desc">코세척 대비 분해력</div></div>
+      <div class="num-card"><div class="num-big">7배</div><div class="num-desc">수술 대비 분해력 (일부)</div></div>
+      <div class="num-card"><div class="num-big">500번</div><div class="num-desc">코세척 500번 = 노픽 1포</div></div>
+      <div class="num-card"><div class="num-big">3달</div><div class="num-desc">완전 개선 기간 목표치</div></div>
+      <div class="num-card"><div class="num-big">2주</div><div class="num-desc">환불 기준 효과 체감 기간</div></div>
+      <div class="num-card"><div class="num-big">14차</div><div class="num-desc">누적 완판 차수 (사회적 증거)</div></div>
+      <div class="num-card"><div class="num-big">820원</div><div class="num-desc">하루 섭취 비용</div></div>
+      <div class="num-card"><div class="num-big">48~52%</div><div class="num-desc">할인율 (원고별 상이)</div></div>
+    </div>
+  </div>
+
+  <!-- 원고 구조 흐름 -->
+  <div class="section">
+    <h2>원고 공통 구조 흐름 <span class="section-sub">180개 원고 전부 이 틀 안에 있음</span></h2>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="num">① HOOK</div>
+        <div class="text">상단고정<br>후킹 문구<br><small style="color:#555">가장 중요</small></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">② 문제 인식</div>
+        <div class="text">타겟 상황<br>공감 + 충격</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">③ 기존법 비판</div>
+        <div class="text">코세척 / 스프레이<br>"겉만 씻음"</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">④ 원리 설명</div>
+        <div class="text">혈류 침투<br>비강 사각지대<br>표적 분해</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">⑤ 수치 신뢰</div>
+        <div class="text">99.9% / 189%<br>3달 / 2주</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">⑥ 업계 견제</div>
+        <div class="text">병원/제약사<br>긴장 중<br><small style="color:#555">선택적</small></div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="num">⑦ CTA</div>
+        <div class="text">할인 + 한정<br>100% 환불</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p style="color:#666; font-size:13px; margin-bottom:14px;">핵심 공식 문구 — 구조 내에서 고정 반복</p>
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <h3>원인 설명 공식</h3>
+        <p>비강 점막 사이사이 깊은 곳까지 <strong style="color:#fff">염증이 뿌리내린 것</strong><br>
+        비강 18층 아래 / 비강 사각지대<br>
+        에어컨 온도차 → 혈관 팽창 → 비강확장제 유발</p>
+      </div>
+      <div class="pattern-card">
+        <h3>기존법 비판 공식</h3>
+        <p>코세척 → "겉만 씻음" / "물만 흘러가는 것"<br>
+        스프레이 → "겉만 적시고 안으로 못 들어감"<br>
+        먹는 항생제 → "위장에서 다 소화됨"<br>
+        병원 수술 → "재발률 30~40%"</p>
+      </div>
+      <div class="pattern-card">
+        <h3>작용 원리 공식</h3>
+        <p>마시는 즉시 <strong style="color:#fff">혈류를 타고</strong><br>
+        비강 사각지대까지 침투<br>
+        → <strong style="color:#fff">표적 분해</strong><br>
+        → 콧농 / 묵은 비염균 배출</p>
+      </div>
+      <div class="pattern-card">
+        <h3>효과 체감 공식</h3>
+        <p><strong style="color:#fff">뇌까지 산소가 직빵으로 꽂히는 시원함</strong><br>
+        신생아 숨길로 / 하수구 터지듯 쏟아짐<br>
+        7년 묵은 것이 쏟아지는 느낌<br>
+        에어컨 없어도 코가 뻥</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hook 유형 -->
+  <div class="section">
+    <h2>후킹 유형 14종 <span class="section-sub">검증된 앵글 전체 목록</span></h2>
+    <div class="hook-type">
+
+      <div class="hook-item">
+        <div class="hook-name">1. 전문가 추천형 <span class="hook-freq">빈도 ★★★★★ 최다</span></div>
+        <div class="hook-example">
+          <span>"제가 15년 동안 봐왔지만 여름철 방문율 1위가 에어컨 찬바람 때문이에요"</span><br>
+          "코 전문인들이 입이 닳도록 추천하는 게 있어요"<br>
+          "강연장에서 이 말 하면 자리를 박차고 나가시는 분들이 생기더라고요"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">2. 커뮤니티 난리형 <span class="hook-freq">빈도 ★★★★★ 최다</span></div>
+        <div class="hook-example">
+          <span>"대체 노즈픽션이 뭐길래 비염인들 사이에서 이렇게 난리일까요?"</span><br>
+          "커뮤니티가 뒤집어졌을 정도예요"<br>
+          "요즘 광고 보면 다들 노즈픽션 들고나오던데 이게 뭔가요?"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">3. 업계 고발 / 견제 폭로형 <span class="hook-freq">빈도 ★★★★</span></div>
+        <div class="hook-example">
+          <span>"묵은 콧농덩이를 단 3달만에 녹여 신생아 숨길로 돌려준다는 노즈픽션의 등장을 업계 전체가 필사적으로 견제하고 있습니다"</span><br>
+          "수백만원짜리 예약이 줄줄이 취소되다 보니"<br>
+          "코 전문 병원들이 고객이 끊기기 시작했다고..."
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">4. 수술 취소 / 드라마틱 전환형 <span class="hook-freq">빈도 ★★★★</span></div>
+        <div class="hook-example">
+          <span>"수술 날짜까지 잡아놨었는데, 딱 하나가 마음에 걸렸어요"</span><br>
+          "스프레이 10년 쓰다가 처음으로 수술 취소함"<br>
+          "저 다음주 수술 예약 취소했습니다"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">5. 배우자 / 지인 경험담형 <span class="hook-freq">빈도 ★★★★</span></div>
+        <div class="hook-example">
+          <span>"남편이 밥 먹을 때마다 콧물 주르륵 흐른다고 하도 징징대길래 속는 셈 치고 한 번 사줘봤어요"</span><br>
+          "엄마가 코 때문에 몇 년째 고생하셔서 지나가다가 봤는데"<br>
+          "시어머니가 주시길래 설마 했는데..."
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">6. 후회 유발형 <span class="hook-freq">빈도 ★★★</span></div>
+        <div class="hook-example">
+          <span>"저 이거 산 거 후회해요 — 지금 역대급 48% 할인 중인데 지난주에 정가 주고 산 거 진짜 땅을 치고 후회한다고요"</span><br>
+          "이거 알았으면 병원 안 갔을 텐데"<br>
+          "2년 전에 알았으면 얼마나 좋았을까"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">7. 내기 / 확신 선언형 <span class="hook-freq">빈도 ★★★</span></div>
+        <div class="hook-example">
+          <span>"이거 하나로 알콜성 코막힘 없어지나 안없어지나 내기 하실래요?"</span><br>
+          "저는 진짜 제 전재산 겁니다"<br>
+          "안 되면 제가 창피당하는 거 괜찮아요"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">8. 개발자 고백 / CEO 뼈저린 학습형 <span class="hook-freq">빈도 ★★★</span></div>
+        <div class="hook-example">
+          <span>"제품을 너무 잘 만들어도 고민이 된다는 걸 이번에 뼈저리게 배웠습니다"</span><br>
+          "1달간 고민하다 솔직히 고백하겠습니다"<br>
+          "나노추출 공정 한 달 한정 → 예약제 전환 → 마지막 오픈 물량"<br>
+          (희소성 + 신뢰 동시 달성)
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">9. 체크리스트 / 해당여부 확인형 <span class="hook-freq">빈도 ★★★</span></div>
+        <div class="hook-example">
+          <span>"1. 목이 칼칼하다 / 2. 재채기가 터진다 / 3. 코 안이 찢어질 듯 건조하다 — 이 중 하나 해당되시죠?"</span><br>
+          "아침에 코 막혀서 눈 뜨신 분, 이 영상 끝까지 보세요"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">10. 계절 / 상황 트리거형 <span class="hook-freq">빈도 ★★★</span></div>
+        <div class="hook-example">
+          <span>"에어컨만 키면 콧물 수도꼭지 줄줄 새는 분들, 아직도 에어컨 청소타령만 하고 계세요?"</span><br>
+          "3040부터 유독 에어컨 틀 때 코 줄줄 샌다면"<br>
+          "에어컨 청소 매번 해도 소용없는 이유"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">11. 기존 제품 업보 청산 / 풍자형 <span class="hook-freq">빈도 ★★</span></div>
+        <div class="hook-example">
+          <span>"실시간 업보 청산 중인 코세척기 근황"</span><br>
+          "비염러들에게 극딜 맞고 있는 코세척기"<br>
+          "코세척기가 업보를 청산하고 있습니다 — 그 이유가..."
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">12. 일본 / 해외 레퍼런스형 <span class="hook-freq">빈도 ★★</span></div>
+        <div class="hook-example">
+          <span>"일본 약국에서 팔리는 비염 제품 1위가 한국 제품이라는 거 아세요?"</span><br>
+          "일본 유학 중에 발견한 건데"<br>
+          "해외에서 먼저 난리났던 그 성분"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">13. 아이 얼굴 변형 경고형 <span class="hook-freq">빈도 ★★</span></div>
+        <div class="hook-example">
+          <span>"입 벌리고 자는 아이, 지금 얼굴이 길어지는 중입니다"</span><br>
+          "아데노이드 얼굴 — 한 번 변형되면 양악 수술 2천만원"<br>
+          "코막힌 아이, 눈이 처지고 입이 튀어나오는 이유"
+        </div>
+      </div>
+
+      <div class="hook-item">
+        <div class="hook-name">14. 강연 충격 발언형 <span class="hook-freq">빈도 ★★</span></div>
+        <div class="hook-example">
+          <span>"이비인후과 원장들 강연에서 자리를 박차고 나갔습니다"</span><br>
+          "강의 도중 강연장이 발칵 뒤집어졌습니다"<br>
+          "이 발표 후에 저한테 소송을 걸겠다는 연락을 받았습니다"
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 스토리 전개 패턴 -->
+  <div class="section">
+    <h2>스토리 전개 패턴 8종 <span class="section-sub">HOOK 다음부터 본문 구조</span></h2>
+    <div class="story-type">
+      <div class="story-card">
+        <h3>패턴 A: 콧물 폭발 정화 스토리</h3>
+        <div class="story-step"><span class="step-n">1</span>비염 고통 공감</div>
+        <div class="story-step"><span class="step-n">2</span>노란 가루 한 스푼 섭취</div>
+        <div class="story-step"><span class="step-n">3</span>다음날 콧물 폭발 → 당황</div>
+        <div class="story-step"><span class="step-n">4</span>알고 보니 묵은 비염균 배출 과정</div>
+        <div class="story-step"><span class="step-n">5</span>며칠 후 코 뻥 뚫림</div>
+        <div class="story-step"><span class="step-n">6</span>가족/지인에게 공유</div>
+      </div>
+      <div class="story-card">
+        <h3>패턴 B: 수술 취소 드라마</h3>
+        <div class="story-step"><span class="step-n">1</span>장기 비염 / 수술 결심</div>
+        <div class="story-step"><span class="step-n">2</span>수술 날짜 잡아놓은 상태</div>
+        <div class="story-step"><span class="step-n">3</span>마지막으로 노즈픽션 시도</div>
+        <div class="story-step"><span class="step-n">4</span>효과 → 수술 취소</div>
+        <div class="story-step"><span class="step-n">5</span>병원 상담 결과 코 상태 정상</div>
+      </div>
+      <div class="story-card">
+        <h3>패턴 C: 업계 고발 뉴스형</h3>
+        <div class="story-step"><span class="step-n">1</span>"업계가 뒤집혔다" 충격 오프닝</div>
+        <div class="story-step"><span class="step-n">2</span>이비인후과 예약 줄취소 현황</div>
+        <div class="story-step"><span class="step-n">3</span>왜인지 → 노즈픽션 성분 원리</div>
+        <div class="story-step"><span class="step-n">4</span>수치 증거 (99.9% / 189% 등)</div>
+        <div class="story-step"><span class="step-n">5</span>긴급 할인 CTA</div>
+      </div>
+      <div class="story-card">
+        <h3>패턴 D: 아이 경고 부모 소구형</h3>
+        <div class="story-step"><span class="step-n">1</span>입 벌리고 자는 아이 묘사</div>
+        <div class="story-step"><span class="step-n">2</span>아데노이드 얼굴 경고</div>
+        <div class="story-step"><span class="step-n">3</span>기존 치료(스프레이/세척) 한계</div>
+        <div class="story-step"><span class="step-n">4</span>노즈픽션 혈류 침투 원리</div>
+        <div class="story-step"><span class="step-n">5</span>먹은 그날 밤 코로 숨쉬기 시작</div>
+        <div class="story-step"><span class="step-n">6</span>하루 820원 vs 2천만원 수술</div>
+      </div>
+      <div class="story-card">
+        <h3>패턴 E: 배우자/지인 선물 스토리</h3>
+        <div class="story-step"><span class="step-n">1</span>지인의 비염 고통 묘사 (3자 관찰)</div>
+        <div class="story-step"><span class="step-n">2</span>반신반의하며 사줌</div>
+        <div class="story-step"><span class="step-n">3</span>일주일 후 연락 옴 "코가 뚫렸다"</div>
+        <div class="story-step"><span class="step-n">4</span>성분 알아보니 납득</div>
+        <div class="story-step"><span class="step-n">5</span>가족 전체로 확산</div>
+      </div>
+      <div class="story-card">
+        <h3>패턴 F: 에어컨/계절 시즌 연결형</h3>
+        <div class="story-step"><span class="step-n">1</span>에어컨 온도차 → 혈관 수축 반응</div>
+        <div class="story-step"><span class="step-n">2</span>비강확장제 vs 비강수축제 혼동</div>
+        <div class="story-step"><span class="step-n">3</span>"에어컨 청소가 문제 아니에요"</div>
+        <div class="story-step"><span class="step-n">4</span>혈류 타고 내부 비강 표적 해결</div>
+        <div class="story-step"><span class="step-n">5</span>여름 내내 에어컨 틀어도 코 뻥</div>
+      </div>
+      <div class="story-card">
+        <h3>패턴 G: CEO 고백 / 희소성 빌드업</h3>
+        <div class="story-step"><span class="step-n">1</span>"너무 잘 만들어서 고민됩니다"</div>
+        <div class="story-step"><span class="step-n">2</span>나노추출 공정 특수성 설명</div>
+        <div class="story-step"><span class="step-n">3</span>생산 한계 → 예약제 전환 예고</div>
+        <div class="story-step"><span class="step-n">4</span>마지막 오픈 물량 공개</div>
+        <div class="story-step"><span class="step-n">5</span>이번 기회 놓치면 모름 CTA</div>
+      </div>
+      <div class="story-card">
+        <h3>패턴 H: 강연 충격 발언형</h3>
+        <div class="story-step"><span class="step-n">1</span>강연장/학술대회 세팅</div>
+        <div class="story-step"><span class="step-n">2</span>충격적인 발표 → 청중 반응</div>
+        <div class="story-step"><span class="step-n">3</span>발표 내용 = 성분/수치</div>
+        <div class="story-step"><span class="step-n">4</span>기득권 반발 → 신뢰 역설</div>
+        <div class="story-step"><span class="step-n">5</span>일반인도 알 권리 → CTA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 핵심 반복 표현 -->
+  <div class="section">
+    <h2>핵심 카피라이팅 라이브러리 <span class="section-sub">반복 등장하는 표현 모음</span></h2>
+    <div class="two-col">
+      <div>
+        <div class="copy-lib">
+          <div class="copy-lib-title">원인 표현</div>
+          <div class="copy-phrase">
+            비강 점막 사이사이 깊은 곳까지 염증이 뿌리내린 것<br>
+            비강 18층 아래까지 내려간 염증<br>
+            비강 사각지대 / 비강 깊숙한 곳<br>
+            에어컨 온도차 → 혈관 팽창 → 비강확장제 유발<br>
+            묵은 콧농덩이 / 콧속 묵은 비염균<br>
+            항생제가 닿지 못하는 깊은 곳
+          </div>
+        </div>
+        <div class="copy-lib">
+          <div class="copy-lib-title">기존법 비판 표현</div>
+          <div class="copy-phrase">
+            코세척 → 겉만 씻음 / 물만 흘러가는 것<br>
+            스프레이 → 겉만 적시고 안으로 못 들어감<br>
+            먹는 항생제 → 위장에서 다 소화됨<br>
+            병원 수술 → 재발률 30~40% / 원인 미해결<br>
+            코세척 200번 해도 안 되는 이유<br>
+            에어컨 청소가 문제가 아닌 이유
+          </div>
+        </div>
+        <div class="copy-lib">
+          <div class="copy-lib-title">작용 원리 표현</div>
+          <div class="copy-phrase">
+            마시는 즉시 혈류를 타고<br>
+            비강 사각지대까지 직접 침투<br>
+            표적 분해 / 비염균만 선택적 분해<br>
+            콧농 / 묵은 비염균을 배출<br>
+            섬모세포를 189% 재생시켜<br>
+            코점막 장벽을 안에서부터 강제 복원
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="copy-lib">
+          <div class="copy-lib-title">효과 체감 표현</div>
+          <div class="copy-phrase">
+            뇌까지 산소가 직빵으로 꽂히는 시원함<br>
+            신생아 숨길로 / 갓난아기 코로<br>
+            하수구 터지듯 쏟아짐<br>
+            7년 묵은 게 한꺼번에 쏟아지는 느낌<br>
+            에어컨 없어도 코가 뻥<br>
+            콧구멍이 두 배로 뚫린 느낌
+          </div>
+        </div>
+        <div class="copy-lib">
+          <div class="copy-lib-title">사회적 증거 표현</div>
+          <div class="copy-phrase">
+            14차 완판 기념 특가<br>
+            커뮤니티에서 이미 난리<br>
+            입소문으로만 XX만개 팔림<br>
+            비염 커뮤니티 1위 제품<br>
+            이비인후과 예약 줄취소<br>
+            수술 예약 취소율 급증
+          </div>
+        </div>
+        <div class="copy-lib">
+          <div class="copy-lib-title">희소성 / 긴박감 표현</div>
+          <div class="copy-phrase">
+            14차 완판 기념 마지막 특가<br>
+            공급 채널 대폭 축소 예정<br>
+            나노추출 공정 한 달 한정<br>
+            다음 공정까지 판매 중단 예정<br>
+            오늘 밤 12시까지만 / 재고 다 떨어지면<br>
+            이번 물량 끝나면 가격 올라요
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 타겟 상황 트리거 -->
+  <div class="section">
+    <h2>타겟 상황 트리거 <span class="section-sub">원고 앵글 선택 기준</span></h2>
+    <table>
+      <tr><th>상황 트리거</th><th>타겟</th><th>대표 후킹</th><th>계절/시기</th></tr>
+      <tr>
+        <td>에어컨 바람에 코막힘 / 콧물</td>
+        <td>직장인, 3040</td>
+        <td>"에어컨만 틀면 콧물 수도꼭지 줄줄"</td>
+        <td>여름 한정 앵글</td>
+      </tr>
+      <tr>
+        <td>뜨거운 음식 먹으면 콧물</td>
+        <td>식당 가는 모든 비염인</td>
+        <td>"매운 짬뽕 앞에서 휴지 더미 쌓이는 분들"</td>
+        <td>연중</td>
+      </tr>
+      <tr>
+        <td>술 마시면 코막힘</td>
+        <td>음주 잦은 3040</td>
+        <td>"술만 마시면 코막힌다? 그거 정상 아닙니다"</td>
+        <td>연중 / 연말</td>
+      </tr>
+      <tr>
+        <td>아침 코 건조 / 찢어질 듯</td>
+        <td>만성 비염인</td>
+        <td>"아침에 숨쉴때마다 코가 찢어질 것 같다구요?"</td>
+        <td>겨울 / 건조기</td>
+      </tr>
+      <tr>
+        <td>입 벌리고 자는 아이</td>
+        <td>3040 엄마</td>
+        <td>"지금 얼굴이 길어지는 중입니다"</td>
+        <td>연중</td>
+      </tr>
+      <tr>
+        <td>코세척 / 스프레이 장기 사용 효과 없음</td>
+        <td>만성 비염 장기 치료자</td>
+        <td>"코세척 100번보다 이거 한 포가 낫다"</td>
+        <td>연중</td>
+      </tr>
+      <tr>
+        <td>항생제 장기 복용 / 곰팡이 우려</td>
+        <td>약물 의존 비염인</td>
+        <td>"항생제 자주 먹는 사람 콧속엔 곰팡이가 살고 있습니다"</td>
+        <td>연중</td>
+      </tr>
+      <tr>
+        <td>자려고 누우면 코막힘</td>
+        <td>수면 장애 동반 비염인</td>
+        <td>"자려고 누우면 왜 더 막히는지 아세요?"</td>
+        <td>연중</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 검열 우회 -->
+  <div class="section">
+    <h2>검열 우회 표현 사전 <span class="section-sub">자막용 텍스트에만 적용 / AI 음성용은 정상 표현</span></h2>
+    <div class="censor-grid">
+      <div class="censor-item"><span class="censor-orig">비염</span><span class="censor-arrow">→</span><span class="censor-new">ㅂI염 / bI염</span></div>
+      <div class="censor-item"><span class="censor-orig">비강</span><span class="censor-arrow">→</span><span class="censor-new">bI강</span></div>
+      <div class="censor-item"><span class="censor-orig">비강확장제</span><span class="censor-arrow">→</span><span class="censor-new">bI강확장제</span></div>
+      <div class="censor-item"><span class="censor-orig">이비인후과</span><span class="censor-arrow">→</span><span class="censor-new">이bI인후X</span></div>
+      <div class="censor-item"><span class="censor-orig">염증</span><span class="censor-arrow">→</span><span class="censor-new">염쯩</span></div>
+      <div class="censor-item"><span class="censor-orig">의사 / 전문가</span><span class="censor-arrow">→</span><span class="censor-new">전문ㅇ / 전문X</span></div>
+      <div class="censor-item"><span class="censor-orig">수술</span><span class="censor-arrow">→</span><span class="censor-new">X술 / 수X / S술</span></div>
+      <div class="censor-item"><span class="censor-orig">레이저</span><span class="censor-arrow">→</span><span class="censor-new">레Oi저</span></div>
+      <div class="censor-item"><span class="censor-orig">스프레이</span><span class="censor-arrow">→</span><span class="censor-new">스프레ㅇI / 스프X이</span></div>
+      <div class="censor-item"><span class="censor-orig">재생</span><span class="censor-arrow">→</span><span class="censor-new">ㅈh생</span></div>
+      <div class="censor-item"><span class="censor-orig">재발</span><span class="censor-arrow">→</span><span class="censor-new">ㅈh발</span></div>
+      <div class="censor-item"><span class="censor-orig">완치</span><span class="censor-arrow">→</span><span class="censor-new">완ㅊI</span></div>
+      <div class="censor-item"><span class="censor-orig">약</span><span class="censor-arrow">→</span><span class="censor-new">💊</span></div>
+      <div class="censor-item"><span class="censor-orig">회복</span><span class="censor-arrow">→</span><span class="censor-new">🩹</span></div>
+      <div class="censor-item"><span class="censor-orig">관계자</span><span class="censor-arrow">→</span><span class="censor-new">관X자</span></div>
+      <div class="censor-item"><span class="censor-orig">부패</span><span class="censor-arrow">→</span><span class="censor-new">부ㅍh</span></div>
+      <div class="censor-item"><span class="censor-orig">괴사</span><span class="censor-arrow">→</span><span class="censor-new">괴ㅅr</span></div>
+      <div class="censor-item"><span class="censor-orig">병원</span><span class="censor-arrow">→</span><span class="censor-new">병0</span></div>
+      <div class="censor-item"><span class="censor-orig">항생제</span><span class="censor-arrow">→</span><span class="censor-new">항X제</span></div>
+      <div class="censor-item"><span class="censor-orig">7배 / 92%</span><span class="censor-arrow">→</span><span class="censor-new">X7 / 9ニ%</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="example blue">
+      <strong style="color:#60a5fa">적용 규칙:</strong><br>
+      원고 파일 안에 AI음성용(정상 표현)과 자막용(검열 우회) 두 세트가 항상 같이 들어있음.<br>
+      자막용만 위 치환 적용. 한글 자음/모음 분리 또는 영문 알파벳 섞는 방식이 핵심.
+    </div>
+  </div>
+
+  <!-- CTA 패턴 -->
+  <div class="section">
+    <h2>CTA 패턴 <span class="section-sub">클로징 공식 전체</span></h2>
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <h3>한정성 표현</h3>
+        <p>
+          "14차 완판 기념 마지막 특가"<br>
+          "마지막 오픈 물량"<br>
+          "공급 채널 대폭 축소 예정"<br>
+          "다음 공정까지 판매 중단"<br>
+          "이번 물량 끝나면 가격 올라요"
+        </p>
+      </div>
+      <div class="pattern-card">
+        <h3>긴박성 표현</h3>
+        <p>
+          "오늘 밤 12시까지만"<br>
+          "특가 링크 곧 사라져요"<br>
+          "재고 다 떨어지면 언제 입고될지 모르니"<br>
+          "지금 이 영상 보는 분들만 볼 수 있어요"
+        </p>
+      </div>
+      <div class="pattern-card">
+        <h3>가격 / 할인 표현</h3>
+        <p>
+          "48% / 50% / 52% 할인"<br>
+          "2만원대 / 2만원 초반대 득템"<br>
+          "하루 800원대 / 하루 820원"<br>
+          "정가 대비 절반 이하"
+        </p>
+      </div>
+      <div class="pattern-card">
+        <h3>신뢰 보장 표현</h3>
+        <p>
+          "2주 내로 효과 없으면 100% 전액 환불"<br>
+          "딱 한 포만 드셔보세요"<br>
+          "안 쓰는 게 오히려 손해"<br>
+          "사서 후회하는 거보다 안 사서 후회하는 게 더 크다고요"
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 성분 설명 쉬운 비유 -->
+  <div class="section">
+    <h2>성분별 쉬운 비유 라이브러리 <span class="section-sub">원고에서 검증된 설명법</span></h2>
+    <table>
+      <tr><th>성분</th><th>원고 내 비유 / 설명</th><th>사용 맥락</th></tr>
+      <tr>
+        <td>퀘르세틴</td>
+        <td>양파 12개 분량의 항염 효과 한 스푼 / 천연 항생제 / 히스타민 분비샘 낮춤</td>
+        <td>성분 설명 섹션, 신뢰 구축</td>
+      </tr>
+      <tr>
+        <td>노스릴리브 면역유산균 10억마리</td>
+        <td>죽어있던 면역세포를 깨우는 스위치 / 막힌 부비동마다 면역세포 주입</td>
+        <td>원리 설명 핵심</td>
+      </tr>
+      <tr>
+        <td>브로멜라인</td>
+        <td>코점막 염증 배출 촉진 / 파인애플 단백질 분해 효소</td>
+        <td>아이도 안전 (파인애플 맛) 연결</td>
+      </tr>
+      <tr>
+        <td>리포좀 / 미세분말 공법</td>
+        <td>흡수율 8~13배 / 항생제로 닿지 못하는 깊숙한 부비동까지</td>
+        <td>기존법 대비 차별화</td>
+      </tr>
+      <tr>
+        <td>비강확장제 성분 (에어컨 편)</td>
+        <td>에어컨 온도차 → 혈관 팽창 → 이미 몸이 비강 확장하려 함 → 제품이 도움</td>
+        <td>여름 시즌 원고 전용</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 핵심 인사이트 -->
+  <div class="section">
+    <h2>핵심 인사이트 <span class="section-sub">180개 실독에서 도출한 원고 작성 원칙</span></h2>
+    <ul class="insight-list">
+      <li>원고 1개당 항상 <strong>AI 음성용(정상 표현)</strong>과 <strong>자막용(검열 우회 버전)</strong> 두 세트 작성 — 빠뜨리면 안 됨</li>
+      <li>상단고정 / 하단고정 문구가 <strong>원고 파일 안에 포함</strong>되어 있음 — 별도 기획 아님, 원고에서 직접 제시</li>
+      <li>"겉만 씻는다"는 기존 제품 비판이 <strong>모든 원고의 핵심 구조</strong> — 180개 원고 예외 없음</li>
+      <li><strong>"혈류를 타고 + 비강 사각지대 + 표적 분해"</strong>는 3개 세트로 묶어 쓰는 공식 — 분리하지 않음</li>
+      <li>수치는 <strong>구체적인 숫자</strong>(92%, 189%, 18층, 500번, 7배, 13배)로 — 모호한 표현 없음</li>
+      <li>결말은 항상 <strong>"뇌까지 산소가 직빵으로 꽂히는 시원함"</strong>으로 수렴 — 효과 묘사 클리셰</li>
+      <li>업계 견제 / 희소성 / 한정 물량 — <strong>이 3가지 긴박감이 세트로</strong> 등장함</li>
+      <li>R이 붙은 원고(예: 정상아냐R_T)는 기존 원고의 <strong>리메이크/수정 버전</strong> — HOOK만 강화한 버전</li>
+      <li>같은 소재도 여름/에어컨, 술자리, 식사 등 <strong>상황별로 여러 버전</strong> 제작 — 계절 시리즈 존재</li>
+      <li>원고 톤은 무조건 <strong>1인칭 말 걸기</strong> — "~하시죠?", "~하세요?", "기억하세요" 직접 대화체</li>
+      <li>에어컨 시리즈(2026 여름): <strong>에어컨 청소 역설 소구</strong>가 핵심 — "에어컨 문제 아니라 비강 문제"</li>
+      <li>섬모세포 189% 재생 수치는 최신 원고에서 <strong>새롭게 추가된 수치</strong> — 기존 92%/99.9%와 병행 사용</li>
+      <li>CEO 고백형(뼈저리게_AI)은 <strong>희소성 + 신뢰 동시 달성</strong>하는 고급 패턴 — 남발하면 효과 감소</li>
+      <li>코세척기 업보 청산형은 <strong>경쟁 제품 의인화 풍자</strong> — 직접 비교 없이 우월감 유도</li>
+      <li>체크리스트형 후킹은 <strong>타겟 자가진단 유도</strong> — "하나라도 해당되면" 구조로 타겟 범위 최대화</li>
+      <li>14차 완판 수치는 <strong>사회적 증거</strong>로 사용 — 구체적 차수 언급이 막연한 "많이 팔림"보다 훨씬 강함</li>
+    </ul>
+  </div>
+
+  <div style="text-align:center; color:#333; font-size:12px; margin-top:40px; padding-bottom: 20px;">
+    노즈픽션 원고 학습 보고서 v2 — ~180개 실독 완료 — 2026-05-26
+  </div>
+
+</div>
+</body>
+</html>

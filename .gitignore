@@ -13,3 +13,35 @@ __pycache__/
 cafe24_history.json
 tiktok_history.json
 gads_history.json
+coupang_config.json
+coupang_history.json
+smartstore_history.json
+
+# 로컬 전용 — 디버깅/임시 파일
+_probe_*.py
+_check_*.py
+_fix_*.py
+_rawlines*.py
+*_probe*.py
+*_test.py
+*_explore.py
+*_debug.py
+
+# 로그 파일
+*.log
+*_log.txt
+
+# 임시 JSON 출력
+cafe24_data.json
+tiktok_dom.json
+tiktok_result.json
+tiktok_captured.json
+tiktok_data.json
+
+# 스케줄러 XML (경로가 로컬 절대경로라 공유 불가)
+sched_*.xml
+*.xml
+
+# 로컬 크롬 실행 스크립트
+chrome_debug.bat
+open_chrome_debug.bat

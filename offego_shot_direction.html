@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFEGO — 맛별 촬영 연출 방향</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0c0c0c;
+    color: #e0e0e0;
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    padding: 72px 40px;
+  }
+
+  header {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    border-bottom: 1px solid #1e1e1e;
+    padding-bottom: 32px;
+  }
+
+  header .label {
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: #3a3a3a;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  header h1 {
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+
+  header p {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #3a3a3a;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+  }
+
+  .items {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid #181818;
+    padding: 40px 0;
+    gap: 40px;
+  }
+
+  .item:last-child { border-bottom: none; }
+
+  /* 왼쪽 */
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 2px;
+  }
+
+  .num {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #2a2a2a;
+  }
+
+  .flavor {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 300;
+  }
+
+  .copy-ref {
+    font-size: 11px;
+    color: #2e2e2e;
+    line-height: 1.7;
+    margin-top: 4px;
+    font-style: italic;
+    letter-spacing: 0.2px;
+  }
+
+  /* 오른쪽 */
+  .direction {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .scene-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+  }
+
+  .scene-body {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.9;
+    letter-spacing: 0.3px;
+    word-break: keep-all;
+  }
+
+  .scene-body strong {
+    color: #bbb;
+    font-weight: 500;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid #222;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">OFFEGO — Shot Direction</div>
+  <h1>맛별 촬영 연출 방향</h1>
+  <p>카피 한 줄을 사진 한 장으로 풀어내는 방식. 소품·구도·빛의 방향까지 포함.</p>
+</header>
+
+<div class="items">
+
+  <!-- 01 알로에그레이프 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">01</span>
+      <span class="flavor">Aloe Grape</span>
+      <span class="copy-ref">"얼음 위에 뭉갠<br>포도 한 알.<br>차갑고 짙은."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">검은 대리석 위, 얼음 덩어리 사이에 박힌 포도송이</div>
+      <div class="scene-body">
+        <strong>검은 대리석 or 슬레이트 바닥.</strong> 불규칙하게 쌓인 얼음 덩어리들 사이에 포도 한 송이가 눌려 있다. 포도알 한두 개는 이미 터져서 즙이 얼음 위에 흥건히 번져있다. 제품은 그 옆, 얼음과 같은 높이에 세워져 있다.<br><br>
+        <strong>빛:</strong> 측면 역광, 얼음의 투명함과 포도즙의 짙은 색이 대비되도록. 반사광 없이 매트하게.<br>
+        <strong>구도:</strong> 약간 위에서 내려보는 각도(15~20도), 제품이 중앙 우측. 포도와 얼음이 화면 가득.
+      </div>
+      <div class="tags"><span class="tag">소품: 얼음·포도·대리석</span><span class="tag">톤: 딥 퍼플 + 블루</span><span class="tag">분위기: 차갑고 묵직</span></div>
+    </div>
+  </div>
+
+  <!-- 02 레몬라임 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">02</span>
+      <span class="flavor">Lemon Lime</span>
+      <span class="copy-ref">"산미가 앞에서<br>달려온다.<br>피할 생각이 없는."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">라임을 반으로 쥐어짜는 손, 즙이 제품 위로 튀는 순간</div>
+      <div class="scene-body">
+        <strong>흰 대리석 or 밝은 시멘트 바닥.</strong> 프레임 바깥에서 들어온 한 손이 라임을 세게 쥐어짠다. 즙이 렌즈 방향으로 튀는 찰나를 고속 촬영. 제품은 즙이 튀는 경로 위에 세워져 있다. 반으로 갈라진 레몬이 주변에 흩어져 있다.<br><br>
+        <strong>빛:</strong> 정면 자연광 or 소프트박스. 즙 방울이 공중에 맺히도록 셔터 1/1000 이상.<br>
+        <strong>구도:</strong> 눈높이 정면 샷. 움직임이 살아있어야 함. 정적인 배치 금지.
+      </div>
+      <div class="tags"><span class="tag">소품: 라임·레몬·손</span><span class="tag">톤: 샤프 옐로우그린 + 화이트</span><span class="tag">분위기: 공격적·즉각적</span></div>
+    </div>
+  </div>
+
+  <!-- 03 베리워터멜론 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">03</span>
+      <span class="flavor">Berry Watermelon</span>
+      <span class="copy-ref">"쩍, 속살을 드러내는<br>붉은 웃음.<br>여름의 뼛속까지<br>적시는 달콤한 냉기."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">두 손으로 수박을 쪼개는 순간, 붉은 단면이 카메라를 향해 열린다</div>
+      <div class="scene-body">
+        <strong>칼 없이 맨손으로 수박을 쪼개는 순간.</strong> 수박이 벌어지며 붉은 속살이 정면을 향해 열리는 그 찰나. 제품은 벌어진 수박 단면 사이에 끼워져 있거나, 단면 위에 기대어 세워져 있다. 수박즙이 손등과 바닥으로 흘러내린다.<br><br>
+        <strong>빛:</strong> 위에서 강한 자연광. 붉은 속살이 빛을 받아 투명하게 보이도록.<br>
+        <strong>구도:</strong> 정면 낮은 각도. 벌어지는 수박이 프레임을 가득 채우고, 제품은 그 사이 중앙.
+      </div>
+      <div class="tags"><span class="tag">소품: 수박·손</span><span class="tag">톤: 딥레드 + 그린 껍질</span><span class="tag">분위기: 폭발적·여름</span></div>
+    </div>
+  </div>
+
+  <!-- 04 아이스콜라 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">04</span>
+      <span class="flavor">Ice Cola</span>
+      <span class="copy-ref">"목을 긁고 내려가는<br>첫 모금의 그 느낌.<br>차갑고 날카롭고 검다."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">얼음 가득 찬 검은 컵, 콜라가 부어지는 순간 제품이 옆에</div>
+      <div class="scene-body">
+        <strong>검은 무광 테이블.</strong> 얼음이 가득한 투명 컵에 콜라가 위에서 쏟아지는 순간, 탄산 거품이 컵 밖으로 넘칠 듯 올라온다. 제품은 그 컵 바로 옆에 세워져 있다. 배경은 완전한 블랙. 주변에 얼음 조각이 테이블 위에 흩어져 있다.<br><br>
+        <strong>빛:</strong> 컵 뒤에서 역광 한 줄기. 콜라 컬러(갈색+검정)가 투명 컵을 통해 빛나도록. 극도로 드라마틱.<br>
+        <strong>구도:</strong> 눈높이 정면. 쏟아지는 액체의 움직임이 살아있어야 함.
+      </div>
+      <div class="tags"><span class="tag">소품: 투명컵·얼음·콜라</span><span class="tag">톤: 올블랙 + 앰버</span><span class="tag">분위기: 다크·날카로움</span></div>
+    </div>
+  </div>
+
+  <!-- 05 블루이온 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">05</span>
+      <span class="flavor">Blue Ion</span>
+      <span class="copy-ref">"운동 끝나고<br>마시던 그것.<br>달지 않고 맑고<br>즉각적인."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">체육관 바닥, 테이핑 감긴 손이 제품을 쥔 채 내려다보는 시점</div>
+      <div class="scene-body">
+        <strong>체육관 고무 매트 or 시멘트 바닥.</strong> 손목과 손가락에 스포츠 테이프가 감긴 손이 제품을 아래로 쥐고 있다. 바닥엔 땀 자국이 번져있다. 1인칭 시점으로 손이 프레임 위에서 내려오고, 바닥과 제품이 정면에. 아무 설명 없이 그 장면만.<br><br>
+        <strong>빛:</strong> 형광등 실내광 or 창문 자연광. 과도한 연출 없이 날것 그대로.<br>
+        <strong>구도:</strong> 위에서 아래를 보는 POV. 손+제품이 프레임 중심. 배경 바닥이 거칠수록 좋음.
+      </div>
+      <div class="tags"><span class="tag">소품: 스포츠테이프·땀·매트</span><span class="tag">톤: 쿨블루 + 그레이</span><span class="tag">분위기: 익숙함·즉각성</span></div>
+    </div>
+  </div>
+
+  <!-- 06 멘솔민트 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">06</span>
+      <span class="flavor">Menthol Mint</span>
+      <span class="copy-ref">"겨울 새벽 공기를<br>한 번 들이켰다.<br>차갑고 날카롭고<br>단순한."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">서리 낀 새벽 유리창에 기댄 제품, 입김이 피어오르는 바깥</div>
+      <div class="scene-body">
+        <strong>결로가 맺힌 유리창 혹은 서리가 낀 표면.</strong> 제품을 서리 위에 눕혀두거나, 입김으로 흐려진 유리에 손가락으로 'OFFEGO'라고 긁어 쓴 글자 옆에 세워둔다. 배경은 새벽빛이 들어오는 창 너머의 흐릿한 풍경.<br><br>
+        <strong>빛:</strong> 새벽 자연광, 창문 역광. 뿌옇고 차가운 느낌. 색온도 쿨(5500K 이상).<br>
+        <strong>구도:</strong> 창문 프레임을 배경으로, 제품은 창턱이나 유리 표면에. 아웃포커스로 바깥 풍경 흐리게.
+      </div>
+      <div class="tags"><span class="tag">소품: 서리유리·새벽창문</span><span class="tag">톤: 아이스화이트 + 쿨그레이</span><span class="tag">분위기: 텅빔·냉기</span></div>
+    </div>
+  </div>
+
+  <!-- 07 트로피칼믹스 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">07</span>
+      <span class="flavor">Tropical Mix</span>
+      <span class="copy-ref">"무질서하게 뒤섞인<br>정글의 과즙.<br>뜨거운 열대의 환상."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">반으로 갈린 열대 과일들이 무질서하게 쌓인 더미 위에 제품이 꽂혀 있다</div>
+      <div class="scene-body">
+        <strong>망고·파인애플·패션프루트·용과</strong> 등을 반으로 자른 단면들이 프레임 가득 무작위로 쌓여 있다. 과즙이 흘러 뒤섞인 상태. 제품은 그 위에 비스듬히 기대거나, 과일 단면들 사이에서 삐져나와 있다. 과일의 색이 전부 달라야 함 — 노랑, 주황, 보라, 초록이 뒤섞인 혼돈.<br><br>
+        <strong>빛:</strong> 강한 탑라이트. 단면의 질감과 색이 선명하게 살아나도록. 채도 높게.<br>
+        <strong>구도:</strong> 정수리 각도(탑뷰) 혹은 살짝 틀어진 위. 제품이 과일 더미에서 솟아오른 느낌.
+      </div>
+      <div class="tags"><span class="tag">소품: 망고·파인애플·패션프루트·용과</span><span class="tag">톤: 오렌지+옐로우+퍼플</span><span class="tag">분위기: 혼돈·풍부함</span></div>
+    </div>
+  </div>
+
+  <!-- 08 아이스피치 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">08</span>
+      <span class="flavor">Ice Peach</span>
+      <span class="copy-ref">"반냉동 복숭아.<br>아직 즙이 살아있다.<br>차갑고 달고 풍부한."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">냉동실에서 막 꺼낸 복숭아, 표면에 성에가 앉은 채로 즙이 맺혀 있다</div>
+      <div class="scene-body">
+        <strong>성에가 살짝 앉은 복숭아</strong> 두세 개가 차가운 금속 트레이 위에 놓여 있다. 실온에 꺼내놓은 지 1~2분 된 상태라 표면에 수분이 맺히기 시작한 찰나. 하나는 반으로 잘려 씨가 보이는 단면이 위를 향하고, 단면 위에 제품을 세운다. 즙이 방울져 금속 트레이 위로 흐른다.<br><br>
+        <strong>빛:</strong> 측면 자연광. 성에와 수분 방울이 반짝이도록. 그림자 선명하게.<br>
+        <strong>구도:</strong> 45도 각도. 복숭아 단면이 정면을 향하고, 제품이 그 위에서 보는 사람을 바라보는 구도.
+      </div>
+      <div class="tags"><span class="tag">소품: 반냉동복숭아·금속트레이·성에</span><span class="tag">톤: 코랄핑크 + 쿨실버</span><span class="tag">분위기: 차갑고달콤</span></div>
+    </div>
+  </div>
+
+  <!-- 09 클래식 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">09</span>
+      <span class="flavor">Classic</span>
+      <span class="copy-ref">"달지 않은 카라멜.<br>쓰지 않은 타바코.<br>딱 그 사이."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">녹아내리는 카라멜 덩어리와 구겨진 담뱃갑 사이, 제품이 기대어 있다</div>
+      <div class="scene-body">
+        <strong>오래된 나무 테이블 or 구리 트레이 위.</strong> 카라멜 사탕 두세 개가 살짝 녹아 표면이 끈적해진 상태로 놓여 있다. 옆에 구겨진 담뱃갑 하나 (담배는 없어도 됨). 제품은 그 사이에 기대어 있다. 전체 톤은 어두운 앰버와 브라운. 과하지 않게, 조용하게 어두운 느낌.<br><br>
+        <strong>빛:</strong> 촛불 같은 따뜻한 포인트 광원 하나. 그림자가 길게 지도록. 황금빛이 돌아야 함.<br>
+        <strong>구도:</strong> 눈높이 정면 혹은 살짝 아래에서 올려보는 각도. 제품이 두 소품 사이에서 조용히 존재하는 느낌.
+      </div>
+      <div class="tags"><span class="tag">소품: 카라멜·담뱃갑·구리트레이</span><span class="tag">톤: 다크브라운 + 카라멜앰버</span><span class="tag">분위기: 조용한묵직함</span></div>
+    </div>
+  </div>
+
+  <!-- 10 사워애플 -->
+  <div class="item">
+    <div class="meta">
+      <span class="num">10</span>
+      <span class="flavor">Sour Apple</span>
+      <span class="copy-ref">"덜 익은 사과를<br>손톱으로 긁었다.<br>시고 풋내 나고<br>날것인."</span>
+    </div>
+    <div class="direction">
+      <div class="scene-title">풋사과를 손톱으로 긁은 자국 위에 제품, 초록 껍질 조각이 주변에 흩어져 있다</div>
+      <div class="scene-body">
+        <strong>거친 콘크리트 or 밝은 시멘트 바닥.</strong> 아직 완전히 익지 않은 초록 사과 여러 개. 그중 하나는 손톱으로 긁혀 껍질이 벗겨진 채 하얀 속살이 드러나 있다. 벗겨진 껍질 조각이 주변에 흩어져 있고, 사과즙이 약간 스며 있다. 제품은 긁힌 사과 옆에 세워져 있다.<br><br>
+        <strong>빛:</strong> 강한 탑라이트 or 창문 자연광. 초록 껍질의 선명한 색이 살아나도록. 그림자 또렷하게.<br>
+        <strong>구도:</strong> 약간 위에서, 45도. 긁힌 자국이 화면 중앙에 오도록. 제품은 우측 혹은 사과에 기댄 상태.
+      </div>
+      <div class="tags"><span class="tag">소품: 풋사과·껍질조각·콘크리트</span><span class="tag">톤: 산성그린 + 화이트</span><span class="tag">분위기: 날것·공격적</span></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

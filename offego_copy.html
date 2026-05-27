@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFEGO — Flavor Copy v4</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --bg:#070707; --bg2:#0d0d0d; --bg3:#131313;
+    --border:#191919; --border2:#242424;
+    --text:#eaeaea; --dim:#666; --faint:#333;
+    --red:#ce3926;
+  }
+  body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; }
+
+  /* HEADER */
+  header {
+    padding:52px 72px 38px;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:flex-end; justify-content:space-between;
+  }
+  .logo { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; letter-spacing:.2em; }
+  .logo-e { color:var(--red); }
+  .hd-label { font-family:'Space Grotesk',sans-serif; font-size:9px; color:var(--faint); letter-spacing:.18em; text-transform:uppercase; }
+
+  /* LEGEND */
+  .legend {
+    padding:16px 72px;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  }
+  .legend-title { font-family:'Space Grotesk',sans-serif; font-size:9px; color:var(--faint); letter-spacing:.14em; text-transform:uppercase; margin-right:10px; }
+  .cat-badge {
+    font-family:'Space Grotesk',sans-serif; font-size:8px; letter-spacing:.1em;
+    padding:3px 9px; border-radius:2px; text-transform:uppercase;
+  }
+  .cat-감각  { background:#1a2030; color:#6688cc; border:1px solid #2a3550; }
+  .cat-장면  { background:#1a2820; color:#55aa77; border:1px solid #2a4030; }
+  .cat-선언  { background:#2a1a1a; color:#cc5544; border:1px solid #442222; }
+  .cat-반전  { background:#25201a; color:#cc9944; border:1px solid #443322; }
+  .cat-신체  { background:#201a28; color:#9966cc; border:1px solid #382844; }
+  .cat-저격  { background:#1a2225; color:#44aacc; border:1px solid #244050; }
+  .cat-향수  { background:#252018; color:#bb9955; border:1px solid #443322; }
+
+  /* FLAVOR BLOCK */
+  .block { border-bottom:1px solid var(--border); }
+
+  .block-head {
+    padding:34px 72px 28px;
+    display:grid; grid-template-columns:52px 1fr auto;
+    align-items:start; gap:0 28px;
+    border-bottom:1px solid var(--border);
+  }
+  .b-num { font-family:'Space Grotesk',sans-serif; font-size:10px; color:var(--faint); letter-spacing:.12em; padding-top:6px; }
+  .b-name { font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; line-height:1; }
+  .b-eng { font-family:'Space Grotesk',sans-serif; font-size:10px; color:var(--faint); letter-spacing:.1em; margin-top:6px; }
+
+  /* STATS */
+  .stats { display:flex; flex-direction:column; gap:7px; }
+  .stat-row { display:flex; align-items:center; gap:10px; }
+  .stat-label { font-family:'Space Grotesk',sans-serif; font-size:9px; letter-spacing:.08em; color:var(--dim); width:42px; text-transform:uppercase; }
+  .stat-bar { display:flex; gap:3px; }
+  .dot { width:6px; height:6px; border-radius:50%; background:var(--border2); }
+  .dot.on { background:#999; }
+  .dot.hi { background:var(--red); }
+
+  /* HERO */
+  .hero-wrap {
+    padding:36px 72px 32px;
+    border-bottom:1px solid var(--border);
+    display:grid; grid-template-columns:52px 1fr;
+    gap:0 28px; align-items:start;
+  }
+  .hero-left { display:flex; flex-direction:column; gap:10px; align-items:flex-start; }
+  .hero-tag {
+    font-family:'Space Grotesk',sans-serif; font-size:9px; color:var(--red);
+    letter-spacing:.14em; border:1px solid var(--red); padding:4px 8px;
+    display:inline-block; white-space:nowrap;
+  }
+  .hero-copy {
+    font-size:20px; font-weight:300; line-height:1.75;
+    color:var(--text); letter-spacing:.01em; word-break:keep-all;
+  }
+  .hero-copy b { font-weight:400; }
+  .hero-copy i { font-style:normal; color:var(--dim); }
+
+  /* COPY GRID */
+  .copy-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:1px; background:var(--border);
+  }
+  .copy-card {
+    background:var(--bg); padding:26px 32px 30px;
+    transition:background .15s;
+  }
+  .copy-card:hover { background:var(--bg2); }
+  .c-head {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .c-idx {
+    font-family:'Space Grotesk',sans-serif; font-size:9px;
+    color:var(--faint); letter-spacing:.14em;
+  }
+  .c-copy {
+    font-size:13.5px; font-weight:300; line-height:2;
+    color:#aaa; word-break:keep-all; letter-spacing:.01em;
+  }
+  .c-copy b { font-weight:400; color:#d5d5d5; }
+  .c-copy i { font-style:normal; color:var(--dim); }
+
+  footer {
+    padding:32px 72px; border-top:1px solid var(--border);
+    display:flex; justify-content:space-between;
+  }
+  .ft { font-family:'Space Grotesk',sans-serif; font-size:9px; color:var(--faint); letter-spacing:.14em; text-transform:uppercase; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">OFF<span class="logo-e">E</span>GO</div>
+    <div class="hd-label" style="margin-top:8px">Flavor Copy — v4 Multi-Category</div>
+  </div>
+  <div style="text-align:right">
+    <div class="hd-label">Drop Self They Built</div>
+    <div class="hd-label" style="margin-top:4px">10 Flavors / 7 Categories Each</div>
+  </div>
+</header>
+
+<div class="legend">
+  <span class="legend-title">Category</span>
+  <span class="cat-badge cat-감각">감각</span>
+  <span class="cat-badge cat-장면">장면</span>
+  <span class="cat-badge cat-선언">선언</span>
+  <span class="cat-badge cat-반전">반전</span>
+  <span class="cat-badge cat-신체">신체반응</span>
+  <span class="cat-badge cat-저격">저격</span>
+  <span class="cat-badge cat-향수">향수</span>
+</div>
+
+
+<!-- ═══ 01 알로에그레이프 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">01</div>
+    <div><div class="b-name">알로에그레이프</div><div class="b-eng">Aloe Grape</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>얼음 위에 뭉갠 포도 한 알.</b><br><i>차갑고 짙고 즉각적인.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>여름 냉장고 앞.</b><br>포도 한 송이를 꺼내다 한 알 먹었다.<br><i>차갑고 맑고 그게 충분한.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>포도다.</b><br>차갑고 알로에가 받친다.<br><i>그게 전부다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>달콤한 줄 알았다.</b><br><i>차가움이 먼저였다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>혀가 먼저 인식한다.</b><br><i>차가움, 포도, 그리고 맑음.</i><br>순서대로.</div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>포도맛 음료들이 다 놓친 그것.</b><br><i>과즙 없이 포도인 맛.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>냉장고에서 꺼낸 포도송이.</b><br><i>손이 차가워지기 전에 터진다.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 02 레몬라임 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">02</div>
+    <div><div class="b-name">레몬라임</div><div class="b-eng">Lemon Lime</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>반으로 가른 라임.</b><br><b>즙이 손목까지 튄다.</b><br><i>시고 날카롭고 달지 않은.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>바텐더가 라임을 짜 넣는다.</b><br>칵테일이 아니어도<br><i>그 맛이다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>달지 않다.</b><br><i>그게 이 맛의 전부이자 장점이다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>상큼한데 달지 않다.</b><br><i>그래서 더 오래 마실 수 있다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>입 안이 찌푸려진다.</b><br><i>근데 또 마신다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>탄산음료들이 다 버린 것.</b><br><i>설탕 없는 진짜 시트러스.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>레몬 껍질을 손톱으로 그었다.</b><br><i>기름이 튀고 산미가 따른다.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 03 베리워터멜론 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">03</div>
+    <div><div class="b-name">베리워터멜론</div><div class="b-eng">Berry Watermelon</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>수박 속살을 손가락으로 눌렀다.</b><br><i>붉고 무겁고 즙이 많은.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>한여름 수박 먹다 베리잼이 떨어졌다.</b><br><i>그 조합이 맞았다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>붉다. 달다. 즙이 많다.</b><br><i>여름이다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>수박이 메인인 줄 알았다.</b><br><i>베리가 먼저 치고 들어온다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>과즙이 두 겹으로 터진다.</b><br>첫 번째는 베리.<br><i>두 번째는 수박.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>수박향 제품들이 못 가진 것.</b><br><i>무거운 과즙감.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>씨를 뱉고 또 베어문다.</b><br><i>달콤하고 차갑고 반복적인.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 04 아이스 콜라 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">04</div>
+    <div><div class="b-name">아이스 콜라</div><div class="b-eng">Ice Cola</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>얼음 가득한 컵에 부은 콜라 한 잔.</b><br><i>차갑고 어둡고 탄산이 즉각적인.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>패스트푸드 콜라. 얼음이 콜라보다 많다.</b><br><i>그 첫 모금.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>콜라다.</b><br><i>차갑고 어둡고 강하다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>탄산 없이 탄산 느낌이다.</b><br><i>타격감이 그 역할을 한다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>목을 긁고 내려간다.</b><br><i>차갑고 날카롭고 검다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>모두가 아는 그 검은 음료의 맛.</b><br><i>얼음이 반쯤 녹기 전의.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>첫 모금이 제일 강하다.</b><br><i>차갑고, 쏘고, 검은.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 05 블루이온 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">05</div>
+    <div><div class="b-name">블루이온</div><div class="b-eng">Blue Ion</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">저격</span></div>
+    <div class="hero-copy"><b>모두가 아는 그 이온음료를 캔째 들이켰다.</b><br><i>맑고 차갑고 설명이 필요 없는.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">감각</span><span class="cat-badge cat-감각">감각</span></div><div class="c-copy"><b>차가운 공기를 한 번 들이쉰 것 같다.</b><br><i>달지 않고 맑고 즉각적인.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>운동 끝나고 마시던 그것.</b><br><i>달지 않고 맑고 즉각적인.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>이름을 말하지 않아도 다 안다.</b><br><i>그 맛이다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>과일이 없다.</b><br><i>그래서 더 깨끗하다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>입 안이 한 번에 식는다.</b><br><i>맛이 아니라 리셋이다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>어릴 때부터 알던 이온음료 한 모금.</b><br><i>몸이 기억하는 그 맛.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 06 멘솔민트 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">06</div>
+    <div><div class="b-name">멘솔민트</div><div class="b-eng">Menthol Mint</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>겨울 새벽 공기를 한 번 들이켰다.</b><br><i>차갑고 날카롭고 단순한.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>치과에서 나오는 길.</b><br>입 안이 아직 차갑다.<br><i>그 느낌.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>차갑다.</b><br>그게 전부다.<br><i>그게 다여도 된다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>맛을 기대했다.</b><br><i>온도가 왔다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>폐가 한 번에 식는다.</b><br><i>맛이 아니라 온도다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>민트향 제품들이 다 놓친 것.</b><br><i>달지 않은 진짜 냉각감.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>차갑게 치고 빠진다.</b><br><i>흔적 없이.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 07 트로피칼 믹스 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">07</div>
+    <div><div class="b-name">트로피칼 믹스</div><div class="b-eng">Tropical Mix</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>열대 과일 여러 개를 한꺼번에 베어물었다.</b><br><i>달고 시고 복잡하게 풍부한.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>태국 야시장 과일 트럭.</b><br>모든 걸 다 담아달라고 했다.<br><i>이게 그 맛이다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>정리되지 않는다.</b><br><i>그게 이 맛의 전략이다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>복잡한데 무너지지 않는다.</b><br><i>달콤함이 전부를 잡고 있다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>과일이 층층이 터진다.</b><br><i>어느 게 먼저인지 모르겠다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>열대 과일 음료들이 다 단 하나만 쓴다.</b><br><i>이건 전부 다 넣었다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>달콤함이 무너지지 않는다.</b><br><i>상큼함이 받쳐주고 있어서.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 08 아이스 피치 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">08</div>
+    <div><div class="b-name">아이스 피치</div><div class="b-eng">Ice Peach</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>얼린 복숭아 한 조각을 베어물었다.</b><br><i>차갑고 달고 즙이 두 배로 많은.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>여름 편의점 냉동고.</b><br>복숭아 슬러시를 처음 뜯었다.<br><i>차갑고 달고 즉각적인.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>복숭아인데 얼어있다.</b><br><i>세게 치고 달게 남는다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>과일이 얼면 맛이 죽는다고 했다.</b><br><i>이건 두 배로 살아있다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>과즙이 차갑게 터진다.</b><br><i>달콤함과 쿨링이 동시에 온다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>복숭아맛 음료들이 다 포기한 것.</b><br><i>과즙감과 쿨링의 동시 타격.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>껍질째 베어문 것처럼 풍부하다.</b><br><i>얼어있지만 즙이 많은.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 09 클래식 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">09</div>
+    <div><div class="b-name">클래식</div><div class="b-eng">Classic</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>아무것도 더하지 않은 한 모금.</b><br><i>차갑지 않고 달지 않고 맛이 깊은.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>처음 흡입기를 입에 댔을 때.</b><br><i>이 맛이 기준이 됐다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>자극이 없다.</b><br><i>맛만 있다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>아무것도 없어 보인다.</b><br><i>가장 오래 남는다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>타격도 없고 쿨링도 없다.</b><br><i>맛이 그냥 있다. 전부 다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>다른 맛들이 전부 여기서 출발한다.</b><br><i>원점.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>가장 조용한 맛.</b><br><i>근데 가장 오래 남는.</i></div></div>
+  </div>
+</div>
+
+
+<!-- ═══ 10 사워애플 -->
+<div class="block">
+  <div class="block-head">
+    <div class="b-num">10</div>
+    <div><div class="b-name">사워애플</div><div class="b-eng">Sour Apple</div></div>
+    <div class="stats">
+      <div class="stat-row"><span class="stat-label">타격감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">상큼함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">달콤함</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">쿨링감</span><div class="stat-bar"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div></div>
+      <div class="stat-row"><span class="stat-label">맛표현</span><div class="stat-bar"><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span><span class="dot hi"></span></div></div>
+    </div>
+  </div>
+  <div class="hero-wrap">
+    <div class="hero-left"><span class="hero-tag">감각</span></div>
+    <div class="hero-copy"><b>덜 익은 사과를 손톱으로 긁었다.</b><br><i>시고 풋내 나고 날것인.</i></div>
+  </div>
+  <div class="copy-grid">
+    <div class="copy-card"><div class="c-head"><span class="c-idx">장면</span><span class="cat-badge cat-장면">장면</span></div><div class="c-copy"><b>과수원에서 따다 먹은 사과.</b><br>아직 덜 익어서<br><i>더 시다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">선언</span><span class="cat-badge cat-선언">선언</span></div><div class="c-copy"><b>달지 않다. 시다.</b><br><i>그래서 중독적이다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">반전</span><span class="cat-badge cat-반전">반전</span></div><div class="c-copy"><b>사과인데 달지 않다.</b><br><i>그래서 더 사과답다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">신체반응</span><span class="cat-badge cat-신체">신체반응</span></div><div class="c-copy"><b>입 안이 찌푸려진다.</b><br>산미가 혀를 긁는다.<br><i>그래도 또 마신다.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">저격</span><span class="cat-badge cat-저격">저격</span></div><div class="c-copy"><b>사과맛들이 다 버린 것.</b><br><i>달지 않은 사과의 날것 산미.</i></div></div>
+    <div class="copy-card"><div class="c-head"><span class="c-idx">향수</span><span class="cat-badge cat-향수">향수</span></div><div class="c-copy"><b>풋사과의 날것 산미.</b><br><i>덜 익었지만 그게 맞다.</i></div></div>
+  </div>
+</div>
+
+
+<footer>
+  <div class="ft">OFFEGO® — Drop Self They Built</div>
+  <div class="ft">10 Flavors / 7 Categories / v4</div>
+</footer>
+
+</body>
+</html>

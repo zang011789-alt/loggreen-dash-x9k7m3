@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OFFEGO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .wrap {
+      max-width: 550px;
+      margin: 0 auto;
+      background: #000;
+      overflow: hidden;
+    }
+
+    /* ── TICKER ── */
+    .ticker {
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 5px 0;
+      background: #000;
+    }
+    .ticker-track {
+      display: inline-flex;
+      animation: scrollTicker 24s linear infinite;
+    }
+    .ticker-item {
+      color: #00ff41;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0 28px;
+    }
+    .ticker-dot { color: #00ff41; font-size: 9px; }
+    @keyframes scrollTicker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 16px;
+      font-size: 9px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      background: #000;
+    }
+    .nav-links { display: flex; gap: 16px; }
+    nav a { color: #fff; text-decoration: none; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+    }
+    .hero img { width: 100%; display: block; }
+    .hero-logo {
+      position: absolute;
+      top: 36%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #00ff41;
+      font-size: 20px;
+      letter-spacing: 0.55em;
+      font-family: 'Share Tech Mono', monospace;
+      font-weight: bold;
+      text-shadow: 0 0 20px rgba(0,255,65,0.45);
+      white-space: nowrap;
+    }
+
+    /* ── 섹션 이미지 ── */
+    .section-img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #000;
+      border-top: 1px solid #111;
+      padding: 20px 16px 28px;
+    }
+    .footer-logo {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .footer-fine {
+      font-size: 8px;
+      color: #333;
+      line-height: 2;
+      letter-spacing: 0.04em;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">DROP SELF THEY BUILT</span><span class="ticker-dot">·</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-links">
+      <a href="#">BRAND</a>
+      <a href="#">COMMUNITY</a>
+    </div>
+    <div class="nav-links">
+      <a href="#">LOGIN</a>
+      <a href="#">JOIN US</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="images8/hero_photo.png" alt="hero">
+  </div>
+
+  <!-- MUSEUM -->
+  <img class="section-img" src="images8/museum.png" alt="museum">
+
+  <!-- PARTY -->
+  <img class="section-img" src="images8/party.png" alt="party">
+
+  <!-- STREET -->
+  <img class="section-img" src="images8/street.png" alt="street">
+
+  <!-- 오프에고 대형 텍스트 -->
+  <img class="section-img" src="images8/giant.png" alt="offego">
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">OFFEGO</div>
+    <div class="footer-fine">
+      (주)오프에고 &nbsp;·&nbsp; 대표 장동훈<br>
+      사업자등록번호: 000-00-00000 &nbsp;·&nbsp; 통신판매업신고: 제0000-서울-0000호<br>
+      고객센터: offego@offego.co.kr
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
