@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2026-05-27c 소재팝업 메트릭탭9종+영역차트 -->
+<!-- v2026-05-27d 소재팝업 onclick 따옴표충돌 수정 -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -1279,7 +1279,7 @@ function renderDailyTable(data) {
     const escapedName = g.name.replace(/'/g, "\\'");
     if (isAd) {
       const tAov = (g.tRevenue > 0 && g.tPurch > 0) ? g.tRevenue / g.tPurch : 0;
-      const adJson = JSON.stringify(g.name);
+      const adJson = popupArg(g.name);
       html += `<tr class="daily-header-row">
         <td title="${g.name}" style="cursor:pointer;color:#79c0ff;text-decoration:underline dotted" onclick="openAdPopup(${adJson},'meta')"><b>${g.name}</b>${budgetBadge(g.adset)}</td><td class="cell-sub${mh}">${g.parent}</td>
         <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td><td><b>${fmtKRW(g.tSpend)}</b></td>
@@ -1395,7 +1395,7 @@ function renderTable(data) {
 
     if (isAd) {
       const aov = (c.revenue > 0 && c.purchases > 0) ? c.revenue / c.purchases : 0;
-      const adJson = JSON.stringify(c.name);
+      const adJson = popupArg(c.name);
       html += `<tr>
         <td class="cell-name" title="${c.name}" style="cursor:pointer;color:#79c0ff;text-decoration:underline dotted" onclick="openAdPopup(${adJson},'meta')">${c.name}${budgetBadge(c.adset)}</td>
         <td class="cell-sub m-hide" title="${c.parent}">${c.parent}</td>
@@ -2926,7 +2926,7 @@ function renderTtAdSummaryTable(data, dsMap) {
     const sb = a.status === "active"
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
-    const adJson = JSON.stringify(a.name);
+    const adJson = popupArg(a.name);
     html += `<tr>
       <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${a.name}" onclick="openAdPopup(${adJson},'tiktok')">${a.name}</td>
       <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
@@ -3001,7 +3001,7 @@ function renderTtAdDailyTable(start, end, dsMap) {
     const sb = g.status === "active"
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
-    const adJson = JSON.stringify(g.name);
+    const adJson = popupArg(g.name);
     html += `<tr class="daily-header-row">
       <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${g.name}" onclick="openAdPopup(${adJson},'tiktok')"><b>${g.name}</b></td>
       <td class="${mh2}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
@@ -3313,7 +3313,7 @@ function renderGads() {
       const camp  = (a.campaign || "").replace(/\(.*?\)/, '').trim();
       const dv    = lookupGadsDirect(a.campaign || a.name, dsMap);
       const dr    = dv != null && a.spend > 0 ? dv / a.spend : null;
-      const adJson = JSON.stringify(a.name);
+      const adJson = popupArg(a.name);
       html += `<tr>
         <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${a.name}" onclick="openAdPopup(${adJson},'google')">${a.name}</td>
         <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
@@ -3514,7 +3514,7 @@ function renderGadsAdDailyTable(start, end, mob) {
 
   groupList.forEach(g => {
     const camp = (g.campaign || "").replace(/\(.*?\)/, "").trim();
-    const adJson = JSON.stringify(g.name);
+    const adJson = popupArg(g.name);
     html += `<tr class="daily-header-row">
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${g.name}" onclick="openAdPopup(${adJson},'google')"><b>${g.name}</b></td>
       <td class="${mh}" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e">${camp}</td>
@@ -4081,6 +4081,13 @@ function renderCompare() {
 // ══════════════════════════════════════════════════════
 // ── 소재 추이 팝업 ──
 // ══════════════════════════════════════════════════════
+
+// onclick 속성 안전 인자 생성 (큰따옴표 속성 + 작은따옴표 JS 문자열 충돌 방지)
+function popupArg(name) {
+  const js = String(name).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  const attr = js.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+  return `'${attr}'`;
+}
 
 // 메트릭 정의 (entry → 값 계산 + 포맷)
 const POPUP_METRICS = {
