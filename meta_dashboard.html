@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2026-05-27b 소재팝업 7일+전매체 일별보기 -->
+<!-- v2026-05-27c 소재팝업 메트릭탭9종+영역차트 -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -4082,62 +4082,33 @@ function renderCompare() {
 // ── 소재 추이 팝업 ──
 // ══════════════════════════════════════════════════════
 
+// 메트릭 정의 (entry → 값 계산 + 포맷)
+const POPUP_METRICS = {
+  roas:    { label: 'ROAS',    fmt: v => v.toFixed(0) + '%',          calc: e => e.spend > 0 ? e.revenue / e.spend * 100 : null },
+  cpa:     { label: 'CPA',     fmt: v => fmtKRW(Math.round(v)),        calc: e => e.conv > 0 ? e.spend / e.conv : null },
+  spend:   { label: '광고비',   fmt: v => fmtKRW(Math.round(v)),        calc: e => e.spend },
+  revenue: { label: '매출',     fmt: v => fmtKRW(Math.round(v)),        calc: e => e.revenue },
+  ctr:     { label: 'CTR',     fmt: v => v.toFixed(2) + '%',          calc: e => e.ctr },
+  cvr:     { label: 'CVR',     fmt: v => v.toFixed(2) + '%',          calc: e => e.clicks > 0 ? e.conv / e.clicks * 100 : null },
+  cpc:     { label: 'CPC',     fmt: v => fmtKRW(Math.round(v)),        calc: e => e.clicks > 0 ? e.spend / e.clicks : null },
+  cpm:     { label: 'CPM',     fmt: v => fmtKRW(Math.round(v)),        calc: e => e.impr > 0 ? e.spend / e.impr * 1000 : null },
+  cart:    { label: '장바구니', fmt: v => Math.round(v).toLocaleString(), calc: e => e.cart },
+};
+// 매체별 가용 메트릭 탭
+const MEDIUM_METRICS = {
+  meta:   ['roas','cpa','spend','revenue','ctr','cvr','cpc','cpm','cart'],
+  tiktok: ['roas','cpa','spend','revenue','ctr','cpc','cpm'],
+  google: ['roas','cpa','spend','revenue','ctr'],
+};
+let _adPopupState = { adName: '', medium: '', entries: [], metric: 'roas' };
+
 async function openAdPopup(adName, medium) {
   const modal = document.getElementById('adPopupModal');
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
-  await renderAdPopupChart(adName, medium);
-}
-
-function closeAdPopup() {
-  document.getElementById('adPopupModal').style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAdPopup(); });
-
-// Meta 소재의 오늘 포함 최근 N일 일별 광고비/매출을 API로 조회
-async function fetchMetaAdDaily(adName, dates) {
-  const brand = BRANDS[currentBrand];
-  if (!brand) return dates.map(ds => ({ date: ds, spend: 0, revenue: 0 }));
-  const since = dates[0], until = dates[dates.length - 1];
-  const acc = {};
-  dates.forEach(ds => acc[ds] = { spend: 0, revenue: 0 });
-
-  for (const accountId of brand.accountIds) {
-    try {
-      const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);
-      url.searchParams.set('access_token', TOKEN);
-      url.searchParams.set('fields', 'ad_name,spend,purchase_roas,date_start');
-      url.searchParams.set('level', 'ad');
-      url.searchParams.set('time_increment', '1');
-      url.searchParams.set('time_range', JSON.stringify({ since, until }));
-      url.searchParams.set('limit', '500');
-      let next = url.toString();
-      while (next) {
-        const r = await fetch(next);
-        const j = await r.json();
-        (j.data || []).forEach(row => {
-          if ((row.ad_name || '') !== adName) return;
-          const ds = row.date_start;
-          if (!acc[ds]) return;
-          const sp = parseFloat(row.spend || 0);
-          const roas = parseFloat((row.purchase_roas || [])[0]?.value || 0);
-          acc[ds].spend   += sp;
-          acc[ds].revenue += sp * roas;
-        });
-        next = j.paging?.next;
-      }
-    } catch (e) { /* silent */ }
-  }
-  return dates.map(ds => ({ date: ds, spend: acc[ds].spend, revenue: acc[ds].revenue }));
-}
-
-async function renderAdPopupChart(adName, medium) {
   const content = document.getElementById('adPopupContent');
-  const days = 7;
 
-  // 오늘 포함 최근 7일 날짜 배열
+  const days = 7;
   const dates = [];
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date();
@@ -4150,123 +4121,211 @@ async function renderAdPopupChart(adName, medium) {
     content.innerHTML = `<div style="text-align:center;padding:60px 20px;color:#6e7681">
       <div class="spinner" style="margin:0 auto 14px"></div>최근 7일 데이터 불러오는 중...</div>`;
     entries = await fetchMetaAdDaily(adName, dates);
-  } else {
+  } else if (medium === 'tiktok') {
     entries = dates.map(ds => {
-      let spend = 0, revenue = 0;
-      if (medium === 'tiktok') {
-        ['outcoma', 'ridermune'].forEach(brand => {
-          const bd = window.TIKTOK_HISTORY?.[ds]?.[brand];
-          if (!bd) return;
-          (bd.ads || []).filter(a => a.name === adName).forEach(a => {
-            spend   += a.spend   || 0;
-            revenue += a.revenue || 0;
-          });
+      const e = { date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0 };
+      ['outcoma', 'ridermune'].forEach(brand => {
+        const bd = window.TIKTOK_HISTORY?.[ds]?.[brand];
+        if (!bd) return;
+        (bd.ads || []).filter(a => a.name === adName).forEach(a => {
+          e.spend  += a.spend || 0;   e.revenue += a.revenue || 0;
+          e.impr   += a.impressions || 0; e.clicks += a.clicks || 0;
+          e.conv   += (a.cpa > 0 ? a.spend / a.cpa : 0);
         });
-      } else if (medium === 'google') {
-        const ad = (window.GADS_HISTORY?.[ds]?.ads || []).find(a => a.name === adName);
-        if (ad) { spend = ad.spend || 0; revenue = ad.conv_value || 0; }
-      }
-      return { date: ds, spend, revenue };
+      });
+      e.ctr = e.impr > 0 ? e.clicks / e.impr * 100 : 0;
+      return e;
+    });
+  } else { // google
+    entries = dates.map(ds => {
+      const e = { date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0 };
+      const ads = (window.GADS_HISTORY?.[ds]?.ads || []).filter(a => a.name === adName);
+      ads.forEach(a => { e.spend += a.spend || 0; e.revenue += a.conv_value || 0; e.conv += a.conversions || 0; });
+      if (ads[0]) e.ctr = ads[0].ctr || 0;
+      return e;
     });
   }
 
-  const totalSpend   = entries.reduce((s, e) => s + e.spend, 0);
-  const totalRevenue = entries.reduce((s, e) => s + e.revenue, 0);
-  const avgRoas      = totalSpend > 0 ? totalRevenue / totalSpend : 0;
+  _adPopupState = { adName, medium, entries, metric: 'roas' };
+  renderAdPopupBody();
+}
 
-  // ── SVG 차트 ──
-  const W = 640, H = 180, PL = 62, PR = 16, PT = 16, PB = 38;
-  const cW = W - PL - PR, cH = H - PT - PB;
-  const spendVals = entries.map(e => e.spend);
-  const revVals   = entries.map(e => e.revenue);
-  const maxVal = Math.max(...spendVals, ...revVals, 1);
-  const xPos = i => PL + (i / (days - 1)) * cW;
-  const yPos = v => PT + cH - (v / maxVal) * cH;
+function selectPopupMetric(metric) {
+  _adPopupState.metric = metric;
+  renderAdPopupBody();
+}
 
-  const spendPts = entries.map((e, i) => `${xPos(i).toFixed(1)},${yPos(e.spend).toFixed(1)}`).join(' ');
-  const revPts   = entries.map((e, i) => `${xPos(i).toFixed(1)},${yPos(e.revenue).toFixed(1)}`).join(' ');
+function closeAdPopup() {
+  document.getElementById('adPopupModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
 
-  // 격자선 + y축 레이블
-  const yTicks = [0, 0.5, 1].map(f => {
-    const yv = maxVal * f;
-    const yt = (PT + cH - f * cH).toFixed(1);
-    const lbl = yv >= 10000 ? Math.round(yv / 10000) + '만' : Math.round(yv).toLocaleString();
-    return `<line x1="${PL}" y1="${yt}" x2="${W - PR}" y2="${yt}" stroke="#21262d" stroke-width="1" ${f > 0 && f < 1 ? 'stroke-dasharray="3,3"' : ''}/>
-            <text x="${PL - 4}" y="${(parseFloat(yt) + 4).toFixed(1)}" text-anchor="end" font-size="9" fill="#4e5564">${lbl}</text>`;
-  }).join('');
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAdPopup(); });
 
-  // x축 날짜 레이블 (2일 간격)
-  const xLabels = entries.map((e, i) => {
-    if (i % 2 !== 0 && i !== days - 1) return '';
-    return `<text x="${xPos(i).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-size="9" fill="#4e5564">${e.date.slice(5)}</text>`;
-  }).join('');
+// Meta 소재의 오늘 포함 최근 N일 일별 광고비/매출을 API로 조회
+async function fetchMetaAdDaily(adName, dates) {
+  const blank = ds => ({ date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0 });
+  const brand = BRANDS[currentBrand];
+  if (!brand) return dates.map(blank);
+  const since = dates[0], until = dates[dates.length - 1];
+  const acc = {};
+  dates.forEach(ds => acc[ds] = blank(ds));
 
-  // ROAS 바 (하단 점 대신 각 날짜에 소형 표시)
-  const roasDots = entries.map((e, i) => {
-    if (e.spend <= 0) return '';
-    const r = e.revenue / e.spend;
-    const c = r >= 1 ? '#3fb950' : '#f78166';
-    return `<circle cx="${xPos(i).toFixed(1)}" cy="${yPos(e.spend).toFixed(1)}" r="3" fill="#f0883e"/>
-            <circle cx="${xPos(i).toFixed(1)}" cy="${yPos(e.revenue).toFixed(1)}" r="3" fill="#3fb950"/>`;
-  }).join('');
+  for (const accountId of brand.accountIds) {
+    try {
+      const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);
+      url.searchParams.set('access_token', TOKEN);
+      url.searchParams.set('fields', 'ad_name,spend,impressions,clicks,purchase_roas,actions,date_start');
+      url.searchParams.set('level', 'ad');
+      url.searchParams.set('time_increment', '1');
+      url.searchParams.set('time_range', JSON.stringify({ since, until }));
+      url.searchParams.set('limit', '500');
+      let next = url.toString();
+      while (next) {
+        const r = await fetch(next);
+        const j = await r.json();
+        (j.data || []).forEach(row => {
+          if ((row.ad_name || '') !== adName) return;
+          const e = acc[row.date_start];
+          if (!e) return;
+          const sp = parseFloat(row.spend || 0);
+          const roas = parseFloat((row.purchase_roas || [])[0]?.value || 0);
+          e.spend   += sp;
+          e.revenue += sp * roas;
+          e.impr    += parseInt(row.impressions || 0);
+          e.clicks  += parseInt(row.clicks || 0);
+          e.conv    += parseInt((row.actions || []).find(a => a.action_type === 'purchase')?.value || 0);
+          e.cart    += parseInt((row.actions || []).find(a => a.action_type === 'add_to_cart')?.value || 0);
+        });
+        next = j.paging?.next;
+      }
+    } catch (e) { /* silent */ }
+  }
+  Object.values(acc).forEach(e => { e.ctr = e.impr > 0 ? e.clicks / e.impr * 100 : 0; });
+  return dates.map(ds => acc[ds]);
+}
 
-  const svgHtml = `<svg width="100%" viewBox="0 0 ${W} ${H}" style="overflow:visible;display:block">
-    ${yTicks}
-    <polyline fill="none" stroke="#f0883e" stroke-width="2" stroke-linejoin="round" points="${spendPts}"/>
-    <polyline fill="none" stroke="#3fb950" stroke-width="2" stroke-linejoin="round" points="${revPts}"/>
-    ${roasDots}
-    ${xLabels}
-  </svg>`;
-
+function renderAdPopupBody() {
+  const { adName, medium, entries, metric } = _adPopupState;
+  const content = document.getElementById('adPopupContent');
+  const tabs = MEDIUM_METRICS[medium] || ['roas', 'spend', 'revenue'];
+  const M = POPUP_METRICS[metric];
   const medLabel = medium === 'tiktok' ? 'TikTok' : medium === 'meta' ? 'Meta' : 'Google';
 
-  // ── 날짜별 상세 테이블 (최신순, spend > 0인 날만) ──
-  const tableRows = [...entries].reverse().filter(e => e.spend > 0).map(e => {
-    const r = e.spend > 0 ? (e.revenue / e.spend * 100).toFixed(0) : 0;
-    const rc = r >= 100 ? '#3fb950' : '#f78166';
-    return `<tr style="border-top:1px solid #161b22">
-      <td style="padding:7px 10px;color:#8b949e;font-size:12px">${e.date}</td>
-      <td style="padding:7px 10px;text-align:right;font-size:12px;color:#f0883e">${fmtKRW(Math.round(e.spend))}</td>
-      <td style="padding:7px 10px;text-align:right;font-size:12px;color:#3fb950">${e.revenue > 0 ? fmtKRW(Math.round(e.revenue)) : '—'}</td>
-      <td style="padding:7px 10px;text-align:right;font-size:12px;font-weight:700;color:${rc}">${r > 0 ? r + '%' : '—'}</td>
-    </tr>`;
+  // 일별 시리즈 (null = 데이터 없음)
+  const series = entries.map(e => ({ date: e.date, val: M.calc(e) }));
+  const valid = series.filter(s => s.val != null && isFinite(s.val));
+  const vals = valid.map(s => s.val);
+  const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+  const mx  = vals.length ? Math.max(...vals) : 0;
+  const mn  = vals.length ? Math.min(...vals) : 0;
+  const start = entries[0]?.date || '', end = entries[entries.length - 1]?.date || '';
+
+  // ── 탭 ──
+  const tabsHtml = tabs.map(k => {
+    const on = k === metric;
+    return `<button onclick="selectPopupMetric('${k}')" style="
+      padding:7px 14px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;
+      border:1px solid ${on ? '#a371f7' : '#30363d'};
+      background:${on ? '#a371f7' : 'transparent'};
+      color:${on ? '#fff' : '#8b949e'};transition:all .12s">${POPUP_METRICS[k].label}</button>`;
   }).join('');
 
+  // ── KPI ──
+  const kpi = (label, val, color) => `
+    <div style="background:#0d1117;border:1px solid #21262d;border-radius:12px;padding:16px 18px">
+      <div style="font-size:11px;color:#6e7681;margin-bottom:6px">${label}</div>
+      <div style="font-size:21px;font-weight:800;color:${color}">${val}</div>
+    </div>`;
+  const kpiHtml = `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 22px">
+    ${kpi('평균 ' + M.label, vals.length ? M.fmt(avg) : '—', '#f0f6fc')}
+    ${kpi('최고', vals.length ? M.fmt(mx) : '—', '#3fb950')}
+    ${kpi('최저', vals.length ? M.fmt(mn) : '—', '#f78166')}
+    ${kpi('일수', vals.length + '일', '#a371f7')}
+  </div>`;
+
+  const chart = buildAreaChart(series, M);
+
   content.innerHTML = `
-    <div style="margin-bottom:20px">
-      <div style="font-size:10px;color:#6e7681;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">${medLabel} · 소재 추이</div>
-      <div style="font-size:15px;font-weight:700;color:#f0f6fc;word-break:break-all;line-height:1.4">${adName}</div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px">
-      <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
-        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">7일 광고비</div>
-        <div style="font-size:20px;font-weight:800;color:#f0883e">${fmtKRW(Math.round(totalSpend))}</div>
-      </div>
-      <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
-        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">7일 매출</div>
-        <div style="font-size:20px;font-weight:800;color:#3fb950">${fmtKRW(Math.round(totalRevenue))}</div>
-      </div>
-      <div style="background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 16px">
-        <div style="font-size:10px;color:#6e7681;margin-bottom:5px">평균 ROAS</div>
-        <div style="font-size:20px;font-weight:800;color:${avgRoas >= 1 ? '#3fb950' : (avgRoas > 0 ? '#f78166' : '#4e5564')}">${avgRoas > 0 ? (avgRoas * 100).toFixed(0) + '%' : '—'}</div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;padding-right:30px">
+      <div>
+        <div style="font-size:10px;color:#6e7681;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">${medLabel} · 소재 추이</div>
+        <div style="font-size:15px;font-weight:700;color:#f0f6fc;word-break:break-all;line-height:1.4">${adName}</div>
+        <div style="font-size:12px;color:#6e7681;margin-top:4px">${start} ~ ${end}</div>
       </div>
     </div>
-    <div style="display:flex;gap:16px;margin-bottom:10px">
-      <span style="font-size:11px;color:#8b949e;display:flex;align-items:center;gap:6px">
-        <span style="display:inline-block;width:20px;height:2px;background:#f0883e;border-radius:2px;vertical-align:middle"></span>광고비
-      </span>
-      <span style="font-size:11px;color:#8b949e;display:flex;align-items:center;gap:6px">
-        <span style="display:inline-block;width:20px;height:2px;background:#3fb950;border-radius:2px;vertical-align:middle"></span>매출
-      </span>
-    </div>
-    <div style="background:#0d1117;border-radius:10px;padding:16px 10px;margin-bottom:20px">${svgHtml}</div>
-    ${tableRows ? `<table style="width:100%;border-collapse:collapse;background:#0d1117;border-radius:10px;overflow:hidden">
-      <thead><tr style="background:#161b22">
-        <th style="padding:8px 10px;text-align:left;font-size:11px;color:#4e5564;font-weight:500">날짜</th>
-        <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">광고비</th>
-        <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">매출</th>
-        <th style="padding:8px 10px;text-align:right;font-size:11px;color:#4e5564;font-weight:500">ROAS</th>
-      </thead><tbody>${tableRows}</tbody></table>` : `<div style="text-align:center;color:#4e5564;padding:20px;font-size:13px">최근 7일간 데이터 없음</div>`}`;
+    <div style="display:flex;gap:7px;flex-wrap:wrap">${tabsHtml}</div>
+    ${kpiHtml}
+    <div style="background:#0d1117;border:1px solid #21262d;border-radius:12px;padding:18px 12px 10px">${chart}</div>`;
+}
+
+function buildAreaChart(series, M) {
+  const W = 660, H = 220, PL = 56, PR = 18, PT = 18, PB = 34;
+  const cW = W - PL - PR, cH = H - PT - PB;
+  const n = series.length;
+
+  const valid = series.filter(s => s.val != null && isFinite(s.val));
+  if (!valid.length) {
+    return `<div style="text-align:center;color:#4e5564;padding:48px 0;font-size:13px">이 기간 데이터 없음</div>`;
+  }
+  const vals = valid.map(s => s.val);
+  let lo = Math.min(...vals), hi = Math.max(...vals);
+  if (lo === hi) { lo = lo - Math.abs(lo) * 0.1 - 1; hi = hi + Math.abs(hi) * 0.1 + 1; }
+  const pad = (hi - lo) * 0.15;
+  let yMin = lo - pad, yMax = hi + pad;
+  if (yMin > 0 && yMin < (yMax - yMin)) yMin = 0;  // 0 근처면 0 기준
+  const xPos = i => PL + (n === 1 ? cW / 2 : (i / (n - 1)) * cW);
+  const yPos = v => PT + cH - ((v - yMin) / (yMax - yMin)) * cH;
+
+  // 점들 (null 제외, 인덱스 유지)
+  const pts = [];
+  series.forEach((s, i) => { if (s.val != null && isFinite(s.val)) pts.push({ x: xPos(i), y: yPos(s.val), i, val: s.val }); });
+
+  // smooth cubic path
+  const smooth = (P) => {
+    if (P.length < 2) return P.length ? `M${P[0].x},${P[0].y}` : '';
+    let d = `M${P[0].x.toFixed(1)},${P[0].y.toFixed(1)}`;
+    for (let i = 0; i < P.length - 1; i++) {
+      const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || P[i + 1];
+      const c1x = p1.x + (p2.x - p0.x) / 6, c1y = p1.y + (p2.y - p0.y) / 6;
+      const c2x = p2.x - (p3.x - p1.x) / 6, c2y = p2.y - (p3.y - p1.y) / 6;
+      d += ` C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+    }
+    return d;
+  };
+  const linePath = smooth(pts);
+  const areaPath = pts.length >= 2
+    ? `${linePath} L${pts[pts.length - 1].x.toFixed(1)},${(PT + cH).toFixed(1)} L${pts[0].x.toFixed(1)},${(PT + cH).toFixed(1)} Z`
+    : '';
+
+  // y축 눈금 3개
+  const yTicks = [0, 0.5, 1].map(f => {
+    const yv = yMax - f * (yMax - yMin);
+    const yt = PT + f * cH;
+    return `<line x1="${PL}" y1="${yt.toFixed(1)}" x2="${W - PR}" y2="${yt.toFixed(1)}" stroke="#21262d" stroke-width="1" ${f > 0 && f < 1 ? 'stroke-dasharray="3,3"' : ''}/>
+      <text x="${PL - 6}" y="${(yt + 3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="#4e5564">${M.fmt(yv)}</text>`;
+  }).join('');
+
+  // x축 날짜
+  const xLabels = series.map((s, i) => {
+    if (n > 7 && i % 2 !== 0 && i !== n - 1) return '';
+    return `<text x="${xPos(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="9" fill="#4e5564">${s.date.slice(5)}</text>`;
+  }).join('');
+
+  // 점 + 값 라벨
+  const dots = pts.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#a371f7" stroke="#0d1117" stroke-width="1.5"/>`).join('');
+
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block;overflow:visible">
+    <defs><linearGradient id="popupGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a371f7" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#a371f7" stop-opacity="0"/>
+    </linearGradient></defs>
+    ${yTicks}
+    ${areaPath ? `<path d="${areaPath}" fill="url(#popupGrad)"/>` : ''}
+    <path d="${linePath}" fill="none" stroke="#a371f7" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    ${dots}
+    ${xLabels}
+  </svg>`;
 }
 
 </script>
