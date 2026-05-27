@@ -87,7 +87,8 @@ def scrape_campaigns(page, camp_pat):
             name       = line
             status_raw = lines[i+1] if i+1 < len(lines) else ''
             if status_raw not in ('Active', 'Paused', 'Deleted', 'Not delivering',
-                               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중'):
+                               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중',
+                               '활성', '비활성', '중지', '일시중지', 'Inactive'):
                 i += 1; continue
 
             offset = 2
@@ -105,7 +106,7 @@ def scrape_campaigns(page, camp_pat):
 
             camp = {
                 'name':        name,
-                'status':      'active' if status_raw in ('Active', '게재 중', '학습 중') else 'paused',
+                'status':      'active' if status_raw in ('Active', '게재 중', '학습 중', '활성') else 'paused',
                 'budget':      parse_krw(gl(0)),
                 'cpa':         parse_krw(gl(2)),
                 'spend':       parse_krw(gl(3)),
@@ -152,7 +153,8 @@ def _parse_ads_lines(lines):
             name       = line
             status_raw = lines[i+1] if i+1 < len(lines) else ''
             if status_raw not in ('Active', 'Paused', 'Deleted', 'Not delivering',
-                               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중'):
+                               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중',
+                               '활성', '비활성', '중지', '일시중지', 'Inactive'):
                 i += 1; continue
 
             camp_name   = ''
@@ -175,7 +177,7 @@ def _parse_ads_lines(lines):
             ad = {
                 'name':        name,
                 'campaign':    camp_name,
-                'status':      'active' if status_raw in ('Active', '게재 중', '학습 중') else 'paused',
+                'status':      'active' if status_raw in ('Active', '게재 중', '학습 중', '활성') else 'paused',
                 'cpa':         parse_krw(gv(0)),
                 'spend':       parse_krw(gv(1)),
                 'revenue':     parse_krw(gv(2)),
