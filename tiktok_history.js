@@ -10222,9 +10222,9 @@ window.TIKTOK_HISTORY = {
       ]
     }
   },
-  "2026-05-26": {
+  "2026-05-22": {
     "outcoma": {
-      "scraped_at": "2026-05-27 12:43",
+      "scraped_at": "2026-05-27 12:59",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -10234,7 +10234,95 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-05-27 12:46",
+      "scraped_at": "2026-05-27 13:08",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    }
+  },
+  "2026-05-23": {
+    "outcoma": {
+      "scraped_at": "2026-05-27 13:00",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    },
+    "ridermune": {
+      "scraped_at": "2026-05-27 13:10",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    }
+  },
+  "2026-05-24": {
+    "outcoma": {
+      "scraped_at": "2026-05-27 13:02",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    },
+    "ridermune": {
+      "scraped_at": "2026-05-27 13:11",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    }
+  },
+  "2026-05-25": {
+    "outcoma": {
+      "scraped_at": "2026-05-27 13:03",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    },
+    "ridermune": {
+      "scraped_at": "2026-05-27 13:13",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    }
+  },
+  "2026-05-26": {
+    "outcoma": {
+      "scraped_at": "2026-05-27 13:05",
+      "summary": {
+        "spend": 0,
+        "revenue": 0,
+        "roas": 0
+      },
+      "campaigns": [],
+      "ads": []
+    },
+    "ridermune": {
+      "scraped_at": "2026-05-27 13:14",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -10246,7 +10334,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-05-27": {
     "outcoma": {
-      "scraped_at": "2026-05-27 12:45",
+      "scraped_at": "2026-05-27 13:06",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -10256,7 +10344,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-05-27 12:48",
+      "scraped_at": "2026-05-27 13:16",
       "summary": {
         "spend": 0,
         "revenue": 0,
