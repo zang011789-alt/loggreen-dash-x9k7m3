@@ -338,6 +338,14 @@ select option { background: #161b22; color: #c9d1d9; }
   .daily-sub-row td { font-size: 10px; padding: 5px 8px 5px 12px; }
   .daily-sub-row td:first-child { padding-left: 16px; }
 }
+
+/* ── 비교 패널 ── */
+#comparePanel { display: none; }
+.cmp-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+@media (max-width: 900px) { .cmp-cards { grid-template-columns: 1fr; } }
+.source-tab.active.compare { background: #f0883e20; color: #f0883e; }
+/* ── 스파크라인 ── */
+.spark-cell { white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -398,6 +406,7 @@ select option { background: #161b22; color: #c9d1d9; }
       <button class="source-tab cafe24" onclick="setSource('cafe24')">카페24</button>
       <button class="source-tab tiktok" onclick="setSource('tiktok')">TikTok</button>
       <button class="source-tab gads"   onclick="setSource('gads')">구글</button>
+      <button class="source-tab compare" onclick="setSource('compare')">비교</button>
     </div>
     <span class="last-updated" id="lastUpdated">—</span>
     <button class="refresh-btn" id="refreshBtn" onclick="loadData()">
@@ -639,6 +648,34 @@ select option { background: #161b22; color: #c9d1d9; }
     <div id="gadsTableContent"></div>
   </div>
 
+</div>
+</div>
+
+<!-- ── 매체 교차 비교 패널 ── -->
+<div id="comparePanel">
+<div class="container">
+  <div class="controls" style="margin-bottom:16px">
+    <div class="ctrl-row">
+      <div class="tab-group" id="cmpDateTabs">
+        <button class="tab-btn active" data-cmppre="last_7d"  onclick="setCmpPreset(this)">최근 7일</button>
+        <button class="tab-btn"        data-cmppre="last_14d" onclick="setCmpPreset(this)">최근 14일</button>
+        <button class="tab-btn"        data-cmppre="last_30d" onclick="setCmpPreset(this)">최근 30일</button>
+      </div>
+    </div>
+    <div class="ctrl-row">
+      <div class="tab-group" id="cmpProdTabs">
+        <button class="tab-btn active" data-cmpprod="all" onclick="setCmpProd(this)">전체</button>
+        <button class="tab-btn" data-cmpprod="yb"  onclick="setCmpProd(this)">노즈픽션</button>
+        <button class="tab-btn" data-cmpprod="kd"  onclick="setCmpProd(this)">키즈픽션</button>
+        <button class="tab-btn" data-cmpprod="tp"  onclick="setCmpProd(this)">템퍼픽션</button>
+        <button class="tab-btn" data-cmpprod="ato" onclick="setCmpProd(this)">아토픽션</button>
+        <button class="tab-btn" data-cmpprod="do"  onclick="setCmpProd(this)">디오스톡</button>
+      </div>
+    </div>
+  </div>
+  <div id="compareContent">
+    <div class="state-box"><div class="spinner"></div><div class="state-label">로딩 중...</div></div>
+  </div>
 </div>
 </div>
 
@@ -1438,16 +1475,17 @@ function setSource(src) {
   document.querySelectorAll(".source-tab").forEach(b => {
     b.classList.toggle("active", b.classList.contains(src));
   });
-  const cafe24Panel = document.getElementById("cafe24Panel");
-  const controls    = document.querySelector(".controls");
-  const kpiGrid     = document.querySelector(".kpi-grid");
-  const tblSection  = document.querySelector("#dashboard .table-section");
-  const tiktokPanel = document.getElementById("tiktokPanel");
-  const gadsPanel   = document.getElementById("gadsPanel");
-  const ssPanel     = document.getElementById("ssPanel");
+  const cafe24Panel   = document.getElementById("cafe24Panel");
+  const controls      = document.querySelector(".controls");
+  const kpiGrid       = document.querySelector(".kpi-grid");
+  const tblSection    = document.querySelector("#dashboard .table-section");
+  const tiktokPanel   = document.getElementById("tiktokPanel");
+  const gadsPanel     = document.getElementById("gadsPanel");
+  const ssPanel       = document.getElementById("ssPanel");
+  const comparePanel  = document.getElementById("comparePanel");
 
   // 전체 패널 초기화
-  [cafe24Panel, tiktokPanel, gadsPanel, ssPanel].forEach(p => { if (p) p.style.display = "none"; });
+  [cafe24Panel, tiktokPanel, gadsPanel, ssPanel, comparePanel].forEach(p => { if (p) p.style.display = "none"; });
 
   if (src === "meta") {
     controls.style.display   = "";
@@ -1484,6 +1522,13 @@ function setSource(src) {
     document.getElementById("ttEndDate").value   = end;
     buildTtProdTabs();
     renderTikTok();
+  } else if (src === "compare") {
+    controls.style.display      = "none";
+    kpiGrid.style.display       = "none";
+    tblSection.style.display    = "none";
+    comparePanel.style.display  = "block";
+    document.getElementById("refreshBtn").style.display = "none";
+    renderCompare();
   }
 }
 
@@ -2101,6 +2146,46 @@ function renderTodayProductSales() {
       html += compactRow(cfg.label, cfg.color, typeMap);
     });
     html += `</div>`;
+  }
+
+  // ⑤ 오늘 광고비 현황 (TikTok + Google)
+  const ttH = window.TIKTOK_HISTORY;
+  const ggH = window.GADS_HISTORY;
+  let ttSpendToday = 0, ttRevToday = 0;
+  let ggSpendToday = 0, ggValToday = 0;
+  if (ttH) {
+    const ttBd = ttH[todayStr];
+    if (ttBd) {
+      ['outcoma','ridermune'].forEach(b => {
+        const d = ttBd[b] || (ttBd && !ttBd.outcoma && !ttBd.ridermune ? ttBd : null);
+        if (!d) return;
+        ttSpendToday += d.summary?.spend || 0;
+        ttRevToday   += d.summary?.revenue || 0;
+      });
+    }
+  }
+  if (ggH) {
+    const ggBd = ggH[todayStr] || ggH[yesterStr];
+    if (ggBd) {
+      ggSpendToday += ggBd.summary?.spend || 0;
+      ggValToday   += ggBd.summary?.conv_value || 0;
+    }
+  }
+  const totalAdSpend = ttSpendToday + ggSpendToday;
+  if (totalAdSpend > 0) {
+    const grandRev = grandTotal;
+    const overallRoas = grandRev > 0 && totalAdSpend > 0 ? grandRev / totalAdSpend : null;
+    html += `<div style="border-top:1px solid #21262d;padding-top:14px;margin-bottom:0">
+      <div style="font-size:9px;color:#6e7681;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px">오늘 광고비 현황</div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${ttSpendToday > 0 ? `<span style="background:#ff004f18;border:1px solid #ff004f30;border-radius:8px;padding:6px 14px;font-size:12px;color:#ff6b8a"><b>TikTok</b> ${fmtKRW(ttSpendToday)}</span>` : ''}
+          ${ggSpendToday > 0 ? `<span style="background:#4285f418;border:1px solid #4285f430;border-radius:8px;padding:6px 14px;font-size:12px;color:#4285f4"><b>Google</b> ${fmtKRW(ggSpendToday)}</span>` : ''}
+          <span style="background:#21262d;border:1px solid #30363d;border-radius:8px;padding:6px 14px;font-size:12px;color:#c9d1d9">합계 <b>${fmtKRW(totalAdSpend)}</b></span>
+        </div>
+        ${overallRoas != null ? `<span style="font-size:12px;color:${overallRoas >= 1 ? '#3fb950' : '#f78166'}">종합 ROAS ${(overallRoas*100).toFixed(0)}%</span>` : ''}
+      </div>
+    </div>`;
   }
 
   container.innerHTML = html;
@@ -2724,6 +2809,7 @@ function renderTtAdSummaryTable(data, dsMap) {
     ${th("cpc","CPC",mob)}${th("spend","광고비")}${th("revenue","매출",mob)}${th("roas","ROAS")}
     <th style="color:#f0883e">직접값</th><th>직접ROAS</th>
     ${th("ctr","CTR",mob)}${th("clicks","클릭",mob)}${th("impressions","노출",mob)}
+    <th class="${mh}">추이(7일)</th>
   </tr></thead><tbody>`;
 
   sorted.forEach(a => {
@@ -2734,6 +2820,10 @@ function renderTtAdSummaryTable(data, dsMap) {
     const sb = a.status === "active"
       ? `<span style="color:#4ade80;font-size:11px;font-weight:700;">▶ 활성</span>`
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
+    const spkVals = getTtAdSparkVals(a.name, 7);
+    const spkHtml = spkVals && spkVals.some(v => v > 0)
+      ? sparklineSvg(spkVals, 70, 22, null)
+      : `<span style="color:#4e5564;font-size:10px">—</span>`;
     html += `<tr>
       <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
       <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
@@ -2747,6 +2837,7 @@ function renderTtAdSummaryTable(data, dsMap) {
       <td class="${mh}">${a.ctr > 0 ? a.ctr.toFixed(2) + "%" : "—"}</td>
       <td class="${mh}">${a.clicks > 0 ? a.clicks.toLocaleString() : "—"}</td>
       <td class="${mh}">${a.impressions > 0 ? a.impressions.toLocaleString() : "—"}</td>
+      <td class="${mh} spark-cell">${spkHtml}</td>
     </tr>`;
   });
   html += `</tbody></table>`;
@@ -3111,6 +3202,7 @@ function renderGads() {
       ${th("cpa","CPA")}${th("spend","광고비")}${th("roas_num","ROAS")}
       <th class="${mh}" style="color:#f0883e">직접값</th><th>직접ROAS</th>
       ${th("ctr_num","CTR",mob)}${th("conversions","전환수",mob)}${th("conv_value","전환가치",mob)}
+      <th class="${mh}">추이(7일)</th>
     </tr></thead><tbody>`;
     sortedAds.forEach(a => {
       const wRoas = a.spend > 0 ? a.roas_num / a.spend : 0;
@@ -3119,6 +3211,10 @@ function renderGads() {
       const camp  = (a.campaign || "").replace(/\(.*?\)/, '').trim();
       const dv    = lookupGadsDirect(a.campaign || a.name, dsMap);
       const dr    = dv != null && a.spend > 0 ? dv / a.spend : null;
+      const spkVals = getGadsAdSparkVals(a.name, 7);
+      const spkHtml = spkVals && spkVals.some(v => v > 0)
+        ? sparklineSvg(spkVals, 70, 22, null)
+        : `<span style="color:#4e5564;font-size:10px">—</span>`;
       html += `<tr>
         <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.name}">${a.name}</td>
         <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
@@ -3131,6 +3227,7 @@ function renderGads() {
         <td class="${mh}">${wCtr > 0 ? wCtr.toFixed(2) + "%" : "—"}</td>
         <td class="${mh}">${a.conversions > 0 ? a.conversions.toFixed(1) : "—"}</td>
         <td class="${mh}">${a.conv_value > 0 ? fmtKRW(Math.round(a.conv_value)) : "—"}</td>
+        <td class="${mh} spark-cell">${spkHtml}</td>
       </tr>`;
     });
     html += `</tbody></table>`;
@@ -3549,6 +3646,336 @@ function renderSmartstore() {
   const { start, end } = getSsDateRange();
   renderSsKpiGrid(start, end);
   renderSsTable();
+}
+
+// ══════════════════════════════════════════════════════
+// ── 스파크라인 ──
+// ══════════════════════════════════════════════════════
+
+function sparklineSvg(vals, w, h, color) {
+  if (!vals || vals.length < 2) return `<svg width="${w||70}" height="${h||22}"></svg>`;
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  const range = max - min || 1;
+  const W = w || 70, H = h || 22;
+  const pts = vals.map((v, i) => {
+    const x = (i / (vals.length - 1)) * (W - 4) + 2;
+    const y = (H - 2) - ((v - min) / range) * (H - 4);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const lv = vals[vals.length - 1];
+  const lx = (W - 2).toFixed(1);
+  const ly = ((H - 2) - ((lv - min) / range) * (H - 4)).toFixed(1);
+  const nonZero = vals.filter(v => v > 0);
+  const trend = nonZero.length >= 2 ? (nonZero[nonZero.length - 1] > nonZero[0] ? '#3fb950' : '#f78166') : '#6e7681';
+  const c = color || trend;
+  return `<svg width="${W}" height="${H}" style="display:inline-block;vertical-align:middle;overflow:visible">` +
+    `<polyline fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round" points="${pts}"/>` +
+    `<circle cx="${lx}" cy="${ly}" r="2" fill="${c}"/></svg>`;
+}
+
+function getTtAdSparkVals(adName, days) {
+  const h = window.TIKTOK_HISTORY;
+  if (!h) return null;
+  const vals = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    let spend = 0;
+    ['outcoma', 'ridermune'].forEach(brand => {
+      const bd = h[ds]?.[brand] || (h[ds] && !h[ds]?.outcoma && !h[ds]?.ridermune ? h[ds] : null);
+      if (!bd) return;
+      (bd.ads || []).filter(a => a.name === adName).forEach(a => { spend += a.spend || 0; });
+    });
+    vals.push(spend);
+  }
+  return vals;
+}
+
+function getGadsAdSparkVals(adName, days) {
+  const h = window.GADS_HISTORY;
+  if (!h) return null;
+  const vals = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    const ad = (h[ds]?.ads || []).find(a => a.name === adName);
+    vals.push(ad?.spend || 0);
+  }
+  return vals;
+}
+
+// ══════════════════════════════════════════════════════
+// ── 매체 교차 비교 패널 ──
+// ══════════════════════════════════════════════════════
+
+let cmpPreset = "last_7d";
+let cmpProd   = "all";
+
+const CMP_PROD_LABELS = { all:'전체', yb:'노즈픽션', kd:'키즈픽션', tp:'템퍼픽션', ato:'아토픽션', do:'디오스톡' };
+
+function getCmpDateRange() {
+  const today = new Date();
+  const fmt = d => d.toISOString().slice(0, 10);
+  const sub = n => { const d = new Date(today); d.setDate(d.getDate() - n); return d; };
+  if (cmpPreset === "last_14d") return { start: fmt(sub(13)), end: fmt(today) };
+  if (cmpPreset === "last_30d") return { start: fmt(sub(29)), end: fmt(today) };
+  return { start: fmt(sub(6)), end: fmt(today) }; // last_7d default
+}
+
+function setCmpPreset(btn) {
+  document.querySelectorAll("#cmpDateTabs .tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  cmpPreset = btn.dataset.cmppre;
+  renderCompare();
+}
+
+function setCmpProd(btn) {
+  document.querySelectorAll("#cmpProdTabs .tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  cmpProd = btn.dataset.cmpprod;
+  renderCompare();
+}
+
+function cmpProdFilter(name) {
+  if (cmpProd === "all") return true;
+  return (name || "").toLowerCase().includes(cmpProd);
+}
+
+function renderCompare() {
+  const el = document.getElementById("compareContent");
+  if (!el) return;
+
+  const { start, end } = getCmpDateRange();
+  const dateLabel = `${start} ~ ${end}`;
+  const prodLabel = CMP_PROD_LABELS[cmpProd] || cmpProd;
+
+  // ── TikTok 집계 ──
+  let ttSpend = 0, ttRev = 0, ttConv = 0;
+  const ttH = window.TIKTOK_HISTORY;
+  const campSeen_tt = new Set();
+  if (ttH) {
+    Object.keys(ttH).filter(d => d >= start && d <= end).forEach(date => {
+      ['outcoma', 'ridermune'].forEach(brand => {
+        const bd = ttH[date]?.[brand] || (ttH[date] && !ttH[date]?.outcoma && !ttH[date]?.ridermune ? ttH[date] : null);
+        if (!bd) return;
+        (bd.campaigns || []).filter(c => c.spend > 0 && cmpProdFilter(c.name)).forEach(c => {
+          ttSpend += c.spend || 0; ttRev += c.revenue || 0; ttConv += c.conversions || 0;
+        });
+      });
+    });
+  }
+  const ttRoas = ttSpend > 0 ? ttRev / ttSpend : 0;
+  const ttCpa  = ttConv > 0 ? ttSpend / ttConv : 0;
+
+  // ── Google 집계 ──
+  let ggSpend = 0, ggVal = 0, ggConv = 0;
+  const ggH = window.GADS_HISTORY;
+  if (ggH) {
+    Object.keys(ggH).filter(d => d >= start && d <= end).forEach(date => {
+      (ggH[date]?.campaigns || []).filter(c => cmpProdFilter(c.name)).forEach(c => {
+        ggSpend += c.spend || 0;
+        ggVal   += c.conv_value || 0;
+        ggConv  += c.conversions || 0;
+      });
+    });
+  }
+  const ggRoas = ggSpend > 0 ? ggVal / ggSpend : 0;
+  const ggCpa  = ggConv > 0 ? ggSpend / ggConv : 0;
+
+  // ── Meta 집계 (현재 로드된 allData 사용) ──
+  let metaSpend = 0, metaRev = 0, metaPurch = 0;
+  if (allData && allData.length) {
+    allData.filter(c => cmpProdFilter(c.name)).forEach(c => {
+      metaSpend += c.spend || 0; metaRev += c.revenue || 0; metaPurch += c.purchases || 0;
+    });
+  }
+  const metaRoas = metaSpend > 0 ? metaRev / metaSpend : 0;
+  const metaCpa  = metaPurch > 0 ? metaSpend / metaPurch : 0;
+
+  // ── 직접ROAS (카페24) ──
+  const ttDsMap  = buildTtDsMap(start, end);
+  const ggDsMap  = buildGadsDsMap(start, end);
+  const seenTT   = new Set();
+  let ttDirect = 0;
+  if (ttH) {
+    Object.keys(ttH).filter(d => d >= start && d <= end).forEach(date => {
+      ['outcoma', 'ridermune'].forEach(brand => {
+        const bd = ttH[date]?.[brand];
+        if (!bd) return;
+        (bd.campaigns || []).filter(c => cmpProdFilter(c.name)).forEach(c => {
+          if (seenTT.has(c.name)) return; seenTT.add(c.name);
+          const dv = lookupTtDirect(c.name, ttDsMap);
+          if (dv != null) ttDirect += dv;
+        });
+      });
+    });
+  }
+  const seenGG = new Set();
+  let ggDirect = 0;
+  if (ggH) {
+    Object.keys(ggH).filter(d => d >= start && d <= end).forEach(date => {
+      (ggH[date]?.campaigns || []).filter(c => cmpProdFilter(c.name)).forEach(c => {
+        if (seenGG.has(c.name)) return; seenGG.add(c.name);
+        const dv = lookupGadsDirect(c.name, ggDsMap);
+        if (dv != null) ggDirect += dv;
+      });
+    });
+  }
+  const ttDR   = ttSpend > 0 && ttDirect > 0 ? ttDirect / ttSpend : null;
+  const ggDR   = ggSpend > 0 && ggDirect > 0 ? ggDirect / ggSpend : null;
+
+  // ── 카드 HTML 생성 ──
+  const rcol = r => r >= 1 ? '#3fb950' : '#f78166';
+  const mediaCard = (label, color, spend, roas, dr, cpa, hasData, note) => {
+    if (!hasData) return `<div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:20px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:${color}40"></div>
+      <div style="font-size:13px;font-weight:700;color:${color};margin-bottom:10px">${label}</div>
+      <div style="color:#4e5564;font-size:13px">데이터 없음</div>
+      ${note ? `<div style="font-size:10px;color:#4e5564;margin-top:6px">${note}</div>` : ''}
+    </div>`;
+    return `<div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:20px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:${color}"></div>
+      <div style="font-size:13px;font-weight:700;color:${color};margin-bottom:${note?'4':'14'}px">${label}</div>
+      ${note ? `<div style="font-size:10px;color:#4e5564;margin-bottom:12px">${note}</div>` : ''}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 20px">
+        <div><div style="font-size:10px;color:#6e7681;margin-bottom:3px">광고비</div>
+          <div style="font-size:19px;font-weight:800;color:#f0f6fc;letter-spacing:-0.5px">${fmtKRW(spend)}</div></div>
+        <div><div style="font-size:10px;color:#6e7681;margin-bottom:3px">ROAS</div>
+          <div style="font-size:19px;font-weight:800;color:${roas > 0 ? rcol(roas) : '#4e5564'}">${roas > 0 ? (roas*100).toFixed(0)+'%' : '—'}</div></div>
+        <div><div style="font-size:10px;color:#f0883e;margin-bottom:3px">직접ROAS</div>
+          <div style="font-size:19px;font-weight:800;color:${dr != null ? '#f0883e' : '#4e5564'}">${dr != null ? (dr*100).toFixed(0)+'%' : '—'}</div></div>
+        <div><div style="font-size:10px;color:#6e7681;margin-bottom:3px">CPA</div>
+          <div style="font-size:19px;font-weight:800;color:#c9d1d9">${cpa > 0 ? fmtKRW(cpa) : '—'}</div></div>
+      </div>
+    </div>`;
+  };
+
+  const totalSpend = ttSpend + ggSpend + metaSpend;
+  let metaNote = '';
+  if (metaSpend > 0 && currentBrand) {
+    try {
+      const s = document.getElementById("startDate")?.value;
+      const e = document.getElementById("endDate")?.value;
+      if (s && e) metaNote = `날짜: ${s}~${e}`;
+    } catch(e2) {}
+  } else if (!currentBrand) {
+    metaNote = '브랜드 선택 후 로드됨';
+  }
+
+  let html = `<div style="margin-bottom:16px">
+    <div style="font-size:10px;color:#6e7681;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;margin-bottom:4px">매체 교차 비교</div>
+    <div style="font-size:12px;color:#4e5564">${dateLabel} · ${prodLabel}</div>
+  </div>`;
+
+  if (totalSpend === 0) {
+    html += `<div class="gads-no-data">선택한 조건에 맞는 데이터가 없습니다.<br><span style="font-size:12px">TikTok / Google 히스토리 파일을 확인하거나 브랜드를 선택하세요.</span></div>`;
+    el.innerHTML = html; return;
+  }
+
+  html += `<div class="cmp-cards">
+    ${mediaCard('TikTok', '#ff6b8a', ttSpend, ttRoas, ttDR, ttCpa, ttSpend > 0)}
+    ${mediaCard('Google Ads', '#4285f4', ggSpend, ggRoas, ggDR, ggCpa, ggSpend > 0)}
+    ${mediaCard('Meta' + (currentBrand ? ` (${currentBrand === 'ridermune' ? '리더뮨' : '아웃코마'})` : ''), '#388bfd', metaSpend, metaRoas, null, metaCpa, metaSpend > 0, metaNote)}
+  </div>`;
+
+  // 광고비 비중 바
+  if (totalSpend > 0) {
+    const ttPct = +(ttSpend / totalSpend * 100).toFixed(1);
+    const ggPct = +(ggSpend / totalSpend * 100).toFixed(1);
+    const mtPct = +(metaSpend / totalSpend * 100).toFixed(1);
+    html += `<div style="background:#161b22;border:1px solid #21262d;border-radius:10px;padding:18px 20px;margin-bottom:20px">
+      <div style="font-size:11px;color:#6e7681;margin-bottom:10px">매체별 광고비 비중 · 합계 <b style="color:#f0f6fc">${fmtKRW(totalSpend)}</b></div>
+      <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;margin-bottom:10px;gap:1px">
+        ${ttSpend   > 0 ? `<div style="width:${ttPct}%;background:#ff6b8a;transition:width 0.3s"></div>` : ''}
+        ${ggSpend   > 0 ? `<div style="width:${ggPct}%;background:#4285f4;transition:width 0.3s"></div>` : ''}
+        ${metaSpend > 0 ? `<div style="width:${mtPct}%;background:#388bfd;transition:width 0.3s"></div>` : ''}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;font-size:11px;color:#8b949e">
+        ${ttSpend   > 0 ? `<span><span style="color:#ff6b8a">■</span> TikTok ${ttPct}% · ${fmtKRW(ttSpend)}</span>` : ''}
+        ${ggSpend   > 0 ? `<span><span style="color:#4285f4">■</span> Google ${ggPct}% · ${fmtKRW(ggSpend)}</span>` : ''}
+        ${metaSpend > 0 ? `<span><span style="color:#388bfd">■</span> Meta ${mtPct}% · ${fmtKRW(metaSpend)}</span>` : ''}
+      </div>
+    </div>`;
+
+    // 제품별 상세 비교 테이블 (전체 보기일 때만)
+    if (cmpProd === "all") {
+      const PROD_KEYWORDS = [
+        { key:'yb', label:'노즈픽션' }, { key:'kd', label:'키즈픽션' },
+        { key:'tp', label:'템퍼픽션' }, { key:'ato', label:'아토픽션' },
+        { key:'do', label:'디오스톡' }
+      ];
+      const rows = [];
+      PROD_KEYWORDS.forEach(({ key, label }) => {
+        // TT 소진
+        let ps = 0, pr = 0, pc = 0;
+        if (ttH) {
+          Object.keys(ttH).filter(d => d >= start && d <= end).forEach(date => {
+            ['outcoma','ridermune'].forEach(brand => {
+              const bd = ttH[date]?.[brand] || (ttH[date] && !ttH[date]?.outcoma && !ttH[date]?.ridermune ? ttH[date] : null);
+              if (!bd) return;
+              (bd.campaigns||[]).filter(c => (c.name||'').toLowerCase().includes(key)).forEach(c => {
+                ps += c.spend||0; pr += c.revenue||0; pc += c.conversions||0;
+              });
+            });
+          });
+        }
+        // GG 소진
+        let gs = 0, gv = 0, gc = 0;
+        if (ggH) {
+          Object.keys(ggH).filter(d => d >= start && d <= end).forEach(date => {
+            (ggH[date]?.campaigns||[]).filter(c => (c.name||'').toLowerCase().includes(key)).forEach(c => {
+              gs += c.spend||0; gv += c.conv_value||0; gc += c.conversions||0;
+            });
+          });
+        }
+        // Meta 소진
+        let ms2 = 0, mr = 0;
+        if (allData && allData.length) {
+          allData.filter(c => (c.name||'').toLowerCase().includes(key)).forEach(c => {
+            ms2 += c.spend||0; mr += c.revenue||0;
+          });
+        }
+        if (ps + gs + ms2 === 0) return;
+        rows.push({ label, ps, pr, pc, gs, gv, gc, ms: ms2, mr,
+          ttRoas: ps > 0 ? pr/ps : 0,
+          ggRoas: gs > 0 ? gv/gs : 0,
+          mtRoas: ms2 > 0 ? mr/ms2 : 0,
+          total: ps + gs + ms2
+        });
+      });
+      rows.sort((a, b) => b.total - a.total);
+      if (rows.length) {
+        html += `<div style="background:#161b22;border:1px solid #21262d;border-radius:10px;overflow:hidden">
+          <div style="padding:14px 18px;border-bottom:1px solid #21262d;font-size:13px;font-weight:600;color:#f0f6fc">제품별 비교 · ${dateLabel}</div>
+          <table style="width:100%;border-collapse:collapse">
+            <thead><tr>
+              <th style="padding:8px 14px;text-align:left;font-size:10px;color:#6e7681;text-transform:uppercase;border-bottom:1px solid #21262d">제품</th>
+              <th style="padding:8px 14px;text-align:right;font-size:10px;color:#ff6b8a;text-transform:uppercase;border-bottom:1px solid #21262d">TT 소진</th>
+              <th style="padding:8px 14px;text-align:right;font-size:10px;color:#ff6b8a;text-transform:uppercase;border-bottom:1px solid #21262d">TT ROAS</th>
+              <th style="padding:8px 14px;text-align:right;font-size:10px;color:#4285f4;text-transform:uppercase;border-bottom:1px solid #21262d">GG 소진</th>
+              <th style="padding:8px 14px;text-align:right;font-size:10px;color:#4285f4;text-transform:uppercase;border-bottom:1px solid #21262d">GG ROAS</th>
+              ${metaSpend > 0 ? `<th style="padding:8px 14px;text-align:right;font-size:10px;color:#388bfd;text-transform:uppercase;border-bottom:1px solid #21262d">Meta 소진</th>
+              <th style="padding:8px 14px;text-align:right;font-size:10px;color:#388bfd;text-transform:uppercase;border-bottom:1px solid #21262d">Meta ROAS</th>` : ''}
+            </tr></thead>
+            <tbody>`;
+        rows.forEach(r => {
+          html += `<tr style="border-bottom:1px solid #161b22">
+            <td style="padding:8px 14px;font-size:13px;font-weight:600;color:#e2e8f0">${r.label}</td>
+            <td style="padding:8px 14px;text-align:right;font-size:12px;color:#c9d1d9">${r.ps > 0 ? fmtKRW(r.ps) : '—'}</td>
+            <td style="padding:8px 14px;text-align:right;font-size:12px;color:${r.ttRoas > 0 ? (r.ttRoas >= 1 ? '#3fb950' : '#f78166') : '#4e5564'}">${r.ttRoas > 0 ? (r.ttRoas*100).toFixed(0)+'%' : '—'}</td>
+            <td style="padding:8px 14px;text-align:right;font-size:12px;color:#c9d1d9">${r.gs > 0 ? fmtKRW(r.gs) : '—'}</td>
+            <td style="padding:8px 14px;text-align:right;font-size:12px;color:${r.ggRoas > 0 ? (r.ggRoas >= 1 ? '#3fb950' : '#f78166') : '#4e5564'}">${r.ggRoas > 0 ? (r.ggRoas*100).toFixed(0)+'%' : '—'}</td>
+            ${metaSpend > 0 ? `<td style="padding:8px 14px;text-align:right;font-size:12px;color:#c9d1d9">${r.ms > 0 ? fmtKRW(r.ms) : '—'}</td>
+            <td style="padding:8px 14px;text-align:right;font-size:12px;color:${r.mtRoas > 0 ? (r.mtRoas >= 1 ? '#3fb950' : '#f78166') : '#4e5564'}">${r.mtRoas > 0 ? (r.mtRoas*100).toFixed(0)+'%' : '—'}</td>` : ''}
+          </tr>`;
+        });
+        html += `</tbody></table></div>`;
+      }
+    }
+  }
+
+  el.innerHTML = html;
 }
 
 </script>
