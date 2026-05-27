@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2026-05-27f CPA색상방향(낮을수록녹색)+직접값/직접ROAS탭 -->
+<!-- v2026-05-27g 차트 점 호버 툴팁(날짜별 상세수치) -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -4361,8 +4361,13 @@ function buildAreaChart(series, M) {
     return `<text x="${xPos(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="9" fill="#4e5564">${s.date.slice(5)}</text>`;
   }).join('');
 
-  // 점 + 값 라벨
-  const dots = pts.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#a371f7" stroke="#0d1117" stroke-width="1.5"/>`).join('');
+  // 점
+  const dots = pts.map(p => `<circle id="adPt${p.i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#a371f7" stroke="#0d1117" stroke-width="1.5"/>`).join('');
+  // 호버 히트영역 (점보다 큰 투명원) + 가이드선
+  const hits = pts.map(p => `<g>
+    <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="20" fill="transparent" style="cursor:pointer"
+      onmousemove="showAdPopupTip(event,${p.i})" onmouseenter="showAdPopupTip(event,${p.i})" onmouseleave="hideAdPopupTip()"/>
+  </g>`).join('');
 
   return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block;overflow:visible">
     <defs><linearGradient id="popupGrad" x1="0" y1="0" x2="0" y2="1">
@@ -4374,7 +4379,49 @@ function buildAreaChart(series, M) {
     <path d="${linePath}" fill="none" stroke="#a371f7" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
     ${dots}
     ${xLabels}
+    ${hits}
   </svg>`;
+}
+
+function showAdPopupTip(evt, idx) {
+  const st = _adPopupState;
+  const e = st.entries[idx];
+  if (!e) return;
+  const M = POPUP_METRICS[st.metric];
+  const cur = M.calc(e);
+  const roas = e.spend > 0 ? (e.revenue / e.spend * 100).toFixed(0) + '%' : '—';
+  const line = (l, v, c) => `<div style="display:flex;justify-content:space-between;gap:18px;margin-top:3px"><span style="color:#6e7681">${l}</span><span style="color:${c || '#c9d1d9'};font-weight:600">${v}</span></div>`;
+  const rows = [
+    `<div style="font-weight:800;color:#f0f6fc;font-size:13px;margin-bottom:7px">${e.date}</div>`,
+    line(M.label, cur != null ? M.fmt(cur) : '—', '#a371f7'),  // 현재 선택 지표 강조
+  ];
+  // 요약 (현재 선택 지표와 중복되는 줄은 생략)
+  if (st.metric !== 'spend')   rows.push(line('광고비', fmtKRW(Math.round(e.spend))));
+  if (st.metric !== 'revenue') rows.push(line('매출', e.revenue > 0 ? fmtKRW(Math.round(e.revenue)) : '—'));
+  if (st.metric !== 'roas')    rows.push(line('ROAS', roas));
+  if (st.hasDirect && st.metric !== 'direct') rows.push(line('직접값', e.direct > 0 ? fmtKRW(Math.round(e.direct)) : '—'));
+  if (e.conv > 0) rows.push(line('구매', Math.round(e.conv).toLocaleString() + '건'));
+
+  const tip = document.getElementById('adPopupTip');
+  tip.innerHTML = rows.join('');
+  tip.style.display = 'block';
+  let x = evt.clientX + 16, y = evt.clientY + 16;
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  if (x + tw > window.innerWidth - 10) x = evt.clientX - tw - 16;
+  if (y + th > window.innerHeight - 10) y = evt.clientY - th - 16;
+  tip.style.left = x + 'px';
+  tip.style.top = y + 'px';
+
+  // 점 강조
+  document.querySelectorAll('[id^="adPt"]').forEach(c => { c.setAttribute('r', '3.5'); });
+  const dot = document.getElementById('adPt' + idx);
+  if (dot) dot.setAttribute('r', '6');
+}
+
+function hideAdPopupTip() {
+  const tip = document.getElementById('adPopupTip');
+  if (tip) tip.style.display = 'none';
+  document.querySelectorAll('[id^="adPt"]').forEach(c => { c.setAttribute('r', '3.5'); });
 }
 
 </script>
@@ -4386,6 +4433,9 @@ function buildAreaChart(series, M) {
     <div id="adPopupContent"></div>
   </div>
 </div>
+
+<!-- 차트 호버 툴팁 -->
+<div id="adPopupTip" style="display:none;position:fixed;z-index:10001;pointer-events:none;background:#1c2128;border:1px solid #30363d;border-radius:10px;padding:11px 13px;font-size:12px;line-height:1.3;box-shadow:0 8px 24px #000a;min-width:150px"></div>
 
 </body>
 </html>
