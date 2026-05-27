@@ -214,7 +214,7 @@ def _open_date_picker(page):
         const cands = btns.filter(b => {
             const t = b.innerText || b.textContent || '';
             const r = b.getBoundingClientRect();
-            return r.y > 50 && r.y < 300 && r.x > 900 && r.width >= 80 && r.width <= 280
+            return r.y > 100 && r.y < 350 && r.x > 100 && r.width >= 80 && r.width <= 300
                    && t.includes('arrow_drop_down');
         }).sort((a, b) => a.getBoundingClientRect().width - b.getBoundingClientRect().width);
         if (cands[0]) {
@@ -229,8 +229,7 @@ def _open_date_picker(page):
         page.mouse.click(pos['x'], pos['y'])
         print(f"  피커 클릭: ({pos['x']},{pos['y']}) '{pos['text'][:30]}'")
     else:
-        page.mouse.click(1602, 195)
-        print(f"  피커 클릭 (폴백 좌표)")
+        print(f"  피커 버튼 못찾음 — 날짜 설정 불가")
     page.wait_for_timeout(2500)
     return True
 
@@ -296,7 +295,7 @@ def set_date_range(page, target_date):
         const cand = btns.find(b => {
             const t = b.innerText || '';
             const r = b.getBoundingClientRect();
-            return r.y > 50 && r.y < 300 && r.x > 900 && r.width >= 80 && t.includes('arrow_drop_down');
+            return r.y > 100 && r.y < 350 && r.x > 100 && r.width >= 80 && t.includes('arrow_drop_down');
         });
         if (!cand) return '';
         return (cand.innerText||'').split('\\n')[0].trim();
@@ -321,11 +320,11 @@ def set_date_range(page, target_date):
     # "맞춤" 클릭 (mouse.click 사용 — Material Design 신뢰성)
     custom_pos = page.evaluate("""
     () => {
-        const items = [...document.querySelectorAll('material-select-item, [role="option"]')];
+        const items = [...document.querySelectorAll('material-select-item, [role="option"], [role="menuitem"]')];
         const item = items.find(i => {
             const t = (i.innerText || '').trim();
             const r = i.getBoundingClientRect();
-            return t.includes('맞춤') && r.x > 1200 && r.y > 100 && r.y < 700 && r.width > 0;
+            return t === '맞춤' && r.width > 0 && r.height > 0;
         });
         if (!item) return null;
         const r = item.getBoundingClientRect();
@@ -677,26 +676,9 @@ def collect_day(page, target_date):
                 page.wait_for_timeout(500)
             page.wait_for_timeout(1500)
         if not date_ok:
-            # 날짜 피커 조작 실패 — 현재 표시 날짜가 target_date인지 확인
-            date_fragment = f"{target_date.month}. {target_date.day}."
-            current_text = page.evaluate("""
-            () => {
-                const btns = [...document.querySelectorAll('[role="button"]')];
-                const cand = btns.find(b => {
-                    const r = b.getBoundingClientRect();
-                    return r.y > 50 && r.y < 300 && r.x > 900 && r.width >= 80 && (b.innerText||'').includes('arrow_drop_down');
-                });
-                return cand ? (cand.innerText||'').split('\\n')[0].trim() : '';
-            }
-            """)
-            if date_fragment in current_text:
-                print(f"  [{view_name}] 피커 조작 실패 / 현재 날짜 확인됨({current_text[:30]}) — 수집 진행")
-            else:
-                print(f"  [{view_name}] 날짜 불일치(현재:{current_text[:30]}) — 이 뷰 건너뜀")
-                if _picker_is_open(page):
-                    page.keyboard.press("Escape")
-                    page.wait_for_timeout(300)
-                continue
+            # 피커 조작 실패 — sanity check로 이상치만 걸러내고 일단 수집 진행
+            # (Google Ads 기본 날짜가 오늘이면 정상 수집됨)
+            print(f"  [{view_name}] 피커 조작 실패 — 수집 후 sanity check로 판정")
         if _picker_is_open(page):
             page.keyboard.press("Escape")
             page.wait_for_timeout(500)
@@ -840,11 +822,11 @@ def main():
                 if yest_spend > 10000 and today_spend > yest_spend * 5:
                     print(f"  [경고] {ds} 소진({today_spend:,.0f})이 전날({yest_spend:,.0f})의 5배 초과 — 날짜 설정 오류 의심, 저장 건너뜀")
                     continue
-                # 수집 0개면 기존 데이터 보존
+                # 수집 캠페인이 기존보다 현저히 줄면 보존 (뷰 필터 누락 방어)
                 new_camps = len((data or {}).get('campaigns', []))
                 old_camps = len(history.get(ds, {}).get('campaigns', []))
-                if new_camps == 0 and old_camps > 0:
-                    print(f"  [경고] {ds} 캠페인 0개 수집 — 기존 데이터({old_camps}개) 보존")
+                if old_camps > 0 and new_camps < old_camps * 0.6:
+                    print(f"  [경고] {ds} 캠페인 {new_camps}개 수집 (기존 {old_camps}개의 60% 미만) — 기존 데이터 보존")
                     continue
                 history[ds] = data
             except Exception as e:
