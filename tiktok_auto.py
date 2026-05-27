@@ -67,6 +67,62 @@ def apply_custom_columns(page):
         return False
 
 # ── 스크래퍼 ──────────────────────────────────────────
+STATUS_VALS = ('Active', 'Paused', 'Deleted', 'Not delivering',
+               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중',
+               '활성', '비활성', '중지', '일시중지', 'Inactive')
+ACTIVE_VALS = ('Active', '게재 중', '학습 중', '활성')
+
+def _is_value(s):
+    """헤더 블록에서 요약값(숫자/KRW/%/-) 판별 — 라벨과 구분용"""
+    s = s.strip()
+    if s in ('-', ''):
+        return True
+    return bool(re.fullmatch(r'[\d,]+(\.\d+)?\s*%?(\s*KRW)?', s))
+
+def _label_to_field(lbl):
+    """헤더 라벨 → 내부 필드명 매핑. '장바구니'/'결제 시작' 등 보조 컬럼은 무시(None)."""
+    if '장바구니' in lbl or '결제 시작' in lbl or '딥 퍼널' in lbl or lbl in ('결과', '결과율'):
+        return None
+    if '구매 금액' in lbl or '구매금액' in lbl or '전환값' in lbl or '전환 값' in lbl or '매출' in lbl or '총 전환' in lbl:
+        return 'revenue'
+    if 'ROAS' in lbl or '수익률' in lbl:        return 'roas'
+    if '전환당' in lbl:                          return 'cpa'
+    if '전환율' in lbl or 'CVR' in lbl:          return 'cvr'
+    if '전환수' in lbl or '전환 수' in lbl:      return 'conversions'
+    if lbl.startswith('비용') or lbl == 'Cost': return 'spend'
+    if 'CPC' in lbl:                             return 'cpc'
+    if 'CPM' in lbl:                             return 'cpm'
+    if '노출' in lbl:                            return 'impressions'
+    if '클릭' in lbl:                            return 'clicks'
+    if 'CTR' in lbl:                             return 'ctr'
+    return None
+
+def _parse_header_labels(lines):
+    """'이름' 헤더부터 데이터 행 시작 전까지 라벨 순서 추출 (요약값 제외)"""
+    start = None
+    for idx, s in enumerate(lines):
+        if s in ('이름', 'Name'):
+            start = idx; break
+    if start is None:
+        return None
+    labels = []
+    j = start
+    while j < len(lines) and len(labels) < 45:
+        s = lines[j]
+        # 캠페인/소재명(데이터 행) 만나면 헤더 끝
+        if re.search(r'(tk_|fb_|gg_)', s, re.I) or re.match(r'^\d{3}_\d{6}_', s):
+            break
+        if not _is_value(s):
+            labels.append(s)
+        j += 1
+    return labels if len(labels) >= 4 else None
+
+def _assign(camp, field, val):
+    if field in ('ctr', 'cvr'):       camp[field] = parse_pct(val)
+    elif field == 'roas':             camp[field] = parse_float(val)
+    elif field in ('clicks', 'impressions', 'conversions'): camp[field] = parse_num(val)
+    else:                             camp[field] = parse_krw(val)
+
 def scrape_campaigns(page, camp_pat):
     page.wait_for_timeout(5000)
     for _ in range(14):
@@ -77,48 +133,70 @@ def scrape_campaigns(page, camp_pat):
 
     text  = page.evaluate("document.body.innerText")
     lines = [l.strip() for l in text.split('\n') if l.strip()]
+
+    # 헤더 라벨 동적 파싱 (예산 이후 = 지표 컬럼 순서)
+    labels = _parse_header_labels(lines)
+    metric_labels = labels[3:] if labels else None
+    use_dynamic = bool(metric_labels and any(_label_to_field(l) == 'spend' for l in metric_labels))
+
     campaigns = []
     i = 0
     while i < len(lines):
         line = lines[i]
         if not re.search(camp_pat, line, re.IGNORECASE):
             i += 1; continue
-        try:
-            name       = line
-            status_raw = lines[i+1] if i+1 < len(lines) else ''
-            if status_raw not in ('Active', 'Paused', 'Deleted', 'Not delivering',
-                               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중',
-                               '활성', '비활성', '중지', '일시중지', 'Inactive'):
-                i += 1; continue
+        status_raw = lines[i+1] if i+1 < len(lines) else ''
+        if status_raw not in STATUS_VALS:
+            i += 1; continue
 
+        camp = {'name': line, 'status': 'active' if status_raw in ACTIVE_VALS else 'paused',
+                'budget': 0, 'cpa': 0, 'spend': 0, 'revenue': 0, 'roas': 0, 'cpc': 0,
+                'ctr': 0, 'clicks': 0, 'impressions': 0, 'cpm': 0, 'conversions': 0}
+
+        if use_dynamic:
+            # 동적 매핑: name, status 다음 서브상태 줄 스킵 → 예산(+유형) → 헤더 순서대로 지표
+            k = i + 2
+            # 서브상태 줄/배지 숫자 등 건너뛰고 예산(KRW 금액 또는 무제한) 찾기
+            while k < len(lines) and k < i + 7:
+                s = lines[k]
+                if 'KRW' in s or 'unlimited' in s.lower() or '무제한' in s:
+                    break
+                k += 1
+            if k < len(lines) and ('KRW' in lines[k] or 'unlimited' in lines[k].lower() or '무제한' in lines[k]):
+                camp['budget'] = parse_krw(lines[k]); k += 1
+            # 예산 유형 줄("매일, 캠페인 예산" 등) 스킵
+            if (k < len(lines) and not _is_value(lines[k]) and 'unlimited' not in lines[k].lower()
+                    and not re.search(camp_pat, lines[k], re.I)):
+                k += 1
+            for lbl in metric_labels:
+                if k >= len(lines): break
+                f = _label_to_field(lbl)
+                if f and f != 'roas': _assign(camp, f, lines[k])  # roas는 매출/소진으로 재계산
+                k += 1
+            camp['roas'] = round(camp['revenue'] / camp['spend'], 2) if (camp['spend'] > 0 and camp['revenue'] > 0) else 0
+            campaigns.append(camp)
+            i = k
+            continue
+
+        # 폴백: 기존 고정 offset 매핑
+        try:
             offset = 2
-            # Budget 라인(숫자 포함)이 나올 때까지 서브상태 줄 건너뜀
-            # 예: "Campaign paused", "Learning phase", "Not delivering" 등
             while i+offset < len(lines) and offset < 6:
                 nxt = lines[i+offset]
                 if re.search(r'[\d,]+', nxt) or 'unlimited' in nxt.lower():
                     break
                 offset += 1
-
             def gl(n):
                 idx = i + offset + n
                 return lines[idx] if idx < len(lines) else '0'
-
-            camp = {
-                'name':        name,
-                'status':      'active' if status_raw in ('Active', '게재 중', '학습 중', '활성') else 'paused',
-                'budget':      parse_krw(gl(0)),
-                'cpa':         parse_krw(gl(2)),
-                'spend':       parse_krw(gl(3)),
-                'revenue':     parse_krw(gl(4)),
-                'roas':        parse_float(gl(5)),
-                'cpc':         parse_krw(gl(6)),
-                'ctr':         parse_pct(gl(7)),
-                'clicks':      parse_num(gl(11)),
-                'impressions': parse_num(gl(12)),
-                'cpm':         parse_krw(gl(13)),
+            camp.update({
+                'budget': parse_krw(gl(0)),  'cpa': parse_krw(gl(2)),
+                'spend': parse_krw(gl(3)),   'revenue': parse_krw(gl(4)),
+                'roas': parse_float(gl(5)),  'cpc': parse_krw(gl(6)),
+                'ctr': parse_pct(gl(7)),     'clicks': parse_num(gl(11)),
+                'impressions': parse_num(gl(12)), 'cpm': parse_krw(gl(13)),
                 'conversions': parse_num(gl(14)),
-            }
+            })
             campaigns.append(camp)
             i += offset + 18
             continue
