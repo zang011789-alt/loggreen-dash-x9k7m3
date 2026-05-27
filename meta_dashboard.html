@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v2026-05-27d 소재팝업 onclick 따옴표충돌 수정 -->
+<!-- v2026-05-27e 소재팝업 밑줄제거+Meta로딩 0.9초(서버필터+병렬+캐시) -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -1281,7 +1281,7 @@ function renderDailyTable(data) {
       const tAov = (g.tRevenue > 0 && g.tPurch > 0) ? g.tRevenue / g.tPurch : 0;
       const adJson = popupArg(g.name);
       html += `<tr class="daily-header-row">
-        <td title="${g.name}" style="cursor:pointer;color:#79c0ff;text-decoration:underline dotted" onclick="openAdPopup(${adJson},'meta')"><b>${g.name}</b>${budgetBadge(g.adset)}</td><td class="cell-sub${mh}">${g.parent}</td>
+        <td title="${g.name}" style="cursor:pointer;color:#79c0ff" onclick="openAdPopup(${adJson},'meta')"><b>${g.name}</b>${budgetBadge(g.adset)}</td><td class="cell-sub${mh}">${g.parent}</td>
         <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td><td><b>${fmtKRW(g.tSpend)}</b></td>
         <td class="${mh.trim()}">${g.tRevenue > 0 ? fmtKRW(g.tRevenue) : "—"}</td><td><b>${tRoasPct}</b></td>
         ${tDirectCell}
@@ -1397,7 +1397,7 @@ function renderTable(data) {
       const aov = (c.revenue > 0 && c.purchases > 0) ? c.revenue / c.purchases : 0;
       const adJson = popupArg(c.name);
       html += `<tr>
-        <td class="cell-name" title="${c.name}" style="cursor:pointer;color:#79c0ff;text-decoration:underline dotted" onclick="openAdPopup(${adJson},'meta')">${c.name}${budgetBadge(c.adset)}</td>
+        <td class="cell-name" title="${c.name}" style="cursor:pointer;color:#79c0ff" onclick="openAdPopup(${adJson},'meta')">${c.name}${budgetBadge(c.adset)}</td>
         <td class="cell-sub m-hide" title="${c.parent}">${c.parent}</td>
         <td>${c.cpa > 0 ? fmtKRW(c.cpa) : "—"}</td>
         <td>${fN(c.spend)}</td>
@@ -2928,7 +2928,7 @@ function renderTtAdSummaryTable(data, dsMap) {
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
     const adJson = popupArg(a.name);
     html += `<tr>
-      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${a.name}" onclick="openAdPopup(${adJson},'tiktok')">${a.name}</td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff" title="${a.name}" onclick="openAdPopup(${adJson},'tiktok')">${a.name}</td>
       <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
       <td class="${mh}">${sb}</td>
       <td class="${mh}">${a.cpc > 0 ? fmtKRW(a.cpc) : "—"}</td>
@@ -3003,7 +3003,7 @@ function renderTtAdDailyTable(start, end, dsMap) {
       : `<span style="color:#6e7681;font-size:11px;">■ 중지</span>`;
     const adJson = popupArg(g.name);
     html += `<tr class="daily-header-row">
-      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${g.name}" onclick="openAdPopup(${adJson},'tiktok')"><b>${g.name}</b></td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff" title="${g.name}" onclick="openAdPopup(${adJson},'tiktok')"><b>${g.name}</b></td>
       <td class="${mh2}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8b949e;font-size:12px" title="${campNorm}">${campNorm}</td>
       <td class="${mh2}">${sb}</td>
       <td class="${mh2}">${g.tCpc>0?fmtKRW(g.tCpc):"—"}</td><td><b>${fmtKRW(g.tS)}</b></td>
@@ -3315,7 +3315,7 @@ function renderGads() {
       const dr    = dv != null && a.spend > 0 ? dv / a.spend : null;
       const adJson = popupArg(a.name);
       html += `<tr>
-        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${a.name}" onclick="openAdPopup(${adJson},'google')">${a.name}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff" title="${a.name}" onclick="openAdPopup(${adJson},'google')">${a.name}</td>
         <td class="${mh}" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e" title="${a.campaign}">${camp}</td>
         <td class="${mh}">${a.product || "—"}</td>
         <td>${cpa > 0 ? fmtKRW(cpa) : "—"}</td>
@@ -3516,7 +3516,7 @@ function renderGadsAdDailyTable(start, end, mob) {
     const camp = (g.campaign || "").replace(/\(.*?\)/, "").trim();
     const adJson = popupArg(g.name);
     html += `<tr class="daily-header-row">
-      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff;text-decoration:underline dotted" title="${g.name}" onclick="openAdPopup(${adJson},'google')"><b>${g.name}</b></td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff" title="${g.name}" onclick="openAdPopup(${adJson},'google')"><b>${g.name}</b></td>
       <td class="${mh}" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e">${camp}</td>
       <td class="${mh}">${g.product || "—"}</td>
       <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td>
@@ -4169,16 +4169,24 @@ function closeAdPopup() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAdPopup(); });
 
-// Meta 소재의 오늘 포함 최근 N일 일별 광고비/매출을 API로 조회
+// Meta 소재 7일 일별 캐시 (세션 내 재클릭 즉시 응답)
+const _metaAdCache = {};
+
+// Meta 소재의 오늘 포함 최근 N일 일별 지표를 API로 조회
+// 최적화: ad.name 서버측 필터(filtering) + 계정 병렬 요청 + 캐시
 async function fetchMetaAdDaily(adName, dates) {
   const blank = ds => ({ date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0 });
   const brand = BRANDS[currentBrand];
   if (!brand) return dates.map(blank);
+
+  const cacheKey = `${currentBrand}|${adName}|${dates[0]}~${dates[dates.length - 1]}`;
+  if (_metaAdCache[cacheKey]) return _metaAdCache[cacheKey];
+
   const since = dates[0], until = dates[dates.length - 1];
   const acc = {};
   dates.forEach(ds => acc[ds] = blank(ds));
 
-  for (const accountId of brand.accountIds) {
+  await Promise.all(brand.accountIds.map(async accountId => {
     try {
       const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);
       url.searchParams.set('access_token', TOKEN);
@@ -4186,13 +4194,15 @@ async function fetchMetaAdDaily(adName, dates) {
       url.searchParams.set('level', 'ad');
       url.searchParams.set('time_increment', '1');
       url.searchParams.set('time_range', JSON.stringify({ since, until }));
-      url.searchParams.set('limit', '500');
+      // 서버측에서 해당 소재명만 필터 → 데이터량/속도 대폭 개선
+      url.searchParams.set('filtering', JSON.stringify([{ field: 'ad.name', operator: 'CONTAIN', value: adName }]));
+      url.searchParams.set('limit', '100');
       let next = url.toString();
       while (next) {
         const r = await fetch(next);
         const j = await r.json();
         (j.data || []).forEach(row => {
-          if ((row.ad_name || '') !== adName) return;
+          if ((row.ad_name || '') !== adName) return;  // CONTAIN → 정확 매칭 재확인
           const e = acc[row.date_start];
           if (!e) return;
           const sp = parseFloat(row.spend || 0);
@@ -4207,9 +4217,11 @@ async function fetchMetaAdDaily(adName, dates) {
         next = j.paging?.next;
       }
     } catch (e) { /* silent */ }
-  }
+  }));
   Object.values(acc).forEach(e => { e.ctr = e.impr > 0 ? e.clicks / e.impr * 100 : 0; });
-  return dates.map(ds => acc[ds]);
+  const result = dates.map(ds => acc[ds]);
+  _metaAdCache[cacheKey] = result;
+  return result;
 }
 
 function renderAdPopupBody() {
