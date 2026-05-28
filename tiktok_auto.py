@@ -97,8 +97,12 @@ def _label_to_field(lbl):
     if 'CTR' in lbl:                             return 'ctr'
     return None
 
+def _is_desc(s):
+    """헤더 컬럼 툴팁/설명 문장 판별 (정렬·hover 시 노출되어 라벨로 오인되는 것 제외)"""
+    return len(s) > 17 or bool(re.search(r'(입니다|합니다|됩니다|없음|않음|하세요|있습니다|보세요|클릭하여|확인)$', s))
+
 def _parse_header_labels(lines):
-    """'이름' 헤더부터 데이터 행 시작 전까지 라벨 순서 추출 (요약값 제외)"""
+    """'이름' 헤더부터 데이터 행 시작 전까지 라벨 순서 추출 (요약값/설명문 제외)"""
     start = None
     for idx, s in enumerate(lines):
         if s in ('이름', 'Name'):
@@ -112,10 +116,29 @@ def _parse_header_labels(lines):
         # 캠페인/소재명(데이터 행) 만나면 헤더 끝
         if re.search(r'(tk_|fb_|gg_)', s, re.I) or re.match(r'^\d{3}_\d{6}_', s):
             break
-        if not _is_value(s):
+        if not _is_value(s) and not _is_desc(s):
             labels.append(s)
         j += 1
     return labels if len(labels) >= 4 else None
+
+def _metric_labels(header):
+    """첫 지표 컬럼부터 헤더 끝까지의 라벨 순서.
+    - 미매핑(결제시작/장바구니/결과 등) 라벨도 placeholder로 유지 → 데이터 줄 소비, 매핑은 _label_to_field로
+    - 정렬 시 중복되는 지표 컬럼명(비용 2회 등)만 제거"""
+    if not header:
+        return []
+    start = next((idx for idx, l in enumerate(header) if _label_to_field(l)), None)
+    if start is None:
+        return []
+    seen, out = set(), []
+    for l in header[start:]:
+        f = _label_to_field(l)
+        if f and f in seen:
+            continue  # 정렬로 중복된 지표 컬럼 제거
+        if f:
+            seen.add(f)
+        out.append(l)
+    return out
 
 def _assign(camp, field, val):
     if field in ('ctr', 'cvr'):       camp[field] = parse_pct(val)
@@ -134,9 +157,9 @@ def scrape_campaigns(page, camp_pat):
     text  = page.evaluate("document.body.innerText")
     lines = [l.strip() for l in text.split('\n') if l.strip()]
 
-    # 헤더 라벨 동적 파싱 (예산 이후 = 지표 컬럼 순서)
+    # 헤더 라벨 동적 파싱 (지표 라벨만, 중복 필드 제거)
     labels = _parse_header_labels(lines)
-    metric_labels = labels[3:] if labels else None
+    metric_labels = _metric_labels(labels)
     use_dynamic = bool(metric_labels and any(_label_to_field(l) == 'spend' for l in metric_labels))
 
     campaigns = []
@@ -219,52 +242,75 @@ def scrape_campaigns(page, camp_pat):
             m['roas'] = round(m['revenue'] / m['spend'], 2) if m['spend'] else 0
     return list(seen.values())
 
+def _is_metric_start(s):
+    """지표 값 시작 판별 (KRW/% 또는 소수). 소재행 메타 줄(소스/광고ID/그룹번호) 구분용"""
+    return ('KRW' in s) or ('%' in s) or bool(re.fullmatch(r'-?\d[\d,]*\.\d+', s))
+
 def _parse_ads_lines(lines):
-    """innerText lines → 소재 리스트 파싱"""
+    """innerText lines → 소재 리스트 파싱 (동적 헤더 매핑, 폴백: 기존 tk_ 캠페인명 방식)"""
+    header = _parse_header_labels(lines)
+    metric_labels = _metric_labels(header)
+    use_dynamic = bool(metric_labels and any(_label_to_field(l) == 'spend' for l in metric_labels))
+
     ads = []
     i = 0
     while i < len(lines):
         line = lines[i]
         if not re.match(r'^\d{3}_\d{6}_', line):
             i += 1; continue
-        try:
-            name       = line
-            status_raw = lines[i+1] if i+1 < len(lines) else ''
-            if status_raw not in ('Active', 'Paused', 'Deleted', 'Not delivering',
-                               '게재 중', '일시 중지', '삭제됨', '게재 불가', '학습 중',
-                               '활성', '비활성', '중지', '일시중지', 'Inactive'):
-                i += 1; continue
+        status_raw = lines[i+1] if i+1 < len(lines) else ''
+        if status_raw not in STATUS_VALS:
+            i += 1; continue
 
-            camp_name   = ''
-            camp_offset = -1
+        ad = {'name': line, 'campaign': '',
+              'status': 'active' if status_raw in ACTIVE_VALS else 'paused',
+              'cpa': 0, 'spend': 0, 'revenue': 0, 'roas': 0, 'cpc': 0, 'ctr': 0,
+              'clicks': 0, 'impressions': 0, 'cpm': 0, 'conversions': 0, 'cvr': 0}
+
+        if use_dynamic:
+            # 앵커로 지표 시작점 결정: 광고ID(13자리+, 다음에 그룹이름 1줄) 또는 캠페인명(tk_, 바로 지표)
+            k = i + 2
+            anchor_idx, anchor_type = -1, None
+            for j in range(i + 2, min(i + 11, len(lines))):
+                if re.fullmatch(r'\d{13,}', lines[j].replace(',', '')):
+                    anchor_idx, anchor_type = j, 'adid'; break
+                if re.search(r'tk_', lines[j], re.IGNORECASE):
+                    anchor_idx, anchor_type = j, 'camp'; ad['campaign'] = lines[j]; break
+            if anchor_idx > 0:
+                k = anchor_idx + (2 if anchor_type == 'adid' else 1)
+            else:
+                # 폴백: 첫 지표값(KRW/%/소수)까지 메타 줄 스킵
+                while k < len(lines) and k < i + 11 and not _is_metric_start(lines[k]):
+                    k += 1
+            for lbl in metric_labels:
+                if k >= len(lines): break
+                f = _label_to_field(lbl)
+                if f and f != 'roas': _assign(ad, f, lines[k])
+                k += 1
+            ad['roas'] = round(ad['revenue'] / ad['spend'], 2) if (ad['spend'] > 0 and ad['revenue'] > 0) else 0
+            ads.append(ad)
+            i = k
+            continue
+
+        # 폴백: 기존 tk_ 캠페인명 기준 매핑
+        try:
+            camp_name, camp_offset = '', -1
             for k in range(2, 10):
                 idx = i + k
                 if idx >= len(lines): break
                 if re.search(r'tk_', lines[idx], re.IGNORECASE):
-                    camp_name   = lines[idx]
-                    camp_offset = k
+                    camp_name, camp_offset = lines[idx], k
                     break
-
             if camp_offset < 0:
                 i += 1; continue
-
             def gv(n):
                 idx = i + camp_offset + 1 + n
                 return lines[idx] if idx < len(lines) else '0'
-
-            ad = {
-                'name':        name,
-                'campaign':    camp_name,
-                'status':      'active' if status_raw in ('Active', '게재 중', '학습 중', '활성') else 'paused',
-                'cpa':         parse_krw(gv(0)),
-                'spend':       parse_krw(gv(1)),
-                'revenue':     parse_krw(gv(2)),
-                'roas':        parse_float(gv(3)),
-                'cpc':         parse_krw(gv(4)),
-                'ctr':         parse_pct(gv(5)),
-                'clicks':      parse_num(gv(9)),
-                'impressions': parse_num(gv(10)),
-            }
+            ad['campaign'] = camp_name
+            ad.update({'cpa': parse_krw(gv(0)), 'spend': parse_krw(gv(1)),
+                       'revenue': parse_krw(gv(2)), 'roas': parse_float(gv(3)),
+                       'cpc': parse_krw(gv(4)), 'ctr': parse_pct(gv(5)),
+                       'clicks': parse_num(gv(9)), 'impressions': parse_num(gv(10))})
             ads.append(ad)
             i += camp_offset + 12
             continue
@@ -404,11 +450,19 @@ def collect_day(page, target_date_str, brand="outcoma"):
 
     print(f"  [{label}/{target_date_str}] 캠페인 {len(campaigns)}개(활성:{len(active)}) | 소진:{total_spend:,} | 매출:{total_revenue:,} | ROAS:{total_roas}", flush=True)
 
-    # Ad 탭 전환 (Alt+3) → 소재 수집
+    # Ad 탭 전환 → 소재 수집 (Alt+3 단축키가 안 먹는 광고주 있어 "광고" 메뉴 클릭 폴백)
     ads = []
     try:
         page.keyboard.press("Alt+3")
-        page.wait_for_timeout(2500)
+        page.wait_for_timeout(1500)
+        try:
+            ad_menu = page.get_by_text("광고", exact=True)
+            if ad_menu.count() > 0:
+                ad_menu.first.click()
+                page.wait_for_timeout(2500)
+        except:
+            pass
+        page.wait_for_timeout(1000)
         apply_custom_columns(page)  # 소재 탭에서도 컬럼 프리셋 재적용
         ads = scrape_ads(page)
         print(f"  [{label}/{target_date_str}] 소재 {len(ads)}개", flush=True)
