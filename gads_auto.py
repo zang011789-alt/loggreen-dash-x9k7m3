@@ -446,10 +446,13 @@ def extract_campaigns(page):
                 const link = links.find(a => a.innerText.trim().startsWith('gg_'));
                 if (!link) continue;
                 const name = link.innerText.trim();
+                const href = link.href || '';
+                const cidMatch = href.match(/[?&]campaignId=(\d+)/);
+                const campaignId = cidMatch ? cidMatch[1] : null;
                 const rawLines = row.innerText.split('\\n')
                     .map(l => l.trim())
                     .filter(l => l.length > 0 && l !== 'settings');
-                results.push({ name, rawLines });
+                results.push({ name, rawLines, campaignId });
             }
             return results;
         }
@@ -459,6 +462,7 @@ def extract_campaigns(page):
             name = row['name']
             product = guess_product(name)
             lines = row['rawLines']
+            campaign_id = row.get('campaignId')
 
             if len(lines) < 5:
                 continue
@@ -527,7 +531,7 @@ def extract_campaigns(page):
                 roas = round(conv_value / spend, 2) if spend > 0 else 0.0
                 cpa  = int(spend / conv_cnt) if conv_cnt > 0 else 0
 
-            campaigns.append({
+            entry = {
                 "name": name,
                 "product": product,
                 "status": status,
@@ -538,7 +542,10 @@ def extract_campaigns(page):
                 "ctr": ctr,
                 "conv_value": conv_value,
                 "conversions": conversions,
-            })
+            }
+            if campaign_id:
+                entry["campaignId"] = campaign_id
+            campaigns.append(entry)
 
     except Exception as e:
         print(f"  campaigns 추출 실패: {e}")
@@ -546,6 +553,80 @@ def extract_campaigns(page):
     return campaigns
 
 # ── 소재별 추출 ───────────────────────────────────────────────
+def extract_ads_campaign_page(page, campaign_name=''):
+    """캠페인별 /aw/ads 페이지 전용 추출.
+    소재명 행(21줄)과 지표 행(8줄)이 교번 구조.
+    캠페인별 페이지엔 캠페인명 컬럼이 없으므로 campaign_name을 직접 전달.
+    지표 순서: date | CPA | ₩spend | ROAS | CTR% | ₩costperconv | conv | conv_value
+    """
+    ads = []
+    try:
+        all_rows = page.evaluate("""
+        () => {
+            const rows = [...document.querySelectorAll('[role="row"]')];
+            return rows.map(function(r) {
+                var lines = r.innerText.split('\\n').map(function(l){return l.trim();}).filter(function(l){return l.length>0;});
+                return { lines: lines };
+            });
+        }
+        """)
+        i = 0
+        while i < len(all_rows):
+            lines = all_rows[i]['lines']
+            if not lines:
+                i += 1; continue
+
+            first = lines[0]
+            if not re.search(r'\d{3}_\d{6}_', first):
+                i += 1; continue
+
+            ad_name = first
+            # 다음 행이 지표 행인지 확인 (첫 항목이 날짜 or 숫자)
+            metrics_lines = []
+            if i + 1 < len(all_rows):
+                nl = all_rows[i+1]['lines']
+                if nl and (re.search(r'\d{4}', nl[0]) or re.search(r'^[\d.]+$', nl[0])):
+                    metrics_lines = nl
+                    i += 2
+                else:
+                    i += 1
+            else:
+                i += 1
+
+            # campaign: 직접 전달값 우선, 없으면 row에서 추출 시도
+            campaign = campaign_name
+            adgroup = ''
+            asset_idx = next((j for j, l in enumerate(lines) if '애셋 세부정보' in l), -1)
+            if asset_idx >= 0:
+                next_val = lines[asset_idx+1] if asset_idx+1 < len(lines) else ''
+                if not campaign_name:
+                    campaign = next_val if 'gg_' in next_val else ''
+                adgroup = lines[asset_idx+2] if asset_idx+2 < len(lines) else next_val
+            if not campaign or 'gg_' not in campaign:
+                continue
+
+            # metrics: idx0=date, 1=CPA, 2=₩spend, 3=ROAS, 4=CTR%, 5=₩costperconv, 6=conv, 7=conv_value
+            if len(metrics_lines) >= 7:
+                spend       = parse_krw(metrics_lines[2]) if '₩' in metrics_lines[2] else parse_krw(metrics_lines[1])
+                roas        = parse_float(metrics_lines[3])
+                ctr         = parse_float(metrics_lines[4])
+                conversions = parse_float(metrics_lines[6])
+                conv_value  = parse_float(metrics_lines[7]) if len(metrics_lines) > 7 else 0.0
+                cpa         = int(parse_float(metrics_lines[1]))
+            else:
+                spend = roas = ctr = conversions = conv_value = cpa = 0
+
+            ads.append({
+                "name": ad_name, "campaign": campaign, "adgroup": adgroup,
+                "product": guess_product(campaign),
+                "spend": spend, "roas": roas, "ctr": ctr, "cpa": cpa,
+                "conv_value": conv_value, "conversions": conversions,
+            })
+    except Exception as e:
+        print(f"  extract_ads_campaign_page 실패: {e}")
+    return ads
+
+
 def extract_ads(page):
     """소재(광고) 행 파싱. 마지막 7줄 = CPA/비용/ROAS/CTR/전환당비용/전환수/전환가치"""
     ads = []
@@ -601,8 +682,44 @@ def extract_ads(page):
         print(f"  ads 추출 실패: {e}")
     return ads
 
+def _scroll_collect_ads(page, label="소재"):
+    """가상 스크롤로 소재 행 전부 수집. seen dict 반환."""
+    page.evaluate("window.scrollTo(0,0)")
+    page.wait_for_timeout(800)
+    seen = {}
+    stagnant = 0
+    for step in range(300):
+        batch = extract_ads(page)
+        added = sum(1 for a in batch if a['name'] not in seen)
+        for a in batch:
+            seen[a['name']] = a  # 덮어쓰기 허용 (최신 spend 반영)
+        if added == 0:
+            stagnant += 1
+            # stagnant 3회마다 페이지 맨 아래로 점프 (클러스터 건너뜀 방지)
+            if stagnant % 3 == 0:
+                page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                page.wait_for_timeout(600)
+            if stagnant >= 15:
+                break
+        else:
+            stagnant = 0
+        page.evaluate("""
+        () => {
+            const rows = [...document.querySelectorAll('[role="row"]')].filter(r => /\\d{3}_\\d{6}_/.test(r.innerText || ''));
+            if (!rows.length) { window.scrollBy(0, 500); return; }
+            rows[rows.length - 1].scrollIntoView({block: 'end', behavior: 'instant'});
+        }
+        """)
+        page.wait_for_timeout(260)
+        if step % 5 == 4:
+            page.evaluate("window.scrollBy(0, 300)")
+            page.wait_for_timeout(150)
+    print(f"  [{label}] {len(seen)}개 수집 (스크롤 {step+1}회)")
+    return seen
+
+
 def collect_ads(page, target_date):
-    """소재별 데이터 수집. /aw/ads URL + 가상 스크롤 누적 (한 번에 ~8개만 DOM에 있음)"""
+    """소재별 데이터 수집 (전역 /aw/ads)"""
     page.goto(ADS_URL, wait_until="load", timeout=40000)
     try:
         page.wait_for_selector('date-picker', timeout=12000)
@@ -618,47 +735,11 @@ def collect_ads(page, target_date):
         page.wait_for_timeout(500)
     page.wait_for_timeout(1500)
 
-    page.evaluate("window.scrollTo(0,0)")
-    page.wait_for_timeout(800)
+    # 전역 수집
+    seen = _scroll_collect_ads(page, "소재-전역")
 
-    # 가상 스크롤 테이블: 마지막 광고 행을 scrollIntoView로 가시화 → 새 행 렌더
-    seen = {}
-    stagnant = 0
-    step = 0
-    for step in range(200):
-        batch = extract_ads(page)
-        added = 0
-        for a in batch:
-            if a['name'] not in seen:
-                seen[a['name']] = a
-                added += 1
-        if added == 0:
-            stagnant += 1
-            if stagnant >= 6:
-                break
-        else:
-            stagnant = 0
-        # 마지막 광고 행을 가상 테이블이 렌더한 영역의 끝으로 스크롤
-        scrolled = page.evaluate("""
-        () => {
-            const rows = [...document.querySelectorAll('[role="row"]')].filter(r => /\\d{3}_\\d{6}_/.test(r.innerText || ''));
-            if (!rows.length) {
-                window.scrollBy(0, 500);
-                return 'no-rows';
-            }
-            rows[rows.length - 1].scrollIntoView({block: 'end', behavior: 'instant'});
-            return rows.length;
-        }
-        """)
-        page.wait_for_timeout(280)
-        # 가끔 페이지 전체도 살짝 스크롤 (테이블 vs 페이지 스크롤 동시 대응)
-        if step % 5 == 4:
-            page.evaluate("window.scrollBy(0, 300)")
-            page.wait_for_timeout(150)
 
-    ads = list(seen.values())
-    print(f"  [소재] {len(ads)}개 수집 (스크롤 {step+1}회)")
-    return ads
+    return list(seen.values())
 
 # ── 메인 수집 ──────────────────────────────────────────────────
 def _scroll_and_collect(page):
@@ -678,16 +759,40 @@ def _scroll_and_collect(page):
     page.wait_for_timeout(800)
     return extract_campaigns(page)
 
+def _get_campaign_id(page, campaign_name):
+    """캠페인 링크 클릭 → 현재 페이지 URL 변화에서 campaignId 추출. 실패 시 None."""
+    try:
+        page.evaluate(f"""
+        () => {{
+            const rows = document.querySelectorAll("[role='row']");
+            for (const row of rows) {{
+                const links = [...row.querySelectorAll("a")];
+                const link = links.find(a => a.innerText.trim() === {repr(campaign_name)});
+                if (link) {{ link.click(); return; }}
+            }}
+        }}
+        """)
+        for _ in range(20):
+            time.sleep(0.3)
+            if 'campaignId=' in page.url:
+                break
+        m = re.search(r'campaignId=(\d+)', page.url)
+        return m.group(1) if m else None
+    except:
+        return None
+
+
 def collect_day(page, target_date):
     """모든 뷰를 순회하며 gg_ 캠페인 수집. 각 뷰 KPI를 집계해 summary 생성."""
     ds = target_date.isoformat()
     all_campaigns = []
-    seen_idx = {}  # name → all_campaigns 인덱스 (conv>0 데이터로 업데이트 허용)
+    seen_idx = {}
+    tp_campaign_ids = {}  # gg_tp_ 캠페인명 → campaignId
 
     for view_name in PRODUCT_VIEWS:
         switched = switch_to_view(page, view_name)
         if not switched:
-            continue
+            print(f"  [{view_name}] 뷰 전환 실패 — 현재 페이지에서 수집 시도")
         try:
             page.wait_for_selector('[role="columnheader"]', timeout=8000)
         except:
@@ -728,10 +833,52 @@ def collect_day(page, target_date):
                 all_campaigns.append(c)
                 new_count += 1
             elif c.get('conversions', 0) > 0 and all_campaigns[seen_idx[c['name']]].get('conversions', 0) == 0:
-                # 이전 수집이 conv=0 (SHORT 포맷)이고 이번엔 conv>0 → 덮어쓰기
                 all_campaigns[seen_idx[c['name']]] = c
                 upd_count += 1
         print(f"  [{view_name}] {len(camps)}개 수집 ({new_count}개 신규, {upd_count}개 갱신)")
+
+        # '템퍼픽션' 뷰 활성 상태에서 gg_tp_ 캠페인 ID 추출
+        if view_name == '템퍼픽션' and switched:
+            tp_names = [c['name'] for c in camps if 'gg_tp_' in c['name']]
+            for i, cname in enumerate(tp_names):
+                cid = _get_campaign_id(page, cname)
+                if cid:
+                    tp_campaign_ids[cname] = cid
+                    print(f"  [{cname}] campaignId={cid}")
+                # 다음 캠페인 ID 추출을 위해 복귀 (마지막은 어차피 다음 뷰에서 처리)
+                if i < len(tp_names) - 1:
+                    page.goto(BASE_URL, wait_until="load", timeout=40000)
+                    try:
+                        page.wait_for_selector('[role="columnheader"]', timeout=10000)
+                    except:
+                        pass
+                    page.wait_for_timeout(2000)
+                    switch_to_view(page, '템퍼픽션')
+
+    # catch-all: BASE_URL 기본 뷰에서 뷰 필터 없이 전체 수집 (누락 캠페인 보완)
+    try:
+        page.goto(BASE_URL, wait_until="load", timeout=40000)
+        try:
+            page.wait_for_selector('[role="columnheader"]', timeout=10000)
+        except:
+            pass
+        page.wait_for_timeout(2000)
+        set_date_range(page, target_date)
+        if _picker_is_open(page):
+            page.keyboard.press("Escape")
+            page.wait_for_timeout(500)
+        page.wait_for_timeout(1500)
+        catchall = _scroll_and_collect(page)
+        added_catchall = 0
+        for c in catchall:
+            if c['name'] not in seen_idx:
+                seen_idx[c['name']] = len(all_campaigns)
+                all_campaigns.append(c)
+                added_catchall += 1
+        if added_catchall:
+            print(f"  [catch-all] {added_catchall}개 신규 추가")
+    except Exception as e:
+        print(f"  [catch-all] 오류: {e}")
 
     # summary: 수집된 gg_ 캠페인 합산
     total_spend = sum(c["spend"] for c in all_campaigns)
@@ -753,6 +900,38 @@ def collect_day(page, target_date):
     except Exception as e:
         print(f"  [소재] 수집 실패: {e}")
         ads = []
+
+    # 캠페인별 직접 수집: gg_tp_ 캠페인 전용 URL로 소재 보완
+    ads_seen = {a['name']: a for a in ads}
+    for cname, cid in tp_campaign_ids.items():
+        try:
+            # adgroups 먼저 진입 → campaignId 컨텍스트 유지된 채 ads 이동
+            page.goto(f"https://ads.google.com/aw/adgroups?ocid={OCID}&campaignId={cid}",
+                      wait_until="load", timeout=40000)
+            page.wait_for_timeout(2000)
+            camp_ads_url = f"https://ads.google.com/aw/ads?ocid={OCID}&campaignId={cid}"
+            page.goto(camp_ads_url, wait_until="load", timeout=40000)
+            # 테이블 row 로딩 대기
+            try:
+                page.wait_for_selector('[role="row"]', state="visible", timeout=12000)
+            except:
+                pass
+            page.wait_for_timeout(3000)
+            set_date_range(page, target_date)
+            if _picker_is_open(page):
+                page.keyboard.press("Escape")
+                page.wait_for_timeout(400)
+            page.wait_for_timeout(1000)
+            # 캠페인별 페이지는 소재명행+지표행 교번 구조 → 전용 추출 함수 사용
+            camp_ads_list = extract_ads_campaign_page(page, campaign_name=cname)
+            camp_ads = {a['name']: a for a in camp_ads_list}
+            added = sum(1 for k in camp_ads if k not in ads_seen)
+            ads_seen.update(camp_ads)
+            if added:
+                print(f"  [{cname}] 소재 {added}개 신규 추가")
+        except Exception as e:
+            print(f"  [{cname}] 캠페인 소재 수집 실패: {e}")
+    ads = list(ads_seen.values())
 
     # 캠페인 뷰로 복귀 (다음 날짜 처리를 위해)
     page.goto(BASE_URL, wait_until="load", timeout=40000)
