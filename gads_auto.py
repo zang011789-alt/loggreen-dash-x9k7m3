@@ -602,9 +602,8 @@ def extract_ads(page):
     return ads
 
 def collect_ads(page, target_date):
-    """소재별 데이터 수집. /aw/ads URL 사용."""
+    """소재별 데이터 수집. /aw/ads URL + 가상 스크롤 누적 (한 번에 ~8개만 DOM에 있음)"""
     page.goto(ADS_URL, wait_until="load", timeout=40000)
-    # date-picker 컴포넌트가 렌더링될 때까지 대기 (goto 후 약 4~6초 소요)
     try:
         page.wait_for_selector('date-picker', timeout=12000)
     except:
@@ -619,15 +618,46 @@ def collect_ads(page, target_date):
         page.wait_for_timeout(500)
     page.wait_for_timeout(1500)
 
-    # 스크롤로 전체 로드
-    for _ in range(30):
-        page.evaluate("window.scrollBy(0, 600)")
-        page.wait_for_timeout(100)
     page.evaluate("window.scrollTo(0,0)")
     page.wait_for_timeout(800)
 
-    ads = extract_ads(page)
-    print(f"  [소재] {len(ads)}개 수집")
+    # 가상 스크롤 테이블: 마지막 광고 행을 scrollIntoView로 가시화 → 새 행 렌더
+    seen = {}
+    stagnant = 0
+    step = 0
+    for step in range(200):
+        batch = extract_ads(page)
+        added = 0
+        for a in batch:
+            if a['name'] not in seen:
+                seen[a['name']] = a
+                added += 1
+        if added == 0:
+            stagnant += 1
+            if stagnant >= 6:
+                break
+        else:
+            stagnant = 0
+        # 마지막 광고 행을 가상 테이블이 렌더한 영역의 끝으로 스크롤
+        scrolled = page.evaluate("""
+        () => {
+            const rows = [...document.querySelectorAll('[role="row"]')].filter(r => /\\d{3}_\\d{6}_/.test(r.innerText || ''));
+            if (!rows.length) {
+                window.scrollBy(0, 500);
+                return 'no-rows';
+            }
+            rows[rows.length - 1].scrollIntoView({block: 'end', behavior: 'instant'});
+            return rows.length;
+        }
+        """)
+        page.wait_for_timeout(280)
+        # 가끔 페이지 전체도 살짝 스크롤 (테이블 vs 페이지 스크롤 동시 대응)
+        if step % 5 == 4:
+            page.evaluate("window.scrollBy(0, 300)")
+            page.wait_for_timeout(150)
+
+    ads = list(seen.values())
+    print(f"  [소재] {len(ads)}개 수집 (스크롤 {step+1}회)")
     return ads
 
 # ── 메인 수집 ──────────────────────────────────────────────────
