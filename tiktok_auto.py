@@ -465,6 +465,13 @@ def collect_day(page, target_date_str, brand="outcoma"):
         page.wait_for_timeout(1000)
         apply_custom_columns(page)  # 소재 탭에서도 컬럼 프리셋 재적용
         ads = scrape_ads(page)
+        # 소재 행에 캠페인명이 안 보이는 광고주(예: 아웃코마3)는 campaign='' 됨.
+        # 캠페인 1개뿐이면 그 캠페인을 모든 소재에 부여 (대시보드 드릴다운 매칭용)
+        if ads and campaigns and not any(a.get('campaign') for a in ads):
+            if len(campaigns) == 1:
+                cn = campaigns[0]['name']
+                for a in ads:
+                    a['campaign'] = cn
         print(f"  [{label}/{target_date_str}] 소재 {len(ads)}개", flush=True)
     except Exception as e:
         print(f"  [{label}/{target_date_str}] 소재 수집 실패(무시): {e}", flush=True)

@@ -1689,38 +1689,9 @@ function lookupDirectSales(metaName, isAd, dsMap) {
   if (!dsMap || !Object.keys(dsMap).length) return null;
   const nm = normKey(metaName);
   if (isAd) {
-    // 1. 정확 매칭
+    // 정확 매칭만 사용. 부분일치/prefix 제거 매칭은 매체간(메타↔틱톡) 같은 코어 소재명일 때
+    // 다른 매체 매출이 잘못 잡히는 오매핑 원인이라 제거.
     if (dsMap[nm] != null) return dsMap[nm];
-
-    // 2. Cafe24 term이 Meta ad_name을 포함 (예: "01_260115_..." ⊇ "260115_...")
-    for (const [k, v] of Object.entries(dsMap)) {
-      if (k && k.includes(nm)) return v;
-    }
-
-    // 3. Meta ad_name이 Cafe24 term을 포함 (반대 방향, 짧은 키 오매칭 방지 위해 6자 이상만)
-    for (const [k, v] of Object.entries(dsMap)) {
-      if (k && k.length >= 6 && nm.includes(k)) return v;
-    }
-
-    // 4. 앞 숫자+언더바 prefix 제거 후 매칭 ("01_260115_..." → "260115_...")
-    const stripPfx = s => s.replace(/^\d+_/, "");
-    const metaS = stripPfx(nm);
-    for (const [k, v] of Object.entries(dsMap)) {
-      if (k && stripPfx(k) === metaS) return v;
-    }
-
-    // 5. 세그먼트 기반 매칭 — 카페24 term에 숫자 코드(403 등)가 중간 삽입된 경우
-    // 메타 소재명의 모든 세그먼트가 카페24 term 세그먼트에 포함되면 매칭
-    const nmSegs = nm.split("_").filter(s => s.length > 0);
-    if (nmSegs.length >= 3) {
-      for (const [k, v] of Object.entries(dsMap)) {
-        if (!k) continue;
-        const kSegs = k.split("_").filter(s => s.length > 0);
-        if (nmSegs.every(s => kSegs.includes(s))) return v;
-      }
-    }
-
-    console.warn(`[직접값 미매핑] Meta: "${nm}" | C24 샘플:`, Object.keys(dsMap).slice(0, 3));
     return null;
   } else {
     // 캠페인: Cafe24 UTM campaign 값이 Meta 캠페인명에 포함
