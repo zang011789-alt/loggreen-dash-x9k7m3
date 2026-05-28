@@ -278,11 +278,26 @@ select option { background: #161b22; color: #c9d1d9; }
   .brand-card-name { font-size: 16px; }
   .brand-card-products { font-size: 11px; }
 
-  /* 오늘 직접매출 카드 — 2열 */
+  /* 오늘 직접매출 — 통합매출 숫자/카드 모바일 축소 */
   #todayProductSales { max-width: 100%; }
-  #todayProductSales [style*="grid-template-columns:repeat(4"] {
-    grid-template-columns: repeat(2, 1fr) !important;
+  #todayProductSales div[style*="font-size:44px"] {
+    font-size: 26px !important;
+    letter-spacing: -0.5px !important;
+    margin-bottom: 12px !important;
   }
+  #todayProductSales div[style*="grid-template-columns:repeat(4,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  #todayProductSales div[style*="border-radius:14px"] {
+    padding: 14px 16px !important;
+  }
+  #todayProductSales div[style*="font-size:30px"] {
+    font-size: 18px !important;
+    letter-spacing: -0.5px !important;
+    margin-bottom: 6px !important;
+  }
+  #todayProductSales > div:first-child { margin-bottom: 16px !important; }
 
   /* 헤더 — 2줄 레이아웃 */
   header {
