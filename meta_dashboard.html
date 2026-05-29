@@ -3509,6 +3509,7 @@ function renderGadsAdDailyTable(start, end, mob) {
     const tC   = g.rows.reduce((a,r) => a + (r.conversions || 0), 0);
     const tV   = g.rows.reduce((a,r) => a + (r.conv_value  || 0), 0);
     const tCtrN= g.rows.reduce((a,r) => a + (r.ctr || 0) * r.spend, 0);
+    // C24 직접값은 utm_campaign 단위라 소재별 분리 불가 → 계산만 하고 표시 여부는 캠페인당 1회로 제한
     let tD = null, dSum = 0;
     g.rows.forEach(r => {
       const dv = lookupGadsDirect(g.campaign || g.name, dsByDate[r.date] || {});
@@ -3521,6 +3522,9 @@ function renderGadsAdDailyTable(start, end, mob) {
       tD, tDR: tD != null && tS > 0 ? tD / tS : null };
   }).filter(g => g.tS > 0).sort((a,b) => b.tS - a.tS);
 
+  // 캠페인당 직접값 1회만 표시 (utm_campaign 단위라 소재별 분리 불가)
+  const campDirectShown = new Set();
+
   let html = `<table><thead><tr>
     <th>소재명</th><th class="${mh}">캠페인</th><th class="${mh}">제품</th>
     <th>CPA</th><th>광고비</th><th>ROAS</th>
@@ -3531,6 +3535,12 @@ function renderGadsAdDailyTable(start, end, mob) {
   groupList.forEach(g => {
     const camp = (g.campaign || "").replace(/\(.*?\)/, "").trim();
     const adJson = popupArg(g.name);
+    // 직접값: 같은 캠페인 첫 번째 소재에만 표시 (나머지는 — 처리로 중복 방지)
+    const campKey = (g.campaign || g.name);
+    const showDirect = g.tD != null && !campDirectShown.has(campKey);
+    if (showDirect) campDirectShown.add(campKey);
+    const dispD  = showDirect ? g.tD : null;
+    const dispDR = showDirect && g.tS > 0 ? g.tD / g.tS : null;
     html += `<tr class="daily-header-row">
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;color:#79c0ff" title="${g.name}" onclick="openAdPopup(${adJson},'google')"><b>${g.name}</b></td>
       <td class="${mh}" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#8b949e">${camp}</td>
@@ -3538,8 +3548,8 @@ function renderGadsAdDailyTable(start, end, mob) {
       <td>${g.tCpa > 0 ? fmtKRW(g.tCpa) : "—"}</td>
       <td><b>${fmtKRW(g.tS)}</b></td>
       <td>${g.tRoas > 0 ? (g.tRoas*100).toFixed(0)+"%" : "—"}</td>
-      <td class="${mh}" style="color:${g.tD!=null&&g.tD>0?"#f0883e":"#4e5564"}">${g.tD!=null?fmtKRW(g.tD):"—"}</td>
-      <td>${g.tDR!=null?(g.tDR*100).toFixed(0)+"%":"—"}</td>
+      <td class="${mh}" style="color:${dispD!=null&&dispD>0?"#f0883e":"#4e5564"}">${dispD!=null?fmtKRW(dispD)+"<span style='font-size:9px;color:#6e7681;margin-left:3px'>캠페인</span>":"—"}</td>
+      <td>${dispDR!=null?(dispDR*100).toFixed(0)+"%":"—"}</td>
       <td class="${mh}">${g.tCtr > 0 ? g.tCtr.toFixed(2)+"%" : "—"}</td>
       <td class="${mh}">${g.tC > 0 ? g.tC.toFixed(1) : "—"}</td>
       <td class="${mh}">${g.tV > 0 ? fmtKRW(Math.round(g.tV)) : "—"}</td>
