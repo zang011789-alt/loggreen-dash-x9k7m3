@@ -519,11 +519,18 @@ CHROME_DIR = r"C:\Temp\chrome_tt2"
 
 def _kill_debug_chrome():
     """포트 9222로 뜬 Chrome 프로세스 강제 종료"""
-    subprocess.run(
-        ["powershell", "-Command",
-         "Get-WmiObject Win32_Process | Where-Object { $_.CommandLine -match '9222|chrome_tt2' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"],
-        capture_output=True, timeout=10
-    )
+    try:
+        subprocess.run(
+            ["powershell", "-Command",
+             "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match '9222|chrome_tt2' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"],
+            capture_output=True, timeout=15
+        )
+    except subprocess.TimeoutExpired:
+        try:
+            subprocess.run(["taskkill", "/F", "/IM", "chrome.exe"],
+                           capture_output=True, timeout=5)
+        except Exception:
+            pass
 
 def _start_chrome():
     """Chrome 디버그 모드로 실행"""
