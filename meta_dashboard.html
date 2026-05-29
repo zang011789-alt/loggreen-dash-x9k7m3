@@ -2098,8 +2098,8 @@ function renderTodayProductSales() {
     adSpendByType[ptype].meta += v;
   });
 
-  // TikTok
-  const ttHToday = window.TIKTOK_HISTORY?.[todayStr];
+  // TikTok — 오늘 없으면 어제 fallback
+  const ttHToday = window.TIKTOK_HISTORY?.[todayStr] || window.TIKTOK_HISTORY?.[yesterStr];
   if (ttHToday) {
     ['outcoma','ridermune'].forEach(brand => {
       (ttHToday[brand]?.campaigns || []).forEach(c => {
