@@ -1979,17 +1979,30 @@ function renderTodayProductSales() {
   const todayStr  = new Date().toISOString().slice(0, 10);
   const yesterStr = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
 
-  const todayC24 = h?.[todayStr];
-  const cpRaw    = ch?.[todayStr] || ch?.[yesterStr];
-  const cpLabel  = ch?.[todayStr] ? '오늘' : '어제';
-  const cpDate   = ch?.[todayStr] ? todayStr : yesterStr;
-  // SS: 오늘 is_today 데이터 우선, 없으면 어제
+  // 최근 가용 날짜로 폴백하는 헬퍼
+  const latestKey = (obj, fallback) => {
+    if (!obj) return fallback;
+    const keys = Object.keys(obj).sort().reverse();
+    return keys.find(k => k <= todayStr) || fallback;
+  };
+
+  const c24Key   = h?.[todayStr] ? todayStr : (h?.[yesterStr] ? yesterStr : latestKey(h, yesterStr));
+  const todayC24 = h?.[c24Key];
+  const c24Label = c24Key === todayStr ? '오늘' : (c24Key === yesterStr ? '어제' : c24Key);
+
+  const cpKey    = ch?.[todayStr] ? todayStr : (ch?.[yesterStr] ? yesterStr : latestKey(ch, yesterStr));
+  const cpRaw    = ch?.[cpKey];
+  const cpLabel  = cpKey === todayStr ? '오늘' : (cpKey === yesterStr ? '어제' : cpKey);
+  const cpDate   = cpKey;
+
+  // SS: 오늘 is_today 데이터 우선, 없으면 최근 가용
   const ssTodayRaw = sh?.[todayStr];
   const ssYestRaw  = sh?.[yesterStr];
   const hasSSTodaySnap = ['leadermune','ridermune','nifgen','dermacollection'].some(k => ssTodayRaw?.[k]?.is_today && ssTodayRaw?.[k]?.summary?.revenue > 0);
-  const ssRaw    = hasSSTodaySnap ? ssTodayRaw : (ssYestRaw || ssTodayRaw);
-  const ssDate   = hasSSTodaySnap ? todayStr : (ssYestRaw ? yesterStr : todayStr);
-  const ssLabel  = hasSSTodaySnap ? '오늘' : '어제';
+  const ssKey    = hasSSTodaySnap ? todayStr : (ssYestRaw ? yesterStr : latestKey(sh, yesterStr));
+  const ssRaw    = sh?.[ssKey];
+  const ssDate   = ssKey;
+  const ssLabel  = ssKey === todayStr ? '오늘' : (ssKey === yesterStr ? '어제' : ssKey);
 
   if (!todayC24 && !cpRaw && !ssRaw) { container.style.display = "none"; return; }
 
@@ -2129,7 +2142,7 @@ function renderTodayProductSales() {
   let html = `<div style="margin-bottom:30px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
       <span style="font-size:10px;color:#6e7681;letter-spacing:0.12em;text-transform:uppercase;font-weight:700">통합 매출</span>
-      <span style="font-size:10px;color:#3a4050">${updateLabel} · C24(오늘) + 쿠팡(${cpLabel}) + SS(${ssLabel}) · 30분 갱신</span>
+      <span style="font-size:10px;color:#3a4050">${updateLabel} · C24(${c24Label}) + 쿠팡(${cpLabel}) + SS(${ssLabel}) · 30분 갱신</span>
     </div>
     <div style="font-size:44px;font-weight:900;color:#f0f6fc;letter-spacing:-2px;line-height:1;margin-bottom:22px">${fmtKRW(grandTotal)}</div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">`;
