@@ -1700,13 +1700,30 @@ function buildDirectSalesMap(isAd) {
   return totals;
 }
 
+// 소재명에서 타입 접미사(_T/_V/_AI/_G/_I/_H/_AN/_AA/_IP/_R 등) 제거한 스템 반환
+function adStem(s) {
+  return normKey(s).replace(/_[A-Z]{1,3}$/i, '').toLowerCase();
+}
+// 소재명이 {숫자}_{날짜코드}_ 패턴으로 시작하는지 확인 (오매핑 방지용)
+function hasAdCode(s) {
+  return /^\d{3}_\d{6}_/.test(s ? s.trim() : '');
+}
+
 function lookupDirectSales(metaName, isAd, dsMap) {
   if (!dsMap || !Object.keys(dsMap).length) return null;
   const nm = normKey(metaName);
   if (isAd) {
-    // 정확 매칭만 사용. 부분일치/prefix 제거 매칭은 매체간(메타↔틱톡) 같은 코어 소재명일 때
-    // 다른 매체 매출이 잘못 잡히는 오매핑 원인이라 제거.
+    // 1순위: 정확 매칭
     if (dsMap[nm] != null) return dsMap[nm];
+
+    // 2순위: 스템 매칭 — {숫자}_{날짜}_ 코드 패턴 소재명에만 적용 (오매핑 방지)
+    // suffix(_T/_V/_AI 등) 또는 NFC/NFD 인코딩 차이로 exact match 실패하는 케이스 처리
+    if (hasAdCode(nm)) {
+      const mStem = adStem(nm);
+      for (const [k, v] of Object.entries(dsMap)) {
+        if (hasAdCode(k) && adStem(k) === mStem) return v;
+      }
+    }
     return null;
   } else {
     // 캠페인: Cafe24 UTM campaign 값이 Meta 캠페인명에 포함
