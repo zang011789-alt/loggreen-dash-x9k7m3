@@ -7,34 +7,101 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#111; display:flex; justify-content:center; }
-.page { position:relative; width:1225px; height:24150px; overflow:hidden; }
+.page {
+  position:relative;
+  width:1225px;
+  height:24150px;
+  overflow:hidden;
+}
 .abs { position:absolute; left:0; }
 img.slice { display:block; width:100%; height:100%; object-fit:cover; }
 video { display:block; width:100%; height:100%; object-fit:cover; }
 </style>
 </head>
 <body>
-<div id="sticky-header" style="position:fixed;top:0;left:50%;transform:translateX(-50%);width:1225px;height:280px;overflow:hidden;z-index:9999;">
+<!-- 상단 고정 헤더 -->
+<div id="sticky-header" style="
+  position:fixed;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:1225px;
+  height:280px;
+  overflow:hidden;
+  z-index:9999;
+">
   <img src="frame51_4_slices/s0.jpg" style="display:block;width:1225px;">
 </div>
+
 <div class="page">
-  <div class="abs" style="top:0px;width:1225px;height:9081px;"><img class="slice" src="frame51_4_slices/s0.jpg"></div>
-  <div class="abs" style="top:9081px;width:1225px;height:511px;"><video autoplay loop muted playsinline><source src="1_3번gif.mp4" type="video/mp4"></video></div>
-  <div class="abs" style="top:9592px;width:1225px;height:1201px;"><img class="slice" src="frame51_4_slices/s1.jpg"></div>
-  <div class="abs" style="top:10793px;width:1225px;height:506px;"><video autoplay loop muted playsinline><source src="2번gif.mp4" type="video/mp4"></video></div>
-  <div class="abs" style="top:11299px;width:1225px;height:1226px;"><img class="slice" src="frame51_4_slices/s2.jpg"></div>
-  <div class="abs" style="top:12525px;width:1225px;height:615px;"><video autoplay loop muted playsinline><source src="3_4번gif.mp4" type="video/mp4"></video></div>
-  <div class="abs" style="top:13140px;width:1225px;height:1178px;"><img class="slice" src="frame51_4_slices/s3.jpg"></div>
-  <div class="abs" style="top:14318px;width:1225px;height:540px;"><video autoplay loop muted playsinline><source src="4_1번gif.mp4" type="video/mp4"></video></div>
-  <div class="abs" style="top:14858px;width:1225px;height:1224px;"><img class="slice" src="frame51_4_slices/s4.jpg"></div>
-  <div class="abs" style="top:16082px;width:1225px;height:576px;"><video autoplay loop muted playsinline><source src="5_1번gif.mp4" type="video/mp4"></video></div>
-  <div class="abs" style="top:16658px;width:1225px;height:1186px;"><img class="slice" src="frame51_4_slices/s5.jpg"></div>
-  <div class="abs" style="top:17844px;width:1225px;height:595px;"><video autoplay loop muted playsinline><source src="6_1번gif.mp4" type="video/mp4"></video></div>
-  <div class="abs" style="top:18439px;width:1225px;height:1241px;"><img class="slice" src="frame51_4_slices/s6.jpg"></div>
-  <div class="abs" style="top:19680px;width:1225px;height:570px;"><video autoplay loop muted playsinline><source src="7_1번gif.mp4" type="video/mp4"></video></div>
-  <div class="abs" style="top:20250px;width:1225px;height:1531px;"><img class="slice" src="frame51_4_slices/s7.jpg"></div>
-  <div class="abs" style="top:21781px;width:1225px;height:585px;"><video autoplay loop muted playsinline><source src="8번gif.mp4" type="video/mp4"></video></div>
-  <div class="abs" style="top:22366px;width:1225px;height:1784px;"><img class="slice" src="frame51_4_slices/s8.jpg"></div>
+  <!-- 정적 -->
+  <div class="abs" style="top:0px;width:1225px;height:8555px;">
+    <img class="slice" src="frame51_4_slices/s0.jpg">
+  </div>
+  <!-- 영상 슬롯 -->
+  <div class="abs" style="top:8555px;width:1225px;height:915px;">
+    <video autoplay loop muted playsinline><source src="1_3번gif.mp4" type="video/mp4"></video>
+  </div>
+  <!-- 정적 -->
+  <div class="abs" style="top:9470px;width:1225px;height:794px;">
+    <img class="slice" src="frame51_4_slices/s1.jpg">
+  </div>
+  <!-- 영상 슬롯 -->
+  <div class="abs" style="top:10264px;width:1225px;height:915px;">
+    <video autoplay loop muted playsinline><source src="2번gif.mp4" type="video/mp4"></video>
+  </div>
+  <!-- 정적 -->
+  <div class="abs" style="top:11179px;width:1225px;height:896px;">
+    <img class="slice" src="frame51_4_slices/s2.jpg">
+  </div>
+  <!-- 영상 슬롯 -->
+  <div class="abs" style="top:12075px;width:1225px;height:915px;">
+    <video autoplay loop muted playsinline><source src="3_4번gif.mp4" type="video/mp4"></video>
+  </div>
+  <!-- 정적 -->
+  <div class="abs" style="top:12990px;width:1225px;height:850px;">
+    <img class="slice" src="frame51_4_slices/s3.jpg">
+  </div>
+  <!-- 영상 슬롯 -->
+  <div class="abs" style="top:13840px;width:1225px;height:915px;">
+    <video autoplay loop muted playsinline><source src="4_1번gif.mp4" type="video/mp4"></video>
+  </div>
+  <!-- 정적 -->
+  <div class="abs" style="top:14755px;width:1225px;height:849px;">
+    <img class="slice" src="frame51_4_slices/s4.jpg">
+  </div>
+  <!-- 영상 슬롯 -->
+  <div class="abs" style="top:15604px;width:1225px;height:915px;">
+    <video autoplay loop muted playsinline><source src="5_1번gif.mp4" type="video/mp4"></video>
+  </div>
+  <!-- 정적 -->
+  <div class="abs" style="top:16519px;width:1225px;height:847px;">
+    <img class="slice" src="frame51_4_slices/s5.jpg">
+  </div>
+  <!-- 영상 슬롯 -->
+  <div class="abs" style="top:17366px;width:1225px;height:915px;">
+    <video autoplay loop muted playsinline><source src="6_1번gif.mp4" type="video/mp4"></video>
+  </div>
+  <!-- 정적 -->
+  <div class="abs" style="top:18281px;width:1225px;height:921px;">
+    <img class="slice" src="frame51_4_slices/s6.jpg">
+  </div>
+  <!-- 영상 슬롯 -->
+  <div class="abs" style="top:19202px;width:1225px;height:915px;">
+    <video autoplay loop muted playsinline><source src="7_1번gif.mp4" type="video/mp4"></video>
+  </div>
+  <!-- 정적 -->
+  <div class="abs" style="top:20117px;width:1225px;height:1186px;">
+    <img class="slice" src="frame51_4_slices/s7.jpg">
+  </div>
+  <!-- 영상 슬롯 -->
+  <div class="abs" style="top:21303px;width:1225px;height:915px;">
+    <video autoplay loop muted playsinline><source src="8번gif.mp4" type="video/mp4"></video>
+  </div>
+  <!-- 정적 -->
+  <div class="abs" style="top:22218px;width:1225px;height:1932px;">
+    <img class="slice" src="frame51_4_slices/s8.jpg">
+  </div>
 </div>
 </body>
 </html>
