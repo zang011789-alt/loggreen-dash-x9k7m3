@@ -1877,6 +1877,28 @@ function coupangProductType(name) {
   return m ? m[1] : '기타';
 }
 
+// product_id별로 히스토리 전체에서 가장 정보량 많은 정상 상품명 사전 구축
+// (쿠팡 Wing이 '판매자배송'으로 이름을 뭉개는 케이스 복구용)
+function buildCoupangNameMap(ch) {
+  const BAD = new Set(['', '판매자배송', '판매자 배송', '로켓그로스']);
+  const map = {};
+  Object.values(ch || {}).forEach(day => {
+    (day.products || []).forEach(p => {
+      const nm = (p.name || '').trim();
+      if (!p.product_id || BAD.has(nm)) return;
+      if (!map[p.product_id] || nm.length > map[p.product_id].length) map[p.product_id] = nm;
+    });
+  });
+  return map;
+}
+
+function fixCoupangNames(dayData, nameMap) {
+  const BAD = new Set(['', '판매자배송', '판매자 배송', '로켓그로스']);
+  (dayData?.products || []).forEach(p => {
+    if (BAD.has((p.name || '').trim()) && nameMap[p.product_id]) p.name = nameMap[p.product_id];
+  });
+}
+
 function coupangBrandOf(name) {
   if (!name) return null;
   if (name.includes('리더뮨') || name.includes('노즈픽션') || name.includes('키즈픽션') ||
@@ -1899,6 +1921,7 @@ function renderTodayProductSales() {
 
   const todayC24 = h?.[todayStr];
   const cpRaw    = ch?.[todayStr] || ch?.[yesterStr];
+  if (cpRaw) fixCoupangNames(cpRaw, buildCoupangNameMap(ch));
   const cpLabel  = ch?.[todayStr] ? '오늘' : '어제';
   const cpDate   = ch?.[todayStr] ? todayStr : yesterStr;
   // SS: 오늘 is_today 데이터 우선, 없으면 어제
