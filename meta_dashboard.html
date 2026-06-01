@@ -2075,7 +2075,7 @@ function renderTodayProductSales() {
     });
   });
 
-  const hasC24 = BRANDS_CFG.some(bc => todayC24?.[bc.id]?.products?.length);
+  const hasC24 = BRANDS_CFG.some(bc => todayC24?.[bc.id]?.products?.length || todayC24?.[bc.id]?.report_today?.revenue > 0);
   const hasCp  = !!cpRaw?.products?.length;
   const hasSS  = SS_STORE_LIST.some(k => ssRaw?.[k]?.products?.length);
   if (!hasC24 && !hasCp && !hasSS) { container.style.display = "none"; return; }
@@ -2211,16 +2211,23 @@ function renderTodayProductSales() {
       <div style="font-size:9px;color:#6e7681;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px">카페24 · 오늘</div>`;
     BRANDS_CFG.forEach(bc => {
       const bd = todayC24?.[bc.id];
-      if (!bd?.products?.length) return;
+      if (!bd) return;
       const typeMap = {};
-      bd.products.forEach(p => {
-        const amt = parseInt(p.order_amount || 0);
-        if (!amt) return;
-        const ptype = c24ProductType(p.product_name);
-        if (!typeMap[ptype]) typeMap[ptype] = { sales: 0, count: 0, unit: '건' };
-        typeMap[ptype].sales += amt;
-        typeMap[ptype].count += parseInt(p.order_count || 0);
-      });
+      // outcoma: report_today 실매출 우선 사용
+      if (bc.id === 'outcoma' && bd.report_today?.revenue > 0) {
+        typeMap['디오스톡'] = { sales: bd.report_today.revenue, count: bd.report_today.order_count || 0, unit: '건' };
+      } else {
+        if (!bd?.products?.length) return;
+        bd.products.forEach(p => {
+          const amt = parseInt(p.order_amount || 0);
+          if (!amt) return;
+          const ptype = c24ProductType(p.product_name);
+          if (!typeMap[ptype]) typeMap[ptype] = { sales: 0, count: 0, unit: '건' };
+          typeMap[ptype].sales += amt;
+          typeMap[ptype].count += parseInt(p.order_count || 0);
+        });
+      }
+      if (!Object.keys(typeMap).length) return;
       html += compactRow(bc.label, bc.color, typeMap);
     });
     html += `</div>`;
