@@ -48,7 +48,7 @@ FRAMES = [
         "png":     r"D:\Frame 51_4.png",
         "out_dir": "frame51_4_slices",
         "html":    "frame51_4.html",
-        "videos":  ["1_3번gif.mp4","2번gif.mp4","3_4번gif.mp4","4_1번gif.mp4",
+        "videos":  ["1_4번gif.mp4","2번gif.mp4","3_4번gif.mp4","4_1번gif.mp4",
                     "5_1번gif.mp4","6_1번gif.mp4","7_1번gif.mp4","8번gif.mp4"],
     },
 ]
