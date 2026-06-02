@@ -9,7 +9,11 @@ import json, sys, re, subprocess, os
 from playwright.sync_api import sync_playwright
 from datetime import datetime, date, timedelta
 
-sys.stdout.reconfigure(encoding="utf-8")
+if sys.stdout is None:  # pythonw.exe(스케줄러)는 콘솔 없어 stdout=None → reconfigure/print 시 즉사(0x1)
+    sys.stdout = open(os.devnull, "w", encoding="utf-8")
+    sys.stderr = open(os.devnull, "w", encoding="utf-8")
+else:
+    sys.stdout.reconfigure(encoding="utf-8")
 
 HISTORY_JSON = r"C:\Users\zang0\Desktop\my-site\tiktok_history.json"
 HISTORY_JS   = r"C:\Users\zang0\Desktop\my-site\tiktok_history.js"
@@ -497,6 +501,25 @@ def load_history():
 
 MAX_DAYS = 180
 
+def notify(title, message):
+    """윈도우 토스트 알림. 실패해도 수집은 계속. (참고: memory feedback_collect_failure_alert)"""
+    import subprocess
+    ps = (
+        '[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType=WindowsRuntime] > $null;'
+        '$t=[Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02);'
+        '$x=$t.GetElementsByTagName("text");'
+        f'$x.Item(0).AppendChild($t.CreateTextNode("{title}")) > $null;'
+        f'$x.Item(1).AppendChild($t.CreateTextNode("{message}")) > $null;'
+        '$n=[Windows.UI.Notifications.ToastNotification]::new($t);'
+        '[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("로그린수집").Show($n);'
+    )
+    try:
+        subprocess.run(["powershell", "-NoProfile", "-Command", ps], timeout=15,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception:
+        pass
+
+
 def save_history(history):
     # 180일 초과 시 오래된 날짜부터 삭제
     dates = sorted(history.keys())
@@ -596,9 +619,16 @@ def run(dates_to_collect, brands_to_collect=None, skip_push=False):
                     history[d_str] = {}
                 history[d_str][brand] = data
 
-        browser.close()
+        # CDP attach 모드: browser.close() 호출 금지 (실제 Chrome 탭을 닫아 다음 실행을 깨뜨림).
+        # with 블록 종료 시 연결만 자동으로 끊긴다.
 
     save_history(history)
+    # 오늘 누락 브랜드 알림 (로그인 페이지 감지/연결 오류 등)
+    today_iso = max((d.isoformat() if hasattr(d, "isoformat") else str(d)) for d in dates_to_collect)
+    td = history.get(today_iso) or {}
+    missing = set(brands_to_collect) - set(td.keys())
+    if missing:
+        notify("⚠️ 틱톡광고 수집 오류", f"{today_iso} 누락: {', '.join(missing)} - 9222 크롬 로그인 확인")
     if not skip_push:
         git_push()
 

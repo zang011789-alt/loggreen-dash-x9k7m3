@@ -15,7 +15,11 @@ import sys, json, os, time, socket, subprocess, logging
 from datetime import date, datetime, timedelta
 from playwright.sync_api import sync_playwright
 
-sys.stdout.reconfigure(encoding="utf-8")
+if sys.stdout is None:  # pythonw.exe(스케줄러)는 콘솔 없어 stdout=None → reconfigure/StreamHandler 시 즉사(0x1)
+    sys.stdout = open(os.devnull, "w", encoding="utf-8")
+    sys.stderr = open(os.devnull, "w", encoding="utf-8")
+else:
+    sys.stdout.reconfigure(encoding="utf-8")
 
 SCRIPT_DIR = r"C:\Users\zang0\Desktop\my-site"
 JSON_PATH  = os.path.join(SCRIPT_DIR, "smartstore_history.json")
@@ -414,6 +418,52 @@ def collect_today_daily(page, auth_token, brand_keys):
     return results
 
 # ── 저장 ─────────────────────────────────────────────────────
+def notify(title, message):
+    """윈도우 토스트 알림. 실패해도 수집은 계속. (참고: memory feedback_collect_failure_alert)"""
+    ps = (
+        '[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType=WindowsRuntime] > $null;'
+        '$t=[Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02);'
+        '$x=$t.GetElementsByTagName("text");'
+        f'$x.Item(0).AppendChild($t.CreateTextNode("{title}")) > $null;'
+        f'$x.Item(1).AppendChild($t.CreateTextNode("{message}")) > $null;'
+        '$n=[Windows.UI.Notifications.ToastNotification]::new($t);'
+        '[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("로그린수집").Show($n);'
+    )
+    try:
+        subprocess.run(["powershell", "-NoProfile", "-Command", ps], timeout=15,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception:
+        pass
+
+
+def ss_ensure_login(page):
+    """스마트스토어 로그인 상태 확인 → 풀렸으면 키스트로크로 무인 재로그인 시도.
+    자격증명이 브라우저에 저장돼 있으면 Enter만으로 제출됨.
+    참고: memory feedback_login_automation / reference_login_urls"""
+    page.goto(f"{SS_BASE}/#/home/dashboard", wait_until="domcontentloaded")
+    page.wait_for_timeout(5000)
+    if "accounts.commerce.naver.com" not in page.url and "/login" not in page.url:
+        return True  # 이미 로그인 상태
+    log.warning("스마트스토어 로그아웃 감지 — 키스트로크 자동 로그인 시도")
+    try:
+        pw = page.locator('input[type="password"]')
+        if pw.count() > 0:
+            pw.first.click()            # 비밀번호 칸 포커스
+        page.keyboard.press("Enter")    # 저장 자격증명으로 폼 제출 (사람처럼)
+        page.wait_for_timeout(7000)
+    except Exception as e:
+        log.warning(f"  자동 로그인 키 입력 실패: {e}")
+    # 재확인
+    page.goto(f"{SS_BASE}/#/home/dashboard", wait_until="domcontentloaded")
+    page.wait_for_timeout(5000)
+    ok = "accounts.commerce.naver.com" not in page.url and "/login" not in page.url
+    if ok:
+        log.info("스마트스토어 자동 로그인 성공 — 수집 계속")
+    else:
+        log.warning("스마트스토어 자동 로그인 실패(문자인증 등 추정) — 9224 크롬에서 수동 로그인 필요")
+    return ok
+
+
 def save_history(brand_key, date_map, products_by_date=None, is_today_dates=None):
     if os.path.exists(JSON_PATH):
         with open(JSON_PATH, "r", encoding="utf-8") as f:
@@ -492,9 +542,21 @@ def main():
     brand_keys = [args.brand] if args.brand else list(BRANDS.keys())
 
     with sync_playwright() as p:
-        browser = p.chromium.connect_over_cdp(f"http://localhost:{DEBUG_PORT}", timeout=15000)
+        # CDP 연결: 포트는 살아도 드라이버가 응답 안 하는 경우가 있어(ws connected 후 timeout)
+        # 1회 실패 시 Chrome 재시작 후 재연결 (참고: memory feedback_automation_resilience)
+        try:
+            browser = p.chromium.connect_over_cdp(f"http://localhost:{DEBUG_PORT}", timeout=15000)
+        except Exception:
+            log.warning("CDP 연결 실패 → Chrome 재시작 후 재연결")
+            _kill_chrome_ss()
+            _start_chrome_ss()
+            time.sleep(4)
+            browser = p.chromium.connect_over_cdp(f"http://localhost:{DEBUG_PORT}", timeout=30000)
         ctx  = browser.contexts[0] if browser.contexts else browser.new_context()
         page = ctx.new_page()
+
+        # 0. 로그인 상태 확인 + 키스트로크 자동 로그인 (실패해도 계속 진행)
+        ss_ensure_login(page)
 
         # 1. biz_iframe 토큰 취득 (상품별 수집용)
         log.info("=== biz_iframe 토큰 취득 ===")
@@ -521,6 +583,7 @@ def main():
         page.goto(f"{SS_BASE}/", wait_until="domcontentloaded")
         page.wait_for_timeout(5000)
 
+        ok_brands = []
         for brand_key in brand_keys:
             try:
                 date_map = collect_brand(page, brand_key)
@@ -528,12 +591,19 @@ def main():
                     save_history(brand_key, date_map,
                                  products_by_date=products_by_brand.get(brand_key, {}))
                     log.info(f"[{brand_key}] 완료: {sorted(date_map.keys())}")
+                    ok_brands.append(brand_key)
                 else:
                     log.warning(f"[{brand_key}] 데이터 없음 — 스마트스토어 로그인 확인 필요")
             except Exception as e:
                 log.error(f"[{brand_key}] 오류: {e}")
 
-        browser.close()
+        # 수집 실패 브랜드 알림 (로그인 만료/연결 오류 등)
+        failed = [b for b in brand_keys if b not in ok_brands]
+        if failed:
+            notify("⚠️ 스마트스토어 수집 오류", f"누락: {', '.join(failed)} - 9224 크롬 로그인 확인")
+
+        # CDP attach 모드: browser.close() 호출 금지 (실제 Chrome 탭을 닫아 다음 실행을 깨뜨림).
+        # with 블록 종료 시 연결만 자동으로 끊긴다.
 
     if not args.no_push:
         git_push()

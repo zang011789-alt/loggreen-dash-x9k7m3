@@ -5,7 +5,11 @@
 """
 import sys, json, os, re, time, socket, subprocess, argparse
 from datetime import date, timedelta
-sys.stdout.reconfigure(encoding="utf-8")
+if sys.stdout is None:  # pythonw.exe(스케줄러)는 콘솔 없어 stdout=None → reconfigure/print 시 즉사(0x1)
+    sys.stdout = open(os.devnull, "w", encoding="utf-8")
+    sys.stderr = open(os.devnull, "w", encoding="utf-8")
+else:
+    sys.stdout.reconfigure(encoding="utf-8")
 
 SCRIPT_DIR  = r"C:\Users\zang0\Desktop\my-site"
 JSON_PATH   = os.path.join(SCRIPT_DIR, "gads_history.json")
@@ -966,6 +970,24 @@ def git_push():
     print("  git push 생략 (push_all.py에서 통합 처리)")
 
 # ── 진입점 ────────────────────────────────────────────────────
+def notify(title, message):
+    """윈도우 토스트 알림. 실패해도 수집은 계속. (참고: memory feedback_collect_failure_alert)"""
+    ps = (
+        '[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType=WindowsRuntime] > $null;'
+        '$t=[Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02);'
+        '$x=$t.GetElementsByTagName("text");'
+        f'$x.Item(0).AppendChild($t.CreateTextNode("{title}")) > $null;'
+        f'$x.Item(1).AppendChild($t.CreateTextNode("{message}")) > $null;'
+        '$n=[Windows.UI.Notifications.ToastNotification]::new($t);'
+        '[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("로그린수집").Show($n);'
+    )
+    try:
+        subprocess.run(["powershell", "-NoProfile", "-Command", ps], timeout=15,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception:
+        pass
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("start", nargs="?", help="YYYY-MM-DD")
@@ -1041,9 +1063,15 @@ def main():
             except Exception as e:
                 print(f"  [{ds}] 오류: {e}")
 
-        browser.close()
+        # CDP attach 모드: browser.close() 호출 금지 (실제 Chrome 탭을 닫아 다음 실행을 깨뜨림).
+        # with 블록 종료 시 연결만 자동으로 끊긴다.
 
     save_history(history)
+    # 오늘 데이터 미수집 시 알림 (세션/연결 오류 등)
+    today_iso = date.today().isoformat()
+    td = history.get(today_iso) or {}
+    if not td.get("campaigns"):
+        notify("⚠️ 구글광고 수집 오류", f"{today_iso} 데이터 못 가져옴 - 9223 크롬 로그인/연결 확인")
     if not args.no_push:
         git_push()
     print("완료")
