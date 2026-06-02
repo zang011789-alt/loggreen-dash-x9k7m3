@@ -909,7 +909,7 @@ async function fetchInsightsDaily(level) {
     url.searchParams.set("limit", "500");
     url.searchParams.set("time_increment", "1");
     if (dateConfig.preset === "last_30d") {
-      const until = new Date().toISOString().slice(0, 10);
+      const until = new Date(Date.now() + 32400000).toISOString().slice(0, 10);
       const since = new Date(Date.now() - (MAX_DAYS - 1) * 86400000).toISOString().slice(0, 10);
       url.searchParams.set("time_range", JSON.stringify({ since, until }));
     } else if (dateConfig.preset) {
@@ -1558,8 +1558,8 @@ function normKey(s) {
 function getC24DatesForMetaRange() {
   const dates = c24AvailDatesForBrand();
   if (!dates.length) return [];
-  const todayStr     = new Date().toISOString().slice(0, 10);
-  const yesterdayStr = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  const todayStr     = new Date(Date.now() + 32400000).toISOString().slice(0, 10);
+  const yesterdayStr = new Date(Date.now() + 32400000 - 86400000).toISOString().slice(0, 10);
   if (dateConfig.preset === "today")     { const r = dates.filter(d => d === todayStr);     return r.length ? r : dates.slice(0, 1); }
   if (dateConfig.preset === "yesterday") { const r = dates.filter(d => d === yesterdayStr); return r.length ? r : dates.slice(0, 1); }
   if (dateConfig.preset === "last_7d")  return dates.slice(0, 7);
@@ -1916,8 +1916,8 @@ function renderTodayProductSales() {
   const sh = window.SS_HISTORY;
   if (!h && !ch && !sh) { container.style.display = "none"; return; }
 
-  const todayStr  = new Date().toISOString().slice(0, 10);
-  const yesterStr = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  const todayStr  = new Date(Date.now() + 32400000).toISOString().slice(0, 10);
+  const yesterStr = new Date(Date.now() + 32400000 - 86400000).toISOString().slice(0, 10);
 
   const todayC24 = h?.[todayStr];
   const cpRaw    = ch?.[todayStr] || ch?.[yesterStr];
