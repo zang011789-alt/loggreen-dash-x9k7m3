@@ -6,12 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>로그린팀 광고 대시보드</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 20,45 35,45 20,75 45,75 45,95 55,95 55,75 80,75 65,45 80,45' fill='%2322c55e'/></svg>">
-<script src="cafe24_data.js" onerror="window.CAFE24_DATA=null"></script>
-<script src="cafe24_history.js" onerror="window.CAFE24_HISTORY=null"></script>
-<script src="tiktok_history.js" onerror="window.TIKTOK_HISTORY=null"></script>
-<script src="gads_history.js" onerror="window.GADS_HISTORY=null"></script>
-<script src="coupang_history.js" onerror="window.COUPANG_HISTORY=null"></script>
-<script src="smartstore_history.js" onerror="window.SS_HISTORY=null"></script>
+<script>
+// 데이터 파일을 캐시버스터(?t=)와 함께 동기 로드 → 자동 새로고침 때도 항상 최신본을 받음
+(function(){
+  var DATA_FILES = {
+    'cafe24_data.js':'CAFE24_DATA', 'cafe24_history.js':'CAFE24_HISTORY',
+    'tiktok_history.js':'TIKTOK_HISTORY', 'gads_history.js':'GADS_HISTORY',
+    'coupang_history.js':'COUPANG_HISTORY', 'smartstore_history.js':'SS_HISTORY'
+  };
+  var t = Date.now();
+  for (var f in DATA_FILES) {
+    document.write('<script src="' + f + '?t=' + t + '" onerror="window.' + DATA_FILES[f] + '=null"><\/script>');
+  }
+})();
+</script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #0d1117; color: #e2e8f0; font-family: 'Apple SD Gothic Neo', -apple-system, sans-serif; min-height: 100vh; }
