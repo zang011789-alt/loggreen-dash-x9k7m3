@@ -10,8 +10,11 @@ from datetime import date, timedelta, datetime
 from pathlib import Path
 from playwright.async_api import async_playwright
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+# pythonw.exe(스케줄러)는 콘솔이 없어 stdout/stderr가 None → .buffer 접근 시 즉사(0x1). 가드 필수.
+if sys.stdout is not None:
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+if sys.stderr is not None:
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 OUTPUT_DIR = Path("C:/Users/zang0/Desktop/my-site")
 LOG_FILE   = OUTPUT_DIR / "cafe24_auto_log.txt"
@@ -27,7 +30,7 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 ACCOUNTS = [
-    {"name": "ridermune", "mall_id": "garonge",  "pw": "flejabswm1@"},
+    {"name": "ridermune", "mall_id": "garonge",  "pw": "qkfwjswhswnd1@@"},
     {"name": "outcoma",   "mall_id": "outcoma",  "pw": "eldhtmxhrwm1@"},
 ]
 
@@ -77,12 +80,12 @@ async def collect_brand(account, yesterday_str, today_str):
     log.info(f"[{account['name']}] 수집 시작 - 어제: {yesterday_str}, 오늘: {today_str}")
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(headless=True, timeout=30000)
         ctx  = await browser.new_context(viewport={"width": 1400, "height": 900})
         page = await ctx.new_page()
 
         # 로그인
-        await page.goto("https://eclogin.cafe24.com/Shop/", wait_until="domcontentloaded")
+        await page.goto("https://eclogin.cafe24.com/Shop/", wait_until="domcontentloaded", timeout=30000)
         await page.wait_for_timeout(2000)
         await page.locator("input[type='text']").first.fill(account["mall_id"])
         await page.locator("input[type='password']").first.fill(account["pw"])
@@ -94,7 +97,14 @@ async def collect_brand(account, yesterday_str, today_str):
 
         # JWT 토큰 발급
         token = await get_token(page, account["mall_id"])
+
+        # outcoma 전용 실매출 수집 (임시 변수에 저장)
+        report_today_data = None
+        if account["mall_id"] == "outcoma":
+            report_today_data = await scrape_report_today_outcoma(page, account["mall_id"])
+
         await browser.close()
+
 
     if not token:
         log.error(f"[{account['name']}] 토큰 발급 실패")
@@ -172,10 +182,59 @@ async def collect_brand(account, yesterday_str, today_str):
             result["products_today"] = data.get("sales", [])
             log.info(f"[{account['name']}] products(오늘): {len(result['products_today'])}개")
 
+        # outcoma 실매출 결과 주입
+        if report_today_data:
+            result["report_today"] = report_today_data
+
     return result
+
+async def scrape_report_today_outcoma(page, mall_id):
+    """outcoma 전용 - /report/Today 실매출 스크래핑"""
+    import re
+    try:
+        await page.goto(f"https://{mall_id}.cafe24.com/disp/admin/shop1/report/Today",
+                        wait_until="domcontentloaded", timeout=30000)
+        await page.wait_for_timeout(6000)
+        text = await page.inner_text("body")
+
+        # 결제금액
+        m = re.search(r'결제금액\s*([\d,]+)', text)
+        revenue = int(m.group(1).replace(',', '')) if m else 0
+
+        # 결제건수
+        m2 = re.search(r'결제건수\s*([\d,]+)', text)
+        order_count = int(m2.group(1).replace(',', '')) if m2 else 0
+
+        # 환급금액
+        m3 = re.search(r'환급금액\s*([\d,]+)', text)
+        refund = int(m3.group(1).replace(',', '')) if m3 else 0
+
+        log.info(f"[outcoma] report/Today 실매출: {revenue:,}원 / {order_count}건")
+        return {"revenue": revenue, "order_count": order_count, "refund": refund}
+    except Exception as e:
+        log.warning(f"[outcoma] report/Today 스크래핑 실패: {e}")
+        return None
 
 HISTORY_FILE = OUTPUT_DIR / "cafe24_history.json"
 MAX_DAYS = 180
+
+def notify(title, message):
+    """윈도우 토스트 알림. 실패해도 수집은 계속. (참고: memory feedback_collect_failure_alert)"""
+    ps = (
+        '[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType=WindowsRuntime] > $null;'
+        '$t=[Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02);'
+        '$x=$t.GetElementsByTagName("text");'
+        f'$x.Item(0).AppendChild($t.CreateTextNode("{title}")) > $null;'
+        f'$x.Item(1).AppendChild($t.CreateTextNode("{message}")) > $null;'
+        '$n=[Windows.UI.Notifications.ToastNotification]::new($t);'
+        '[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("로그린수집").Show($n);'
+    )
+    try:
+        subprocess.run(["powershell", "-NoProfile", "-Command", ps], timeout=15,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception:
+        pass
+
 
 async def main():
     today     = date.today()
@@ -187,14 +246,23 @@ async def main():
 
     all_results = {}
     for account in ACCOUNTS:
-        try:
-            result = await collect_brand(account, yesterday_str, today_str)
-            if result:
-                all_results[account["name"]] = result
-        except Exception as e:
-            log.error(f"[{account['name']}] 오류: {e}")
-            import traceback
-            traceback.print_exc()
+        # 일시적 로그인/토큰 발급 실패 대비 최대 2회 시도 (한 회차에 한 브랜드라도 안 빠지게)
+        for attempt in (1, 2):
+            try:
+                result = await asyncio.wait_for(
+                    collect_brand(account, yesterday_str, today_str),
+                    timeout=180.0
+                )
+                if result:
+                    all_results[account["name"]] = result
+                    break
+                log.warning(f"[{account['name']}] 결과 비어있음 (시도 {attempt}/2)")
+            except asyncio.TimeoutError:
+                log.error(f"[{account['name']}] 타임아웃 (시도 {attempt}/2)")
+            except Exception as e:
+                log.error(f"[{account['name']}] 오류 (시도 {attempt}/2): {e}")
+            if attempt < 2:
+                await asyncio.sleep(3)
 
     # 누적 히스토리 로드
     if HISTORY_FILE.exists():
@@ -219,13 +287,16 @@ async def main():
     if today_str not in history:
         history[today_str] = {}
     for brand_name, result in all_results.items():
-        history[today_str][brand_name] = {
+        entry = {
             "campaigns": result.get("campaigns_today", []),
             "contents":  result.get("contents_today", []),
             "channels":  result.get("channels_today", []),
             "sales":     result.get("sales_today", []),
             "products":  result.get("products_today", []),
         }
+        if result.get("report_today"):
+            entry["report_today"] = result["report_today"]
+        history[today_str][brand_name] = entry
     log.info(f"오늘({today_str}) 실시간 데이터 저장 완료")
 
     # 90일 초과 항목 제거
@@ -253,28 +324,14 @@ async def main():
         f.write(";")
     log.info("파일 저장 완료")
 
-    # GitHub Pages 자동 push
-    try:
-        commit_msg = f"auto: {today_str} {datetime.now().strftime('%H:%M')} 직접값 업데이트"
-        subprocess.run(
-            ["git", "-C", str(OUTPUT_DIR), "add",
-             "cafe24_data.js", "cafe24_history.js"],
-            check=True, capture_output=True
-        )
-        result_commit = subprocess.run(
-            ["git", "-C", str(OUTPUT_DIR), "commit", "-m", commit_msg],
-            capture_output=True, text=True, encoding="utf-8"
-        )
-        if "nothing to commit" in result_commit.stdout:
-            log.info("git: 변경사항 없음 (push 생략)")
-        else:
-            subprocess.run(
-                ["git", "-C", str(OUTPUT_DIR), "push", "origin", "main"],
-                check=True, capture_output=True
-            )
-            log.info(f"git push 완료: {commit_msg}")
-    except subprocess.CalledProcessError as e:
-        log.error(f"git push 실패: {e.stderr.decode('utf-8', errors='ignore') if e.stderr else e}")
+    # git push는 push_all.py가 통합 처리
+    log.info("JS 저장 완료 (push는 push_all.py에서 처리)")
+
+    # 수집 실패(2회 재시도 후도 실패) 브랜드 알림
+    expected = {a["name"] for a in ACCOUNTS}
+    missing = expected - set(all_results.keys())
+    if missing:
+        notify("⚠️ 카페24 수집 오류", f"{today_str} 누락: {', '.join(missing)} - 로그인/토큰 확인")
 
     log.info(f"=== 수집 완료 ===")
 
