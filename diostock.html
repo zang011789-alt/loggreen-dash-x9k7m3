@@ -80,7 +80,7 @@ if(!days.length){
   document.getElementById('kpis').innerHTML = `
     <div class="kpi"><div class="lbl">매출</div><div class="val">${W(L.sales_total)}</div><div class="dv">${dv(L.sales_total,P.sales_total)}</div></div>
     <div class="kpi"><div class="lbl">광고비</div><div class="val">${W(L.ads_total)}</div><div class="dv">${dv(L.ads_total,P.ads_total,true)}</div></div>
-    <div class="kpi"><div class="lbl">ROAS</div><div class="val ${roasC}">${L.roas}</div><div class="dv">${dv(L.roas,P.roas)}</div></div>`;
+    <div class="kpi"><div class="lbl">ROAS</div><div class="val ${roasC}">${Math.round(L.roas*100)}%</div><div class="dv">${dv(L.roas,P.roas)}</div></div>`;
 
   // 채널별 매출 바
   const sCol={cafe24:'#a78bfa',store:'#34d399',coupang:'#f59e0b'};
@@ -106,7 +106,7 @@ if(!days.length){
     const rc = r.roas>=1?'up':'down';
     rows+=`<tr><td>${d.slice(5)}</td><td>${W(r.sales.cafe24)}</td><td>${W(r.sales.store)}</td><td>${W(r.sales.coupang)}</td>
     <td><b>${W(r.sales_total)}</b></td><td>${W(r.ads.tiktok)}</td><td>${W(r.ads.meta)}</td><td>${W(r.ads.google)}</td>
-    <td><b>${W(r.ads_total)}</b></td><td class="${rc}"><b>${r.roas}</b></td></tr>`;});
+    <td><b>${W(r.ads_total)}</b></td><td class="${rc}"><b>${Math.round(r.roas*100)}%</b></td></tr>`;});
   document.getElementById('tbl').innerHTML=rows;
 
   // 차트
@@ -122,7 +122,7 @@ if(!days.length){
       scales:{
         x:{ticks:{color:'#7d8590'},grid:{color:'#21262d'}},
         y:{position:'left',beginAtZero:true,ticks:{color:'#7d8590',stepSize:1000000,callback:v=>v?(v/1e4).toLocaleString()+'만':'0'},grid:{color:'#21262d'}},
-        y1:{position:'right',ticks:{color:'#3fb950'},grid:{drawOnChartArea:false},suggestedMin:0,suggestedMax:2}
+        y1:{position:'right',ticks:{color:'#3fb950',callback:v=>Math.round(v*100)+'%'},grid:{drawOnChartArea:false},suggestedMin:0,suggestedMax:2}
       }}
   });
 
