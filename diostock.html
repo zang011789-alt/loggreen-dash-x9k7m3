@@ -48,7 +48,7 @@
     <div class="panel"><h3>채널별 매출 (어제)</h3><div class="bars" id="salesBars"></div></div>
     <div class="panel"><h3>매체별 광고비 (어제)</h3><div class="bars" id="adsBars"></div></div>
   </div>
-  <div class="chartbox"><h3 style="font-size:13px;color:#7d8590;margin-bottom:14px;font-weight:700">최근 7일 추이</h3><canvas id="chart" height="92"></canvas></div>
+  <div class="chartbox"><h3 style="font-size:13px;color:#7d8590;margin-bottom:14px;font-weight:700">최근 7일 추이</h3><div style="position:relative;height:300px"><canvas id="chart"></canvas></div></div>
   <div class="panel"><h3>일별 상세</h3><div style="overflow-x:auto"><table id="tbl"></table></div></div>
   <div class="footer" id="foot"></div>
 
@@ -60,10 +60,11 @@ const D = window.DIOSTOCK_RECENT7 || {};
 const days = Object.keys(D).sort();           // 오래된→최신
 const last = days[days.length-1], prev = days[days.length-2];
 
-function dv(cur, pre){
+function dv(cur, pre, invert){
   if(pre==null||!pre) return '<span class="flat">–</span>';
   const p = (cur-pre)/pre*100;
-  const c = p>0?'up':p<0?'down':'flat';
+  let good = p>0; if(invert) good = !good;       // 광고비는 감소가 호재
+  const c = p===0?'flat':good?'up':'down';
   const a = p>0?'▲':p<0?'▼':'–';
   return `<span class="${c}">${a} ${Math.abs(p).toFixed(1)}%</span>`;
 }
@@ -78,7 +79,7 @@ if(!days.length){
   const roasC = L.roas>=1 ? 'up' : 'down';
   document.getElementById('kpis').innerHTML = `
     <div class="kpi"><div class="lbl">매출</div><div class="val">${W(L.sales_total)}</div><div class="dv">${dv(L.sales_total,P.sales_total)}</div></div>
-    <div class="kpi"><div class="lbl">광고비</div><div class="val">${W(L.ads_total)}</div><div class="dv">${dv(L.ads_total,P.ads_total)}</div></div>
+    <div class="kpi"><div class="lbl">광고비</div><div class="val">${W(L.ads_total)}</div><div class="dv">${dv(L.ads_total,P.ads_total,true)}</div></div>
     <div class="kpi"><div class="lbl">ROAS</div><div class="val ${roasC}">${L.roas}</div><div class="dv">${dv(L.roas,P.roas)}</div></div>`;
 
   // 채널별 매출 바
@@ -120,7 +121,7 @@ if(!days.length){
       plugins:{legend:{labels:{color:'#7d8590',usePointStyle:true,boxWidth:8}}},
       scales:{
         x:{ticks:{color:'#7d8590'},grid:{color:'#21262d'}},
-        y:{position:'left',ticks:{color:'#7d8590',callback:v=>(v/1e6).toFixed(0)+'M'},grid:{color:'#21262d'}},
+        y:{position:'left',beginAtZero:true,ticks:{color:'#7d8590',stepSize:1000000,callback:v=>v?(v/1e4).toLocaleString()+'만':'0'},grid:{color:'#21262d'}},
         y1:{position:'right',ticks:{color:'#3fb950'},grid:{drawOnChartArea:false},suggestedMin:0,suggestedMax:2}
       }}
   });
