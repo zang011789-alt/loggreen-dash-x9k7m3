@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>디오스톡 성과 대시보드</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0d1117;color:#e6edf3;font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;padding:28px;max-width:1180px;margin:0 auto}
+  .head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .head h1{font-size:24px;font-weight:800;letter-spacing:-.5px}
+  .dio{color:#a78bfa}
+  .sub{color:#7d8590;font-size:13px;margin-bottom:24px}
+  .sub b{color:#c9d1d9}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+  .kpi{background:#161b22;border:1px solid #21262d;border-radius:14px;padding:20px 22px}
+  .kpi .lbl{font-size:12px;color:#7d8590;margin-bottom:8px;font-weight:600}
+  .kpi .val{font-size:30px;font-weight:800;letter-spacing:-1px}
+  .kpi .dv{font-size:12px;margin-top:6px;font-weight:600}
+  .up{color:#3fb950}.down{color:#f85149}.flat{color:#7d8590}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+  .panel{background:#161b22;border:1px solid #21262d;border-radius:14px;padding:18px 20px}
+  .panel h3{font-size:13px;color:#7d8590;margin-bottom:14px;font-weight:700}
+  .bars{display:flex;flex-direction:column;gap:11px}
+  .bar{display:flex;align-items:center;gap:10px}
+  .bar .nm{width:64px;font-size:13px;color:#c9d1d9}
+  .bar .track{flex:1;height:22px;background:#0d1117;border-radius:6px;overflow:hidden;position:relative}
+  .bar .fill{height:100%;border-radius:6px}
+  .bar .amt{font-size:13px;font-weight:700;width:96px;text-align:right;font-variant-numeric:tabular-nums}
+  .miss{color:#6e7681;font-style:italic}
+  .chartbox{background:#161b22;border:1px solid #21262d;border-radius:14px;padding:18px 20px;margin-bottom:18px}
+  table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+  th,td{padding:9px 10px;text-align:right;border-bottom:1px solid #21262d}
+  th{color:#7d8590;font-weight:600;font-size:12px}
+  td:first-child,th:first-child{text-align:left}
+  tr:last-child td{border-bottom:none}
+  .badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
+  .footer{color:#6e7681;font-size:12px;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+  <div class="head"><h1><span class="dio">디오스톡</span> 성과 대시보드</h1></div>
+  <div class="sub" id="sub">로딩 중…</div>
+
+  <div class="kpis" id="kpis"></div>
+  <div class="row">
+    <div class="panel"><h3>채널별 매출 (어제)</h3><div class="bars" id="salesBars"></div></div>
+    <div class="panel"><h3>매체별 광고비 (어제)</h3><div class="bars" id="adsBars"></div></div>
+  </div>
+  <div class="chartbox"><h3 style="font-size:13px;color:#7d8590;margin-bottom:14px;font-weight:700">최근 7일 추이</h3><canvas id="chart" height="92"></canvas></div>
+  <div class="panel"><h3>일별 상세</h3><div style="overflow-x:auto"><table id="tbl"></table></div></div>
+  <div class="footer" id="foot"></div>
+
+<script src="diostock_data.js"></script>
+<script>
+const W = (n)=> n==null ? '<span class="miss">미설정</span>' : '₩'+Math.round(n).toLocaleString();
+const Wn = (n)=> n==null ? 0 : n;
+const D = window.DIOSTOCK_RECENT7 || {};
+const days = Object.keys(D).sort();           // 오래된→최신
+const last = days[days.length-1], prev = days[days.length-2];
+
+function dv(cur, pre){
+  if(pre==null||!pre) return '<span class="flat">–</span>';
+  const p = (cur-pre)/pre*100;
+  const c = p>0?'up':p<0?'down':'flat';
+  const a = p>0?'▲':p<0?'▼':'–';
+  return `<span class="${c}">${a} ${Math.abs(p).toFixed(1)}%</span>`;
+}
+
+if(!days.length){
+  document.getElementById('sub').textContent='데이터 없음 — diostock_build.py 실행 필요';
+}else{
+  const L=D[last], P=D[prev]||{};
+  document.getElementById('sub').innerHTML = `기준일 <b>${last}</b> (어제 확정) · 매일 08:00 자동 갱신 · 최근 ${days.length}일`;
+
+  // KPI
+  const roasC = L.roas>=1 ? 'up' : 'down';
+  document.getElementById('kpis').innerHTML = `
+    <div class="kpi"><div class="lbl">매출</div><div class="val">${W(L.sales_total)}</div><div class="dv">${dv(L.sales_total,P.sales_total)}</div></div>
+    <div class="kpi"><div class="lbl">광고비</div><div class="val">${W(L.ads_total)}</div><div class="dv">${dv(L.ads_total,P.ads_total)}</div></div>
+    <div class="kpi"><div class="lbl">ROAS</div><div class="val ${roasC}">${L.roas}</div><div class="dv">${dv(L.roas,P.roas)}</div></div>`;
+
+  // 채널별 매출 바
+  const sCol={cafe24:'#a78bfa',store:'#34d399',coupang:'#f59e0b'};
+  const sNm={cafe24:'카페24',store:'스토어',coupang:'쿠팡'};
+  const sMax=Math.max(...Object.values(L.sales).map(Wn),1);
+  document.getElementById('salesBars').innerHTML = Object.entries(L.sales).map(([k,v])=>`
+    <div class="bar"><div class="nm">${sNm[k]}</div>
+    <div class="track"><div class="fill" style="width:${Wn(v)/sMax*100}%;background:${sCol[k]}"></div></div>
+    <div class="amt">${W(v)}</div></div>`).join('');
+
+  // 매체별 광고비 바
+  const aCol={tiktok:'#ff0050',meta:'#0866ff',google:'#ea4335'};
+  const aNm={tiktok:'틱톡',meta:'메타',google:'구글'};
+  const aMax=Math.max(...Object.values(L.ads).map(Wn),1);
+  document.getElementById('adsBars').innerHTML = Object.entries(L.ads).map(([k,v])=>`
+    <div class="bar"><div class="nm">${aNm[k]}</div>
+    <div class="track"><div class="fill" style="width:${Wn(v)/aMax*100}%;background:${aCol[k]}"></div></div>
+    <div class="amt">${W(v)}</div></div>`).join('');
+
+  // 표
+  let rows=`<tr><th>날짜</th><th>카페24</th><th>스토어</th><th>쿠팡</th><th>매출계</th><th>틱톡</th><th>메타</th><th>구글</th><th>광고계</th><th>ROAS</th></tr>`;
+  days.slice().reverse().forEach(d=>{const r=D[d];
+    const rc = r.roas>=1?'up':'down';
+    rows+=`<tr><td>${d.slice(5)}</td><td>${W(r.sales.cafe24)}</td><td>${W(r.sales.store)}</td><td>${W(r.sales.coupang)}</td>
+    <td><b>${W(r.sales_total)}</b></td><td>${W(r.ads.tiktok)}</td><td>${W(r.ads.meta)}</td><td>${W(r.ads.google)}</td>
+    <td><b>${W(r.ads_total)}</b></td><td class="${rc}"><b>${r.roas}</b></td></tr>`;});
+  document.getElementById('tbl').innerHTML=rows;
+
+  // 차트
+  new Chart(document.getElementById('chart'),{
+    data:{labels:days.map(d=>d.slice(5)),
+      datasets:[
+        {type:'bar',label:'매출',data:days.map(d=>D[d].sales_total),backgroundColor:'#a78bfa',borderRadius:5,yAxisID:'y',order:2},
+        {type:'bar',label:'광고비',data:days.map(d=>D[d].ads_total),backgroundColor:'#30363d',borderRadius:5,yAxisID:'y',order:3},
+        {type:'line',label:'ROAS',data:days.map(d=>D[d].roas),borderColor:'#3fb950',backgroundColor:'#3fb950',tension:.3,yAxisID:'y1',order:1,pointRadius:4}
+      ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#7d8590',usePointStyle:true,boxWidth:8}}},
+      scales:{
+        x:{ticks:{color:'#7d8590'},grid:{color:'#21262d'}},
+        y:{position:'left',ticks:{color:'#7d8590',callback:v=>(v/1e6).toFixed(0)+'M'},grid:{color:'#21262d'}},
+        y1:{position:'right',ticks:{color:'#3fb950'},grid:{drawOnChartArea:false},suggestedMin:0,suggestedMax:2}
+      }}
+  });
+
+  const miss=[];
+  if(L.sales.coupang==null) miss.push('쿠팡(상품명 미설정)');
+  if(L.ads.google==null) miss.push('구글(캠페인 미수집)');
+  document.getElementById('foot').innerHTML = `빌드 ${L.built_at}` + (miss.length?` · ⚠️ 결측: ${miss.join(', ')}`:'');
+}
+</script>
+</body>
+</html>
