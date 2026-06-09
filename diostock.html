@@ -103,7 +103,7 @@ function render(){
   }
   const last=days[days.length-1], prev=days[days.length-2];
   const L=D[last], P=D[prev]||{};
-  document.getElementById('sub').innerHTML = `기준일 <b>${last}</b> (어제 확정) · 매일 08:00 자동 갱신 · 최근 ${days.length}일`;
+  document.getElementById('sub').innerHTML = `기준일 <b>${last}</b> (어제 확정) · 매일 08:00 자동 갱신 · 최근 ${days.length}일 · <b>매출 부가세 제외</b>(VAT 10%)`;
 
   // KPI
   const roasC = L.roas>=1 ? 'up' : 'down';
