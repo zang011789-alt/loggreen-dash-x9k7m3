@@ -22933,7 +22933,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-06-09": {
     "outcoma": {
-      "scraped_at": "2026-06-10 02:30",
+      "scraped_at": "2026-06-10 03:01",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -23297,7 +23297,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-06-10 02:32",
+      "scraped_at": "2026-06-10 03:03",
       "summary": {
         "spend": 359001,
         "revenue": 96100,
@@ -23826,7 +23826,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-06-10": {
     "outcoma": {
-      "scraped_at": "2026-06-10 02:31",
+      "scraped_at": "2026-06-10 03:02",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -24190,7 +24190,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-06-10 02:33",
+      "scraped_at": "2026-06-10 03:04",
       "summary": {
         "spend": 6887,
         "revenue": 0,
@@ -24431,14 +24431,14 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_kd_spc_005(test_cafe24)",
           "status": "active",
           "cpa": 0,
-          "spend": 1709,
+          "spend": 2423,
           "revenue": 0,
           "roas": 0,
-          "cpc": 1148,
+          "cpc": 1087,
           "ctr": 0.0,
-          "clicks": 14,
-          "impressions": 122,
-          "cpm": 14008,
+          "clicks": 15,
+          "impressions": 138,
+          "cpm": 17558,
           "conversions": 0,
           "cvr": 0
         },
@@ -24447,14 +24447,14 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_kd_spc_005(test_cafe24)",
           "status": "active",
           "cpa": 0,
-          "spend": 5625,
+          "spend": 5909,
           "revenue": 0,
           "roas": 0,
-          "cpc": 541,
+          "cpc": 543,
           "ctr": 0.0,
-          "clicks": 45,
-          "impressions": 832,
-          "cpm": 6761,
+          "clicks": 49,
+          "impressions": 903,
+          "cpm": 6544,
           "conversions": 0,
           "cvr": 0
         },
@@ -24527,14 +24527,14 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_kd_spc_005(test_cafe24)",
           "status": "active",
           "cpa": 0,
-          "spend": 1107,
+          "spend": 1242,
           "revenue": 0,
           "roas": 0,
-          "cpc": 273,
+          "cpc": 231,
           "ctr": 0.0,
           "clicks": 3,
-          "impressions": 110,
-          "cpm": 10064,
+          "impressions": 130,
+          "cpm": 9554,
           "conversions": 0,
           "cvr": 0
         },
