@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cafe24 OAuth Callback</title>
+<style>
+  body{font-family:-apple-system,'Malgun Gothic',sans-serif;background:#0d1117;color:#e6edf3;
+       display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px;}
+  .card{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:36px 32px;max-width:560px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+  h1{font-size:20px;margin:0 0 6px;}
+  .sub{color:#8b949e;font-size:13px;margin-bottom:24px;}
+  .label{font-size:12px;color:#8b949e;margin:18px 0 6px;text-transform:uppercase;letter-spacing:.5px;}
+  .code{background:#0d1117;border:1px solid #30363d;border-radius:10px;padding:14px 16px;
+        font-family:'Consolas',monospace;font-size:14px;word-break:break-all;color:#7ee787;}
+  button{margin-top:18px;width:100%;background:#238636;color:#fff;border:none;border-radius:10px;
+         padding:14px;font-size:15px;font-weight:600;cursor:pointer;transition:.15s;}
+  button:hover{background:#2ea043;}
+  button:active{transform:scale(.99);}
+  .ok{color:#7ee787;text-align:center;margin-top:12px;height:18px;font-size:13px;}
+  .err{color:#f85149;}
+  .meta{margin-top:20px;font-size:12px;color:#6e7681;border-top:1px solid #21262d;padding-top:14px;line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🔑 Cafe24 인증코드</h1>
+  <div class="sub">아래 코드를 복사해서 클로드에게 붙여넣으세요.</div>
+
+  <div id="content">
+    <div class="label">Authorization Code</div>
+    <div class="code" id="code">대기 중...</div>
+    <button id="copyBtn" onclick="copyCode()">📋 코드 복사</button>
+    <div class="ok" id="okMsg"></div>
+    <div class="meta" id="meta"></div>
+  </div>
+</div>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code  = params.get('code');
+  const state = params.get('state');
+  const error = params.get('error');
+  const errDesc = params.get('error_description');
+
+  const codeEl = document.getElementById('code');
+  const metaEl = document.getElementById('meta');
+
+  if (error) {
+    codeEl.classList.add('err');
+    codeEl.textContent = '❌ ' + error + (errDesc ? (' — ' + decodeURIComponent(errDesc)) : '');
+    document.getElementById('copyBtn').style.display = 'none';
+  } else if (code) {
+    codeEl.textContent = code;
+    metaEl.innerHTML = 'state: ' + (state || '(없음)') + '<br>받은 시각: ' + new Date().toLocaleString('ko-KR');
+  } else {
+    codeEl.classList.add('err');
+    codeEl.textContent = '코드가 없습니다. authorize URL을 다시 열어주세요.';
+    document.getElementById('copyBtn').style.display = 'none';
+  }
+
+  function copyCode(){
+    if(!code) return;
+    navigator.clipboard.writeText(code).then(()=>{
+      document.getElementById('okMsg').textContent = '✓ 복사됐습니다';
+    }).catch(()=>{
+      document.getElementById('okMsg').innerHTML = '<span class="err">복사 실패 — 코드를 직접 드래그하세요</span>';
+    });
+  }
+</script>
+</body>
+</html>
