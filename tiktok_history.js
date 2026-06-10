@@ -23826,7 +23826,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-06-10": {
     "outcoma": {
-      "scraped_at": "2026-06-11 05:30",
+      "scraped_at": "2026-06-11 06:00",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -24190,7 +24190,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-06-11 05:32",
+      "scraped_at": "2026-06-11 06:02",
       "summary": {
         "spend": 250000,
         "revenue": 120200,
@@ -24719,7 +24719,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-06-11": {
     "outcoma": {
-      "scraped_at": "2026-06-11 05:31",
+      "scraped_at": "2026-06-11 06:01",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -25083,9 +25083,9 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-06-11 05:33",
+      "scraped_at": "2026-06-11 06:03",
       "summary": {
-        "spend": 21060,
+        "spend": 21107,
         "revenue": 0,
         "roas": 0.0
       },
@@ -25110,15 +25110,15 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 200000,
           "cpa": 0,
-          "spend": 21060,
+          "spend": 21107,
           "revenue": 0,
           "roas": 0,
-          "cpc": 397,
+          "cpc": 398,
           "ctr": 2.06,
           "clicks": 64300,
           "impressions": 53,
-          "cpm": 2568,
-          "conversions": 8201
+          "cpm": 2571,
+          "conversions": 8210
         },
         {
           "name": "tk_tp_spc_006(틱톡_VBO)",
@@ -25323,15 +25323,15 @@ window.TIKTOK_HISTORY = {
           "name": "001_260608_on_해당_T",
           "campaign": "tk_kd_spc_005(test_cafe24)",
           "status": "active",
-          "cpa": 12116,
-          "spend": 12116,
-          "revenue": 503,
+          "cpa": 12621,
+          "spend": 12621,
+          "revenue": 483,
           "roas": 0.04,
-          "cpc": 567,
+          "cpc": 584,
           "ctr": 0.0,
-          "clicks": 73,
-          "impressions": 1287,
-          "cpm": 9414,
+          "clicks": 79,
+          "impressions": 1353,
+          "cpm": 9328,
           "conversions": 1,
           "cvr": 0
         },
@@ -25340,14 +25340,14 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_kd_spc_005(test_cafe24)",
           "status": "active",
           "cpa": 0,
-          "spend": 15974,
+          "spend": 16995,
           "revenue": 0,
           "roas": 0,
-          "cpc": 432,
+          "cpc": 427,
           "ctr": 0.0,
-          "clicks": 81,
-          "impressions": 1877,
-          "cpm": 8510,
+          "clicks": 85,
+          "impressions": 1992,
+          "cpm": 8532,
           "conversions": 0,
           "cvr": 0
         },
@@ -25356,14 +25356,14 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_kd_spc_024",
           "status": "active",
           "cpa": 0,
-          "spend": 6703,
+          "spend": 6727,
           "revenue": 0,
           "roas": 0,
           "cpc": 244,
           "ctr": 0.0,
           "clicks": 19,
-          "impressions": 778,
-          "cpm": 8616,
+          "impressions": 779,
+          "cpm": 8635,
           "conversions": 0,
           "cvr": 0
         },
@@ -25420,14 +25420,14 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_kd_spc_005(test_cafe24)",
           "status": "active",
           "cpa": 0,
-          "spend": 9933,
+          "spend": 10728,
           "revenue": 0,
           "roas": 0,
-          "cpc": 265,
+          "cpc": 273,
           "ctr": 0.0,
-          "clicks": 27,
-          "impressions": 1017,
-          "cpm": 9767,
+          "clicks": 29,
+          "impressions": 1063,
+          "cpm": 10092,
           "conversions": 0,
           "cvr": 0
         },
@@ -25596,14 +25596,14 @@ window.TIKTOK_HISTORY = {
           "campaign": "tk_kd_spc_024",
           "status": "active",
           "cpa": 0,
-          "spend": 8313,
+          "spend": 8336,
           "revenue": 0,
           "roas": 0,
           "cpc": 187,
           "ctr": 0.0,
           "clicks": 18,
-          "impressions": 961,
-          "cpm": 8650,
+          "impressions": 963,
+          "cpm": 8656,
           "conversions": 0,
           "cvr": 0
         }
