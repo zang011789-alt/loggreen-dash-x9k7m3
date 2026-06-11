@@ -90,7 +90,12 @@ function render(){
   const pd = PD[current]||{};
   const color = pd.color||'#58a6ff';
   const D = pd.recent7||{};
-  const days = Object.keys(D).sort();
+  // 오늘(진행중) 데이터는 메인 KPI에서 제외 → 어제 '확정' 성과를 메인으로. 오늘은 따로 표기.
+  const _today = new Date().toLocaleDateString('en-CA');
+  const _allDays = Object.keys(D).sort();
+  const _confirmed = _allDays.filter(d=>d < _today);
+  const days = _confirmed.length ? _confirmed : _allDays;
+  const _todayRec = D[_today];
   document.getElementById('pname').textContent = current;
   document.getElementById('pname').style.color = color;
 
@@ -103,7 +108,7 @@ function render(){
   }
   const last=days[days.length-1], prev=days[days.length-2];
   const L=D[last], P=D[prev]||{};
-  document.getElementById('sub').innerHTML = `기준일 <b>${last}</b> (어제 확정) · 매일 08:00 자동 갱신 · 최근 ${days.length}일 · <b>순매출</b>(부가세10%+수수료 차감: 쿠팡10%·스토어4%)`;
+  document.getElementById('sub').innerHTML = `기준일 <b>${last}</b> (확정) · 최근 ${days.length}일 · <b>순매출</b>(부가세10%+수수료: 쿠팡10%·스토어4%)` + (_todayRec ? ` · <span style="color:#8b949e">오늘(진행중) 매출 ₩${Math.round(_todayRec.sales_total||0).toLocaleString()} / ROAS ${Math.round((_todayRec.roas||0)*100)}%</span>` : '');
 
   // KPI
   const roasC = L.roas>=1 ? 'up' : 'down';
