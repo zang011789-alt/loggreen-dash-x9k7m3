@@ -12,7 +12,8 @@
   var DATA_FILES = {
     'cafe24_data.js':'CAFE24_DATA', 'cafe24_history.js':'CAFE24_HISTORY',
     'tiktok_history.js':'TIKTOK_HISTORY', 'gads_history.js':'GADS_HISTORY',
-    'coupang_history.js':'COUPANG_HISTORY', 'smartstore_history.js':'SS_HISTORY'
+    'coupang_history.js':'COUPANG_HISTORY', 'smartstore_history.js':'SS_HISTORY',
+    'meta_history.js':'META_HISTORY'
   };
   var t = Date.now();
   for (var f in DATA_FILES) {
@@ -737,29 +738,22 @@ let _metaTodayFetching  = false;
 async function fetchMetaTodaySpend() {
   const now = Date.now();
   if (_metaTodayCache !== null && now - _metaTodayCacheTime < 30 * 60 * 1000) return;
-  if (_metaTodayFetching) return;
-  _metaTodayFetching = true;
   const KWS = { '노즈픽션':'yb','키즈픽션':'kd','템퍼픽션':'tp','아토픽션':'ato','노즈스파':'np','디오스톡':'do' };
   const acc = {};
-  const allAccountIds = Object.values(BRANDS).flatMap(b => b.accountIds);
-  for (const accountId of allAccountIds) {
-    try {
-      const url = `https://graph.facebook.com/v21.0/${accountId}/insights?fields=campaign_name,spend&date_preset=today&level=campaign&access_token=${TOKEN}&limit=500`;
-      const r = await fetch(url);
-      const j = await r.json();
-      (j.data || []).forEach(c => {
-        const spend = parseFloat(c.spend) || 0;
-        if (!spend) return;
-        const name = c.campaign_name || '';
-        const hit = Object.entries(KWS).find(([, kw]) => new RegExp(kw, 'i').test(name));
-        if (!hit) return;
-        acc[hit[0]] = (acc[hit[0]] || 0) + spend;
-      });
-    } catch(e) { /* silent */ }
+  const h = window.META_HISTORY;
+  if (h) {
+    const today = _kstDate(0);
+    (h[today]?.campaign || []).forEach(c => {
+      const spend = parseFloat(c.spend) || 0;
+      if (!spend) return;
+      const name = c.campaign_name || '';
+      const hit = Object.entries(KWS).find(([, kw]) => new RegExp(kw, 'i').test(name));
+      if (!hit) return;
+      acc[hit[0]] = (acc[hit[0]] || 0) + spend;
+    });
   }
   _metaTodayCache = acc;
   _metaTodayCacheTime = Date.now();
-  _metaTodayFetching = false;
   const bs = document.getElementById('brandScreen');
   if (bs && bs.style.display !== 'none') renderTodayProductSales();
 }
@@ -901,31 +895,9 @@ function fmtNum(n) {
 }
 function roasCls(v) { return v >= 2 ? "roas-good" : v >= 1 ? "roas-mid" : "roas-bad"; }
 
-// ── 예산 조회 ──
+// ── 예산 조회 (meta_collect.py가 META_BUDGETS로 저장) ──
 async function fetchBudgets() {
-  const brand = BRANDS[currentBrand];
-  const map = {};
-  const fetchOne = async (accountId) => {
-    const base = `https://graph.facebook.com/v21.0/${accountId}`;
-    const qs = `access_token=${TOKEN}&limit=500&fields=name,daily_budget,lifetime_budget`;
-    const [campRes, adsetRes] = await Promise.all([
-      fetch(`${base}/campaigns?${qs}`),
-      fetch(`${base}/adsets?${qs}`),
-    ]);
-    const [campJson, adsetJson] = await Promise.all([campRes.json(), adsetRes.json()]);
-    for (const c of (campJson.data || [])) {
-      const db = parseInt(c.daily_budget || 0);
-      const lb = parseInt(c.lifetime_budget || 0);
-      if (db > 0 || lb > 0) map[c.name] = { type: db > 0 ? "일" : "총", amount: db > 0 ? db : lb };
-    }
-    for (const a of (adsetJson.data || [])) {
-      const db = parseInt(a.daily_budget || 0);
-      const lb = parseInt(a.lifetime_budget || 0);
-      if (db > 0 || lb > 0) map[a.name] = { type: db > 0 ? "일" : "총", amount: db > 0 ? db : lb };
-    }
-  };
-  await Promise.all(brand.accountIds.map(fetchOne));
-  budgetMap = map;
+  budgetMap = window.META_BUDGETS || {};
 }
 
 function budgetBadge(name) {
@@ -934,41 +906,65 @@ function budgetBadge(name) {
   return `<span class="budget-badge">예산 ${fmtS(b.amount)}</span>`;
 }
 
-// ── API 호출 ──
+// ── 데이터 소스: meta_collect.py가 만든 window.META_HISTORY (파일, 직접 API 호출 없음) ──
+// KST(UTC+9) 기준 N일 전 날짜 문자열
+function _kstDate(offsetDays) {
+  return new Date(Date.now() + 32400000 - offsetDays * 86400000).toISOString().slice(0, 10);
+}
+// dateConfig(preset/커스텀)를 [since, until] 날짜범위로. 메타 last_Nd 정의(오늘 제외 직전 N일) 유지.
+function presetToRange() {
+  const p = dateConfig.preset;
+  const today = _kstDate(0), y = _kstDate(1);
+  if (p === "today") return [today, today];
+  if (p === "yesterday") return [y, y];
+  if (p === "last_7d")  return [_kstDate(7), y];
+  if (p === "last_14d") return [_kstDate(14), y];
+  if (p === "last_30d") return [_kstDate(30), y];
+  if (dateConfig.since && dateConfig.until) return [dateConfig.since, dateConfig.until];
+  return [_kstDate(7), y];
+}
+// META_HISTORY에서 기간 내 해당 레벨의 일별 raw rows 수집
+function metaRowsInRange(level) {
+  const h = window.META_HISTORY;
+  if (!h) return [];
+  const [s, e] = presetToRange();
+  let rows = [];
+  Object.keys(h).filter(d => d >= s && d <= e).forEach(d => {
+    rows = rows.concat((h[d] && h[d][level]) || []);
+  });
+  return rows;
+}
+// 일별 raw를 name 단위로 합산 → 메타 기간합산 응답과 동형(raw) 1행씩
+function metaAggregate(rows, isAd) {
+  const m = {};
+  rows.forEach(r => {
+    const key = isAd
+      ? (r.ad_name || "") + "|" + (r.campaign_name || "") + "|" + (r.adset_name || "")
+      : (r.campaign_name || "");
+    let a = m[key];
+    if (!a) a = m[key] = { campaign_name: r.campaign_name, ad_name: r.ad_name, adset_name: r.adset_name,
+                           _sp: 0, _imp: 0, _clk: 0, _pur: 0, _rev: 0 };
+    const sp = parseFloat(r.spend || 0);
+    a._sp  += sp;
+    a._imp += parseInt(r.impressions || 0);
+    a._clk += parseInt(r.clicks || 0);
+    a._pur += parseInt((r.actions || []).find(x => x.action_type === "purchase")?.value || 0);
+    a._rev += sp * parseFloat((r.purchase_roas || [])[0]?.value || 0);
+  });
+  return Object.values(m).map(a => ({
+    campaign_name: a.campaign_name, ad_name: a.ad_name, adset_name: a.adset_name,
+    spend: a._sp, impressions: a._imp, clicks: a._clk,
+    ctr: a._imp > 0 ? a._clk / a._imp * 100 : 0,
+    cpc: a._clk > 0 ? a._sp / a._clk : 0,
+    actions: [{ action_type: "purchase", value: a._pur }],
+    purchase_roas: [{ value: a._sp > 0 ? a._rev / a._sp : 0 }],
+  }));
+}
+
+// ── 집계 호출 (기간 합산) ──
 async function fetchInsightsLevel(level) {
-  const brand  = BRANDS[currentBrand];
-  const isAd   = level === "ad";
-  const fields = isAd
-    ? "ad_name,adset_name,campaign_name,spend,impressions,clicks,ctr,cpc,actions,purchase_roas"
-    : "campaign_name,spend,impressions,clicks,ctr,cpc,actions,purchase_roas";
-
-  const fetchOneAccount = async (accountId) => {
-    const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);
-    url.searchParams.set("access_token", TOKEN);
-    url.searchParams.set("fields", fields);
-    url.searchParams.set("level", level);
-    url.searchParams.set("limit", "500");
-    if (dateConfig.preset) {
-      url.searchParams.set("date_preset", dateConfig.preset);
-    } else {
-      url.searchParams.set("time_range", JSON.stringify({ since: dateConfig.since, until: dateConfig.until }));
-    }
-    const res = await fetch(url.toString());
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    if (json.error) throw new Error(json.error.message);
-    let rows = json.data || [];
-    let next = json.paging?.next;
-    while (next) {
-      const r = await fetch(next);
-      const j = await r.json();
-      rows = rows.concat(j.data || []);
-      next = j.paging?.next;
-    }
-    return rows;
-  };
-
-  const rows = (await Promise.all(brand.accountIds.map(fetchOneAccount))).flat();
+  const isAd = level === "ad";
+  const rows = metaAggregate(metaRowsInRange(level), isAd);
 
   return rows.flatMap(c => {
     const campName = c.campaign_name || "";
@@ -1000,54 +996,10 @@ async function fetchInsightsLevel(level) {
   });
 }
 
-// ── 일별 API 호출 (time_increment=1) ──
+// ── 일별 호출 (META_HISTORY의 일별 raw 그대로) ──
 async function fetchInsightsDaily(level) {
-  const brand = BRANDS[currentBrand];
-  const isAd  = level === "ad";
-  const fields = isAd
-    ? "ad_name,campaign_name,spend,impressions,clicks,ctr,cpc,actions,purchase_roas,date_start"
-    : "campaign_name,spend,impressions,clicks,ctr,cpc,actions,purchase_roas,date_start";
-
-  const MAX_DAYS = 20;
-
-  const fetchOneAccount = async (accountId) => {
-    const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);
-    url.searchParams.set("access_token", TOKEN);
-    url.searchParams.set("fields", fields);
-    url.searchParams.set("level", level);
-    url.searchParams.set("limit", "500");
-    url.searchParams.set("time_increment", "1");
-    if (dateConfig.preset === "last_30d") {
-      const until = new Date(Date.now() + 32400000).toISOString().slice(0, 10);
-      const since = new Date(Date.now() - (MAX_DAYS - 1) * 86400000).toISOString().slice(0, 10);
-      url.searchParams.set("time_range", JSON.stringify({ since, until }));
-    } else if (dateConfig.preset) {
-      url.searchParams.set("date_preset", dateConfig.preset);
-    } else if (dateConfig.since && dateConfig.until) {
-      const sinceD = new Date(dateConfig.since);
-      const untilD = new Date(dateConfig.until);
-      const diff = Math.round((untilD - sinceD) / 86400000) + 1;
-      const since = diff > MAX_DAYS
-        ? new Date(untilD - (MAX_DAYS - 1) * 86400000).toISOString().slice(0, 10)
-        : dateConfig.since;
-      url.searchParams.set("time_range", JSON.stringify({ since, until: dateConfig.until }));
-    }
-    const res = await fetch(url.toString());
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    if (json.error) throw new Error(json.error.message);
-    let rows = json.data || [];
-    let next = json.paging?.next;
-    while (next) {
-      const r = await fetch(next);
-      const j = await r.json();
-      rows = rows.concat(j.data || []);
-      next = j.paging?.next;
-    }
-    return rows;
-  };
-
-  const rows = (await Promise.all(brand.accountIds.map(fetchOneAccount))).flat();
+  const isAd = level === "ad";
+  const rows = metaRowsInRange(level);
 
   return rows.flatMap(c => {
     const campName = c.campaign_name || "";
