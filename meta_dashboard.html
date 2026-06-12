@@ -4178,52 +4178,32 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAdPopup
 // Meta 소재 7일 일별 캐시 (세션 내 재클릭 즉시 응답)
 const _metaAdCache = {};
 
-// Meta 소재의 오늘 포함 최근 N일 일별 지표를 API로 조회
-// 최적화: ad.name 서버측 필터(filtering) + 계정 병렬 요청 + 캐시
+// Meta 소재의 최근 N일 일별 지표 — META_HISTORY(파일)에서 조회
 async function fetchMetaAdDaily(adName, dates) {
   const blank = ds => ({ date: ds, spend: 0, revenue: 0, impr: 0, clicks: 0, conv: 0, ctr: 0, cart: 0 });
-  const brand = BRANDS[currentBrand];
-  if (!brand) return dates.map(blank);
-
   const cacheKey = `${currentBrand}|${adName}|${dates[0]}~${dates[dates.length - 1]}`;
   if (_metaAdCache[cacheKey]) return _metaAdCache[cacheKey];
 
-  const since = dates[0], until = dates[dates.length - 1];
   const acc = {};
   dates.forEach(ds => acc[ds] = blank(ds));
 
-  await Promise.all(brand.accountIds.map(async accountId => {
-    try {
-      const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);
-      url.searchParams.set('access_token', TOKEN);
-      url.searchParams.set('fields', 'ad_name,spend,impressions,clicks,purchase_roas,actions,date_start');
-      url.searchParams.set('level', 'ad');
-      url.searchParams.set('time_increment', '1');
-      url.searchParams.set('time_range', JSON.stringify({ since, until }));
-      // 서버측에서 해당 소재명만 필터 → 데이터량/속도 대폭 개선
-      url.searchParams.set('filtering', JSON.stringify([{ field: 'ad.name', operator: 'CONTAIN', value: adName }]));
-      url.searchParams.set('limit', '100');
-      let next = url.toString();
-      while (next) {
-        const r = await fetch(next);
-        const j = await r.json();
-        (j.data || []).forEach(row => {
-          if ((row.ad_name || '') !== adName) return;  // CONTAIN → 정확 매칭 재확인
-          const e = acc[row.date_start];
-          if (!e) return;
-          const sp = parseFloat(row.spend || 0);
-          const roas = parseFloat((row.purchase_roas || [])[0]?.value || 0);
-          e.spend   += sp;
-          e.revenue += sp * roas;
-          e.impr    += parseInt(row.impressions || 0);
-          e.clicks  += parseInt(row.clicks || 0);
-          e.conv    += parseInt((row.actions || []).find(a => a.action_type === 'purchase')?.value || 0);
-          e.cart    += parseInt((row.actions || []).find(a => a.action_type === 'add_to_cart')?.value || 0);
-        });
-        next = j.paging?.next;
-      }
-    } catch (e) { /* silent */ }
-  }));
+  const h = window.META_HISTORY;
+  if (h) {
+    dates.forEach(ds => {
+      ((h[ds] && h[ds].ad) || []).forEach(row => {
+        if ((row.ad_name || '') !== adName) return;
+        const e = acc[ds];
+        const sp = parseFloat(row.spend || 0);
+        const roas = parseFloat((row.purchase_roas || [])[0]?.value || 0);
+        e.spend   += sp;
+        e.revenue += sp * roas;
+        e.impr    += parseInt(row.impressions || 0);
+        e.clicks  += parseInt(row.clicks || 0);
+        e.conv    += parseInt((row.actions || []).find(a => a.action_type === 'purchase')?.value || 0);
+        e.cart    += parseInt((row.actions || []).find(a => a.action_type === 'add_to_cart')?.value || 0);
+      });
+    });
+  }
   Object.values(acc).forEach(e => { e.ctr = e.impr > 0 ? e.clicks / e.impr * 100 : 0; });
   const result = dates.map(ds => acc[ds]);
   _metaAdCache[cacheKey] = result;
