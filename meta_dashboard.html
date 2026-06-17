@@ -1623,7 +1623,9 @@ function c24AggRows(view) {
 
 // ── 직접값 매출 (Meta 테이블 용) ──
 function normKey(s) {
-  return s ? s.trim().normalize('NFC') : '';
+  // NFC + 공백 전부 제거 — 메타 소재명과 카페24 term의 공백 유무 차이로 매칭 깨지는 것 방지
+  // 예: '..._AI (객단용off한거 재등록)'(메타) ↔ '..._AI(객단용off한거재등록)'(카페24)
+  return s ? s.normalize('NFC').replace(/\s+/g, '') : '';
 }
 
 function getC24DatesForMetaRange() {
