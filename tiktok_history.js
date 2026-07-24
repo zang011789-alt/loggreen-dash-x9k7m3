@@ -44881,11 +44881,11 @@ window.TIKTOK_HISTORY = {
   },
   "2026-07-24": {
     "outcoma": {
-      "scraped_at": "2026-07-24 08:01",
+      "scraped_at": "2026-07-25 08:01",
       "summary": {
-        "spend": 74770,
-        "revenue": 74770,
-        "roas": 1.0
+        "spend": 329478,
+        "revenue": 783,
+        "roas": 0.0
       },
       "campaigns": [
         {
@@ -44893,15 +44893,15 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 1,
           "cpa": 0,
-          "spend": 74770,
-          "revenue": 74770,
-          "roas": 0.55,
-          "cpc": 40900,
-          "ctr": 0.0,
-          "clicks": 786,
-          "impressions": 1,
-          "cpm": 7,
-          "conversions": 303
+          "spend": 329478,
+          "revenue": 783,
+          "roas": 59677.0,
+          "cpc": 5521,
+          "ctr": 421.0,
+          "clicks": 7,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
         },
         {
           "name": "tk_do_spc_302",
@@ -44915,7 +44915,7 @@ window.TIKTOK_HISTORY = {
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
-          "cpm": 301,
+          "cpm": 0,
           "conversions": 0
         }
       ],
@@ -45150,6 +45150,49 @@ window.TIKTOK_HISTORY = {
           "cvr": 0
         }
       ]
+    }
+  },
+  "2026-07-25": {
+    "outcoma": {
+      "scraped_at": "2026-07-25 08:03",
+      "summary": {
+        "spend": 50843,
+        "revenue": 1038,
+        "roas": 0.02
+      },
+      "campaigns": [
+        {
+          "name": "tk_do_spc_304",
+          "status": "active",
+          "budget": 1,
+          "cpa": 0,
+          "spend": 50843,
+          "revenue": 1038,
+          "roas": 71309.0,
+          "cpc": 713,
+          "ctr": 49.0,
+          "clicks": 14,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_do_spc_302",
+          "status": "paused",
+          "budget": 500000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        }
+      ],
+      "ads": []
     }
   }
 };
