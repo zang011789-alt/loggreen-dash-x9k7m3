@@ -45025,11 +45025,11 @@ window.TIKTOK_HISTORY = {
   },
   "2026-07-25": {
     "outcoma": {
-      "scraped_at": "2026-07-25 08:03",
+      "scraped_at": "2026-07-26 08:01",
       "summary": {
-        "spend": 50843,
-        "revenue": 1038,
-        "roas": 0.02
+        "spend": 268866,
+        "revenue": 873,
+        "roas": 0.0
       },
       "campaigns": [
         {
@@ -45037,12 +45037,12 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 1,
           "cpa": 0,
-          "spend": 50843,
-          "revenue": 1038,
-          "roas": 71309.0,
-          "cpc": 713,
-          "ctr": 49.0,
-          "clicks": 14,
+          "spend": 268866,
+          "revenue": 873,
+          "roas": 55608.0,
+          "cpc": 4835,
+          "ctr": 308.0,
+          "clicks": 10,
           "impressions": 0,
           "cpm": 0,
           "conversions": 0
@@ -45152,6 +45152,49 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_022",
           "status": "paused",
           "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        }
+      ],
+      "ads": []
+    }
+  },
+  "2026-07-26": {
+    "outcoma": {
+      "scraped_at": "2026-07-26 08:03",
+      "summary": {
+        "spend": 74040,
+        "revenue": 698,
+        "roas": 0.01
+      },
+      "campaigns": [
+        {
+          "name": "tk_do_spc_304",
+          "status": "active",
+          "budget": 1,
+          "cpa": 0,
+          "spend": 74040,
+          "revenue": 698,
+          "roas": 40659.0,
+          "cpc": 1821,
+          "ctr": 106.0,
+          "clicks": 5,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_do_spc_302",
+          "status": "paused",
+          "budget": 500000,
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
