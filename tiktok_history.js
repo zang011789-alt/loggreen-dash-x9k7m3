@@ -45457,11 +45457,11 @@ window.TIKTOK_HISTORY = {
   },
   "2026-07-28": {
     "outcoma": {
-      "scraped_at": "2026-07-28 08:03",
+      "scraped_at": "2026-07-29 08:01",
       "summary": {
-        "spend": 82926,
-        "revenue": 441,
-        "roas": 0.01
+        "spend": 289349,
+        "revenue": 507,
+        "roas": 0.0
       },
       "campaigns": [
         {
@@ -45469,12 +45469,12 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 1,
           "cpa": 0,
-          "spend": 82926,
-          "revenue": 441,
-          "roas": 49865.0,
-          "cpc": 1663,
-          "ctr": 188.0,
-          "clicks": 6,
+          "spend": 289349,
+          "revenue": 507,
+          "roas": 52513.0,
+          "cpc": 5510,
+          "ctr": 571.0,
+          "clicks": 4,
           "impressions": 0,
           "cpm": 0,
           "conversions": 0
@@ -45584,6 +45584,49 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_022",
           "status": "paused",
           "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        }
+      ],
+      "ads": []
+    }
+  },
+  "2026-07-29": {
+    "outcoma": {
+      "scraped_at": "2026-07-29 08:03",
+      "summary": {
+        "spend": 72540,
+        "revenue": 756,
+        "roas": 0.01
+      },
+      "campaigns": [
+        {
+          "name": "tk_do_spc_304",
+          "status": "active",
+          "budget": 1,
+          "cpa": 0,
+          "spend": 72540,
+          "revenue": 756,
+          "roas": 31200.0,
+          "cpc": 2325,
+          "ctr": 96.0,
+          "clicks": 4,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_do_spc_302",
+          "status": "paused",
+          "budget": 500000,
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
