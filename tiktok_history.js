@@ -46033,24 +46033,24 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-01": {
     "outcoma": {
-      "scraped_at": "2026-08-01 08:03",
+      "scraped_at": "2026-08-02 08:01",
       "summary": {
-        "spend": 1006,
-        "revenue": 38379,
-        "roas": 38.15
+        "spend": 375000,
+        "revenue": 828,
+        "roas": 0.0
       },
       "campaigns": [
         {
           "name": "tk_do_spc_304",
           "status": "active",
-          "budget": 300000,
-          "cpa": 60332,
-          "spend": 1006,
-          "revenue": 38379,
-          "roas": 1572.0,
-          "cpc": 60,
-          "ctr": 3.82,
-          "clicks": 0,
+          "budget": 1,
+          "cpa": 0,
+          "spend": 375000,
+          "revenue": 828,
+          "roas": 35424.0,
+          "cpc": 10586,
+          "ctr": 453.0,
+          "clicks": 5,
           "impressions": 0,
           "cpm": 0,
           "conversions": 0
@@ -46170,6 +46170,49 @@ window.TIKTOK_HISTORY = {
           "impressions": 0,
           "cpm": 0,
           "conversions": 4
+        }
+      ],
+      "ads": []
+    }
+  },
+  "2026-08-02": {
+    "outcoma": {
+      "scraped_at": "2026-08-02 08:03",
+      "summary": {
+        "spend": 70997,
+        "revenue": 617,
+        "roas": 0.01
+      },
+      "campaigns": [
+        {
+          "name": "tk_do_spc_304",
+          "status": "active",
+          "budget": 1,
+          "cpa": 0,
+          "spend": 70997,
+          "revenue": 617,
+          "roas": 33970.0,
+          "cpc": 2090,
+          "ctr": 115.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_do_spc_302",
+          "status": "paused",
+          "budget": 500000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
         }
       ],
       "ads": []
