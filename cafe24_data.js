@@ -1,1 +1,0 @@
-window.CAFE24_DATA = {};
