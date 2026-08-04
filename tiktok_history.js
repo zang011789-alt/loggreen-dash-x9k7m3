@@ -45745,24 +45745,24 @@ window.TIKTOK_HISTORY = {
   },
   "2026-07-30": {
     "outcoma": {
-      "scraped_at": "2026-07-31 08:01",
+      "scraped_at": "2026-08-04 15:54",
       "summary": {
         "spend": 252037,
-        "revenue": 1012,
-        "roas": 0.0
+        "revenue": 31675,
+        "roas": 0.13
       },
       "campaigns": [
         {
           "name": "tk_do_spc_304",
           "status": "active",
-          "budget": 1,
-          "cpa": 0,
+          "budget": 300000,
+          "cpa": 252037,
           "spend": 252037,
-          "revenue": 1012,
-          "roas": 31675.0,
-          "cpc": 7957,
-          "ctr": 249.0,
-          "clicks": 5,
+          "revenue": 31675,
+          "roas": 7957.0,
+          "cpc": 249,
+          "ctr": 3.13,
+          "clicks": 0,
           "impressions": 0,
           "cpm": 0,
           "conversions": 0
