@@ -46177,11 +46177,11 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-02": {
     "outcoma": {
-      "scraped_at": "2026-08-04 15:27",
+      "scraped_at": "2026-08-04 15:42",
       "summary": {
-        "spend": 581,
+        "spend": 249088,
         "revenue": 27028,
-        "roas": 46.52
+        "roas": 0.11
       },
       "campaigns": [
         {
@@ -46189,7 +46189,7 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 300000,
           "cpa": 249088,
-          "spend": 581,
+          "spend": 249088,
           "revenue": 27028,
           "roas": 9216.0,
           "cpc": 429,
