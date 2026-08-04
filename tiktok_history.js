@@ -46033,24 +46033,24 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-01": {
     "outcoma": {
-      "scraped_at": "2026-08-02 08:01",
+      "scraped_at": "2026-08-04 15:26",
       "summary": {
-        "spend": 375000,
-        "revenue": 828,
-        "roas": 0.0
+        "spend": 828,
+        "revenue": 35424,
+        "roas": 42.78
       },
       "campaigns": [
         {
           "name": "tk_do_spc_304",
           "status": "active",
-          "budget": 1,
-          "cpa": 0,
-          "spend": 375000,
-          "revenue": 828,
-          "roas": 35424.0,
-          "cpc": 10586,
-          "ctr": 453.0,
-          "clicks": 5,
+          "budget": 300000,
+          "cpa": 375000,
+          "spend": 828,
+          "revenue": 35424,
+          "roas": 10586.0,
+          "cpc": 453,
+          "ctr": 4.28,
+          "clicks": 0,
           "impressions": 0,
           "cpm": 0,
           "conversions": 0
@@ -46177,24 +46177,24 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-02": {
     "outcoma": {
-      "scraped_at": "2026-08-03 08:01",
+      "scraped_at": "2026-08-04 15:27",
       "summary": {
-        "spend": 249088,
-        "revenue": 581,
-        "roas": 0.0
+        "spend": 581,
+        "revenue": 27028,
+        "roas": 46.52
       },
       "campaigns": [
         {
           "name": "tk_do_spc_304",
           "status": "active",
-          "budget": 1,
-          "cpa": 0,
-          "spend": 249088,
-          "revenue": 581,
-          "roas": 27028.0,
-          "cpc": 9216,
-          "ctr": 429.0,
-          "clicks": 2,
+          "budget": 300000,
+          "cpa": 249088,
+          "spend": 581,
+          "revenue": 27028,
+          "roas": 9216.0,
+          "cpc": 429,
+          "ctr": 4.65,
+          "clicks": 0,
           "impressions": 0,
           "cpm": 0,
           "conversions": 0
@@ -46306,7 +46306,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-03": {
     "outcoma": {
-      "scraped_at": "2026-08-04 08:01",
+      "scraped_at": "2026-08-04 15:29",
       "summary": {
         "spend": 561,
         "revenue": 24529,
