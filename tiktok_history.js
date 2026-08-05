@@ -46561,5 +46561,91 @@ window.TIKTOK_HISTORY = {
       ],
       "ads": []
     }
+  },
+  "2026-08-05": {
+    "outcoma": {
+      "scraped_at": "2026-08-06 08:01",
+      "summary": {
+        "spend": 204139,
+        "revenue": 30781,
+        "roas": 0.15
+      },
+      "campaigns": [
+        {
+          "name": "tk_do_spc_304",
+          "status": "active",
+          "budget": 300000,
+          "cpa": 204139,
+          "spend": 204139,
+          "revenue": 30781,
+          "roas": 6632.0,
+          "cpc": 309,
+          "ctr": 4.66,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_do_spc_302",
+          "status": "paused",
+          "budget": 500000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        }
+      ],
+      "ads": []
+    }
+  },
+  "2026-08-06": {
+    "outcoma": {
+      "scraped_at": "2026-08-06 08:03",
+      "summary": {
+        "spend": 74870,
+        "revenue": 37623,
+        "roas": 0.5
+      },
+      "campaigns": [
+        {
+          "name": "tk_do_spc_304",
+          "status": "active",
+          "budget": 300000,
+          "cpa": 74870,
+          "spend": 74870,
+          "revenue": 37623,
+          "roas": 1990.0,
+          "cpc": 148,
+          "ctr": 7.44,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_do_spc_302",
+          "status": "paused",
+          "budget": 500000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        }
+      ],
+      "ads": []
+    }
   }
 };
