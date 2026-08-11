@@ -47454,23 +47454,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-11 08:07",
+      "scraped_at": "2026-08-12 08:05",
       "summary": {
-        "spend": 79249,
-        "revenue": 15594,
-        "roas": 0.2
+        "spend": 396068,
+        "revenue": 12424,
+        "roas": 0.03
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_029",
           "status": "active",
           "budget": 330000,
-          "cpa": 79249,
-          "spend": 79249,
-          "revenue": 15594,
-          "roas": 5082.0,
-          "cpc": 496,
-          "ctr": 9.76,
+          "cpa": 396068,
+          "spend": 396068,
+          "revenue": 12424,
+          "roas": 31879.0,
+          "cpc": 2791,
+          "ctr": 8.75,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -47593,6 +47593,107 @@ window.TIKTOK_HISTORY = {
           "impressions": 0,
           "cpm": 0,
           "conversions": 0
+        }
+      ],
+      "ads": []
+    },
+    "ridermune": {
+      "scraped_at": "2026-08-12 08:06",
+      "summary": {
+        "spend": 72561,
+        "revenue": 17330,
+        "roas": 0.24
+      },
+      "campaigns": [
+        {
+          "name": "tk_kd_spc_029",
+          "status": "active",
+          "budget": 330000,
+          "cpa": 72561,
+          "spend": 72561,
+          "revenue": 17330,
+          "roas": 4187.0,
+          "cpc": 362,
+          "ctr": 8.65,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 28
+        },
+        {
+          "name": "tk_kd_spc_027(DVG)",
+          "status": "paused",
+          "budget": 300000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 26
+        },
+        {
+          "name": "tk_kd_spc_025",
+          "status": "paused",
+          "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 24
+        },
+        {
+          "name": "tk_tp_spc_006(틱톡_VBO)",
+          "status": "paused",
+          "budget": 500000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 5
+        },
+        {
+          "name": "tk_kd_spc_023",
+          "status": "paused",
+          "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 6
+        },
+        {
+          "name": "tk_tp_spc_004",
+          "status": "paused",
+          "budget": 300000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 4
         }
       ],
       "ads": []
