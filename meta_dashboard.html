@@ -45,6 +45,7 @@ body { background: #0d1117; color: #e2e8f0; font-family: 'Apple SD Gothic Neo', 
 .brand-card:hover { border-color: var(--bc, #4ade80); transform: translateY(-3px); box-shadow: 0 12px 40px #00000060; }
 .brand-card.ridermune { --bc: #4ade80; }
 .brand-card.outcoma   { --bc: #a78bfa; }
+.brand-card.offego    { --bc: #22d3ee; }
 .brand-card-badge {
   width: 56px; height: 56px; border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
@@ -52,6 +53,7 @@ body { background: #0d1117; color: #e2e8f0; font-family: 'Apple SD Gothic Neo', 
 }
 .ridermune .brand-card-badge { background: #4ade8018; color: #4ade80; }
 .outcoma   .brand-card-badge { background: #a78bfa18; color: #a78bfa; }
+.offego    .brand-card-badge { background: #22d3ee18; color: #22d3ee; }
 .brand-card-name { font-size: 20px; font-weight: 800; color: #f0f6fc; }
 .brand-card-products { font-size: 12px; color: #6e7681; line-height: 1.7; }
 
@@ -75,6 +77,7 @@ header {
 .brand-badge-header:hover { opacity: 0.8; }
 .brand-badge-header.ridermune { background: #4ade8018; color: #4ade80; border: 1px solid #4ade8040; }
 .brand-badge-header.outcoma   { background: #a78bfa18; color: #a78bfa; border: 1px solid #a78bfa40; }
+.brand-badge-header.offego    { background: #22d3ee18; color: #22d3ee; border: 1px solid #22d3ee40; }
 .header-right { display: flex; align-items: center; gap: 14px; }
 .last-updated { font-size: 12px; color: #6e7681; }
 .refresh-btn {
@@ -414,6 +417,11 @@ select option { background: #161b22; color: #c9d1d9; }
       <div class="brand-card-name">아웃코마</div>
       <div class="brand-card-products">디오스톡</div>
     </div>
+    <div class="brand-card offego" onclick="selectBrand('offego')">
+      <div class="brand-card-badge">OF</div>
+      <div class="brand-card-name">오프에고</div>
+      <div class="brand-card-products">OFFEGO</div>
+    </div>
   </div>
 </div>
 
@@ -727,12 +735,22 @@ const BRANDS = {
     products: [
       { id: "do", label: "디오스톡", color: "#a78bfa", re: /do/i },
     ]
+  },
+  offego: {
+    label: "오프에고",
+    accountIds: ["act_1013302527971834", "act_2087282291885563"],
+    products: [
+      { id: "oe", label: "오프에고", color: "#22d3ee", re: /oe|offego/i },
+    ]
   }
 };
+// ★2026-08-18 계정 격리용: 로그린(리더뮨+아웃코마) 계정 집합. 통합매출은 이 계정들만 집계(오프에고 제외).
+const LOGGREEN_ACCTS = new Set([].concat(BRANDS.ridermune.accountIds, BRANDS.outcoma.accountIds));
 
 // ── Meta 오늘 소진 캐시 (브랜드 선택 화면용) ──
 let _metaTodayCache     = null;   // { '노즈픽션': spend, ... }
 let _metaTodayCacheTime = 0;
+let _metaTodayUsedYest  = false;  // 오늘 로그린 소진 0이라 어제로 폴백했는지
 let _metaTodayFetching  = false;
 
 async function fetchMetaTodaySpend() {
@@ -742,8 +760,17 @@ async function fetchMetaTodaySpend() {
   const acc = {};
   const h = window.META_HISTORY;
   if (h) {
-    const today = _kstDate(0);
-    (h[today]?.campaign || []).forEach(c => {
+    const today = _kstDate(0), yest = _kstDate(1);
+    // ★2026-08-18 로그린 계정만(오프에고 제외). + 오늘 로그린 소진이 아직 0이면(이른 아침)
+    //   어제로 폴백 — 틱톡/구글은 이미 어제 폴백하는데 메타만 today라 아침에 '집계 안 됨'처럼 보였음.
+    const lg = rows => rows.filter(c => !c._acc || LOGGREEN_ACCTS.has(c._acc));
+    let src = lg(h[today]?.campaign || []);
+    _metaTodayUsedYest = false;
+    if (!src.some(c => (parseFloat(c.spend) || 0) > 0)) {
+      src = lg(h[yest]?.campaign || []);
+      _metaTodayUsedYest = true;
+    }
+    src.forEach(c => {
       const spend = parseFloat(c.spend) || 0;
       if (!spend) return;
       const name = c.campaign_name || '';
@@ -928,9 +955,13 @@ function metaRowsInRange(level) {
   const h = window.META_HISTORY;
   if (!h) return [];
   const [s, e] = presetToRange();
+  // ★2026-08-18 계정 격리: 선택 브랜드의 accountIds 캠페인만. 캠페인명 정규식이 브랜드간
+  //   충돌(예: 오프에고 'oe'가 타 브랜드로 새는 것)해도 계정 단위로 원천 차단.
+  const accts = new Set((BRANDS[currentBrand] && BRANDS[currentBrand].accountIds) || []);
   let rows = [];
   Object.keys(h).filter(d => d >= s && d <= e).forEach(d => {
-    rows = rows.concat((h[d] && h[d][level]) || []);
+    const lv = (h[d] && h[d][level]) || [];
+    rows = rows.concat(accts.size ? lv.filter(r => !r._acc || accts.has(r._acc)) : lv);
   });
   return rows;
 }
@@ -2084,7 +2115,9 @@ function renderTodayProductSales() {
   const ggSrc        = (ggHToday && ggOk && ggHasCamps) ? ggHToday : (ggHYest || null);
   const ggIsYest     = ggSrc === ggHYest;
   if (ggSrc) {
-    (ggSrc.campaigns || []).forEach(c => {
+    // ★2026-08-18 디오스톡 구글은 별도 키 do_campaigns(아웃코마 계정)에 저장됨 → campaigns와 함께 읽어야
+    //   디오 광고비에 구글이 반영된다. (예전엔 campaigns만 읽어 디오 구글이 통째로 빠졌음)
+    [...(ggSrc.campaigns || []), ...(ggSrc.do_campaigns || [])].forEach(c => {
       const hit = Object.entries(KW).find(([, kw]) => new RegExp(`gg_${kw}_`, 'i').test(c.name));
       if (!hit) return;
       if (!adSpendByType[hit[0]]) adSpendByType[hit[0]] = { meta: 0, tt: 0, gg: 0, ggIsYest };
@@ -3971,7 +4004,7 @@ function renderCompare() {
   html += `<div class="cmp-cards">
     ${mediaCard('TikTok', '#ff6b8a', ttSpend, ttRoas, ttDR, ttCpa, ttSpend > 0)}
     ${mediaCard('Google Ads', '#4285f4', ggSpend, ggRoas, ggDR, ggCpa, ggSpend > 0)}
-    ${mediaCard('Meta' + (currentBrand ? ` (${currentBrand === 'ridermune' ? '리더뮨' : '아웃코마'})` : ''), '#388bfd', metaSpend, metaRoas, null, metaCpa, metaSpend > 0, metaNote)}
+    ${mediaCard('Meta' + (currentBrand ? ` (${(BRANDS[currentBrand] && BRANDS[currentBrand].label) || currentBrand})` : ''), '#388bfd', metaSpend, metaRoas, null, metaCpa, metaSpend > 0, metaNote)}
   </div>`;
 
   // 광고비 비중 바
