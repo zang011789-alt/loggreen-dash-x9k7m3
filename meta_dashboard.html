@@ -2148,6 +2148,19 @@ function renderTodayProductSales() {
     </div>`;
   };
 
+  // ★2026-08-18 오프에고 — 로그린 판매채널(카페24/쿠팡/스스) 없음 → 메타 광고성과(소진+메타전환매출)만
+  //   별도 카드로 통합매출 그리드에 표시. 오늘 소진 0이면 어제 폴백. (grandTotal엔 미합산: 다른 몰·귀속기준)
+  const offegoAgg = (() => {
+    const h = window.META_HISTORY; if (!h || !BRANDS.offego) return null;
+    const OA = new Set(BRANDS.offego.accountIds);
+    const pick = day => (h[day]?.campaign || []).filter(c => OA.has(c._acc));
+    let rows = pick(_kstDate(0)), usedYest = false;
+    if (!rows.some(c => (parseFloat(c.spend) || 0) > 0)) { rows = pick(_kstDate(1)); usedYest = true; }
+    let spend = 0, rev = 0;
+    rows.forEach(c => { const sp = parseFloat(c.spend) || 0; spend += sp; rev += sp * parseFloat((c.purchase_roas || [])[0]?.value || 0); });
+    return spend > 0 ? { spend, rev, usedYest } : null;
+  })();
+
   /* ── HTML 생성 ── */
 
   // ① 통합 매출 (BIG)
@@ -2197,6 +2210,29 @@ function renderTodayProductSales() {
       ${adSection}
     </div>`;
   });
+
+  // 오프에고 카드 (메타 광고성과 전용 — 매출=메타 전환매출)
+  if (offegoAgg) {
+    const oc = '#22d3ee';
+    const oroas = offegoAgg.spend > 0 ? offegoAgg.rev / offegoAgg.spend : null;
+    const oroasColor = oroas >= 1 ? '#3fb950' : '#f78166';
+    html += `<div style="background:#0d1117;border:1px solid ${oc}40;border-radius:14px;padding:22px 24px">
+      <div style="font-size:11px;font-weight:700;color:${oc};letter-spacing:0.08em;margin-bottom:12px">오프에고${offegoAgg.usedYest ? ' (어제)' : ''}</div>
+      <div style="font-size:30px;font-weight:900;color:#f0f6fc;letter-spacing:-1px;margin-bottom:10px">${fmtKRW(Math.round(offegoAgg.rev))}</div>
+      <div style="font-size:10px;color:#4e5564;line-height:1.8">메타 전환매출</div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid #21262d40">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+          <span style="font-size:10px;color:#6e7681">광고비</span>
+          <span style="font-size:14px;font-weight:800;color:#f0883e">${fmtKRW(Math.round(offegoAgg.spend))}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:10px;color:#6e7681">ROAS</span>
+          <span style="font-size:14px;font-weight:800;color:${oroasColor}">${oroas != null ? (oroas * 100).toFixed(0) + '%' : '—'}</span>
+        </div>
+        <div style="font-size:9px;color:#4e5564;line-height:1.7">메타 ${fmtKRW(Math.round(offegoAgg.spend))} · 구글 미수집</div>
+      </div>
+    </div>`;
+  }
 
   html += `</div></div>`;
 
