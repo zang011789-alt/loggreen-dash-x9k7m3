@@ -13,7 +13,7 @@
     'cafe24_data.js':'CAFE24_DATA', 'cafe24_history.js':'CAFE24_HISTORY',
     'tiktok_history.js':'TIKTOK_HISTORY', 'gads_history.js':'GADS_HISTORY',
     'coupang_history.js':'COUPANG_HISTORY', 'smartstore_history.js':'SS_HISTORY',
-    'meta_history.js':'META_HISTORY'
+    'meta_history.js':'META_HISTORY', 'offego_daily_data.js':'OFFEGO_DAILY'
   };
   var t = Date.now();
   for (var f in DATA_FILES) {
@@ -2148,17 +2148,22 @@ function renderTodayProductSales() {
     </div>`;
   };
 
-  // ★2026-08-18 오프에고 — 로그린 판매채널(카페24/쿠팡/스스) 없음 → 메타 광고성과(소진+메타전환매출)만
-  //   별도 카드로 통합매출 그리드에 표시. 오늘 소진 0이면 어제 폴백. (grandTotal엔 미합산: 다른 몰·귀속기준)
+  // ★2026-08-18 오프에고 — offego_daily.py가 오프에고몰 카페24 실매출 + 메타 소진을 일별 수집
+  //   (window.OFFEGO_DAILY = {date:{meta:{spend,rev,roas},c24:{sales,orders,...}}}).
+  //   로그린 통합매출 grandTotal엔 미합산(별개 몰) — 별도 카드로 실매출 표시. 최신 유효일 선택.
   const offegoAgg = (() => {
-    const h = window.META_HISTORY; if (!h || !BRANDS.offego) return null;
-    const OA = new Set(BRANDS.offego.accountIds);
-    const pick = day => (h[day]?.campaign || []).filter(c => OA.has(c._acc));
-    let rows = pick(_kstDate(0)), usedYest = false;
-    if (!rows.some(c => (parseFloat(c.spend) || 0) > 0)) { rows = pick(_kstDate(1)); usedYest = true; }
-    let spend = 0, rev = 0;
-    rows.forEach(c => { const sp = parseFloat(c.spend) || 0; spend += sp; rev += sp * parseFloat((c.purchase_roas || [])[0]?.value || 0); });
-    return spend > 0 ? { spend, rev, usedYest } : null;
+    const od = window.OFFEGO_DAILY; if (!od) return null;
+    const days = Object.keys(od).sort();
+    let pick = null;
+    for (let i = days.length - 1; i >= 0; i--) {
+      const r = od[days[i]];
+      if ((r.c24 && r.c24.sales > 0) || (r.meta && r.meta.spend > 0)) { pick = days[i]; break; }
+    }
+    if (!pick) return null;
+    const r = od[pick];
+    const sales = (r.c24 && r.c24.sales) || 0;
+    const spend = (r.meta && r.meta.spend) || 0;
+    return { date: pick, sales, spend, orders: (r.c24 && r.c24.orders) || 0, roas: spend > 0 ? sales / spend : null };
   })();
 
   /* ── HTML 생성 ── */
@@ -2211,15 +2216,16 @@ function renderTodayProductSales() {
     </div>`;
   });
 
-  // 오프에고 카드 (메타 광고성과 전용 — 매출=메타 전환매출)
+  // 오프에고 카드 (오프에고몰 카페24 실매출 + 메타 소진, offego_daily 기준)
   if (offegoAgg) {
     const oc = '#22d3ee';
-    const oroas = offegoAgg.spend > 0 ? offegoAgg.rev / offegoAgg.spend : null;
+    const oroas = offegoAgg.roas;
     const oroasColor = oroas >= 1 ? '#3fb950' : '#f78166';
+    const dlabel = offegoAgg.date ? offegoAgg.date.slice(5).replace('-', '/') : '';
     html += `<div style="background:#0d1117;border:1px solid ${oc}40;border-radius:14px;padding:22px 24px">
-      <div style="font-size:11px;font-weight:700;color:${oc};letter-spacing:0.08em;margin-bottom:12px">오프에고${offegoAgg.usedYest ? ' (어제)' : ''}</div>
-      <div style="font-size:30px;font-weight:900;color:#f0f6fc;letter-spacing:-1px;margin-bottom:10px">${fmtKRW(Math.round(offegoAgg.rev))}</div>
-      <div style="font-size:10px;color:#4e5564;line-height:1.8">메타 전환매출</div>
+      <div style="font-size:11px;font-weight:700;color:${oc};letter-spacing:0.08em;margin-bottom:12px">오프에고 <span style="color:#4e5564;font-weight:600">${dlabel}</span></div>
+      <div style="font-size:30px;font-weight:900;color:#f0f6fc;letter-spacing:-1px;margin-bottom:10px">${fmtKRW(offegoAgg.sales)}</div>
+      <div style="font-size:10px;color:#4e5564;line-height:1.8">카페24 ${fmtKRW(offegoAgg.sales)}${offegoAgg.orders ? ` · ${offegoAgg.orders}건` : ''}</div>
       <div style="margin-top:14px;padding-top:14px;border-top:1px solid #21262d40">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
           <span style="font-size:10px;color:#6e7681">광고비</span>
