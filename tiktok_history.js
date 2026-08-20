@@ -48694,23 +48694,23 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-20": {
     "outcoma": {
-      "scraped_at": "2026-08-20 08:03",
+      "scraped_at": "2026-08-21 08:01",
       "summary": {
-        "spend": 37959,
-        "revenue": 45679,
-        "roas": 1.2
+        "spend": 257770,
+        "revenue": 45891,
+        "roas": 0.18
       },
       "campaigns": [
         {
           "name": "tk_do_spc_304",
           "status": "active",
-          "budget": 200000,
-          "cpa": 37959,
-          "spend": 37959,
-          "revenue": 45679,
-          "roas": 831.0,
-          "cpc": 47,
-          "ctr": 5.66,
+          "budget": 250000,
+          "cpa": 257770,
+          "spend": 257770,
+          "revenue": 45891,
+          "roas": 5617.0,
+          "cpc": 306,
+          "ctr": 5.45,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -49414,6 +49414,49 @@ window.TIKTOK_HISTORY = {
           "roas": 0.0,
           "cpc": 0,
           "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_do_spc_302",
+          "status": "paused",
+          "budget": 500000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        }
+      ],
+      "ads": []
+    }
+  },
+  "2026-08-21": {
+    "outcoma": {
+      "scraped_at": "2026-08-21 08:03",
+      "summary": {
+        "spend": 52577,
+        "revenue": 34075,
+        "roas": 0.65
+      },
+      "campaigns": [
+        {
+          "name": "tk_do_spc_304",
+          "status": "active",
+          "budget": 250000,
+          "cpa": 52577,
+          "spend": 52577,
+          "revenue": 34075,
+          "roas": 1543.0,
+          "cpc": 62,
+          "ctr": 4.02,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
