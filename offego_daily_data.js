@@ -11379,7 +11379,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-11": {
   "meta": {
@@ -11833,7 +11833,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-12": {
   "meta": {
@@ -12304,7 +12304,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-13": {
   "meta": {
@@ -12857,7 +12857,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-14": {
   "meta": {
@@ -13344,7 +13344,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-15": {
   "meta": {
@@ -13833,7 +13833,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-16": {
   "meta": {
@@ -14260,7 +14260,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-17": {
   "meta": {
@@ -14654,7 +14654,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-18": {
   "meta": {
@@ -15119,7 +15119,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-19": {
   "meta": {
@@ -15509,7 +15509,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-20": {
   "meta": {
@@ -15948,7 +15948,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-21": {
   "meta": {
@@ -16059,7 +16059,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00",
+  "updated": "2026-08-24 08:00",
   "creatives": [
    {
     "name": "260813_171_JY_투명키스_여_AI",
@@ -16786,7 +16786,7 @@ window.OFFEGO_DAILY = {
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
  },
  "2026-08-23": {
   "meta": {
@@ -16851,54 +16851,112 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 636200,
-   "aov": 90886,
+   "sales": 3165100,
+   "aov": 85543,
    "conv": 1.0,
-   "visits": 490,
-   "buyers": 7,
-   "orders": 7,
-   "revisit_rate": 22.65,
-   "new_buyers": 6,
-   "repeat_buyers": 1,
+   "visits": 2748,
+   "buyers": 36,
+   "orders": 37,
+   "revisit_rate": 23.91,
+   "new_buyers": 32,
+   "repeat_buyers": 5,
    "funnel": {
-    "visit": 490,
-    "detail": 166,
-    "cart": 11,
-    "form": 10,
-    "paid": 7
+    "visit": 2748,
+    "detail": 889,
+    "cart": 71,
+    "form": 67,
+    "paid": 36
    },
    "channels": [
     {
      "ch": "tk",
-     "inflow": 274,
-     "ord": 0,
-     "sales": 0,
-     "rate": "0"
+     "inflow": 1787,
+     "ord": 2,
+     "sales": 134400,
+     "rate": "0.1"
     },
     {
      "ch": "fb",
-     "inflow": 175,
-     "ord": 2,
-     "sales": 181200,
-     "rate": "1.1"
+     "inflow": 934,
+     "ord": 14,
+     "sales": 1255500,
+     "rate": "1.5"
     },
     {
      "ch": "gg",
-     "inflow": 130,
+     "inflow": 626,
      "ord": 0,
      "sales": 0,
      "rate": "0"
     },
     {
      "ch": "(채널없음)",
-     "inflow": 88,
-     "ord": 5,
-     "sales": 455000,
-     "rate": "5.7"
+     "inflow": 408,
+     "ord": 20,
+     "sales": 1660700,
+     "rate": "4.9"
+    },
+    {
+     "ch": "ig",
+     "inflow": 6,
+     "ord": 1,
+     "sales": 114500,
+     "rate": "16.7"
     }
    ]
   },
-  "updated": "2026-08-23 08:00"
+  "updated": "2026-08-24 08:00"
+ },
+ "2026-08-24": {
+  "c24": {
+   "sales": 319100,
+   "aov": 79775,
+   "conv": 0.5,
+   "visits": 541,
+   "buyers": 4,
+   "orders": 4,
+   "revisit_rate": 24.03,
+   "new_buyers": 4,
+   "repeat_buyers": 0,
+   "funnel": {
+    "visit": 541,
+    "detail": 136,
+    "cart": 9,
+    "form": 7,
+    "paid": 4
+   },
+   "channels": [
+    {
+     "ch": "tk",
+     "inflow": 428,
+     "ord": 0,
+     "sales": 0,
+     "rate": "0"
+    },
+    {
+     "ch": "fb",
+     "inflow": 137,
+     "ord": 3,
+     "sales": 228500,
+     "rate": "2.2"
+    },
+    {
+     "ch": "gg",
+     "inflow": 133,
+     "ord": 0,
+     "sales": 0,
+     "rate": "0"
+    },
+    {
+     "ch": "(채널없음)",
+     "inflow": 60,
+     "ord": 1,
+     "sales": 90600,
+     "rate": "1.7"
+    }
+   ]
+  },
+  "updated": "2026-08-24 08:00"
  }
 };
-window.OFFEGO_UPDATED = "2026-08-23 08:00";
+window.OFFEGO_UPDATED = "2026-08-24 08:00";
