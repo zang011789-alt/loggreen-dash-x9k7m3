@@ -16725,23 +16725,66 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 0,
-   "aov": 0,
-   "conv": 0.0,
-   "visits": 0,
-   "buyers": 0,
-   "orders": 0,
-   "revisit_rate": 0.0,
-   "new_buyers": 0,
-   "repeat_buyers": 0,
+   "sales": 2820100,
+   "aov": 85458,
+   "conv": 1.0,
+   "visits": 2616,
+   "buyers": 33,
+   "orders": 33,
+   "revisit_rate": 20.95,
+   "new_buyers": 31,
+   "repeat_buyers": 2,
    "funnel": {
-    "visit": 0,
-    "detail": 0,
-    "cart": 0,
-    "form": 0,
-    "paid": 0
+    "visit": 2616,
+    "detail": 1036,
+    "cart": 68,
+    "form": 69,
+    "paid": 32
    },
-   "channels": []
+   "channels": [
+    {
+     "ch": "tk",
+     "inflow": 1325,
+     "ord": 3,
+     "sales": 224000,
+     "rate": "0.2"
+    },
+    {
+     "ch": "fb",
+     "inflow": 976,
+     "ord": 13,
+     "sales": 1183800,
+     "rate": "1.3"
+    },
+    {
+     "ch": "gg",
+     "inflow": 617,
+     "ord": 3,
+     "sales": 272800,
+     "rate": "0.5"
+    },
+    {
+     "ch": "(채널없음)",
+     "inflow": 483,
+     "ord": 14,
+     "sales": 1139500,
+     "rate": "2.9"
+    },
+    {
+     "ch": "ig",
+     "inflow": 8,
+     "ord": 0,
+     "sales": 0,
+     "rate": "0"
+    },
+    {
+     "ch": "chatgpt.com",
+     "inflow": 2,
+     "ord": 0,
+     "sales": 0,
+     "rate": "0"
+    }
+   ]
   },
   "updated": "2026-08-24 16:30"
  },
@@ -17138,45 +17181,110 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 0,
-   "aov": 0,
-   "conv": 0.0,
-   "visits": 0,
-   "buyers": 0,
-   "orders": 0,
-   "revisit_rate": 0.0,
-   "new_buyers": 0,
-   "repeat_buyers": 0,
+   "sales": 3165100,
+   "aov": 85543,
+   "conv": 1.0,
+   "visits": 2748,
+   "buyers": 36,
+   "orders": 37,
+   "revisit_rate": 23.91,
+   "new_buyers": 32,
+   "repeat_buyers": 5,
    "funnel": {
-    "visit": 0,
-    "detail": 0,
-    "cart": 0,
-    "form": 0,
-    "paid": 0
+    "visit": 2748,
+    "detail": 889,
+    "cart": 71,
+    "form": 67,
+    "paid": 36
    },
-   "channels": []
+   "channels": [
+    {
+     "ch": "tk",
+     "inflow": 1787,
+     "ord": 2,
+     "sales": 134400,
+     "rate": "0.1"
+    },
+    {
+     "ch": "fb",
+     "inflow": 934,
+     "ord": 14,
+     "sales": 1255500,
+     "rate": "1.5"
+    },
+    {
+     "ch": "gg",
+     "inflow": 626,
+     "ord": 0,
+     "sales": 0,
+     "rate": "0"
+    },
+    {
+     "ch": "(채널없음)",
+     "inflow": 408,
+     "ord": 20,
+     "sales": 1660700,
+     "rate": "4.9"
+    },
+    {
+     "ch": "ig",
+     "inflow": 6,
+     "ord": 1,
+     "sales": 114500,
+     "rate": "16.7"
+    }
+   ]
   },
   "updated": "2026-08-24 16:30"
  },
  "2026-08-24": {
   "c24": {
-   "sales": 0,
-   "aov": 0,
-   "conv": 0.0,
-   "visits": 0,
-   "buyers": 0,
-   "orders": 0,
-   "revisit_rate": 0.0,
-   "new_buyers": 0,
+   "sales": 319100,
+   "aov": 79775,
+   "conv": 0.5,
+   "visits": 541,
+   "buyers": 4,
+   "orders": 4,
+   "revisit_rate": 24.03,
+   "new_buyers": 4,
    "repeat_buyers": 0,
    "funnel": {
-    "visit": 0,
-    "detail": 0,
-    "cart": 0,
-    "form": 0,
-    "paid": 0
+    "visit": 541,
+    "detail": 136,
+    "cart": 9,
+    "form": 7,
+    "paid": 4
    },
-   "channels": []
+   "channels": [
+    {
+     "ch": "tk",
+     "inflow": 428,
+     "ord": 0,
+     "sales": 0,
+     "rate": "0"
+    },
+    {
+     "ch": "fb",
+     "inflow": 137,
+     "ord": 3,
+     "sales": 228500,
+     "rate": "2.2"
+    },
+    {
+     "ch": "gg",
+     "inflow": 133,
+     "ord": 0,
+     "sales": 0,
+     "rate": "0"
+    },
+    {
+     "ch": "(채널없음)",
+     "inflow": 60,
+     "ord": 1,
+     "sales": 90600,
+     "rate": "1.7"
+    }
+   ]
   },
   "updated": "2026-08-24 16:30",
   "meta": {
@@ -17528,4 +17636,4 @@ window.OFFEGO_DAILY = {
   ]
  }
 };
-window.OFFEGO_UPDATED = "2026-08-24 16:30";
+window.OFFEGO_UPDATED = "2026-08-24 08:04";
