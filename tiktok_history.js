@@ -50650,11 +50650,11 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-08-27 09:02",
+      "scraped_at": "2026-08-27 09:32",
       "summary": {
         "spend": 561192,
-        "revenue": 26911,
-        "roas": 0.05
+        "revenue": 15433,
+        "roas": 0.03
       },
       "campaigns": [
         {
@@ -50675,17 +50675,17 @@ window.TIKTOK_HISTORY = {
         {
           "name": "tk_kd_spc_029",
           "status": "active",
-          "budget": 399300,
-          "cpa": 263686,
+          "budget": 0,
+          "cpa": 1,
           "spend": 263686,
-          "revenue": 11478,
-          "roas": 22973.0,
-          "cpc": 2646,
-          "ctr": 11.52,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 28
+          "revenue": 0,
+          "roas": 263686.0,
+          "cpc": 100,
+          "ctr": 0.0,
+          "clicks": 2,
+          "impressions": 131843,
+          "cpm": 1,
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_028(DVG)",
@@ -50828,23 +50828,23 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-27": {
     "ridermune": {
-      "scraped_at": "2026-08-27 09:04",
+      "scraped_at": "2026-08-27 09:34",
       "summary": {
-        "spend": 147750,
-        "revenue": 28141,
-        "roas": 0.19
+        "spend": 158658,
+        "revenue": 15964,
+        "roas": 0.1
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 66858,
-          "spend": 66858,
-          "revenue": 15416,
-          "roas": 4337.0,
-          "cpc": 179,
-          "ctr": 4.13,
+          "cpa": 71343,
+          "spend": 71343,
+          "revenue": 15964,
+          "roas": 4469.0,
+          "cpc": 202,
+          "ctr": 4.52,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -50853,17 +50853,17 @@ window.TIKTOK_HISTORY = {
         {
           "name": "tk_kd_spc_029",
           "status": "active",
-          "budget": 399300,
-          "cpa": 80892,
-          "spend": 80892,
-          "revenue": 12725,
-          "roas": 6357.0,
-          "cpc": 887,
-          "ctr": 13.95,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 28
+          "budget": 0,
+          "cpa": 1,
+          "spend": 87315,
+          "revenue": 0,
+          "roas": 87315.0,
+          "cpc": 91,
+          "ctr": 0.0,
+          "clicks": 1,
+          "impressions": 87315,
+          "cpm": 1,
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_028(DVG)",
