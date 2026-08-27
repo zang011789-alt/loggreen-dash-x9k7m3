@@ -50650,7 +50650,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-08-27 10:02",
+      "scraped_at": "2026-08-27 10:32",
       "summary": {
         "spend": 561192,
         "revenue": 15433,
