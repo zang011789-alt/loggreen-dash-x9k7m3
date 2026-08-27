@@ -2091,11 +2091,13 @@ function renderTodayProductSales() {
     adSpendByType[ptype].meta += v;
   });
 
-  // TikTok — 오늘 없으면 어제 fallback
-  const ttHToday = window.TIKTOK_HISTORY?.[todayStr] || window.TIKTOK_HISTORY?.[yesterStr];
-  if (ttHToday) {
+  // TikTok — 오늘 없으면 어제 fallback. ★브랜드 단위로 판단해야 한다(2026-08-27):
+  //   날짜 단위로 fallback하면 오늘 노드에 리더뮨만 들어와도 "오늘 있음"으로 보고
+  //   아웃코마(디오)는 빈 값 그대로 0원 표시 → 디오 틱톡 광고비가 통째로 안 뜨던 원인.
+  {
     ['outcoma','ridermune'].forEach(brand => {
-      (ttHToday[brand]?.campaigns || []).forEach(c => {
+      const bSrc = window.TIKTOK_HISTORY?.[todayStr]?.[brand] || window.TIKTOK_HISTORY?.[yesterStr]?.[brand];
+      (bSrc?.campaigns || []).forEach(c => {
         const hit = Object.entries(KW).find(([, kw]) => new RegExp(kw, 'i').test(c.name));
         if (!hit) return;
         if (!adSpendByType[hit[0]]) adSpendByType[hit[0]] = { meta: 0, tt: 0, gg: 0 };
