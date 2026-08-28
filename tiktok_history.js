@@ -51290,7 +51290,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-29 07:35",
+      "scraped_at": "2026-08-29 08:05",
       "summary": {
         "spend": 381301,
         "revenue": 16028,
@@ -51554,23 +51554,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-29 07:37",
+      "scraped_at": "2026-08-29 08:07",
       "summary": {
-        "spend": 300615,
-        "revenue": 14924,
-        "roas": 0.05
+        "spend": 338572,
+        "revenue": 15023,
+        "roas": 0.04
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 47280,
-          "spend": 47280,
-          "revenue": 14924,
-          "roas": 3168.0,
-          "cpc": 163,
-          "ctr": 5.15,
+          "cpa": 52399,
+          "spend": 52399,
+          "revenue": 15023,
+          "roas": 3488.0,
+          "cpc": 179,
+          "ctr": 5.13,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -51581,14 +51581,14 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 253335,
+          "spend": 286173,
           "revenue": 0,
-          "roas": 253335.0,
-          "cpc": 152,
+          "roas": 286173.0,
+          "cpc": 164,
           "ctr": 0.0,
           "clicks": 1,
-          "impressions": 253335,
-          "cpm": 1,
+          "impressions": 286173,
+          "cpm": 0,
           "conversions": 0
         },
         {
