@@ -51116,10 +51116,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "outcoma": {
-      "scraped_at": "2026-08-28 22:02",
+      "scraped_at": "2026-08-28 22:32",
       "summary": {
         "spend": 795936,
-        "revenue": 49562,
+        "revenue": 49564,
         "roas": 0.06
       },
       "campaigns": [
@@ -51144,8 +51144,8 @@ window.TIKTOK_HISTORY = {
           "budget": 520000,
           "cpa": 294546,
           "spend": 294546,
-          "revenue": 21888,
-          "roas": 13457.0,
+          "revenue": 21890,
+          "roas": 13456.0,
           "cpc": 1015,
           "ctr": 7.54,
           "clicks": 0,
@@ -51204,10 +51204,10 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-28": {
     "outcoma": {
-      "scraped_at": "2026-08-28 22:03",
+      "scraped_at": "2026-08-28 22:33",
       "summary": {
-        "spend": 1057157,
-        "revenue": 45093,
+        "spend": 1085587,
+        "revenue": 45217,
         "roas": 0.04
       },
       "campaigns": [
@@ -51215,12 +51215,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_do_spc_305",
           "status": "active",
           "budget": 500000,
-          "cpa": 456926,
-          "spend": 456926,
-          "revenue": 21620,
-          "roas": 21134.0,
-          "cpc": 964,
-          "ctr": 4.56,
+          "cpa": 464956,
+          "spend": 464956,
+          "revenue": 21493,
+          "roas": 21633.0,
+          "cpc": 990,
+          "ctr": 4.58,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -51230,12 +51230,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_do_spc_304",
           "status": "active",
           "budget": 520000,
-          "cpa": 600231,
-          "spend": 600231,
-          "revenue": 23473,
-          "roas": 25571.0,
-          "cpc": 1045,
-          "ctr": 4.09,
+          "cpa": 620631,
+          "spend": 620631,
+          "revenue": 23724,
+          "roas": 26160.0,
+          "cpc": 1066,
+          "ctr": 4.07,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
