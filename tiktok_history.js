@@ -51290,11 +51290,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-29 10:05",
+      "scraped_at": "2026-08-29 10:35",
       "summary": {
-        "spend": 381301,
+        "spend": 245139,
         "revenue": 16028,
-        "roas": 0.04
+        "roas": 0.07
       },
       "campaigns": [
         {
@@ -51311,21 +51311,6 @@ window.TIKTOK_HISTORY = {
           "impressions": 0,
           "cpm": 0,
           "conversions": 29
-        },
-        {
-          "name": "tk_kd_spc_029",
-          "status": "active",
-          "budget": 0,
-          "cpa": 1,
-          "spend": 136162,
-          "revenue": 0,
-          "roas": 136162.0,
-          "cpc": 132,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 0
         },
         {
           "name": "tk_kd_spc_028(DVG)",
@@ -51554,42 +51539,27 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-29 10:07",
+      "scraped_at": "2026-08-29 10:37",
       "summary": {
-        "spend": 533094,
-        "revenue": 16143,
-        "roas": 0.03
+        "spend": 84101,
+        "revenue": 16277,
+        "roas": 0.19
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 79409,
-          "spend": 79409,
-          "revenue": 16143,
-          "roas": 4919.0,
-          "cpc": 283,
-          "ctr": 5.75,
+          "cpa": 84101,
+          "spend": 84101,
+          "revenue": 16277,
+          "roas": 5167.0,
+          "cpc": 312,
+          "ctr": 6.04,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
           "conversions": 29
-        },
-        {
-          "name": "tk_kd_spc_029",
-          "status": "active",
-          "budget": 0,
-          "cpa": 1,
-          "spend": 453685,
-          "revenue": 0,
-          "roas": 453685.0,
-          "cpc": 232,
-          "ctr": 0.0,
-          "clicks": 3,
-          "impressions": 151228,
-          "cpm": 1,
-          "conversions": 0
         },
         {
           "name": "tk_kd_spc_028(DVG)",
