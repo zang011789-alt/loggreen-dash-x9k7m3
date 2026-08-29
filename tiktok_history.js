@@ -51290,7 +51290,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-29 15:05",
+      "scraped_at": "2026-08-29 15:35",
       "summary": {
         "spend": 245139,
         "revenue": 16028,
@@ -51539,23 +51539,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-29 15:07",
+      "scraped_at": "2026-08-29 15:37",
       "summary": {
-        "spend": 128960,
-        "revenue": 16703,
-        "roas": 0.13
+        "spend": 134647,
+        "revenue": 16712,
+        "roas": 0.12
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 128960,
-          "spend": 128960,
-          "revenue": 16703,
-          "roas": 7721.0,
-          "cpc": 566,
-          "ctr": 7.33,
+          "cpa": 134647,
+          "spend": 134647,
+          "revenue": 16712,
+          "roas": 8057.0,
+          "cpc": 596,
+          "ctr": 7.4,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
