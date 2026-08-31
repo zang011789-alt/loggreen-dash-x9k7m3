@@ -51996,7 +51996,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-31": {
     "outcoma": {
-      "scraped_at": "2026-09-01 00:32",
+      "scraped_at": "2026-09-01 01:02",
       "summary": {
         "spend": 1680017,
         "revenue": 90074,
@@ -52290,23 +52290,23 @@ window.TIKTOK_HISTORY = {
   },
   "2026-09-01": {
     "outcoma": {
-      "scraped_at": "2026-09-01 00:34",
+      "scraped_at": "2026-09-01 01:04",
       "summary": {
-        "spend": 13208,
-        "revenue": 79067,
-        "roas": 5.99
+        "spend": 33010,
+        "revenue": 87326,
+        "roas": 2.65
       },
       "campaigns": [
         {
           "name": "tk_do_spc_306",
           "status": "active",
           "budget": 400000,
-          "cpa": 3066,
-          "spend": 3066,
-          "revenue": 22881,
-          "roas": 134.0,
-          "cpc": 3,
-          "ctr": 2.24,
+          "cpa": 6000,
+          "spend": 6000,
+          "revenue": 24194,
+          "roas": 248.0,
+          "cpc": 8,
+          "ctr": 3.23,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -52316,12 +52316,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_do_spc_305",
           "status": "active",
           "budget": 650000,
-          "cpa": 6197,
-          "spend": 6197,
-          "revenue": 24113,
-          "roas": 257.0,
-          "cpc": 12,
-          "ctr": 4.67,
+          "cpa": 14624,
+          "spend": 14624,
+          "revenue": 27540,
+          "roas": 531.0,
+          "cpc": 28,
+          "ctr": 5.27,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -52331,12 +52331,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_do_spc_304",
           "status": "active",
           "budget": 620000,
-          "cpa": 3945,
-          "spend": 3945,
-          "revenue": 32073,
-          "roas": 123.0,
-          "cpc": 7,
-          "ctr": 5.69,
+          "cpa": 12386,
+          "spend": 12386,
+          "revenue": 35592,
+          "roas": 348.0,
+          "cpc": 18,
+          "ctr": 5.17,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -52581,5 +52581,4 @@ window.TIKTOK_HISTORY = {
       ],
       "ads": []
     }
-  }
-};
+  }
