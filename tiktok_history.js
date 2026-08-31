@@ -51717,13 +51717,28 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-30": {
     "outcoma": {
-      "scraped_at": "2026-08-31 11:32",
+      "scraped_at": "2026-08-31 12:02",
       "summary": {
         "spend": 983488,
         "revenue": 53764,
         "roas": 0.05
       },
       "campaigns": [
+        {
+          "name": "tk_do_spc_306",
+          "status": "active",
+          "budget": 400000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
         {
           "name": "tk_do_spc_305",
           "status": "active",
@@ -51981,23 +51996,38 @@ window.TIKTOK_HISTORY = {
   },
   "2026-08-31": {
     "outcoma": {
-      "scraped_at": "2026-08-31 11:33",
+      "scraped_at": "2026-08-31 12:03",
       "summary": {
-        "spend": 419646,
-        "revenue": 68873,
-        "roas": 0.16
+        "spend": 447146,
+        "revenue": 68709,
+        "roas": 0.15
       },
       "campaigns": [
+        {
+          "name": "tk_do_spc_306",
+          "status": "active",
+          "budget": 400000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
         {
           "name": "tk_do_spc_305",
           "status": "active",
           "budget": 650000,
-          "cpa": 205635,
-          "spend": 205635,
-          "revenue": 28728,
-          "roas": 7158.0,
-          "cpc": 289,
-          "ctr": 4.04,
+          "cpa": 225241,
+          "spend": 225241,
+          "revenue": 28719,
+          "roas": 7843.0,
+          "cpc": 307,
+          "ctr": 3.91,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -52007,12 +52037,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_do_spc_304",
           "status": "active",
           "budget": 620000,
-          "cpa": 214011,
-          "spend": 214011,
-          "revenue": 40145,
-          "roas": 5331.0,
-          "cpc": 232,
-          "ctr": 4.35,
+          "cpa": 221905,
+          "spend": 221905,
+          "revenue": 39990,
+          "roas": 5549.0,
+          "cpc": 238,
+          "ctr": 4.29,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
