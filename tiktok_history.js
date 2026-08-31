@@ -51818,7 +51818,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-31 17:36",
+      "scraped_at": "2026-08-31 18:06",
       "summary": {
         "spend": 525622,
         "revenue": 13056,
@@ -51988,7 +51988,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 4
+          "conversions": 12
         }
       ],
       "ads": []
@@ -52097,23 +52097,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-08-31 17:38",
+      "scraped_at": "2026-08-31 18:08",
       "summary": {
-        "spend": 521598,
-        "revenue": 13104,
-        "roas": 0.03
+        "spend": 554379,
+        "revenue": 12253,
+        "roas": 0.02
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 330000,
-          "cpa": 155677,
-          "spend": 155677,
-          "revenue": 13104,
-          "roas": 11880.0,
-          "cpc": 1184,
-          "ctr": 9.97,
+          "cpa": 167406,
+          "spend": 167406,
+          "revenue": 12253,
+          "roas": 13663.0,
+          "cpc": 1235,
+          "ctr": 9.04,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -52124,14 +52124,14 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 365921,
+          "spend": 386973,
           "revenue": 0,
-          "roas": 365921.0,
-          "cpc": 136,
+          "roas": 386973.0,
+          "cpc": 134,
           "ctr": 0.0,
-          "clicks": 1,
-          "impressions": 365921,
-          "cpm": 0,
+          "clicks": 2,
+          "impressions": 193487,
+          "cpm": 1,
           "conversions": 0
         },
         {
@@ -52267,7 +52267,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 4
+          "conversions": 12
         }
       ],
       "ads": []
