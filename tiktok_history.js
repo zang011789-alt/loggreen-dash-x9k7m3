@@ -52376,7 +52376,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-02 13:05",
+      "scraped_at": "2026-09-02 13:35",
       "summary": {
         "spend": 1084016,
         "revenue": 13345,
@@ -52670,11 +52670,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-02 13:07",
+      "scraped_at": "2026-09-02 13:37",
       "summary": {
-        "spend": 343974,
-        "revenue": 12529,
-        "roas": 0.04
+        "spend": 356080,
+        "revenue": 12434,
+        "roas": 0.03
       },
       "campaigns": [
         {
@@ -52682,11 +52682,11 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 1,
           "cpa": 0,
-          "spend": 103122,
-          "revenue": 193,
-          "roas": 10792.0,
-          "cpc": 9555,
-          "ctr": 535.0,
+          "spend": 107063,
+          "revenue": 198,
+          "roas": 10799.0,
+          "cpc": 9914,
+          "ctr": 541.0,
           "clicks": 1,
           "impressions": 0,
           "cpm": 0,
@@ -52696,12 +52696,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 330000,
-          "cpa": 116226,
-          "spend": 116226,
-          "revenue": 12336,
-          "roas": 9422.0,
-          "cpc": 937,
-          "ctr": 9.94,
+          "cpa": 118541,
+          "spend": 118541,
+          "revenue": 12236,
+          "roas": 9688.0,
+          "cpc": 967,
+          "ctr": 9.98,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -52712,13 +52712,13 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 124626,
+          "spend": 130476,
           "revenue": 0,
-          "roas": 124626.0,
-          "cpc": 105,
+          "roas": 130476.0,
+          "cpc": 106,
           "ctr": 0.0,
-          "clicks": 3,
-          "impressions": 41542,
+          "clicks": 4,
+          "impressions": 32619,
           "cpm": 3,
           "conversions": 0
         },
