@@ -15887,68 +15887,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 3445500,
-   "aov": 74902,
-   "conv": 1.4,
-   "visits": 2408,
-   "buyers": 45,
+   "sales": 3168700,
    "orders": 46,
-   "revisit_rate": 28.82,
-   "new_buyers": 35,
-   "repeat_buyers": 11,
-   "funnel": {
-    "visit": 2408,
-    "detail": 870,
-    "cart": 86,
-    "form": 79,
-    "paid": 45
-   },
-   "channels": [
-    {
-     "ch": "tk",
-     "inflow": 1552,
-     "ord": 5,
-     "sales": 456000,
-     "rate": "0.3"
-    },
-    {
-     "ch": "fb",
-     "inflow": 763,
-     "ord": 7,
-     "sales": 525700,
-     "rate": "0.9"
-    },
-    {
-     "ch": "gg",
-     "inflow": 625,
-     "ord": 3,
-     "sales": 295700,
-     "rate": "0.5"
-    },
-    {
-     "ch": "(채널없음)",
-     "inflow": 450,
-     "ord": 31,
-     "sales": 2168100,
-     "rate": "6.9"
-    },
-    {
-     "ch": "ig",
-     "inflow": 6,
-     "ord": 0,
-     "sales": 0,
-     "rate": "0"
-    },
-    {
-     "ch": "chatgpt.com",
-     "inflow": 1,
-     "ord": 0,
-     "sales": 0,
-     "rate": "0"
-    }
-   ]
+   "qty": 174,
+   "aov": 68885,
+   "refund": 139900
   },
-  "updated": "2026-09-03 08:00"
+  "updated": "2026-09-03 16:55"
  },
  "2026-08-21": {
   "meta": {
@@ -16005,61 +15950,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 3357800,
-   "aov": 79948,
-   "conv": 1.7,
-   "visits": 1932,
-   "buyers": 42,
-   "orders": 42,
-   "revisit_rate": 27.64,
-   "new_buyers": 32,
-   "repeat_buyers": 10,
-   "funnel": {
-    "visit": 1932,
-    "detail": 736,
-    "cart": 76,
-    "form": 71,
-    "paid": 42
-   },
-   "channels": [
-    {
-     "ch": "tk",
-     "inflow": 866,
-     "ord": 2,
-     "sales": 159300,
-     "rate": "0.2"
-    },
-    {
-     "ch": "fb",
-     "inflow": 740,
-     "ord": 7,
-     "sales": 661600,
-     "rate": "0.9"
-    },
-    {
-     "ch": "(채널없음)",
-     "inflow": 439,
-     "ord": 28,
-     "sales": 2149100,
-     "rate": "6.4"
-    },
-    {
-     "ch": "gg",
-     "inflow": 421,
-     "ord": 4,
-     "sales": 340500,
-     "rate": "1"
-    },
-    {
-     "ch": "ig",
-     "inflow": 5,
-     "ord": 1,
-     "sales": 47300,
-     "rate": "20"
-    }
-   ]
+   "sales": 3196500,
+   "orders": 41,
+   "qty": 173,
+   "aov": 77963,
+   "refund": 116500
   },
-  "updated": "2026-09-03 08:00",
+  "updated": "2026-09-03 16:55",
   "creatives": [
    {
     "name": "260813_171_JY_투명키스_여_AI",
@@ -16725,68 +16622,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 2820100,
-   "aov": 85458,
-   "conv": 1.0,
-   "visits": 2616,
-   "buyers": 33,
-   "orders": 33,
-   "revisit_rate": 20.95,
-   "new_buyers": 31,
-   "repeat_buyers": 2,
-   "funnel": {
-    "visit": 2616,
-    "detail": 1036,
-    "cart": 68,
-    "form": 69,
-    "paid": 32
-   },
-   "channels": [
-    {
-     "ch": "tk",
-     "inflow": 1325,
-     "ord": 3,
-     "sales": 224000,
-     "rate": "0.2"
-    },
-    {
-     "ch": "fb",
-     "inflow": 976,
-     "ord": 13,
-     "sales": 1183800,
-     "rate": "1.3"
-    },
-    {
-     "ch": "gg",
-     "inflow": 617,
-     "ord": 3,
-     "sales": 272800,
-     "rate": "0.5"
-    },
-    {
-     "ch": "(채널없음)",
-     "inflow": 483,
-     "ord": 14,
-     "sales": 1139500,
-     "rate": "2.9"
-    },
-    {
-     "ch": "ig",
-     "inflow": 8,
-     "ord": 0,
-     "sales": 0,
-     "rate": "0"
-    },
-    {
-     "ch": "chatgpt.com",
-     "inflow": 2,
-     "ord": 0,
-     "sales": 0,
-     "rate": "0"
-    }
-   ]
+   "sales": 2478600,
+   "orders": 32,
+   "qty": 145,
+   "aov": 77456,
+   "refund": 90600
   },
-  "updated": "2026-09-03 08:00"
+  "updated": "2026-09-03 16:55"
  },
  "2026-08-23": {
   "meta": {
@@ -17181,112 +17023,23 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 3165100,
-   "aov": 85543,
-   "conv": 1.0,
-   "visits": 2748,
-   "buyers": 36,
+   "sales": 2715100,
    "orders": 37,
-   "revisit_rate": 23.91,
-   "new_buyers": 32,
-   "repeat_buyers": 5,
-   "funnel": {
-    "visit": 2748,
-    "detail": 889,
-    "cart": 71,
-    "form": 67,
-    "paid": 36
-   },
-   "channels": [
-    {
-     "ch": "tk",
-     "inflow": 1787,
-     "ord": 2,
-     "sales": 134400,
-     "rate": "0.1"
-    },
-    {
-     "ch": "fb",
-     "inflow": 934,
-     "ord": 14,
-     "sales": 1255500,
-     "rate": "1.5"
-    },
-    {
-     "ch": "gg",
-     "inflow": 626,
-     "ord": 0,
-     "sales": 0,
-     "rate": "0"
-    },
-    {
-     "ch": "(채널없음)",
-     "inflow": 408,
-     "ord": 20,
-     "sales": 1660700,
-     "rate": "4.9"
-    },
-    {
-     "ch": "ig",
-     "inflow": 6,
-     "ord": 1,
-     "sales": 114500,
-     "rate": "16.7"
-    }
-   ]
+   "qty": 168,
+   "aov": 73381,
+   "refund": 157300
   },
-  "updated": "2026-09-03 08:00"
+  "updated": "2026-09-03 16:55"
  },
  "2026-08-24": {
   "c24": {
-   "sales": 319100,
-   "aov": 79775,
-   "conv": 0.5,
-   "visits": 541,
-   "buyers": 4,
-   "orders": 4,
-   "revisit_rate": 24.03,
-   "new_buyers": 4,
-   "repeat_buyers": 0,
-   "funnel": {
-    "visit": 541,
-    "detail": 136,
-    "cart": 9,
-    "form": 7,
-    "paid": 4
-   },
-   "channels": [
-    {
-     "ch": "tk",
-     "inflow": 428,
-     "ord": 0,
-     "sales": 0,
-     "rate": "0"
-    },
-    {
-     "ch": "fb",
-     "inflow": 137,
-     "ord": 3,
-     "sales": 228500,
-     "rate": "2.2"
-    },
-    {
-     "ch": "gg",
-     "inflow": 133,
-     "ord": 0,
-     "sales": 0,
-     "rate": "0"
-    },
-    {
-     "ch": "(채널없음)",
-     "inflow": 60,
-     "ord": 1,
-     "sales": 90600,
-     "rate": "1.7"
-    }
-   ]
+   "sales": 2690200,
+   "orders": 34,
+   "qty": 147,
+   "aov": 79124,
+   "refund": 0
   },
-  "updated": "2026-09-03 08:00",
+  "updated": "2026-09-03 16:55",
   "meta": {
    "spend": 1137193,
    "impr": 15817,
@@ -18115,7 +17868,14 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 08:00"
+  "updated": "2026-09-03 16:55",
+  "c24": {
+   "sales": 4352000,
+   "orders": 55,
+   "qty": 238,
+   "aov": 79127,
+   "refund": 230000
+  }
  },
  "2026-08-26": {
   "meta": {
@@ -18613,7 +18373,14 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 08:00"
+  "updated": "2026-09-03 16:55",
+  "c24": {
+   "sales": 3559000,
+   "orders": 49,
+   "qty": 198,
+   "aov": 72633,
+   "refund": 185700
+  }
  },
  "2026-08-27": {
   "meta": {
@@ -18664,7 +18431,7 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 08:00",
+  "updated": "2026-09-03 16:55",
   "creatives": [
    {
     "name": "260813_177_pdz_사무실피는_직장인_A",
@@ -19084,7 +18851,14 @@ window.OFFEGO_DAILY = {
     "rev": 0,
     "roas": 0.0
    }
-  ]
+  ],
+  "c24": {
+   "sales": 3944300,
+   "orders": 49,
+   "qty": 202,
+   "aov": 80496,
+   "refund": 0
+  }
  },
  "2026-08-28": {
   "meta": {
@@ -19560,7 +19334,14 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 08:00"
+  "updated": "2026-09-03 16:55",
+  "c24": {
+   "sales": 3605800,
+   "orders": 47,
+   "qty": 193,
+   "aov": 76719,
+   "refund": 0
+  }
  },
  "2026-08-29": {
   "meta": {
@@ -19965,7 +19746,14 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 08:00"
+  "updated": "2026-09-03 16:55",
+  "c24": {
+   "sales": 2438900,
+   "orders": 34,
+   "qty": 128,
+   "aov": 71732,
+   "refund": 0
+  }
  },
  "2026-08-30": {
   "meta": {
@@ -20348,7 +20136,14 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 08:00"
+  "updated": "2026-09-03 16:55",
+  "c24": {
+   "sales": 5314800,
+   "orders": 43,
+   "qty": 285,
+   "aov": 123600,
+   "refund": 90600
+  }
  },
  "2026-08-31": {
   "meta": {
@@ -20797,7 +20592,14 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 15:01"
+  "updated": "2026-09-03 16:55",
+  "c24": {
+   "sales": 3208000,
+   "orders": 43,
+   "qty": 176,
+   "aov": 74605,
+   "refund": 137400
+  }
  },
  "2026-09-01": {
   "meta": {
@@ -20853,7 +20655,7 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 15:01",
+  "updated": "2026-09-03 16:55",
   "creatives": [
    {
     "name": "260826_214_ypd_필곳없어_T(눈치)",
@@ -21207,7 +21009,14 @@ window.OFFEGO_DAILY = {
     "rev": 0,
     "roas": 0.0
    }
-  ]
+  ],
+  "c24": {
+   "sales": 3722200,
+   "orders": 49,
+   "qty": 215,
+   "aov": 75963,
+   "refund": 181200
+  }
  },
  "2026-09-02": {
   "meta": {
@@ -21270,17 +21079,6 @@ window.OFFEGO_DAILY = {
     "pur": 2,
     "rev": 181200,
     "roas": 1.15
-   },
-   {
-    "name": "051_260901_178_pdz_딱이것만_할머니_A",
-    "camp": "fb_OE_abo_04",
-    "spend": 124889,
-    "ctr": 3.45,
-    "clicks": 60,
-    "atc": 5,
-    "pur": 3,
-    "rev": 320600,
-    "roas": 2.57
    },
    {
     "name": "260825_206_JY_천재가만든_AI(금연_외국)",
@@ -21562,24 +21360,31 @@ window.OFFEGO_DAILY = {
     "pur": 1
    }
   ],
-  "updated": "2026-09-03 15:01"
+  "updated": "2026-09-03 16:55",
+  "c24": {
+   "sales": 5690100,
+   "orders": 63,
+   "qty": 306,
+   "aov": 90319,
+   "refund": 90600
+  }
  },
  "2026-09-03": {
   "meta": {
-   "spend": 549901,
-   "impr": 11383,
-   "reach": 9436,
-   "clicks": 266,
-   "ctr": 2.49,
-   "cpc": 1943,
-   "atc": 31,
-   "ic": 24,
-   "reg": 15,
-   "lpv": 247,
-   "pur": 13,
-   "rev": 1070800,
-   "roas": 1.95,
-   "cpa": 42300
+   "spend": 690740,
+   "impr": 14459,
+   "reach": 11919,
+   "clicks": 335,
+   "ctr": 2.46,
+   "cpc": 1946,
+   "atc": 51,
+   "ic": 36,
+   "reg": 21,
+   "lpv": 319,
+   "pur": 19,
+   "rev": 1575100,
+   "roas": 2.28,
+   "cpa": 36355
   },
   "ages": [
    {
@@ -21589,8 +21394,8 @@ window.OFFEGO_DAILY = {
    },
    {
     "age": "25-34",
-    "atc": 13,
-    "pur": 6
+    "atc": 19,
+    "pur": 7
    },
    {
     "age": "35-44",
@@ -21599,8 +21404,8 @@ window.OFFEGO_DAILY = {
    },
    {
     "age": "45-54",
-    "atc": 8,
-    "pur": 3
+    "atc": 18,
+    "pur": 7
    },
    {
     "age": "55-64",
@@ -21613,7 +21418,7 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-03 15:01",
+  "updated": "2026-09-03 16:55",
   "creatives": [
    {
     "name": "260826_214_ypd_필곳없어_T(눈치)",
@@ -21802,7 +21607,14 @@ window.OFFEGO_DAILY = {
     "rev": 0,
     "roas": 0.0
    }
-  ]
+  ],
+  "c24": {
+   "sales": 3208000,
+   "orders": 42,
+   "qty": 178,
+   "aov": 76381,
+   "refund": 90600
+  }
  }
 };
-window.OFFEGO_UPDATED = "2026-09-03 15:01";
+window.OFFEGO_UPDATED = "2026-09-03 16:55";
