@@ -52685,7 +52685,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-03 15:35",
+      "scraped_at": "2026-09-03 16:05",
       "summary": {
         "spend": 902433,
         "revenue": 13977,
@@ -52994,11 +52994,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-03 15:37",
+      "scraped_at": "2026-09-03 16:07",
       "summary": {
-        "spend": 422702,
-        "revenue": 15039,
-        "roas": 0.04
+        "spend": 451806,
+        "revenue": 15080,
+        "roas": 0.03
       },
       "campaigns": [
         {
@@ -53006,11 +53006,11 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 1,
           "cpa": 0,
-          "spend": 120541,
-          "revenue": 201,
-          "roas": 14010.0,
-          "cpc": 8604,
-          "ctr": 599.0,
+          "spend": 125592,
+          "revenue": 197,
+          "roas": 13786.0,
+          "cpc": 9110,
+          "ctr": 638.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -53020,12 +53020,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 330000,
-          "cpa": 162086,
-          "spend": 162086,
-          "revenue": 14838,
-          "roas": 10924.0,
-          "cpc": 998,
-          "ctr": 9.14,
+          "cpa": 168341,
+          "spend": 168341,
+          "revenue": 14883,
+          "roas": 11311.0,
+          "cpc": 1059,
+          "ctr": 9.36,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -53036,13 +53036,13 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 140075,
+          "spend": 157873,
           "revenue": 0,
-          "roas": 140075.0,
+          "roas": 157873.0,
           "cpc": 113,
           "ctr": 0.0,
           "clicks": 2,
-          "impressions": 70038,
+          "impressions": 78937,
           "cpm": 2,
           "conversions": 0
         },
