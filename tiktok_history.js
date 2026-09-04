@@ -53536,7 +53536,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-05 06:05",
+      "scraped_at": "2026-09-05 06:36",
       "summary": {
         "spend": 1150743,
         "revenue": 23008,
