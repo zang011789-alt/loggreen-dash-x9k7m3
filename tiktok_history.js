@@ -53860,7 +53860,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-06 22:35",
+      "scraped_at": "2026-09-06 23:05",
       "summary": {
         "spend": 915153,
         "revenue": 15669,
@@ -54184,10 +54184,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-06 22:37",
+      "scraped_at": "2026-09-06 23:07",
       "summary": {
-        "spend": 823277,
-        "revenue": 18098,
+        "spend": 870473,
+        "revenue": 18063,
         "roas": 0.02
       },
       "campaigns": [
@@ -54195,12 +54195,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_030",
           "status": "active",
           "budget": 200000,
-          "cpa": 193741,
-          "spend": 193741,
-          "revenue": 7657,
-          "roas": 25303.0,
-          "cpc": 2369,
-          "ctr": 9.36,
+          "cpa": 196844,
+          "spend": 196844,
+          "revenue": 7620,
+          "roas": 25833.0,
+          "cpc": 2409,
+          "ctr": 9.33,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -54210,11 +54210,11 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 330000,
-          "cpa": 236709,
-          "spend": 236709,
-          "revenue": 10441,
-          "roas": 22671.0,
-          "cpc": 2170,
+          "cpa": 237126,
+          "spend": 237126,
+          "revenue": 10443,
+          "roas": 22706.0,
+          "cpc": 2173,
           "ctr": 9.57,
           "clicks": 0,
           "impressions": 0,
@@ -54226,14 +54226,14 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 392827,
+          "spend": 436503,
           "revenue": 0,
-          "roas": 392827.0,
-          "cpc": 73,
+          "roas": 436503.0,
+          "cpc": 78,
           "ctr": 0.0,
           "clicks": 6,
-          "impressions": 65471,
-          "cpm": 2,
+          "impressions": 72751,
+          "cpm": 1,
           "conversions": 0
         },
         {
