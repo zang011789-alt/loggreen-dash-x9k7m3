@@ -53860,7 +53860,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-06 12:05",
+      "scraped_at": "2026-09-06 12:35",
       "summary": {
         "spend": 915153,
         "revenue": 15668,
@@ -54184,23 +54184,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-06 12:07",
+      "scraped_at": "2026-09-06 12:37",
       "summary": {
-        "spend": 407544,
-        "revenue": 18876,
-        "roas": 0.05
+        "spend": 427257,
+        "revenue": 18979,
+        "roas": 0.04
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_030",
           "status": "active",
           "budget": 200000,
-          "cpa": 93190,
-          "spend": 93190,
-          "revenue": 8423,
-          "roas": 11064.0,
-          "cpc": 1023,
-          "ctr": 9.25,
+          "cpa": 97885,
+          "spend": 97885,
+          "revenue": 8399,
+          "roas": 11655.0,
+          "cpc": 1098,
+          "ctr": 9.42,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -54210,12 +54210,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 330000,
-          "cpa": 145698,
-          "spend": 145698,
-          "revenue": 10453,
-          "roas": 13939.0,
-          "cpc": 1203,
-          "ctr": 8.63,
+          "cpa": 154536,
+          "spend": 154536,
+          "revenue": 10580,
+          "roas": 14607.0,
+          "cpc": 1253,
+          "ctr": 8.58,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -54226,13 +54226,13 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 168656,
+          "spend": 174836,
           "revenue": 0,
-          "roas": 168656.0,
+          "roas": 174836.0,
           "cpc": 75,
           "ctr": 0.0,
           "clicks": 1,
-          "impressions": 168656,
+          "impressions": 174836,
           "cpm": 1,
           "conversions": 0
         },
