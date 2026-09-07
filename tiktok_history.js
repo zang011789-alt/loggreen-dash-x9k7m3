@@ -54373,6 +54373,122 @@ window.TIKTOK_HISTORY = {
         }
       ],
       "ads": []
+    },
+    "offego": {
+      "scraped_at": "2026-09-07 10:56",
+      "summary": {
+        "spend": 274284,
+        "revenue": 22700,
+        "roas": 0.08
+      },
+      "campaigns": [
+        {
+          "name": "tk_oe_spc_06",
+          "status": "paused",
+          "budget": 400000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_05",
+          "status": "active",
+          "budget": 300000,
+          "cpa": 274284,
+          "spend": 274284,
+          "revenue": 22700,
+          "roas": 12083.0,
+          "cpc": 531,
+          "ctr": 4.39,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_04",
+          "status": "paused",
+          "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_03",
+          "status": "paused",
+          "budget": 150000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_02(자동게재)",
+          "status": "paused",
+          "budget": 300000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_02",
+          "status": "paused",
+          "budget": 300000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_01",
+          "status": "paused",
+          "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        }
+      ],
+      "ads": []
     }
   },
   "2026-09-07": {
@@ -54694,6 +54810,122 @@ window.TIKTOK_HISTORY = {
           "impressions": 0,
           "cpm": 0,
           "conversions": 12
+        }
+      ],
+      "ads": []
+    },
+    "offego": {
+      "scraped_at": "2026-09-07 10:58",
+      "summary": {
+        "spend": 123409,
+        "revenue": 31498,
+        "roas": 0.26
+      },
+      "campaigns": [
+        {
+          "name": "tk_oe_spc_06",
+          "status": "paused",
+          "budget": 400000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_05",
+          "status": "active",
+          "budget": 300000,
+          "cpa": 123409,
+          "spend": 123409,
+          "revenue": 31498,
+          "roas": 3918.0,
+          "cpc": 388,
+          "ctr": 9.9,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_04",
+          "status": "paused",
+          "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_03",
+          "status": "paused",
+          "budget": 150000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_02(자동게재)",
+          "status": "paused",
+          "budget": 300000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_02",
+          "status": "paused",
+          "budget": 300000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_oe_spc_01",
+          "status": "paused",
+          "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
         }
       ],
       "ads": []
