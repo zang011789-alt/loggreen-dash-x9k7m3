@@ -54053,7 +54053,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-09-06": {
     "outcoma": {
-      "scraped_at": "2026-09-07 09:32",
+      "scraped_at": "2026-09-07 10:02",
       "summary": {
         "spend": 4162371,
         "revenue": 115647,
