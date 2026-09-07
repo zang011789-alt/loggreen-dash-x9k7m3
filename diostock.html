@@ -121,7 +121,7 @@ function render(){
   const sCol={cafe24:color,store:'#34d399',coupang:'#f59e0b'};
   const sNm={cafe24:'카페24',store:'스토어',coupang:'쿠팡'};
   const sMax=Math.max(...Object.values(L.sales).map(Wn),1);
-  document.getElementById('salesBars').innerHTML = Object.entries(L.sales).map(([k,v])=>`
+  document.getElementById('salesBars').innerHTML = Object.entries(L.sales).filter(([k,v])=>v!=null).map(([k,v])=>`
     <div class="bar"><div class="nm">${sNm[k]}</div>
     <div class="track"><div class="fill" style="width:${Wn(v)/sMax*100}%;background:${sCol[k]}"></div></div>
     <div class="amt">${W(v)}</div></div>`).join('');
@@ -162,9 +162,12 @@ function render(){
       }}
   });
 
+  // 카페24 단독 제품(오프에고 등)은 스토어/쿠팡 null이 의도된 것 → 결측 경고에서 제외
+  const cafeOnly = (L.sales.store==null && L.sales.coupang==null);
   const miss=[];
-  if(L.sales.coupang==null) miss.push('쿠팡(상품명 미설정)');
-  if(L.ads.google==null) miss.push('구글(캠페인 미수집)');
+  if(!cafeOnly && L.sales.coupang==null) miss.push('쿠팡(상품명 미설정)');
+  if(L.ads.google==null) miss.push('구글(미수집)');
+  if(L.ads.tiktok==null) miss.push('틱톡(미수집)');
   document.getElementById('foot').innerHTML = `빌드 ${L.built_at}` + (miss.length?` · ⚠️ 결측: ${miss.join(', ')}`:'');
 }
 
