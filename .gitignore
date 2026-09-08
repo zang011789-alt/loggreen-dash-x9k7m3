@@ -2,6 +2,14 @@
 meta_config.json
 meta_refresh_log.txt
 
+# 카페24 Admin API 인증 (Client Secret/토큰 — 절대 커밋 금지)
+cafe24_oauth.py
+cafe24_oauth_token.json
+cafe24_sales_history.json
+
+# 텔레그램 봇 토큰 (절대 커밋 금지)
+telegram_config.json
+
 # 누끼 이미지 원본
 *.png
 
@@ -16,6 +24,7 @@ gads_history.json
 coupang_config.json
 coupang_history.json
 smartstore_history.json
+smartstore_orders.json
 
 # 로컬 전용 — 디버깅/임시 파일
 _probe_*.py
@@ -45,3 +54,17 @@ sched_*.xml
 # 로컬 크롬 실행 스크립트
 chrome_debug.bat
 open_chrome_debug.bat
+
+# dusk 매체 API 프록시 키 (절대 커밋 금지)
+dusk_keys.json
+dusk_history.json
+.gads_stale_alert_ts
+
+# 카페24 로그인 인증정보 (절대 커밋 금지 — 2026-07-15 평문노출 사고 후 분리)
+cafe24_keys.json
+
+# 네이버 커머스 API 인증 (절대 커밋 금지)
+naver_commerce_keys.json
+
+# 카카오 토큰(비밀) — 폴더정리로 1_클로드작업에 이동, 절대 커밋금지
+kakao_token.json
