@@ -55724,7 +55724,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-09-10 07:35",
+      "scraped_at": "2026-09-10 08:05",
       "summary": {
         "spend": 375000,
         "revenue": 21932,
@@ -55840,7 +55840,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-10 07:39",
+      "scraped_at": "2026-09-10 08:09",
       "summary": {
         "spend": 752070,
         "revenue": 72142,
@@ -56131,11 +56131,11 @@ window.TIKTOK_HISTORY = {
           "roas": 0.01,
           "cpc": 73803,
           "ctr": 0.0,
-          "clicks": 10,
+          "clicks": 11,
           "impressions": 943,
           "cpm": 6960,
           "conversions": 1,
-          "cvr": 10.0
+          "cvr": 11.0
         },
         {
           "name": "001_260730_pdz_신호_AI",
@@ -56400,11 +56400,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-09-10 07:37",
+      "scraped_at": "2026-09-10 08:07",
       "summary": {
-        "spend": 73160,
-        "revenue": 28623,
-        "roas": 0.39
+        "spend": 80070,
+        "revenue": 27188,
+        "roas": 0.34
       },
       "campaigns": [
         {
@@ -56426,12 +56426,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_oe_spc_05",
           "status": "active",
           "budget": 300000,
-          "cpa": 73160,
-          "spend": 73160,
-          "revenue": 28623,
-          "roas": 2556.0,
-          "cpc": 434,
-          "ctr": 16.98,
+          "cpa": 80070,
+          "spend": 80070,
+          "revenue": 27188,
+          "roas": 2945.0,
+          "cpc": 518,
+          "ctr": 17.59,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -56516,27 +56516,28 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-10 07:41",
+      "scraped_at": "2026-09-10 08:11",
       "summary": {
-        "spend": 183655,
-        "revenue": 24702,
-        "roas": 0.13
+        "spend": 201199,
+        "revenue": 23028,
+        "roas": 0.11
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_031",
           "status": "active",
           "budget": 200000,
-          "cpa": 37661,
-          "spend": 37661,
-          "revenue": 6078,
-          "roas": 6196.0,
-          "cpc": 280,
-          "ctr": 4.52,
+          "cpa": 40819,
+          "spend": 40819,
+          "revenue": 6546,
+          "roas": 49.59,
+          "cpc": 309,
+          "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
-          "cpm": 0,
-          "conversions": 30
+          "cpm": 472,
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_030",
@@ -56545,43 +56546,46 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 20
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 63395,
-          "spend": 63395,
-          "revenue": 8870,
-          "roas": 7147.0,
-          "cpc": 464,
-          "ctr": 6.49,
+          "cpa": 68555,
+          "spend": 68555,
+          "revenue": 7440,
+          "roas": 55.52,
+          "cpc": 510,
+          "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
-          "cpm": 0,
-          "conversions": 29
+          "cpm": 685,
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_029",
           "status": "active",
           "budget": 396205,
-          "cpa": 82599,
-          "spend": 82599,
-          "revenue": 9754,
-          "roas": 8468.0,
-          "cpc": 683,
-          "ctr": 8.07,
+          "cpa": 91825,
+          "spend": 91825,
+          "revenue": 9042,
+          "roas": 75.98,
+          "cpc": 769,
+          "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
-          "cpm": 0,
-          "conversions": 28
+          "cpm": 850,
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_028(DVG)",
@@ -56590,13 +56594,14 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 27
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_027(DVG)",
@@ -56605,13 +56610,14 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 26
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_026(DVG)",
@@ -56620,13 +56626,14 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 25
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_025",
@@ -56635,13 +56642,14 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 24
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_024",
@@ -56650,13 +56658,14 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 6
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_tp_spc_006(틱톡_VBO)",
@@ -56665,13 +56674,14 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 5
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_tp_spc_005(틱톡)",
@@ -56680,13 +56690,14 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 23
+          "conversions": 0,
+          "cvr": 0.0
         },
         {
           "name": "tk_kd_spc_023",
@@ -56695,16 +56706,226 @@ window.TIKTOK_HISTORY = {
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
-          "roas": 0.0,
+          "roas": 0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 6
+          "conversions": 0,
+          "cvr": 0.0
         }
       ],
-      "ads": []
+      "ads": [
+        {
+          "name": "001_260908_소재모음_T",
+          "campaign": "",
+          "status": "active",
+          "cpa": 1875727530278193,
+          "spend": 40819,
+          "revenue": 6236,
+          "roas": 0.15,
+          "cpc": 6546,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 472,
+          "cpm": 309,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260831_소재모음_T",
+          "campaign": "",
+          "status": "paused",
+          "cpa": 1875025092186418,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260821_소재모음_AI",
+          "campaign": "",
+          "status": "active",
+          "cpa": 1874097720575105,
+          "spend": 68555,
+          "revenue": 9214,
+          "roas": 0.13,
+          "cpc": 7440,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 685,
+          "cpm": 510,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260821_소재모음_AI",
+          "campaign": "",
+          "status": "active",
+          "cpa": 1874096991750322,
+          "spend": 173890,
+          "revenue": 8896,
+          "roas": 0.05,
+          "cpc": 19547,
+          "ctr": 0.0,
+          "clicks": 1,
+          "impressions": 946,
+          "cpm": 1850,
+          "conversions": 1,
+          "cvr": 1.0
+        },
+        {
+          "name": "001_260821_소재모음_AI",
+          "campaign": "",
+          "status": "paused",
+          "cpa": 1874097245729201,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "005_260821_GIF모음_G",
+          "campaign": "",
+          "status": "active",
+          "cpa": 1874096272785586,
+          "spend": 98040,
+          "revenue": 12191,
+          "roas": 0.12,
+          "cpc": 8042,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 821,
+          "cpm": 660,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260730_pdz_신호_AI",
+          "campaign": "",
+          "status": "active",
+          "cpa": 1872128536046882,
+          "spend": 90740,
+          "revenue": 10176,
+          "roas": 0.11,
+          "cpc": 8917,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 847,
+          "cpm": 755,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260730_부모선택_AI",
+          "campaign": "",
+          "status": "paused",
+          "cpa": 1872128294361394,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260730_on_해냈습니다_T",
+          "campaign": "",
+          "status": "active",
+          "cpa": 1872127512306722,
+          "spend": 553,
+          "revenue": 10843,
+          "roas": 19.61,
+          "cpc": 51,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 392,
+          "cpm": 2,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260730_on_약사_T",
+          "campaign": "",
+          "status": "active",
+          "cpa": 1872127251161425,
+          "spend": 532,
+          "revenue": 7189,
+          "roas": 13.51,
+          "cpc": 74,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 1622,
+          "cpm": 12,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260730_on_남자는키빨_T",
+          "campaign": "",
+          "status": "paused",
+          "cpa": 1872126309894914,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260713_hy_초경골든타임_T",
+          "campaign": "",
+          "status": "paused",
+          "cpa": 1870575131240881,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0.0
+        },
+        {
+          "name": "001_260713_on_역대급특가_TP",
+          "campaign": "",
+          "status": "paused",
+          "cpa": 1870575070216609,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0.0
+        }
+      ]
     }
   }
 };
