@@ -57121,11 +57121,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-09-11 09:37",
+      "scraped_at": "2026-09-11 10:08",
       "summary": {
-        "spend": 87650,
-        "revenue": 33138,
-        "roas": 0.38
+        "spend": 94945,
+        "revenue": 33117,
+        "roas": 0.35
       },
       "campaigns": [
         {
@@ -57147,12 +57147,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_oe_spc_05",
           "status": "active",
           "budget": 300000,
-          "cpa": 87650,
-          "spend": 87650,
-          "revenue": 33138,
-          "roas": 2645.0,
-          "cpc": 223,
-          "ctr": 8.43,
+          "cpa": 94945,
+          "spend": 94945,
+          "revenue": 33117,
+          "roas": 2867.0,
+          "cpc": 233,
+          "ctr": 8.13,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
