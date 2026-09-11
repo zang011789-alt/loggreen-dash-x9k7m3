@@ -56516,7 +56516,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-11 22:39",
+      "scraped_at": "2026-09-11 23:09",
       "summary": {
         "spend": 493387,
         "revenue": 43733,
@@ -56743,11 +56743,11 @@ window.TIKTOK_HISTORY = {
           "roas": 0.02,
           "cpc": 52481,
           "ctr": 0.0,
-          "clicks": 7,
+          "clicks": 8,
           "impressions": 1104,
           "cpm": 5795,
-          "conversions": 1,
-          "cvr": 7.0
+          "conversions": 2,
+          "cvr": 8.0
         },
         {
           "name": "001_260730_pdz_신호_AI",
@@ -57113,10 +57113,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-11 22:41",
+      "scraped_at": "2026-09-11 23:11",
       "summary": {
-        "spend": 337260,
-        "revenue": 9880,
+        "spend": 352625,
+        "revenue": 9709,
         "roas": 0.03
       },
       "campaigns": [
@@ -57139,12 +57139,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_029",
           "status": "active",
           "budget": 396205,
-          "cpa": 337260,
-          "spend": 337260,
-          "revenue": 9880,
-          "roas": 34134.0,
-          "cpc": 2323,
-          "ctr": 6.81,
+          "cpa": 352625,
+          "spend": 352625,
+          "revenue": 9709,
+          "roas": 36321.0,
+          "cpc": 2519,
+          "ctr": 6.94,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
