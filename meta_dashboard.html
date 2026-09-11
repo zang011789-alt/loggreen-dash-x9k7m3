@@ -2000,7 +2000,12 @@ function renderTodayProductSales() {
   const todayC24 = h?.[c24Key];
   const c24Label = c24Key === todayStr ? '오늘' : (c24Key === yesterStr ? '어제' : c24Key);
 
-  const cpKey    = ch?.[todayStr] ? todayStr : (ch?.[yesterStr] ? yesterStr : latestKey(ch, yesterStr));
+  // ★쿠팡: 노드 존재만으로 오늘을 고르면, 아침(주문 전)·수집실패 때 products=[]라 전 제품 쿠팡이 0으로 빠진다.
+  //   (SS의 is_today&&revenue>0 가드와 동일 취지) → products가 실제로 있는 날만 오늘, 없으면 어제→최근 유효일 폴백.
+  const cpHas    = k => ((ch?.[k]?.products?.length) || 0) > 0;
+  const cpKey    = cpHas(todayStr) ? todayStr
+                 : cpHas(yesterStr) ? yesterStr
+                 : (Object.keys(ch || {}).sort().reverse().find(k => k <= todayStr && cpHas(k)) || yesterStr);
   const cpRaw    = ch?.[cpKey];
   const cpLabel  = cpKey === todayStr ? '오늘' : (cpKey === yesterStr ? '어제' : cpKey);
   const cpDate   = cpKey;
