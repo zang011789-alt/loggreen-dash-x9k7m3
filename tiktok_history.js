@@ -57083,10 +57083,10 @@ window.TIKTOK_HISTORY = {
   },
   "2026-09-11": {
     "outcoma": {
-      "scraped_at": "2026-09-12 02:32",
+      "scraped_at": "2026-09-12 03:02",
       "summary": {
-        "spend": 3852004,
-        "revenue": 154261,
+        "spend": 3113952,
+        "revenue": 118450,
         "roas": 0.04
       },
       "campaigns": [
@@ -57135,22 +57135,6 @@ window.TIKTOK_HISTORY = {
           "clicks": 30063,
           "impressions": 28,
           "cpm": 432,
-          "conversions": 0,
-          "cvr": 0.0
-        },
-        {
-          "name": "tk_do_spc_306",
-          "status": "active",
-          "budget": 700000,
-          "cpa": 738052,
-          "spend": 738052,
-          "revenue": 35811,
-          "roas": 221.06,
-          "cpc": 4563,
-          "ctr": 0.05,
-          "clicks": 43415,
-          "impressions": 17,
-          "cpm": 1274,
           "conversions": 0,
           "cvr": 0.0
         },
