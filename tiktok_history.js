@@ -58245,7 +58245,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "ridermune": {
-      "scraped_at": "2026-09-13 22:09",
+      "scraped_at": "2026-09-13 22:39",
       "summary": {
         "spend": 818890,
         "revenue": 78944,
@@ -58745,23 +58745,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-13 22:11",
+      "scraped_at": "2026-09-13 22:41",
       "summary": {
-        "spend": 613987,
-        "revenue": 21680,
-        "roas": 0.04
+        "spend": 661716,
+        "revenue": 21737,
+        "roas": 0.03
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_031",
           "status": "active",
           "budget": 200000,
-          "cpa": 156828,
-          "spend": 156828,
-          "revenue": 10529,
-          "roas": 14895.0,
-          "cpc": 1350,
-          "ctr": 9.06,
+          "cpa": 172825,
+          "spend": 172825,
+          "revenue": 10647,
+          "roas": 16233.0,
+          "cpc": 1400,
+          "ctr": 8.62,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -58786,12 +58786,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 218193,
-          "spend": 218193,
-          "revenue": 11151,
-          "roas": 19568.0,
-          "cpc": 1930,
-          "ctr": 9.86,
+          "cpa": 244435,
+          "spend": 244435,
+          "revenue": 11090,
+          "roas": 22041.0,
+          "cpc": 2087,
+          "ctr": 9.47,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -58802,13 +58802,13 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 238966,
+          "spend": 244456,
           "revenue": 0,
-          "roas": 238966.0,
+          "roas": 244456.0,
           "cpc": 104,
           "ctr": 0.0,
           "clicks": 1,
-          "impressions": 238966,
+          "impressions": 244456,
           "cpm": 1,
           "conversions": 0
         },
