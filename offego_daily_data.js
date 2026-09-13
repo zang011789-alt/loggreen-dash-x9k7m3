@@ -20592,7 +20592,7 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-13 08:00",
+  "updated": "2026-09-14 08:00",
   "c24": {
    "sales": 3208000,
    "orders": 43,
@@ -20655,7 +20655,7 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-13 08:00",
+  "updated": "2026-09-14 08:00",
   "creatives": [
    {
     "name": "260826_214_ypd_필곳없어_T(눈치)",
@@ -21371,7 +21371,7 @@ window.OFFEGO_DAILY = {
     "pur": 1
    }
   ],
-  "updated": "2026-09-13 08:00",
+  "updated": "2026-09-14 08:00",
   "c24": {
    "sales": 5625900,
    "orders": 64,
@@ -21434,7 +21434,7 @@ window.OFFEGO_DAILY = {
     "pur": 0
    }
   ],
-  "updated": "2026-09-13 08:00",
+  "updated": "2026-09-14 08:00",
   "creatives": [
    {
     "name": "260826_214_ypd_필곳없어_T(눈치)",
@@ -22069,7 +22069,7 @@ window.OFFEGO_DAILY = {
    "aov": 70042,
    "refund": 136400
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-05": {
   "meta": {
@@ -22453,7 +22453,7 @@ window.OFFEGO_DAILY = {
    "aov": 71250,
    "refund": 273800
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-06": {
   "meta": {
@@ -22810,7 +22810,7 @@ window.OFFEGO_DAILY = {
    "aov": 76325,
    "refund": 136900
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-07": {
   "meta": {
@@ -23249,7 +23249,7 @@ window.OFFEGO_DAILY = {
    "aov": 81120,
    "refund": 66700
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-08": {
   "meta": {
@@ -23716,7 +23716,7 @@ window.OFFEGO_DAILY = {
    "aov": 79454,
    "refund": 224000
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-09": {
   "meta": {
@@ -24150,7 +24150,7 @@ window.OFFEGO_DAILY = {
    "aov": 76945,
    "refund": 160300
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-10": {
   "meta": {
@@ -24551,7 +24551,7 @@ window.OFFEGO_DAILY = {
    "aov": 71570,
    "refund": 137900
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-11": {
   "meta": {
@@ -24946,16 +24946,16 @@ window.OFFEGO_DAILY = {
    "aov": 74903,
    "refund": 183200
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-12": {
   "meta": {
-   "spend": 1831793,
-   "impr": 27312,
-   "reach": 18205,
-   "clicks": 887,
+   "spend": 1832531,
+   "impr": 27326,
+   "reach": 18210,
+   "clicks": 888,
    "ctr": 3.23,
-   "cpc": 2079,
+   "cpc": 2078,
    "atc": 48,
    "ic": 40,
    "reg": 41,
@@ -24963,13 +24963,13 @@ window.OFFEGO_DAILY = {
    "pur": 19,
    "rev": 1672200,
    "roas": 0.91,
-   "cpa": 96410
+   "cpa": 96449
   },
   "creatives": [
    {
     "name": "260904_230_nsw_돈많아_AN(가성비)",
     "camp": "fb_OE_cbo_11(asc)",
-    "spend": 387743,
+    "spend": 387942,
     "ctr": 3.37,
     "clicks": 169,
     "atc": 13,
@@ -24980,7 +24980,7 @@ window.OFFEGO_DAILY = {
    {
     "name": "048_260821_199_on_구만구천_T(가성비)",
     "camp": "fb_OE_abo_04",
-    "spend": 302540,
+    "spend": 302606,
     "ctr": 3.41,
     "clicks": 240,
     "atc": 12,
@@ -24991,7 +24991,7 @@ window.OFFEGO_DAILY = {
    {
     "name": "260909_224_ypd_혼나야함_T(가성비)",
     "camp": "fb_OE_cbo_06(asc)",
-    "spend": 281357,
+    "spend": 281426,
     "ctr": 1.66,
     "clicks": 78,
     "atc": 9,
@@ -25002,8 +25002,8 @@ window.OFFEGO_DAILY = {
    {
     "name": "260910_177_pdz_사무실피는_직장인_A",
     "camp": "fb_OE_cbo_12",
-    "spend": 227152,
-    "ctr": 3.88,
+    "spend": 227193,
+    "ctr": 3.87,
     "clicks": 89,
     "atc": 0,
     "pur": 0,
@@ -25013,9 +25013,9 @@ window.OFFEGO_DAILY = {
    {
     "name": "260908_231_nsw_만든사람_AN(가성비)",
     "camp": "fb_OE_cbo_02(asc)",
-    "spend": 203149,
-    "ctr": 2.94,
-    "clicks": 54,
+    "spend": 203256,
+    "ctr": 2.99,
+    "clicks": 55,
     "atc": 2,
     "pur": 3,
     "rev": 273800,
@@ -25024,7 +25024,7 @@ window.OFFEGO_DAILY = {
    {
     "name": "052_260904_220_HH_부하불륜_AI(스토리_정력)",
     "camp": "fb_OE_abo_04",
-    "spend": 174742,
+    "spend": 174800,
     "ctr": 4.52,
     "clicks": 116,
     "atc": 4,
@@ -25035,7 +25035,7 @@ window.OFFEGO_DAILY = {
    {
     "name": "260911_178_pdz_딱이것만_할머니_A",
     "camp": "fb_OE_cbo_12",
-    "spend": 116985,
+    "spend": 117121,
     "ctr": 4.14,
     "clicks": 82,
     "atc": 6,
@@ -25046,8 +25046,8 @@ window.OFFEGO_DAILY = {
    {
     "name": "260825_205_nsw_잘만들어_AN(가성비)",
     "camp": "fb_OE_cbo_02(asc)",
-    "spend": 40760,
-    "ctr": 1.7,
+    "spend": 40822,
+    "ctr": 1.69,
     "clicks": 6,
     "atc": 0,
     "pur": 0,
@@ -25313,94 +25313,83 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 5353100,
+   "sales": 5260500,
    "orders": 74,
    "qty": 305,
-   "aov": 72339,
+   "aov": 71088,
    "refund": 206600
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  },
  "2026-09-13": {
   "meta": {
-   "spend": 273426,
-   "impr": 3862,
-   "reach": 2962,
-   "clicks": 152,
-   "ctr": 4.17,
-   "cpc": 1698,
-   "atc": 9,
-   "ic": 9,
-   "reg": 11,
-   "lpv": 154,
-   "pur": 6,
-   "rev": 545600,
-   "roas": 2.0,
-   "cpa": 45571
+   "spend": 1955229,
+   "impr": 25380,
+   "reach": 16843,
+   "clicks": 966,
+   "ctr": 3.79,
+   "cpc": 2035,
+   "atc": 65,
+   "ic": 55,
+   "reg": 54,
+   "lpv": 918,
+   "pur": 22,
+   "rev": 1795600,
+   "roas": 0.92,
+   "cpa": 88874
   },
   "creatives": [
    {
     "name": "260904_230_nsw_돈많아_AN(가성비)",
     "camp": "fb_OE_cbo_11(asc)",
-    "spend": 50887,
-    "ctr": 5.2,
-    "clicks": 29,
-    "atc": 1,
-    "pur": 1,
-    "rev": 90600,
-    "roas": 1.78
+    "spend": 356461,
+    "ctr": 4.35,
+    "clicks": 180,
+    "atc": 10,
+    "pur": 6,
+    "rev": 521700,
+    "roas": 1.46
    },
    {
     "name": "048_260821_199_on_구만구천_T(가성비)",
     "camp": "fb_OE_abo_04",
-    "spend": 49584,
-    "ctr": 3.52,
-    "clicks": 40,
-    "atc": 0,
-    "pur": 1,
-    "rev": 90600,
-    "roas": 1.83
+    "spend": 273398,
+    "ctr": 3.53,
+    "clicks": 213,
+    "atc": 12,
+    "pur": 4,
+    "rev": 338500,
+    "roas": 1.24
    },
    {
     "name": "260908_231_nsw_만든사람_AN(가성비)",
     "camp": "fb_OE_cbo_02(asc)",
-    "spend": 36263,
-    "ctr": 4.25,
-    "clicks": 14,
-    "atc": 4,
-    "pur": 2,
-    "rev": 183200,
-    "roas": 5.05
-   },
-   {
-    "name": "260909_224_ypd_혼나야함_T(가성비)",
-    "camp": "fb_OE_cbo_06(asc)",
-    "spend": 32056,
-    "ctr": 1.95,
-    "clicks": 8,
-    "atc": 1,
-    "pur": 0,
-    "rev": 0,
-    "roas": 0.0
+    "spend": 247647,
+    "ctr": 3.25,
+    "clicks": 76,
+    "atc": 10,
+    "pur": 3,
+    "rev": 273800,
+    "roas": 1.11
    },
    {
     "name": "260910_177_pdz_사무실피는_직장인_A",
     "camp": "fb_OE_cbo_12",
-    "spend": 28510,
-    "ctr": 5.79,
-    "clicks": 12,
-    "atc": 1,
-    "pur": 0,
-    "rev": 0,
-    "roas": 0.0
+    "spend": 240458,
+    "ctr": 5.27,
+    "clicks": 107,
+    "atc": 8,
+    "pur": 1,
+    "rev": 90600,
+    "roas": 0.38
    },
    {
-    "name": "052_260904_220_HH_부하불륜_AI(스토리_정력)",
-    "camp": "fb_OE_abo_04",
-    "spend": 25127,
-    "ctr": 5.59,
-    "clicks": 21,
-    "atc": 0,
+    "name": "260909_224_ypd_혼나야함_T(가성비)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 236058,
+    "ctr": 1.86,
+    "clicks": 55,
+    "atc": 5,
     "pur": 0,
     "rev": 0,
     "roas": 0.0
@@ -25408,19 +25397,52 @@ window.OFFEGO_DAILY = {
    {
     "name": "260911_178_pdz_딱이것만_할머니_A",
     "camp": "fb_OE_cbo_12",
-    "spend": 24089,
-    "ctr": 5.42,
-    "clicks": 17,
-    "atc": 1,
-    "pur": 1,
-    "rev": 90600,
-    "roas": 3.76
+    "spend": 210798,
+    "ctr": 5.23,
+    "clicks": 154,
+    "atc": 7,
+    "pur": 5,
+    "rev": 276300,
+    "roas": 1.31
+   },
+   {
+    "name": "052_260904_220_HH_부하불륜_AI(스토리_정력)",
+    "camp": "fb_OE_abo_04",
+    "spend": 177342,
+    "ctr": 4.05,
+    "clicks": 94,
+    "atc": 3,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
    },
    {
     "name": "260825_205_nsw_잘만들어_AN(가성비)",
     "camp": "fb_OE_cbo_02(asc)",
-    "spend": 12008,
-    "ctr": 2.58,
+    "spend": 46996,
+    "ctr": 4.94,
+    "clicks": 22,
+    "atc": 5,
+    "pur": 1,
+    "rev": 113500,
+    "roas": 2.42
+   },
+   {
+    "name": "260904_226_ypd_복귀이벤트_T(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 42542,
+    "ctr": 3.38,
+    "clicks": 19,
+    "atc": 3,
+    "pur": 1,
+    "rev": 90600,
+    "roas": 2.13
+   },
+   {
+    "name": "260908_228_on_돈많아_T(가성비)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 35986,
+    "ctr": 1.02,
     "clicks": 4,
     "atc": 0,
     "pur": 0,
@@ -25428,23 +25450,12 @@ window.OFFEGO_DAILY = {
     "roas": 0.0
    },
    {
-    "name": "260904_226_ypd_복귀이벤트_T(가성비)",
-    "camp": "fb_OE_cbo_11(asc)",
-    "spend": 5942,
-    "ctr": 5.19,
-    "clicks": 3,
+    "name": "260826_212_ypd_30년꼴초_T(금연)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 25167,
+    "ctr": 2.38,
+    "clicks": 6,
     "atc": 1,
-    "pur": 1,
-    "rev": 90600,
-    "roas": 15.25
-   },
-   {
-    "name": "260910_139_on_불곰국도_T",
-    "camp": "fb_OE_cbo_12",
-    "spend": 3058,
-    "ctr": 5.41,
-    "clicks": 2,
-    "atc": 0,
     "pur": 0,
     "rev": 0,
     "roas": 0.0
@@ -25452,21 +25463,21 @@ window.OFFEGO_DAILY = {
    {
     "name": "260904_221_pdz_페로몬_AI(이성)",
     "camp": "fb_OE_cbo_11(asc)",
-    "spend": 1865,
-    "ctr": 0.0,
-    "clicks": 0,
+    "spend": 14623,
+    "ctr": 1.1,
+    "clicks": 2,
     "atc": 0,
     "pur": 0,
     "rev": 0,
     "roas": 0.0
    },
    {
-    "name": "260908_228_on_돈많아_T(가성비)",
-    "camp": "fb_OE_cbo_06(asc)",
-    "spend": 931,
-    "ctr": 9.09,
-    "clicks": 1,
-    "atc": 0,
+    "name": "260910_139_on_불곰국도_T",
+    "camp": "fb_OE_cbo_12",
+    "spend": 11591,
+    "ctr": 3.23,
+    "clicks": 6,
+    "atc": 1,
     "pur": 0,
     "rev": 0,
     "roas": 0.0
@@ -25474,7 +25485,51 @@ window.OFFEGO_DAILY = {
    {
     "name": "260908_232_ypd_더심해_T(눈치)",
     "camp": "fb_OE_cbo_02(asc)",
-    "spend": 776,
+    "spend": 7819,
+    "ctr": 3.45,
+    "clicks": 2,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260803_165_JW_셔틀기사_AN",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 4868,
+    "ctr": 4.11,
+    "clicks": 3,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260826_208_JY_한달10만원_A(가성비)",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 4051,
+    "ctr": 11.11,
+    "clicks": 2,
+    "atc": 0,
+    "pur": 1,
+    "rev": 90600,
+    "roas": 22.36
+   },
+   {
+    "name": "260826_213_ypd_호구속출_T(가성비)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 3793,
+    "ctr": 10.71,
+    "clicks": 3,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260807_148_nsw_다써봤어_AN",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 3748,
     "ctr": 0.0,
     "clicks": 0,
     "atc": 0,
@@ -25485,9 +25540,9 @@ window.OFFEGO_DAILY = {
    {
     "name": "260910_169_pdz_유니콘_T",
     "camp": "fb_OE_cbo_12",
-    "spend": 757,
-    "ctr": 7.14,
-    "clicks": 1,
+    "spend": 3734,
+    "ctr": 8.64,
+    "clicks": 11,
     "atc": 0,
     "pur": 0,
     "rev": 0,
@@ -25496,20 +25551,31 @@ window.OFFEGO_DAILY = {
    {
     "name": "260910_167_on_그지경_T",
     "camp": "fb_OE_cbo_12",
-    "spend": 736,
-    "ctr": 0.0,
-    "clicks": 0,
+    "spend": 2027,
+    "ctr": 5.88,
+    "clicks": 3,
     "atc": 0,
     "pur": 0,
     "rev": 0,
     "roas": 0.0
    },
    {
-    "name": "260826_212_ypd_30년꼴초_T(금연)",
+    "name": "260818_183_HH_포상휴가_TN",
     "camp": "fb_OE_cbo_06(asc)",
-    "spend": 336,
+    "spend": 1943,
+    "ctr": 16.67,
+    "clicks": 2,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260820_190_HH_가족그림_TN(쉬운금연)",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 1049,
     "ctr": 0.0,
-    "clicks": 0,
+    "clicks": 1,
     "atc": 0,
     "pur": 0,
     "rev": 0,
@@ -25518,7 +25584,7 @@ window.OFFEGO_DAILY = {
    {
     "name": "260813_197_nsw_바꿔뽀뽀_AN",
     "camp": "fb_OE_cbo_02(asc)",
-    "spend": 208,
+    "spend": 973,
     "ctr": 0.0,
     "clicks": 0,
     "atc": 0,
@@ -25527,9 +25593,53 @@ window.OFFEGO_DAILY = {
     "roas": 0.0
    },
    {
-    "name": "260807_148_nsw_다써봤어_AN",
-    "camp": "fb_OE_cbo_02(asc)",
-    "spend": 147,
+    "name": "260904_227_ypd_거지방_T(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 859,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260801_107_nsw_전쟁통_AN",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 485,
+    "ctr": 6.25,
+    "clicks": 1,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260727_90_JY_연초금지도시_유럽여행_AI",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 390,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260907_223_on_차원이달라병_T(비교)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 174,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260904_222_HH_구만구천_A(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 112,
     "ctr": 0.0,
     "clicks": 0,
     "atc": 0,
@@ -25560,9 +25670,272 @@ window.OFFEGO_DAILY = {
     "roas": 0.0
    },
    {
-    "name": "260826_213_ypd_호구속출_T(가성비)",
+    "name": "260820_175_on_군하극상_TN",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 41,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   }
+  ],
+  "ages": [
+   {
+    "age": "18-24",
+    "atc": 2,
+    "pur": 2
+   },
+   {
+    "age": "25-34",
+    "atc": 19,
+    "pur": 6
+   },
+   {
+    "age": "35-44",
+    "atc": 13,
+    "pur": 4
+   },
+   {
+    "age": "45-54",
+    "atc": 17,
+    "pur": 6
+   },
+   {
+    "age": "55-64",
+    "atc": 14,
+    "pur": 4
+   },
+   {
+    "age": "65+",
+    "atc": 0,
+    "pur": 0
+   },
+   {
+    "age": "Unknown",
+    "atc": 0,
+    "pur": 0
+   }
+  ],
+  "c24": {
+   "sales": 4103000,
+   "orders": 58,
+   "qty": 245,
+   "aov": 70741,
+   "refund": 366400
+  },
+  "updated": "2026-09-14 08:00"
+ },
+ "2026-09-14": {
+  "meta": {
+   "spend": 299310,
+   "impr": 3984,
+   "reach": 2776,
+   "clicks": 143,
+   "ctr": 3.59,
+   "cpc": 2093,
+   "atc": 9,
+   "ic": 7,
+   "reg": 9,
+   "lpv": 132,
+   "pur": 2,
+   "rev": 162800,
+   "roas": 0.54,
+   "cpa": 149655
+  },
+  "creatives": [
+   {
+    "name": "260904_230_nsw_돈많아_AN(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 64182,
+    "ctr": 4.34,
+    "clicks": 30,
+    "atc": 2,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260908_231_nsw_만든사람_AN(가성비)",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 43762,
+    "ctr": 3.42,
+    "clicks": 16,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260911_178_pdz_딱이것만_할머니_A",
+    "camp": "fb_OE_cbo_12",
+    "spend": 41567,
+    "ctr": 4.3,
+    "clicks": 26,
+    "atc": 2,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "048_260821_199_on_구만구천_T(가성비)",
+    "camp": "fb_OE_abo_04",
+    "spend": 37316,
+    "ctr": 2.58,
+    "clicks": 23,
+    "atc": 1,
+    "pur": 1,
+    "rev": 49300,
+    "roas": 1.32
+   },
+   {
+    "name": "260909_224_ypd_혼나야함_T(가성비)",
     "camp": "fb_OE_cbo_06(asc)",
-    "spend": 40,
+    "spend": 26361,
+    "ctr": 2.6,
+    "clicks": 8,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260910_177_pdz_사무실피는_직장인_A",
+    "camp": "fb_OE_cbo_12",
+    "spend": 24621,
+    "ctr": 5.86,
+    "clicks": 17,
+    "atc": 3,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "052_260904_220_HH_부하불륜_AI(스토리_정력)",
+    "camp": "fb_OE_abo_04",
+    "spend": 18024,
+    "ctr": 3.86,
+    "clicks": 8,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260904_226_ypd_복귀이벤트_T(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 12210,
+    "ctr": 1.67,
+    "clicks": 1,
+    "atc": 1,
+    "pur": 1,
+    "rev": 113500,
+    "roas": 9.3
+   },
+   {
+    "name": "260908_228_on_돈많아_T(가성비)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 11567,
+    "ctr": 3.6,
+    "clicks": 3,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260826_212_ypd_30년꼴초_T(금연)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 8923,
+    "ctr": 5.75,
+    "clicks": 5,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260825_205_nsw_잘만들어_AN(가성비)",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 2903,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260803_165_JW_셔틀기사_AN",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 2447,
+    "ctr": 21.43,
+    "clicks": 2,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260908_229_ypd_지구한바퀴_T(눈치)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 1324,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260910_139_on_불곰국도_T",
+    "camp": "fb_OE_cbo_12",
+    "spend": 916,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260807_148_nsw_다써봤어_AN",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 828,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260820_190_HH_가족그림_TN(쉬운금연)",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 677,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260904_221_pdz_페로몬_AI(이성)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 543,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260908_232_ypd_더심해_T(눈치)",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 524,
     "ctr": 0.0,
     "clicks": 0,
     "atc": 0,
@@ -25573,7 +25946,51 @@ window.OFFEGO_DAILY = {
    {
     "name": "260826_208_JY_한달10만원_A(가성비)",
     "camp": "fb_OE_cbo_02(asc)",
-    "spend": 10,
+    "spend": 285,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260910_167_on_그지경_T",
+    "camp": "fb_OE_cbo_12",
+    "spend": 238,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260725_74_HH_하루비교_AN",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 70,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260818_183_HH_포상휴가_TN",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 14,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260813_197_nsw_바꿔뽀뽀_AN",
+    "camp": "fb_OE_cbo_02(asc)",
+    "spend": 8,
     "ctr": 0.0,
     "clicks": 0,
     "atc": 0,
@@ -25595,38 +26012,33 @@ window.OFFEGO_DAILY = {
    },
    {
     "age": "35-44",
-    "atc": 5,
-    "pur": 3
+    "atc": 4,
+    "pur": 1
    },
    {
     "age": "45-54",
-    "atc": 3,
-    "pur": 2
+    "atc": 0,
+    "pur": 0
    },
    {
     "age": "55-64",
-    "atc": 0,
+    "atc": 4,
     "pur": 0
    },
    {
     "age": "65+",
     "atc": 0,
     "pur": 0
-   },
-   {
-    "age": "Unknown",
-    "atc": 0,
-    "pur": 0
    }
   ],
   "c24": {
-   "sales": 1159400,
-   "orders": 15,
-   "qty": 67,
-   "aov": 77293,
-   "refund": 90600
+   "sales": 395300,
+   "orders": 5,
+   "qty": 20,
+   "aov": 79060,
+   "refund": 0
   },
-  "updated": "2026-09-13 08:00"
+  "updated": "2026-09-14 08:00"
  }
 };
-window.OFFEGO_UPDATED = "2026-09-13 08:00";
+window.OFFEGO_UPDATED = "2026-09-14 08:00";

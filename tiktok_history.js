@@ -58438,7 +58438,7 @@ window.TIKTOK_HISTORY = {
   },
   "2026-09-13": {
     "outcoma": {
-      "scraped_at": "2026-09-14 07:32",
+      "scraped_at": "2026-09-14 08:02",
       "summary": {
         "spend": 1475423,
         "revenue": 75186,
@@ -58681,11 +58681,11 @@ window.TIKTOK_HISTORY = {
           "roas": 0.05,
           "cpc": 20379,
           "ctr": 0.0,
-          "clicks": 12,
+          "clicks": 13,
           "impressions": 355,
           "cpm": 723,
           "conversions": 6,
-          "cvr": 12.0
+          "cvr": 13.0
         },
         {
           "name": "310_260910_HH_홈쇼핑2_AI",
@@ -58915,23 +58915,23 @@ window.TIKTOK_HISTORY = {
   },
   "2026-09-14": {
     "outcoma": {
-      "scraped_at": "2026-09-14 07:33",
+      "scraped_at": "2026-09-14 08:03",
       "summary": {
-        "spend": 439408,
-        "revenue": 43545,
-        "roas": 0.1
+        "spend": 494474,
+        "revenue": 43123,
+        "roas": 0.09
       },
       "campaigns": [
         {
           "name": "tk_do_spc_308",
           "status": "active",
           "budget": 800000,
-          "cpa": 181692,
-          "spend": 181692,
-          "revenue": 21492,
-          "roas": 8454.0,
-          "cpc": 543,
-          "ctr": 6.42,
+          "cpa": 200963,
+          "spend": 200963,
+          "revenue": 21438,
+          "roas": 9374.0,
+          "cpc": 603,
+          "ctr": 6.43,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -58941,12 +58941,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_do_spc_304",
           "status": "active",
           "budget": 1000000,
-          "cpa": 257716,
-          "spend": 257716,
-          "revenue": 22053,
-          "roas": 11686.0,
-          "cpc": 1205,
-          "ctr": 10.31,
+          "cpa": 293511,
+          "spend": 293511,
+          "revenue": 21685,
+          "roas": 13535.0,
+          "cpc": 1491,
+          "ctr": 11.02,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
