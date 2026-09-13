@@ -57961,29 +57961,13 @@ window.TIKTOK_HISTORY = {
   },
   "2026-09-12": {
     "outcoma": {
-      "scraped_at": "2026-09-13 16:02",
+      "scraped_at": "2026-09-13 16:32",
       "summary": {
-        "spend": 2460459,
-        "revenue": 126410,
+        "spend": 1876602,
+        "revenue": 103141,
         "roas": 0.05
       },
       "campaigns": [
-        {
-          "name": "tk_do_spc_310",
-          "status": "active",
-          "budget": 700000,
-          "cpa": 583857,
-          "spend": 583857,
-          "revenue": 23269,
-          "roas": 32.82,
-          "cpc": 823,
-          "ctr": 0.08,
-          "clicks": 32437,
-          "impressions": 18,
-          "cpm": 354,
-          "conversions": 0,
-          "cvr": 0.0
-        },
         {
           "name": "tk_do_spc_308",
           "status": "active",
@@ -58209,22 +58193,6 @@ window.TIKTOK_HISTORY = {
           "cpm": 13,
           "conversions": 0,
           "cvr": 0.0
-        },
-        {
-          "name": "310_260910_HH_옷늘어나_AI(스토리)",
-          "campaign": "",
-          "status": "active",
-          "cpa": 1875924742169665,
-          "spend": 46606,
-          "revenue": 19517,
-          "roas": 0.42,
-          "cpc": 2388,
-          "ctr": 0.0,
-          "clicks": 1,
-          "impressions": 348,
-          "cpm": 83,
-          "conversions": 4,
-          "cvr": 1.0
         },
         {
           "name": "310_260910_HA_알바유니폼_AI(스토리)",
@@ -58470,38 +58438,23 @@ window.TIKTOK_HISTORY = {
   },
   "2026-09-13": {
     "outcoma": {
-      "scraped_at": "2026-09-13 16:03",
+      "scraped_at": "2026-09-13 16:33",
       "summary": {
-        "spend": 1225814,
-        "revenue": 61093,
+        "spend": 872222,
+        "revenue": 40025,
         "roas": 0.05
       },
       "campaigns": [
         {
-          "name": "tk_do_spc_310",
-          "status": "active",
-          "budget": 700000,
-          "cpa": 386095,
-          "spend": 386095,
-          "revenue": 21004,
-          "roas": 18382.0,
-          "cpc": 1715,
-          "ctr": 9.33,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 309
-        },
-        {
           "name": "tk_do_spc_308",
           "status": "active",
           "budget": 800000,
-          "cpa": 364317,
-          "spend": 364317,
-          "revenue": 23175,
-          "roas": 15720.0,
-          "cpc": 757,
-          "ctr": 4.82,
+          "cpa": 380325,
+          "spend": 380325,
+          "revenue": 23140,
+          "roas": 16436.0,
+          "cpc": 781,
+          "ctr": 4.75,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -58511,12 +58464,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_do_spc_304",
           "status": "active",
           "budget": 1000000,
-          "cpa": 475402,
-          "spend": 475402,
-          "revenue": 16914,
-          "roas": 28107.0,
-          "cpc": 5421,
-          "ctr": 19.29,
+          "cpa": 491897,
+          "spend": 491897,
+          "revenue": 16885,
+          "roas": 29132.0,
+          "cpc": 5575,
+          "ctr": 19.14,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
