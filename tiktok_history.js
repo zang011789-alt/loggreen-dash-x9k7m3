@@ -62425,7 +62425,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-22 19:09",
+      "scraped_at": "2026-09-22 19:39",
       "summary": {
         "spend": 1037100,
         "revenue": 33522,
@@ -62450,7 +62450,7 @@ window.TIKTOK_HISTORY = {
         {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
-          "budget": 200000,
+          "budget": 1,
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
@@ -62460,7 +62460,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 32
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_032",
@@ -62646,7 +62646,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-09-22 19:05",
+      "scraped_at": "2026-09-22 19:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -62925,23 +62925,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-22 19:11",
+      "scraped_at": "2026-09-22 19:41",
       "summary": {
-        "spend": 689102,
-        "revenue": 102218,
-        "roas": 0.15
+        "spend": 739793,
+        "revenue": 66951,
+        "roas": 0.09
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 200000,
-          "cpa": 111991,
-          "spend": 111991,
-          "revenue": 23163,
-          "roas": 4835.0,
-          "cpc": 196,
-          "ctr": 4.05,
+          "cpa": 119997,
+          "spend": 119997,
+          "revenue": 22632,
+          "roas": 5302.0,
+          "cpc": 213,
+          "ctr": 4.02,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -62950,27 +62950,27 @@ window.TIKTOK_HISTORY = {
         {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
-          "budget": 200000,
-          "cpa": 78853,
-          "spend": 78853,
-          "revenue": 35424,
-          "roas": 2226.0,
-          "cpc": 125,
-          "ctr": 5.62,
+          "budget": 1,
+          "cpa": 0,
+          "spend": 108564,
+          "revenue": 658,
+          "roas": 32504.0,
+          "cpc": 3340,
+          "ctr": 165.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 32
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_032",
           "status": "active",
           "budget": 200000,
-          "cpa": 154760,
-          "spend": 154760,
-          "revenue": 8822,
-          "roas": 17543.0,
-          "cpc": 1098,
+          "cpa": 157439,
+          "spend": 157439,
+          "revenue": 8830,
+          "roas": 17830.0,
+          "cpc": 1116,
           "ctr": 6.26,
           "clicks": 0,
           "impressions": 0,
@@ -63011,12 +63011,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 250000,
-          "cpa": 116206,
-          "spend": 116206,
-          "revenue": 14077,
-          "roas": 8255.0,
-          "cpc": 853,
-          "ctr": 10.33,
+          "cpa": 118654,
+          "spend": 118654,
+          "revenue": 14099,
+          "roas": 8416.0,
+          "cpc": 878,
+          "ctr": 10.43,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -63027,13 +63027,13 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 177348,
+          "spend": 185195,
           "revenue": 0,
-          "roas": 177348.0,
-          "cpc": 102,
+          "roas": 185195.0,
+          "cpc": 103,
           "ctr": 0.0,
           "clicks": 2,
-          "impressions": 88674,
+          "impressions": 92598,
           "cpm": 1,
           "conversions": 0
         },
@@ -63146,7 +63146,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-09-22 19:07",
+      "scraped_at": "2026-09-22 19:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
