@@ -63425,7 +63425,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-09-24 12:35",
+      "scraped_at": "2026-09-24 13:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -63541,11 +63541,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-24 12:39",
+      "scraped_at": "2026-09-24 13:09",
       "summary": {
         "spend": 1406179,
-        "revenue": 23235,
-        "roas": 0.02
+        "revenue": 36367,
+        "roas": 0.03
       },
       "campaigns": [
         {
@@ -63566,17 +63566,17 @@ window.TIKTOK_HISTORY = {
         {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
-          "budget": 1,
-          "cpa": 0,
+          "budget": 200000,
+          "cpa": 219553,
           "spend": 219553,
-          "revenue": 437,
-          "roas": 13569.0,
-          "cpc": 16180,
-          "ctr": 502.0,
-          "clicks": 2,
+          "revenue": 13569,
+          "roas": 16180.0,
+          "cpc": 502,
+          "ctr": 3.1,
+          "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 32
         },
         {
           "name": "tk_kd_spc_032",
@@ -63925,7 +63925,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-09-24 12:37",
+      "scraped_at": "2026-09-24 13:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -64041,11 +64041,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-09-24 12:41",
+      "scraped_at": "2026-09-24 13:11",
       "summary": {
-        "spend": 462669,
-        "revenue": 16960,
-        "roas": 0.04
+        "spend": 488783,
+        "revenue": 29808,
+        "roas": 0.06
       },
       "campaigns": [
         {
@@ -64053,11 +64053,11 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 1,
           "cpa": 0,
-          "spend": 72651,
-          "revenue": 158,
-          "roas": 13585.0,
-          "cpc": 5348,
-          "ctr": 461.0,
+          "spend": 77612,
+          "revenue": 150,
+          "roas": 13542.0,
+          "cpc": 5731,
+          "ctr": 516.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -64066,28 +64066,28 @@ window.TIKTOK_HISTORY = {
         {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
-          "budget": 1,
-          "cpa": 0,
-          "spend": 75202,
-          "revenue": 258,
-          "roas": 13448.0,
-          "cpc": 5592,
-          "ctr": 291.0,
+          "budget": 200000,
+          "cpa": 80127,
+          "spend": 80127,
+          "revenue": 13142,
+          "roas": 6097.0,
+          "cpc": 313,
+          "ctr": 5.13,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 32
         },
         {
           "name": "tk_kd_spc_032",
           "status": "active",
           "budget": 200000,
-          "cpa": 93587,
-          "spend": 93587,
-          "revenue": 7885,
-          "roas": 11869.0,
-          "cpc": 1406,
-          "ctr": 11.85,
+          "cpa": 97821,
+          "spend": 97821,
+          "revenue": 7850,
+          "roas": 12462.0,
+          "cpc": 1468,
+          "ctr": 11.78,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -64127,12 +64127,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 250000,
-          "cpa": 91173,
-          "spend": 91173,
-          "revenue": 8659,
-          "roas": 10529.0,
-          "cpc": 1502,
-          "ctr": 14.27,
+          "cpa": 97647,
+          "spend": 97647,
+          "revenue": 8666,
+          "roas": 11268.0,
+          "cpc": 1595,
+          "ctr": 14.16,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -64143,13 +64143,13 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 130056,
+          "spend": 135576,
           "revenue": 0,
-          "roas": 130056.0,
+          "roas": 135576.0,
           "cpc": 55,
           "ctr": 0.0,
           "clicks": 1,
-          "impressions": 130056,
+          "impressions": 135576,
           "cpm": 1,
           "conversions": 0
         },
