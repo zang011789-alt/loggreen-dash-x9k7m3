@@ -67395,7 +67395,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-02 00:35",
+      "scraped_at": "2026-10-02 01:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -67511,7 +67511,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-02 00:39",
+      "scraped_at": "2026-10-02 01:09",
       "summary": {
         "spend": 858930,
         "revenue": 69620,
@@ -67895,7 +67895,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-02 00:37",
+      "scraped_at": "2026-10-02 01:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -68011,23 +68011,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-02 00:41",
+      "scraped_at": "2026-10-02 01:11",
       "summary": {
-        "spend": 17119,
-        "revenue": 46995,
-        "roas": 2.75
+        "spend": 27203,
+        "revenue": 49139,
+        "roas": 1.81
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 200000,
-          "cpa": 3036,
-          "spend": 3036,
-          "revenue": 11953,
-          "roas": 254.0,
-          "cpc": 12,
-          "ctr": 4.72,
+          "cpa": 4838,
+          "spend": 4838,
+          "revenue": 12971,
+          "roas": 373.0,
+          "cpc": 18,
+          "ctr": 4.83,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -68037,12 +68037,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
           "budget": 200000,
-          "cpa": 1544,
-          "spend": 1544,
-          "revenue": 10092,
-          "roas": 153.0,
-          "cpc": 8,
-          "ctr": 5.23,
+          "cpa": 4022,
+          "spend": 4022,
+          "revenue": 11019,
+          "roas": 365.0,
+          "cpc": 16,
+          "ctr": 4.38,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -68052,12 +68052,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_032",
           "status": "active",
           "budget": 200000,
-          "cpa": 3488,
-          "spend": 3488,
-          "revenue": 9609,
-          "roas": 363.0,
-          "cpc": 33,
-          "ctr": 9.09,
+          "cpa": 7078,
+          "spend": 7078,
+          "revenue": 11896,
+          "roas": 595.0,
+          "cpc": 46,
+          "ctr": 7.73,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -68097,12 +68097,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 250000,
-          "cpa": 9051,
-          "spend": 9051,
-          "revenue": 15341,
-          "roas": 590.0,
-          "cpc": 48,
-          "ctr": 8.14,
+          "cpa": 11265,
+          "spend": 11265,
+          "revenue": 13253,
+          "roas": 850.0,
+          "cpc": 68,
+          "ctr": 8.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
