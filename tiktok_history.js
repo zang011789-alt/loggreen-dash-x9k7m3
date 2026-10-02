@@ -67395,7 +67395,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-02 09:35",
+      "scraped_at": "2026-10-02 10:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
