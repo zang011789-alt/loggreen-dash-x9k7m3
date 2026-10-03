@@ -68275,7 +68275,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-04 00:06",
+      "scraped_at": "2026-10-04 00:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -68391,7 +68391,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-04 00:09",
+      "scraped_at": "2026-10-04 00:39",
       "summary": {
         "spend": 549976,
         "revenue": 38049,
@@ -68670,7 +68670,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-04 00:07",
+      "scraped_at": "2026-10-04 00:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -68786,23 +68786,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-04 00:11",
+      "scraped_at": "2026-10-04 00:41",
       "summary": {
-        "spend": 1,
-        "revenue": 1000,
-        "roas": 1000.0
+        "spend": 1161,
+        "revenue": 42506,
+        "roas": 36.61
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 200000,
-          "cpa": 1,
-          "spend": 1,
-          "revenue": 1000,
-          "roas": 1.0,
-          "cpc": 0,
-          "ctr": 0.0,
+          "cpa": 379,
+          "spend": 379,
+          "revenue": 14577,
+          "roas": 26.0,
+          "cpc": 2,
+          "ctr": 7.69,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -68842,12 +68842,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 0,
-          "spend": 0,
-          "revenue": 0,
-          "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
+          "cpa": 782,
+          "spend": 782,
+          "revenue": 27929,
+          "roas": 28.0,
+          "cpc": 4,
+          "ctr": 14.29,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
