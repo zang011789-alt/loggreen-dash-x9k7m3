@@ -68275,7 +68275,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-04 00:35",
+      "scraped_at": "2026-10-04 01:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -68391,7 +68391,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-04 00:39",
+      "scraped_at": "2026-10-04 01:09",
       "summary": {
         "spend": 549976,
         "revenue": 38049,
@@ -68670,7 +68670,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-04 00:37",
+      "scraped_at": "2026-10-04 01:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -68786,23 +68786,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-04 00:41",
+      "scraped_at": "2026-10-04 01:11",
       "summary": {
-        "spend": 1161,
-        "revenue": 42506,
-        "roas": 36.61
+        "spend": 2679,
+        "revenue": 26325,
+        "roas": 9.83
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 200000,
-          "cpa": 379,
-          "spend": 379,
-          "revenue": 14577,
-          "roas": 26.0,
+          "cpa": 1189,
+          "spend": 1189,
+          "revenue": 14500,
+          "roas": 82.0,
           "cpc": 2,
-          "ctr": 7.69,
+          "ctr": 2.44,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -68842,12 +68842,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 782,
-          "spend": 782,
-          "revenue": 27929,
-          "roas": 28.0,
-          "cpc": 4,
-          "ctr": 14.29,
+          "cpa": 1490,
+          "spend": 1490,
+          "revenue": 11825,
+          "roas": 126.0,
+          "cpc": 15,
+          "ctr": 11.9,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
