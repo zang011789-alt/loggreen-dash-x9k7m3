@@ -68189,36 +68189,36 @@ window.TIKTOK_HISTORY = {
   },
   "2026-10-03": {
     "outcoma": {
-      "scraped_at": "2026-10-04 00:02",
+      "scraped_at": "2026-10-04 00:32",
       "summary": {
-        "spend": 1220778,
-        "revenue": 639673,
-        "roas": 0.52
+        "spend": 1241480,
+        "revenue": 51833,
+        "roas": 0.04
       },
       "campaigns": [
         {
-          "name": "tk_do_spc_309",
+          "name": "tk_do_spc_308",
           "status": "active",
-          "budget": 0,
-          "cpa": 700000,
-          "spend": 700000,
-          "revenue": 616944,
-          "roas": 174.0,
-          "cpc": 20327,
-          "ctr": 0.0,
-          "clicks": 88135,
-          "impressions": 2,
+          "budget": 900000,
+          "cpa": 720410,
+          "spend": 720410,
+          "revenue": 29103,
+          "roas": 24754.0,
+          "cpc": 1547,
+          "ctr": 6.25,
+          "clicks": 0,
+          "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 307
         },
         {
           "name": "tk_do_spc_307",
           "status": "active",
           "budget": 700000,
-          "cpa": 520778,
-          "spend": 520778,
-          "revenue": 22729,
-          "roas": 22912.0,
+          "cpa": 521070,
+          "spend": 521070,
+          "revenue": 22730,
+          "roas": 22924.0,
           "cpc": 2021,
           "ctr": 8.82,
           "clicks": 0,
@@ -68584,13 +68584,43 @@ window.TIKTOK_HISTORY = {
   },
   "2026-10-04": {
     "outcoma": {
-      "scraped_at": "2026-10-04 00:04",
+      "scraped_at": "2026-10-04 00:33",
       "summary": {
-        "spend": 0,
-        "revenue": 0,
-        "roas": 0
+        "spend": 105,
+        "revenue": 13125,
+        "roas": 125.0
       },
       "campaigns": [
+        {
+          "name": "tk_do_spc_308",
+          "status": "active",
+          "budget": 900000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 307
+        },
+        {
+          "name": "tk_do_spc_307",
+          "status": "active",
+          "budget": 700000,
+          "cpa": 105,
+          "spend": 105,
+          "revenue": 13125,
+          "roas": 8.0,
+          "cpc": 1,
+          "ctr": 12.5,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 306
+        },
         {
           "name": "tk_do_spc_303",
           "status": "paused",
