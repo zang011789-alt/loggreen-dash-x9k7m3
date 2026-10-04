@@ -68320,7 +68320,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-04 18:36",
+      "scraped_at": "2026-10-04 19:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -68436,7 +68436,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-04 18:39",
+      "scraped_at": "2026-10-04 19:09",
       "summary": {
         "spend": 549976,
         "revenue": 38049,
@@ -68760,7 +68760,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "offego": {
-      "scraped_at": "2026-10-04 18:37",
+      "scraped_at": "2026-10-04 19:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -68876,23 +68876,23 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-04 18:41",
+      "scraped_at": "2026-10-04 19:11",
       "summary": {
-        "spend": 337153,
-        "revenue": 36437,
-        "roas": 0.11
+        "spend": 349698,
+        "revenue": 36436,
+        "roas": 0.1
       },
       "campaigns": [
         {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 200000,
-          "cpa": 114046,
-          "spend": 114046,
-          "revenue": 22800,
-          "roas": 5002.0,
-          "cpc": 130,
-          "ctr": 2.6,
+          "cpa": 118135,
+          "spend": 118135,
+          "revenue": 22810,
+          "roas": 5179.0,
+          "cpc": 131,
+          "ctr": 2.53,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -68932,12 +68932,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 223107,
-          "spend": 223107,
-          "revenue": 13637,
-          "roas": 16361.0,
-          "cpc": 1990,
-          "ctr": 12.16,
+          "cpa": 231563,
+          "spend": 231563,
+          "revenue": 13626,
+          "roas": 16994.0,
+          "cpc": 2047,
+          "ctr": 12.05,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
