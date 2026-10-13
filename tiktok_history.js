@@ -73552,7 +73552,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-13 17:35",
+      "scraped_at": "2026-10-13 18:05",
       "summary": {
         "spend": 375000,
         "revenue": 13880,
@@ -73572,7 +73572,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 6
         },
         {
           "name": "tk_oe_spc_06",
@@ -73587,7 +73587,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 5
         },
         {
           "name": "tk_oe_spc_05",
@@ -73602,7 +73602,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 4
         },
         {
           "name": "tk_oe_spc_04",
@@ -73617,7 +73617,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 3
         },
         {
           "name": "tk_oe_spc_03",
@@ -73632,7 +73632,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 2
         },
         {
           "name": "tk_oe_spc_02(자동게재)",
@@ -73647,7 +73647,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 2
         },
         {
           "name": "tk_oe_spc_02",
@@ -73662,7 +73662,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 1
         },
         {
           "name": "tk_oe_spc_01",
@@ -73677,13 +73677,13 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 7
         }
       ],
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-13 17:39",
+      "scraped_at": "2026-10-13 18:09",
       "summary": {
         "spend": 428104,
         "revenue": 51421,
@@ -74848,10 +74848,10 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-13 17:37",
+      "scraped_at": "2026-10-13 18:07",
       "summary": {
-        "spend": 195627,
-        "revenue": 12533,
+        "spend": 206952,
+        "revenue": 13027,
         "roas": 0.06
       },
       "campaigns": [
@@ -74859,12 +74859,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_oe_spc_07",
           "status": "active",
           "budget": 300000,
-          "cpa": 195627,
-          "spend": 195627,
-          "revenue": 12533,
-          "roas": 15609.0,
-          "cpc": 869,
-          "ctr": 5.57,
+          "cpa": 206952,
+          "spend": 206952,
+          "revenue": 13027,
+          "roas": 15887.0,
+          "cpc": 902,
+          "ctr": 5.68,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -74979,10 +74979,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-13 17:41",
+      "scraped_at": "2026-10-13 18:11",
       "summary": {
-        "spend": 159198,
-        "revenue": 11121,
+        "spend": 165701,
+        "revenue": 11343,
         "roas": 0.07
       },
       "campaigns": [
@@ -75065,12 +75065,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 159198,
-          "spend": 159198,
-          "revenue": 11121,
-          "roas": 14315.0,
-          "cpc": 2337,
-          "ctr": 16.33,
+          "cpa": 165701,
+          "spend": 165701,
+          "revenue": 11343,
+          "roas": 14608.0,
+          "cpc": 2392,
+          "ctr": 16.37,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
