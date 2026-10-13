@@ -73552,7 +73552,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-13 11:35",
+      "scraped_at": "2026-10-13 12:05",
       "summary": {
         "spend": 375000,
         "revenue": 13880,
@@ -73677,13 +73677,13 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 6
+          "conversions": 7
         }
       ],
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-13 11:39",
+      "scraped_at": "2026-10-13 12:09",
       "summary": {
         "spend": 428104,
         "revenue": 51421,
@@ -74672,23 +74672,23 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-13 11:37",
+      "scraped_at": "2026-10-13 12:07",
       "summary": {
-        "spend": 85547,
-        "revenue": 12634,
-        "roas": 0.15
+        "spend": 89561,
+        "revenue": 12425,
+        "roas": 0.14
       },
       "campaigns": [
         {
           "name": "tk_oe_spc_07",
           "status": "active",
           "budget": 300000,
-          "cpa": 85547,
-          "spend": 85547,
-          "revenue": 12634,
-          "roas": 6771.0,
-          "cpc": 320,
-          "ctr": 4.73,
+          "cpa": 89561,
+          "spend": 89561,
+          "revenue": 12425,
+          "roas": 7208.0,
+          "cpc": 336,
+          "ctr": 4.66,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -74797,16 +74797,16 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 6
+          "conversions": 7
         }
       ],
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-13 11:41",
+      "scraped_at": "2026-10-13 12:11",
       "summary": {
-        "spend": 82535,
-        "revenue": 8448,
+        "spend": 88143,
+        "revenue": 8611,
         "roas": 0.1
       },
       "campaigns": [
@@ -74889,12 +74889,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 82535,
-          "spend": 82535,
-          "revenue": 8448,
-          "roas": 9770.0,
-          "cpc": 1625,
-          "ctr": 16.63,
+          "cpa": 88143,
+          "spend": 88143,
+          "revenue": 8611,
+          "roas": 10236.0,
+          "cpc": 1701,
+          "ctr": 16.62,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
