@@ -78056,7 +78056,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-17 00:05",
+      "scraped_at": "2026-10-17 00:35",
       "summary": {
         "spend": 375000,
         "revenue": 17883,
@@ -78187,7 +78187,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-17 00:09",
+      "scraped_at": "2026-10-17 00:39",
       "summary": {
         "spend": 228840,
         "revenue": 13419,
@@ -79002,23 +79002,23 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-17 00:07",
+      "scraped_at": "2026-10-17 00:37",
       "summary": {
-        "spend": 54,
-        "revenue": 10800,
-        "roas": 200.0
+        "spend": 2098,
+        "revenue": 9450,
+        "roas": 4.5
       },
       "campaigns": [
         {
           "name": "tk_oe_spc_07",
           "status": "active",
           "budget": 300000,
-          "cpa": 54,
-          "spend": 54,
-          "revenue": 10800,
-          "roas": 5.0,
-          "cpc": 0,
-          "ctr": 0.0,
+          "cpa": 2098,
+          "spend": 2098,
+          "revenue": 9450,
+          "roas": 222.0,
+          "cpc": 10,
+          "ctr": 4.5,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -79133,11 +79133,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-17 00:11",
+      "scraped_at": "2026-10-17 00:41",
       "summary": {
-        "spend": 0,
-        "revenue": 0,
-        "roas": 0
+        "spend": 212,
+        "revenue": 53000,
+        "roas": 250.0
       },
       "campaigns": [
         {
@@ -79219,10 +79219,10 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 300000,
-          "cpa": 0,
-          "spend": 0,
-          "revenue": 0,
-          "roas": 0.0,
+          "cpa": 212,
+          "spend": 212,
+          "revenue": 53000,
+          "roas": 4.0,
           "cpc": 0,
           "ctr": 0.0,
           "clicks": 0,
