@@ -82718,7 +82718,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-22 08:05",
+      "scraped_at": "2026-10-22 08:35",
       "summary": {
         "spend": 374215,
         "revenue": 13279,
@@ -82849,7 +82849,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-22 08:09",
+      "scraped_at": "2026-10-22 08:39",
       "summary": {
         "spend": 247534,
         "revenue": 14183,
@@ -83666,23 +83666,23 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-22 08:07",
+      "scraped_at": "2026-10-22 08:37",
       "summary": {
-        "spend": 67629,
-        "revenue": 8864,
-        "roas": 0.13
+        "spend": 72745,
+        "revenue": 8773,
+        "roas": 0.12
       },
       "campaigns": [
         {
           "name": "tk_oe_spc_07",
           "status": "active",
           "budget": 300000,
-          "cpa": 67629,
-          "spend": 67629,
-          "revenue": 8864,
-          "roas": 7630.0,
-          "cpc": 831,
-          "ctr": 10.89,
+          "cpa": 72745,
+          "spend": 72745,
+          "revenue": 8773,
+          "roas": 8292.0,
+          "cpc": 905,
+          "ctr": 10.91,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -83797,11 +83797,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-22 08:11",
+      "scraped_at": "2026-10-22 08:41",
       "summary": {
-        "spend": 31254,
-        "revenue": 11803,
-        "roas": 0.38
+        "spend": 33478,
+        "revenue": 11991,
+        "roas": 0.36
       },
       "campaigns": [
         {
@@ -83883,12 +83883,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 200000,
-          "cpa": 31254,
-          "spend": 31254,
-          "revenue": 11803,
-          "roas": 2648.0,
-          "cpc": 292,
-          "ctr": 11.03,
+          "cpa": 33478,
+          "spend": 33478,
+          "revenue": 11991,
+          "roas": 2792.0,
+          "cpc": 317,
+          "ctr": 11.35,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
