@@ -37684,7 +37684,7 @@ window.OFFEGO_DAILY = {
    "aov": 77039,
    "refund": 0
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261006_277_ypd_소신비추_T(종합)",
@@ -38173,7 +38173,7 @@ window.OFFEGO_DAILY = {
    "aov": 77335,
    "refund": 183200
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -38596,7 +38596,7 @@ window.OFFEGO_DAILY = {
    "aov": 67618,
    "refund": 251900
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261006_277_ypd_소신비추_T(종합)",
@@ -39002,7 +39002,7 @@ window.OFFEGO_DAILY = {
    "aov": 68120,
    "refund": 416700
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -39507,7 +39507,7 @@ window.OFFEGO_DAILY = {
    "aov": 69835,
    "refund": 386300
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -40023,7 +40023,7 @@ window.OFFEGO_DAILY = {
    "aov": 80977,
    "refund": 90600
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -40484,7 +40484,7 @@ window.OFFEGO_DAILY = {
    "aov": 72673,
    "refund": 183200
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -40873,13 +40873,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 5829100,
-   "orders": 79,
-   "qty": 305,
-   "aov": 73786,
+   "sales": 5921700,
+   "orders": 80,
+   "qty": 309,
+   "aov": 74021,
    "refund": 0
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -41318,7 +41318,7 @@ window.OFFEGO_DAILY = {
    "aov": 80804,
    "refund": 66700
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -41763,7 +41763,7 @@ window.OFFEGO_DAILY = {
    "aov": 66729,
    "refund": 939400
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -42229,13 +42229,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 7513200,
-   "orders": 116,
-   "qty": 458,
-   "aov": 64769,
+   "sales": 7539600,
+   "orders": 117,
+   "qty": 459,
+   "aov": 64441,
    "refund": 683500
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261019_261_D_사무실다큐_AI(안전성)",
@@ -42712,13 +42712,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 7843900,
-   "orders": 109,
-   "qty": 425,
-   "aov": 71962,
+   "sales": 7977300,
+   "orders": 111,
+   "qty": 432,
+   "aov": 71868,
    "refund": 137400
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -43201,13 +43201,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 7761600,
-   "orders": 100,
-   "qty": 405,
-   "aov": 77616,
+   "sales": 8011500,
+   "orders": 103,
+   "qty": 419,
+   "aov": 77782,
    "refund": 47300
   },
-  "updated": "2026-10-23 08:00",
+  "updated": "2026-10-24 08:00",
   "creatives": [
    {
     "name": "260801_107_nsw_전쟁통_AN",
@@ -43316,13 +43316,23 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 937900,
-   "orders": 13,
-   "qty": 49,
-   "aov": 72146,
-   "refund": 0
+   "sales": 6705700,
+   "orders": 91,
+   "qty": 381,
+   "aov": 73689,
+   "refund": 230500
   },
-  "updated": "2026-10-23 08:00"
+  "updated": "2026-10-24 08:00"
+ },
+ "2026-10-24": {
+  "c24": {
+   "sales": 1204700,
+   "orders": 14,
+   "qty": 71,
+   "aov": 86050,
+   "refund": 90600
+  },
+  "updated": "2026-10-24 08:00"
  }
 };
-window.OFFEGO_UPDATED = "2026-10-23 08:00";
+window.OFFEGO_UPDATED = "2026-10-24 08:00";
