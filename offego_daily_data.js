@@ -38596,7 +38596,7 @@ window.OFFEGO_DAILY = {
    "aov": 67618,
    "refund": 251900
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261006_277_ypd_소신비추_T(종합)",
@@ -39002,7 +39002,7 @@ window.OFFEGO_DAILY = {
    "aov": 68120,
    "refund": 416700
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -39507,7 +39507,7 @@ window.OFFEGO_DAILY = {
    "aov": 69835,
    "refund": 386300
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -40023,7 +40023,7 @@ window.OFFEGO_DAILY = {
    "aov": 80977,
    "refund": 90600
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -40484,7 +40484,7 @@ window.OFFEGO_DAILY = {
    "aov": 72673,
    "refund": 183200
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -40879,7 +40879,7 @@ window.OFFEGO_DAILY = {
    "aov": 74021,
    "refund": 0
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -41318,7 +41318,7 @@ window.OFFEGO_DAILY = {
    "aov": 80804,
    "refund": 66700
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -41763,7 +41763,7 @@ window.OFFEGO_DAILY = {
    "aov": 66729,
    "refund": 939400
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -42235,7 +42235,7 @@ window.OFFEGO_DAILY = {
    "aov": 64441,
    "refund": 683500
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261019_261_D_사무실다큐_AI(안전성)",
@@ -42718,7 +42718,7 @@ window.OFFEGO_DAILY = {
    "aov": 71868,
    "refund": 137400
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "261008_276_HH_수명역전_AN(금연)",
@@ -43207,7 +43207,7 @@ window.OFFEGO_DAILY = {
    "aov": 77782,
    "refund": 47300
   },
-  "updated": "2026-10-25 08:00",
+  "updated": "2026-10-26 08:00",
   "creatives": [
    {
     "name": "260801_107_nsw_전쟁통_AN",
@@ -43322,27 +43322,37 @@ window.OFFEGO_DAILY = {
    "aov": 72934,
    "refund": 230500
   },
-  "updated": "2026-10-25 08:00"
+  "updated": "2026-10-26 08:00"
  },
  "2026-10-24": {
   "c24": {
-   "sales": 6522500,
-   "orders": 78,
-   "qty": 349,
-   "aov": 83622,
+   "sales": 6615100,
+   "orders": 79,
+   "qty": 353,
+   "aov": 83735,
    "refund": 159300
   },
-  "updated": "2026-10-25 08:00"
+  "updated": "2026-10-26 08:00"
  },
  "2026-10-25": {
   "c24": {
-   "sales": 344500,
-   "orders": 5,
-   "qty": 18,
-   "aov": 68900,
+   "sales": 5610900,
+   "orders": 74,
+   "qty": 316,
+   "aov": 75823,
+   "refund": 159800
+  },
+  "updated": "2026-10-26 08:00"
+ },
+ "2026-10-26": {
+  "c24": {
+   "sales": 1155400,
+   "orders": 14,
+   "qty": 62,
+   "aov": 82529,
    "refund": 0
   },
-  "updated": "2026-10-25 08:00"
+  "updated": "2026-10-26 08:00"
  }
 };
-window.OFFEGO_UPDATED = "2026-10-25 08:00";
+window.OFFEGO_UPDATED = "2026-10-26 08:00";
