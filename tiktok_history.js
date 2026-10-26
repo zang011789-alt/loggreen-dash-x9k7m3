@@ -86022,10 +86022,10 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-26 18:05",
+      "scraped_at": "2026-10-26 18:35",
       "summary": {
         "spend": 251661,
-        "revenue": 18504,
+        "revenue": 18506,
         "roas": 0.07
       },
       "campaigns": [
@@ -86035,8 +86035,8 @@ window.TIKTOK_HISTORY = {
           "budget": 300000,
           "cpa": 251661,
           "spend": 251661,
-          "revenue": 18504,
-          "roas": 13600.0,
+          "revenue": 18506,
+          "roas": 13599.0,
           "cpc": 3918,
           "ctr": 28.81,
           "clicks": 0,
@@ -87242,23 +87242,23 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-26 18:07",
+      "scraped_at": "2026-10-26 18:37",
       "summary": {
-        "spend": 262926,
-        "revenue": 19827,
-        "roas": 0.08
+        "spend": 274883,
+        "revenue": 19458,
+        "roas": 0.07
       },
       "campaigns": [
         {
           "name": "tk_oe_spc_07",
           "status": "active",
           "budget": 300000,
-          "cpa": 262926,
-          "spend": 262926,
-          "revenue": 19827,
-          "roas": 13261.0,
-          "cpc": 4653,
-          "ctr": 35.09,
+          "cpa": 274883,
+          "spend": 274883,
+          "revenue": 19458,
+          "roas": 14127.0,
+          "cpc": 4973,
+          "ctr": 35.2,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -87373,10 +87373,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-26 18:11",
+      "scraped_at": "2026-10-26 18:41",
       "summary": {
-        "spend": 96633,
-        "revenue": 8497,
+        "spend": 99116,
+        "revenue": 8509,
         "roas": 0.09
       },
       "campaigns": [
@@ -87393,7 +87393,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 33
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_033(s_AI)",
@@ -87408,7 +87408,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 32
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_032",
@@ -87423,7 +87423,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 31
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_031",
@@ -87438,7 +87438,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 30
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_030",
@@ -87453,22 +87453,22 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 20
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 200000,
-          "cpa": 96633,
-          "spend": 96633,
-          "revenue": 8497,
-          "roas": 11373.0,
-          "cpc": 1845,
-          "ctr": 16.22,
+          "cpa": 99116,
+          "spend": 99116,
+          "revenue": 8509,
+          "roas": 11649.0,
+          "cpc": 1894,
+          "ctr": 16.26,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 29
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_029",
@@ -87483,7 +87483,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 28
+          "conversions": 0
         },
         {
           "name": "tk_kd_spc_028(DVG)",
@@ -87498,7 +87498,7 @@ window.TIKTOK_HISTORY = {
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 15
+          "conversions": 0
         }
       ],
       "ads": []
