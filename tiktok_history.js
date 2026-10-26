@@ -86022,7 +86022,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-26 12:05",
+      "scraped_at": "2026-10-26 12:35",
       "summary": {
         "spend": 251661,
         "revenue": 18504,
