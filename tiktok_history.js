@@ -89278,7 +89278,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-30 11:05",
+      "scraped_at": "2026-10-30 11:35",
       "summary": {
         "spend": 227284,
         "revenue": 26110,
@@ -89288,7 +89288,7 @@ window.TIKTOK_HISTORY = {
         {
           "name": "tk_oe_spc_07",
           "status": "active",
-          "budget": 300000,
+          "budget": 200000,
           "cpa": 227284,
           "spend": 227284,
           "revenue": 26110,
@@ -89409,7 +89409,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-30 11:09",
+      "scraped_at": "2026-10-30 11:39",
       "summary": {
         "spend": 246834,
         "revenue": 8793,
@@ -90130,22 +90130,22 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-10-30 11:07",
+      "scraped_at": "2026-10-30 11:37",
       "summary": {
-        "spend": 132724,
-        "revenue": 31141,
+        "spend": 139535,
+        "revenue": 31612,
         "roas": 0.23
       },
       "campaigns": [
         {
           "name": "tk_oe_spc_07",
           "status": "active",
-          "budget": 300000,
-          "cpa": 132724,
-          "spend": 132724,
-          "revenue": 31141,
-          "roas": 4262.0,
-          "cpc": 139,
+          "budget": 200000,
+          "cpa": 139535,
+          "spend": 139535,
+          "revenue": 31612,
+          "roas": 4414.0,
+          "cpc": 144,
           "ctr": 3.26,
           "clicks": 0,
           "impressions": 0,
@@ -90261,11 +90261,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-10-30 11:11",
+      "scraped_at": "2026-10-30 11:41",
       "summary": {
-        "spend": 58912,
-        "revenue": 6908,
-        "roas": 0.12
+        "spend": 61864,
+        "revenue": 6859,
+        "roas": 0.11
       },
       "campaigns": [
         {
@@ -90347,12 +90347,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 200000,
-          "cpa": 58912,
-          "spend": 58912,
-          "revenue": 6908,
-          "roas": 8528.0,
-          "cpc": 1263,
-          "ctr": 14.81,
+          "cpa": 61864,
+          "spend": 61864,
+          "revenue": 6859,
+          "roas": 9020.0,
+          "cpc": 1334,
+          "ctr": 14.79,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
