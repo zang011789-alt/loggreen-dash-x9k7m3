@@ -91285,7 +91285,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-02 12:05",
+      "scraped_at": "2026-11-02 12:35",
       "summary": {
         "spend": 238394,
         "revenue": 16250,
@@ -91416,7 +91416,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-02 12:09",
+      "scraped_at": "2026-11-02 12:39",
       "summary": {
         "spend": 248676,
         "revenue": 8438,
@@ -92105,23 +92105,23 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-02 12:07",
+      "scraped_at": "2026-11-02 12:37",
       "summary": {
-        "spend": 77661,
-        "revenue": 17031,
-        "roas": 0.22
+        "spend": 81065,
+        "revenue": 16945,
+        "roas": 0.21
       },
       "campaigns": [
         {
           "name": "tk_oe_spc_07",
           "status": "active",
           "budget": 200000,
-          "cpa": 77661,
-          "spend": 77661,
-          "revenue": 17031,
-          "roas": 4560.0,
-          "cpc": 498,
-          "ctr": 10.92,
+          "cpa": 81065,
+          "spend": 81065,
+          "revenue": 16945,
+          "roas": 4784.0,
+          "cpc": 528,
+          "ctr": 11.04,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
@@ -92236,10 +92236,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-02 12:11",
+      "scraped_at": "2026-11-02 12:41",
       "summary": {
-        "spend": 59693,
-        "revenue": 6748,
+        "spend": 64923,
+        "revenue": 6927,
         "roas": 0.11
       },
       "campaigns": [
@@ -92322,11 +92322,11 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 200000,
-          "cpa": 59693,
-          "spend": 59693,
-          "revenue": 6748,
-          "roas": 8846.0,
-          "cpc": 1101,
+          "cpa": 64923,
+          "spend": 64923,
+          "revenue": 6927,
+          "roas": 9373.0,
+          "cpc": 1167,
           "ctr": 12.45,
           "clicks": 0,
           "impressions": 0,
