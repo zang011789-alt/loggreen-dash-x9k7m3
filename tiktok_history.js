@@ -94772,7 +94772,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-07 23:05",
+      "scraped_at": "2026-11-07 23:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -94903,7 +94903,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-07 23:09",
+      "scraped_at": "2026-11-07 23:39",
       "summary": {
         "spend": 463721,
         "revenue": 31192,
@@ -95627,7 +95627,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-07 23:07",
+      "scraped_at": "2026-11-07 23:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -95758,28 +95758,13 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-07 23:11",
+      "scraped_at": "2026-11-07 23:41",
       "summary": {
-        "spend": 365905,
-        "revenue": 21812,
+        "spend": 172312,
+        "revenue": 10043,
         "roas": 0.06
       },
       "campaigns": [
-        {
-          "name": "tk_kd_spc_033(s_AI)",
-          "status": "active",
-          "budget": 200000,
-          "cpa": 195552,
-          "spend": 195552,
-          "revenue": 11792,
-          "roas": 16583.0,
-          "cpc": 978,
-          "ctr": 5.9,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 32
-        },
         {
           "name": "tk_kd_spc_032",
           "status": "paused",
@@ -95829,12 +95814,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 240000,
-          "cpa": 170353,
-          "spend": 170353,
-          "revenue": 10020,
-          "roas": 17002.0,
-          "cpc": 2170,
-          "ctr": 12.76,
+          "cpa": 172312,
+          "spend": 172312,
+          "revenue": 10043,
+          "roas": 17158.0,
+          "cpc": 2196,
+          "ctr": 12.8,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
