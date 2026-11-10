@@ -96460,7 +96460,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-10 11:05",
+      "scraped_at": "2026-11-10 11:35",
       "summary": {
         "spend": 120442,
         "revenue": 61450,
@@ -97345,7 +97345,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-10 11:07",
+      "scraped_at": "2026-11-10 11:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
