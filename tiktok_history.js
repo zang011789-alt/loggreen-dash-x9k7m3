@@ -97807,7 +97807,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-16 12:05",
+      "scraped_at": "2026-11-16 12:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -97953,7 +97953,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-16 12:09",
+      "scraped_at": "2026-11-16 12:39",
       "summary": {
         "spend": 690887,
         "revenue": 110097,
@@ -98740,7 +98740,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-16 12:07",
+      "scraped_at": "2026-11-16 12:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98886,9 +98886,9 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-16 12:11",
+      "scraped_at": "2026-11-16 12:41",
       "summary": {
-        "spend": 254819,
+        "spend": 269173,
         "revenue": 0,
         "roas": 0.0
       },
@@ -98897,8 +98897,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 200000,
-          "cpa": 77584,
-          "spend": 77584,
+          "cpa": 79908,
+          "spend": 79908,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -98912,11 +98912,11 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
           "budget": 200000,
-          "cpa": 80203,
-          "spend": 80203,
+          "cpa": 87609,
+          "spend": 87609,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 3451,
+          "cpc": 3159,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 1,
@@ -98972,8 +98972,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 240000,
-          "cpa": 97032,
-          "spend": 97032,
+          "cpa": 101656,
+          "spend": 101656,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
