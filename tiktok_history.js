@@ -97807,7 +97807,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-16 17:35",
+      "scraped_at": "2026-11-16 18:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -97953,7 +97953,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-16 17:39",
+      "scraped_at": "2026-11-16 18:09",
       "summary": {
         "spend": 690887,
         "revenue": 110097,
@@ -98820,7 +98820,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-16 17:37",
+      "scraped_at": "2026-11-16 18:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98966,10 +98966,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-16 17:41",
+      "scraped_at": "2026-11-16 18:11",
       "summary": {
-        "spend": 390786,
-        "revenue": 141506,
+        "spend": 405198,
+        "revenue": 145370,
         "roas": 0.36
       },
       "campaigns": [
@@ -98977,11 +98977,11 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 200000,
-          "cpa": 107833,
-          "spend": 107833,
+          "cpa": 109934,
+          "spend": 109934,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 909,
+          "cpc": 891,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 1,
@@ -98992,11 +98992,11 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
           "budget": 200000,
-          "cpa": 141447,
-          "spend": 141447,
+          "cpa": 149894,
+          "spend": 149894,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 1957,
+          "cpc": 1846,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 1,
@@ -99052,12 +99052,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 240000,
-          "cpa": 141506,
-          "spend": 141506,
-          "revenue": 141506,
-          "roas": 141506.0,
-          "cpc": 1976,
-          "ctr": 1.976,
+          "cpa": 145370,
+          "spend": 145370,
+          "revenue": 145370,
+          "roas": 145370.0,
+          "cpc": 1923,
+          "ctr": 1.923,
           "clicks": 1,
           "impressions": 1,
           "cpm": 1,
