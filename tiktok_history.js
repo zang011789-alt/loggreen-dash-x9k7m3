@@ -98266,7 +98266,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-18 00:35",
+      "scraped_at": "2026-11-18 01:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98412,7 +98412,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-18 00:39",
+      "scraped_at": "2026-11-18 01:09",
       "summary": {
         "spend": 420240,
         "revenue": 286894,
@@ -99103,7 +99103,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-18 00:37",
+      "scraped_at": "2026-11-18 01:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -99249,11 +99249,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-18 00:41",
+      "scraped_at": "2026-11-18 01:11",
       "summary": {
-        "spend": 3766,
-        "revenue": 299,
-        "roas": 0.08
+        "spend": 10316,
+        "revenue": 1765,
+        "roas": 0.17
       },
       "campaigns": [
         {
@@ -99261,8 +99261,8 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 200000,
-          "spend": 0,
-          "revenue": 0,
+          "spend": 5,
+          "revenue": 5,
           "roas": 0.0,
           "cpc": 0,
           "ctr": 0.0,
@@ -99276,8 +99276,8 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 200000,
-          "spend": 299,
-          "revenue": 299,
+          "spend": 1760,
+          "revenue": 1760,
           "roas": 0.0,
           "cpc": 0,
           "ctr": 0.0,
@@ -99290,8 +99290,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 220000,
-          "cpa": 1036,
-          "spend": 1036,
+          "cpa": 2778,
+          "spend": 2778,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99305,8 +99305,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
           "budget": 200000,
-          "cpa": 2431,
-          "spend": 2431,
+          "cpa": 5773,
+          "spend": 5773,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
