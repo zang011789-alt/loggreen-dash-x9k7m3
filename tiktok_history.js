@@ -98082,7 +98082,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-17 14:35",
+      "scraped_at": "2026-11-17 15:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98228,7 +98228,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-17 14:39",
+      "scraped_at": "2026-11-17 15:09",
       "summary": {
         "spend": 507057,
         "revenue": 373035,
@@ -98935,7 +98935,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-17 14:37",
+      "scraped_at": "2026-11-17 15:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -99081,10 +99081,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-17 14:41",
+      "scraped_at": "2026-11-17 15:11",
       "summary": {
-        "spend": 363767,
-        "revenue": 186962,
+        "spend": 383816,
+        "revenue": 196987,
         "roas": 0.51
       },
       "campaigns": [
@@ -99092,8 +99092,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 200000,
-          "cpa": 107958,
-          "spend": 107958,
+          "cpa": 113882,
+          "spend": 113882,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99107,12 +99107,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
           "budget": 200000,
-          "cpa": 103271,
-          "spend": 103271,
-          "revenue": 34424,
-          "roas": 34424.0,
-          "cpc": 3567,
-          "ctr": 3.567,
+          "cpa": 109420,
+          "spend": 109420,
+          "revenue": 36473,
+          "roas": 36473.0,
+          "cpc": 3366,
+          "ctr": 3.366,
           "clicks": 3,
           "impressions": 4,
           "cpm": 4,
@@ -99167,12 +99167,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 240000,
-          "cpa": 152538,
-          "spend": 152538,
-          "revenue": 152538,
-          "roas": 152538.0,
-          "cpc": 1801,
-          "ctr": 1.801,
+          "cpa": 160514,
+          "spend": 160514,
+          "revenue": 160514,
+          "roas": 160514.0,
+          "cpc": 1712,
+          "ctr": 1.712,
           "clicks": 1,
           "impressions": 1,
           "cpm": 1,
