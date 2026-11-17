@@ -98082,7 +98082,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-17 10:05",
+      "scraped_at": "2026-11-17 10:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98228,7 +98228,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-17 10:09",
+      "scraped_at": "2026-11-17 10:39",
       "summary": {
         "spend": 507057,
         "revenue": 373035,
@@ -98871,7 +98871,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-17 10:07",
+      "scraped_at": "2026-11-17 10:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
