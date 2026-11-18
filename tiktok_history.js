@@ -98538,7 +98538,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-19 00:06",
+      "scraped_at": "2026-11-19 00:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98579,21 +98579,6 @@ window.TIKTOK_HISTORY = {
           "name": "tk_oe_spc_06",
           "status": "paused",
           "budget": 400000,
-          "cpa": 0,
-          "spend": 0,
-          "revenue": 0,
-          "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 0
-        },
-        {
-          "name": "tk_oe_spc_05",
-          "status": "paused",
-          "budget": 300000,
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
@@ -98684,11 +98669,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-19 00:09",
+      "scraped_at": "2026-11-19 00:38",
       "summary": {
-        "spend": 961464,
-        "revenue": 362966,
-        "roas": 0.38
+        "spend": 552223,
+        "revenue": 1193270,
+        "roas": 2.16
       },
       "campaigns": [
         {
@@ -98701,40 +98686,40 @@ window.TIKTOK_HISTORY = {
           "roas": 203007.0,
           "cpc": 203007,
           "ctr": 0.0,
-          "clicks": 1377,
-          "impressions": 1,
-          "cpm": 1,
-          "conversions": 1
+          "clicks": 67669,
+          "impressions": 67669,
+          "cpm": 94200,
+          "conversions": 502
         },
         {
           "name": "tk_kd_spc_043(ROAS목표)",
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 39241,
+          "spend": 0,
           "revenue": 0,
-          "roas": 39241.0,
-          "cpc": 0,
+          "roas": 0.0,
+          "cpc": 39241,
           "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 0
+          "clicks": 39241,
+          "impressions": 39241,
+          "cpm": 31400,
+          "conversions": 225
         },
         {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 220000,
-          "cpa": 275000,
-          "spend": 275000,
-          "revenue": 68750,
-          "roas": 68750.0,
-          "cpc": 3198,
-          "ctr": 2.283,
-          "clicks": 4,
-          "impressions": 3,
-          "cpm": 2,
-          "conversions": 2
+          "cpa": 55000,
+          "spend": 55000,
+          "revenue": 879400,
+          "roas": 3.198,
+          "cpc": 264,
+          "ctr": 6.07,
+          "clicks": 1042,
+          "impressions": 17159,
+          "cpm": 16027,
+          "conversions": 5
         },
         {
           "name": "tk_kd_spc_033(s_AI)",
@@ -98742,13 +98727,13 @@ window.TIKTOK_HISTORY = {
           "budget": 200000,
           "cpa": 144216,
           "spend": 144216,
-          "revenue": 144216,
-          "roas": 144216.0,
-          "cpc": 1053,
-          "ctr": 1.053,
-          "clicks": 1,
-          "impressions": 1,
-          "cpm": 1,
+          "revenue": 151800,
+          "roas": 1.053,
+          "cpc": 122,
+          "ctr": 9.32,
+          "clicks": 1180,
+          "impressions": 12661,
+          "cpm": 11391,
           "conversions": 1
         },
         {
@@ -98800,16 +98785,16 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 240000,
-          "cpa": 300000,
-          "spend": 300000,
-          "revenue": 150000,
-          "roas": 150000.0,
-          "cpc": 540,
-          "ctr": 0.54,
-          "clicks": 2,
-          "impressions": 1,
-          "cpm": 1,
-          "conversions": 1
+          "cpa": 150000,
+          "spend": 150000,
+          "revenue": 162070,
+          "roas": 0.54,
+          "cpc": 78,
+          "ctr": 11.23,
+          "clicks": 3862,
+          "impressions": 34405,
+          "cpm": 8720,
+          "conversions": 2
         },
         {
           "name": "tk_kd_spc_029",
@@ -98827,7 +98812,104 @@ window.TIKTOK_HISTORY = {
           "conversions": 0
         }
       ],
-      "ads": []
+      "ads": [
+        {
+          "name": "001_261118_CJH_초경시작인체_AI",
+          "campaign": "tk_kd_spc_033(s_AI)",
+          "status": "active",
+          "cpa": 0,
+          "spend": 6193,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 77,
+          "ctr": 9.79,
+          "clicks": 80,
+          "impressions": 817,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_CJH_누나쟁탈s_AI",
+          "campaign": "tk_kd_spc_033(s_AI)",
+          "status": "active",
+          "cpa": 0,
+          "spend": 5831,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 119,
+          "ctr": 6.99,
+          "clicks": 49,
+          "impressions": 701,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_pdz_깨져버린공식_T",
+          "campaign": "tk_kd_spc_033(s_AI)",
+          "status": "active",
+          "cpa": 4123,
+          "spend": 4123,
+          "revenue": 151800,
+          "roas": 36.818,
+          "cpc": 111,
+          "ctr": 7.4,
+          "clicks": 37,
+          "impressions": 500,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_on_최근논란_T",
+          "campaign": "tk_kd_spc_033(s_AI)",
+          "status": "active",
+          "cpa": 0,
+          "spend": 18615,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 114,
+          "ctr": 6.63,
+          "clicks": 163,
+          "impressions": 2457,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_CJH_160학원강사in_AI",
+          "campaign": "tk_kd_spc_020",
+          "status": "active",
+          "cpa": 123705,
+          "spend": 123705,
+          "revenue": 84300,
+          "roas": 0.681,
+          "cpc": 75,
+          "ctr": 9.96,
+          "clicks": 1651,
+          "impressions": 16580,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_CJH_정체기인체_AI",
+          "campaign": "tk_kd_spc_020",
+          "status": "active",
+          "cpa": 0,
+          "spend": 438,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 438,
+          "ctr": 50.0,
+          "clicks": 1,
+          "impressions": 2,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        }
+      ]
     }
   },
   "2026-11-19": {
@@ -99308,7 +99390,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-19 00:07",
+      "scraped_at": "2026-11-19 00:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -99439,11 +99521,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-19 00:11",
+      "scraped_at": "2026-11-19 00:40",
       "summary": {
-        "spend": 1913,
+        "spend": 0,
         "revenue": 0,
-        "roas": 0.0
+        "roas": 0
       },
       "campaigns": [
         {
@@ -99451,59 +99533,59 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 1148,
+          "spend": 0,
           "revenue": 0,
-          "roas": 1148.0,
-          "cpc": 0,
+          "roas": 0.0,
+          "cpc": 5964,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 30
         },
         {
           "name": "tk_kd_spc_043(ROAS목표)",
           "status": "active",
           "budget": 0,
           "cpa": 1,
-          "spend": 438,
+          "spend": 0,
           "revenue": 0,
-          "roas": 438.0,
-          "cpc": 0,
+          "roas": 0.0,
+          "cpc": 1440,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
           "cpm": 0,
-          "conversions": 0
+          "conversions": 7
         },
         {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 220000,
-          "cpa": 50,
-          "spend": 50,
+          "cpa": 0,
+          "spend": 0,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
+          "cpc": 148,
+          "ctr": 8.38,
+          "clicks": 88,
+          "impressions": 1050,
+          "cpm": 12417,
           "conversions": 0
         },
         {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
           "budget": 200000,
-          "cpa": 262,
-          "spend": 262,
+          "cpa": 0,
+          "spend": 0,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
+          "cpc": 94,
+          "ctr": 5.03,
+          "clicks": 23,
+          "impressions": 457,
+          "cpm": 4742,
           "conversions": 0
         },
         {
@@ -99555,15 +99637,15 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 240000,
-          "cpa": 15,
-          "spend": 15,
+          "cpa": 0,
+          "spend": 0,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
+          "cpc": 54,
+          "ctr": 11.66,
+          "clicks": 50,
+          "impressions": 429,
+          "cpm": 6296,
           "conversions": 0
         },
         {
@@ -99582,7 +99664,104 @@ window.TIKTOK_HISTORY = {
           "conversions": 0
         }
       ],
-      "ads": []
+      "ads": [
+        {
+          "name": "001_261118_CJH_초경시작인체_AI",
+          "campaign": "tk_kd_spc_033(s_AI)",
+          "status": "active",
+          "cpa": 0,
+          "spend": 28,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 7,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_CJH_누나쟁탈s_AI",
+          "campaign": "tk_kd_spc_033(s_AI)",
+          "status": "active",
+          "cpa": 0,
+          "spend": 126,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 32,
+          "ctr": 13.33,
+          "clicks": 4,
+          "impressions": 30,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_pdz_깨져버린공식_T",
+          "campaign": "tk_kd_spc_033(s_AI)",
+          "status": "active",
+          "cpa": 0,
+          "spend": 383,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 383,
+          "ctr": 2.38,
+          "clicks": 1,
+          "impressions": 42,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_on_최근논란_T",
+          "campaign": "tk_kd_spc_033(s_AI)",
+          "status": "active",
+          "cpa": 0,
+          "spend": 736,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 105,
+          "ctr": 2.95,
+          "clicks": 7,
+          "impressions": 237,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_CJH_160학원강사in_AI",
+          "campaign": "tk_kd_spc_020",
+          "status": "active",
+          "cpa": 0,
+          "spend": 1304,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 47,
+          "ctr": 12.79,
+          "clicks": 28,
+          "impressions": 219,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        },
+        {
+          "name": "001_261118_CJH_정체기인체_AI",
+          "campaign": "tk_kd_spc_020",
+          "status": "active",
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0,
+          "cvr": 0
+        }
+      ]
     }
   }
 };
