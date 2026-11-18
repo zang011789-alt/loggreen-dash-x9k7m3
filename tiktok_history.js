@@ -98266,7 +98266,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-18 09:05",
+      "scraped_at": "2026-11-18 09:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98412,7 +98412,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-18 09:09",
+      "scraped_at": "2026-11-18 09:39",
       "summary": {
         "spend": 420240,
         "revenue": 286894,
@@ -99135,7 +99135,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-18 09:07",
+      "scraped_at": "2026-11-18 09:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -99281,11 +99281,11 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-18 09:11",
+      "scraped_at": "2026-11-18 09:41",
       "summary": {
-        "spend": 182370,
-        "revenue": 125844,
-        "roas": 0.69
+        "spend": 208907,
+        "revenue": 147071,
+        "roas": 0.7
       },
       "campaigns": [
         {
@@ -99293,8 +99293,8 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 200000,
-          "spend": 51127,
-          "revenue": 51127,
+          "spend": 57406,
+          "revenue": 57406,
           "roas": 0.0,
           "cpc": 0,
           "ctr": 0.0,
@@ -99308,8 +99308,8 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 200000,
-          "spend": 17879,
-          "revenue": 17879,
+          "spend": 25959,
+          "revenue": 25959,
           "roas": 0.0,
           "cpc": 0,
           "ctr": 0.0,
@@ -99322,23 +99322,23 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 220000,
-          "cpa": 56838,
-          "spend": 56838,
-          "revenue": 56838,
-          "roas": 56838.0,
-          "cpc": 1483,
-          "ctr": 1.483,
+          "cpa": 63706,
+          "spend": 63706,
+          "revenue": 63706,
+          "roas": 63706.0,
+          "cpc": 1323,
+          "ctr": 1.323,
           "clicks": 1,
-          "impressions": 3,
-          "cpm": 3,
+          "impressions": 2,
+          "cpm": 2,
           "conversions": 33
         },
         {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
           "budget": 200000,
-          "cpa": 56526,
-          "spend": 56526,
+          "cpa": 61836,
+          "spend": 61836,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
