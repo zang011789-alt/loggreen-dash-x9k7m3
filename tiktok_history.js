@@ -98666,7 +98666,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-21 03:35",
+      "scraped_at": "2026-11-21 04:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98812,10 +98812,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-21 03:39",
+      "scraped_at": "2026-11-21 04:09",
       "summary": {
-        "spend": 926099,
-        "revenue": 100000,
+        "spend": 925373,
+        "revenue": 99960,
         "roas": 0.11
       },
       "campaigns": [
@@ -98823,11 +98823,11 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_044(034동일)",
           "status": "active",
           "budget": 200000,
-          "cpa": 199362,
-          "spend": 199362,
+          "cpa": 199199,
+          "spend": 199199,
           "revenue": 0,
           "roas": 0.0,
-          "cpc": 761,
+          "cpc": 762,
           "ctr": 0.0,
           "clicks": 0,
           "impressions": 0,
@@ -98853,8 +98853,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 220000,
-          "cpa": 242019,
-          "spend": 242019,
+          "cpa": 241892,
+          "spend": 241892,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -98868,8 +98868,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_033(s_AI)",
           "status": "active",
           "budget": 200000,
-          "cpa": 174498,
-          "spend": 174498,
+          "cpa": 174182,
+          "spend": 174182,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -98928,12 +98928,12 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_020",
           "status": "active",
           "budget": 240000,
-          "cpa": 300000,
-          "spend": 300000,
-          "revenue": 100000,
-          "roas": 100000.0,
-          "cpc": 1750,
-          "ctr": 1.75,
+          "cpa": 299880,
+          "spend": 299880,
+          "revenue": 99960,
+          "roas": 99960.0,
+          "cpc": 1751,
+          "ctr": 1.751,
           "clicks": 3,
           "impressions": 1,
           "cpm": 1,
@@ -99292,7 +99292,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-21 03:37",
+      "scraped_at": "2026-11-21 04:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
