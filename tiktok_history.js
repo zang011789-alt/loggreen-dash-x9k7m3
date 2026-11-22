@@ -98781,7 +98781,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-23 03:05",
+      "scraped_at": "2026-11-23 03:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
