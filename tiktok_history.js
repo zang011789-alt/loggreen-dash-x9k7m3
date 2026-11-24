@@ -98722,7 +98722,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-24 15:35",
+      "scraped_at": "2026-11-24 16:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98868,13 +98868,43 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-24 15:39",
+      "scraped_at": "2026-11-24 16:09",
       "summary": {
         "spend": 736015,
         "revenue": 736015,
         "roas": 1.0
       },
       "campaigns": [
+        {
+          "name": "tk_kd_spc_047(구매30)",
+          "status": "active",
+          "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_kd_spc_046",
+          "status": "active",
+          "budget": 0,
+          "cpa": 200000,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
         {
           "name": "tk_kd_spc_045",
           "status": "active",
@@ -98967,21 +98997,6 @@ window.TIKTOK_HISTORY = {
         },
         {
           "name": "tk_kd_spc_031",
-          "status": "paused",
-          "budget": 200000,
-          "cpa": 0,
-          "spend": 0,
-          "revenue": 0,
-          "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 0
-        },
-        {
-          "name": "tk_kd_spc_030",
           "status": "paused",
           "budget": 200000,
           "cpa": 0,
@@ -99397,7 +99412,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-24 15:37",
+      "scraped_at": "2026-11-24 16:07",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -99543,13 +99558,43 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-24 15:41",
+      "scraped_at": "2026-11-24 16:11",
       "summary": {
-        "spend": 354056,
+        "spend": 362167,
         "revenue": 62159,
-        "roas": 0.18
+        "roas": 0.17
       },
       "campaigns": [
+        {
+          "name": "tk_kd_spc_047(구매30)",
+          "status": "active",
+          "budget": 200000,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
+        {
+          "name": "tk_kd_spc_046",
+          "status": "active",
+          "budget": 0,
+          "cpa": 200000,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
         {
           "name": "tk_kd_spc_045",
           "status": "active",
@@ -99599,8 +99644,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 260000,
-          "cpa": 129518,
-          "spend": 129518,
+          "cpa": 137629,
+          "spend": 137629,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99642,21 +99687,6 @@ window.TIKTOK_HISTORY = {
         },
         {
           "name": "tk_kd_spc_031",
-          "status": "paused",
-          "budget": 200000,
-          "cpa": 0,
-          "spend": 0,
-          "revenue": 0,
-          "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 0
-        },
-        {
-          "name": "tk_kd_spc_030",
           "status": "paused",
           "budget": 200000,
           "cpa": 0,
