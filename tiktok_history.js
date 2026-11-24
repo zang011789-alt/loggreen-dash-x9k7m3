@@ -98722,7 +98722,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-24 15:05",
+      "scraped_at": "2026-11-24 15:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98868,13 +98868,28 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-24 15:10",
+      "scraped_at": "2026-11-24 15:39",
       "summary": {
-        "spend": 986093,
-        "revenue": 819374,
-        "roas": 0.83
+        "spend": 736015,
+        "revenue": 736015,
+        "roas": 1.0
       },
       "campaigns": [
+        {
+          "name": "tk_kd_spc_045",
+          "status": "active",
+          "budget": 1,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
         {
           "name": "tk_kd_spc_044(034동일)",
           "status": "paused",
@@ -98969,36 +98984,6 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_030",
           "status": "paused",
           "budget": 200000,
-          "cpa": 0,
-          "spend": 0,
-          "revenue": 0,
-          "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 0
-        },
-        {
-          "name": "tk_kd_spc_020",
-          "status": "active",
-          "budget": 270000,
-          "cpa": 250078,
-          "spend": 250078,
-          "revenue": 83359,
-          "roas": 83359.0,
-          "cpc": 2996,
-          "ctr": 2.056,
-          "clicks": 3,
-          "impressions": 1,
-          "cpm": 1,
-          "conversions": 1
-        },
-        {
-          "name": "tk_kd_spc_029",
-          "status": "paused",
-          "budget": 392242,
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
@@ -99412,7 +99397,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-24 15:08",
+      "scraped_at": "2026-11-24 15:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -99558,13 +99543,28 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-24 15:12",
+      "scraped_at": "2026-11-24 15:41",
       "summary": {
-        "spend": 483544,
+        "spend": 354056,
         "revenue": 62159,
-        "roas": 0.13
+        "roas": 0.18
       },
       "campaigns": [
+        {
+          "name": "tk_kd_spc_045",
+          "status": "active",
+          "budget": 1,
+          "cpa": 0,
+          "spend": 0,
+          "revenue": 0,
+          "roas": 0.0,
+          "cpc": 0,
+          "ctr": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "cpm": 0,
+          "conversions": 0
+        },
         {
           "name": "tk_kd_spc_044(034동일)",
           "status": "paused",
@@ -99599,8 +99599,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 260000,
-          "cpa": 125424,
-          "spend": 125424,
+          "cpa": 129518,
+          "spend": 129518,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99659,36 +99659,6 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_030",
           "status": "paused",
           "budget": 200000,
-          "cpa": 0,
-          "spend": 0,
-          "revenue": 0,
-          "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 0
-        },
-        {
-          "name": "tk_kd_spc_020",
-          "status": "active",
-          "budget": 270000,
-          "cpa": 133582,
-          "spend": 133582,
-          "revenue": 0,
-          "roas": 0.0,
-          "cpc": 0,
-          "ctr": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "cpm": 0,
-          "conversions": 0
-        },
-        {
-          "name": "tk_kd_spc_029",
-          "status": "paused",
-          "budget": 392242,
           "cpa": 0,
           "spend": 0,
           "revenue": 0,
