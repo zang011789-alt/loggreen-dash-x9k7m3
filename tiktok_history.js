@@ -98722,7 +98722,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-24 16:05",
+      "scraped_at": "2026-11-24 16:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
