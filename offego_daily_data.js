@@ -54299,7 +54299,7 @@ window.OFFEGO_DAILY = {
    "aov": 73112,
    "refund": 0
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261104_305_ypd_폐업인듯_T(가성비)",
@@ -54711,7 +54711,7 @@ window.OFFEGO_DAILY = {
    "aov": 72954,
    "refund": 225000
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261109_313_D_느와르_위스키_음주측정_AI(맛)",
@@ -55161,7 +55161,7 @@ window.OFFEGO_DAILY = {
    "aov": 80585,
    "refund": 0
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261109_313_D_느와르_위스키_음주측정_AI(맛)",
@@ -55578,7 +55578,7 @@ window.OFFEGO_DAILY = {
    "aov": 82784,
    "refund": 0
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261104_305_ypd_폐업인듯_T(가성비)",
@@ -55990,7 +55990,7 @@ window.OFFEGO_DAILY = {
    "aov": 70808,
    "refund": 249900
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261104_305_ypd_폐업인듯_T(가성비)",
@@ -56418,7 +56418,7 @@ window.OFFEGO_DAILY = {
    "aov": 72008,
    "refund": 304700
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261117_329_HH_오프택배도둑_AI",
@@ -56863,7 +56863,7 @@ window.OFFEGO_DAILY = {
    "aov": 74722,
    "refund": 205100
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261104_305_ypd_폐업인듯_T(가성비)",
@@ -57368,7 +57368,7 @@ window.OFFEGO_DAILY = {
    "aov": 73823,
    "refund": 337500
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261119_332_HH_편의점계산기_AI(가성비)",
@@ -57901,7 +57901,7 @@ window.OFFEGO_DAILY = {
    "aov": 72564,
    "refund": 339500
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261119_332_HH_편의점계산기_AI(가성비)",
@@ -58345,13 +58345,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 5416100,
-   "orders": 75,
-   "qty": 293,
-   "aov": 72215,
+   "sales": 5505700,
+   "orders": 76,
+   "qty": 297,
+   "aov": 72443,
    "refund": 68700
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261109_313_D_느와르_위스키_음주측정_AI(맛)",
@@ -58735,7 +58735,7 @@ window.OFFEGO_DAILY = {
    "aov": 78531,
    "refund": 0
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261119_332_HH_편의점계산기_AI(가성비)",
@@ -59091,13 +59091,13 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 4643400,
-   "orders": 56,
-   "qty": 251,
-   "aov": 82918,
+   "sales": 4779300,
+   "orders": 58,
+   "qty": 257,
+   "aov": 82402,
    "refund": 0
   },
-  "updated": "2026-11-25 08:00",
+  "updated": "2026-11-26 08:00",
   "creatives": [
    {
     "name": "261109_313_D_느와르_위스키_음주측정_AI(맛)",
@@ -59131,6 +59131,17 @@ window.OFFEGO_DAILY = {
     "pur": 2,
     "rev": 157300,
     "roas": 0.6
+   },
+   {
+    "name": "261123_345_qt_벌써샀니_T(프로모션)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 216412,
+    "ctr": 1.42,
+    "clicks": 46,
+    "atc": 11,
+    "pur": 2,
+    "rev": 181200,
+    "roas": 0.84
    },
    {
     "name": "067_261120_114_HH_발상이미쳤다_AN",
@@ -59221,6 +59232,17 @@ window.OFFEGO_DAILY = {
     "roas": 0.0
    },
    {
+    "name": "261123_336_pdz_블프총정리_T(프로모션)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 8545,
+    "ctr": 5.48,
+    "clicks": 8,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
     "name": "261106_323_on_느와르_신상기밀유출_T",
     "camp": "fb_OE_cbo_11(asc)",
     "spend": 8183,
@@ -59241,6 +59263,17 @@ window.OFFEGO_DAILY = {
     "pur": 0,
     "rev": 0,
     "roas": 0.0
+   },
+   {
+    "name": "261123_335_qt_얼어죽든가_T(눈치)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 6058,
+    "ctr": 3.8,
+    "clicks": 3,
+    "atc": 0,
+    "pur": 1,
+    "rev": 89600,
+    "roas": 14.79
    },
    {
     "name": "261102_281_pdz_30대부터_A(금연)",
@@ -59400,10 +59433,10 @@ window.OFFEGO_DAILY = {
  },
  "2026-11-24": {
   "meta": {
-   "spend": 1538740,
-   "impr": 48814,
+   "spend": 1539409,
+   "impr": 48827,
    "reach": 31775,
-   "clicks": 5038,
+   "clicks": 5039,
    "ctr": 10.09,
    "cpc": 312,
    "atc": 74,
@@ -59413,7 +59446,7 @@ window.OFFEGO_DAILY = {
    "pur": 26,
    "rev": 2179300,
    "roas": 1.42,
-   "cpa": 59182
+   "cpa": 59208
   },
   "ages": [
    {
@@ -59453,71 +59486,482 @@ window.OFFEGO_DAILY = {
    }
   ],
   "c24": {
-   "sales": 4983900,
-   "orders": 64,
-   "qty": 275,
-   "aov": 77873,
+   "sales": 5010300,
+   "orders": 65,
+   "qty": 276,
+   "aov": 77082,
    "refund": 115000
   },
-  "updated": "2026-11-25 08:00"
+  "updated": "2026-11-26 08:00",
+  "creatives": [
+   {
+    "name": "261109_313_D_느와르_위스키_음주측정_AI(맛)",
+    "camp": "fb_OE_cbo_16_느와르(asc)",
+    "spend": 358825,
+    "ctr": 18.85,
+    "clicks": 3566,
+    "atc": 4,
+    "pur": 1,
+    "rev": 48300,
+    "roas": 0.13
+   },
+   {
+    "name": "261119_332_HH_편의점계산기_AI(가성비)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 307000,
+    "ctr": 2.82,
+    "clicks": 216,
+    "atc": 22,
+    "pur": 9,
+    "rev": 784500,
+    "roas": 2.56
+   },
+   {
+    "name": "261110_296_qt_계산기두드렸는데_T(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 159065,
+    "ctr": 6.13,
+    "clicks": 490,
+    "atc": 19,
+    "pur": 5,
+    "rev": 400200,
+    "roas": 2.52
+   },
+   {
+    "name": "067_261120_114_HH_발상이미쳤다_AN",
+    "camp": "fb_OE_abo_04",
+    "spend": 146272,
+    "ctr": 3.15,
+    "clicks": 59,
+    "atc": 2,
+    "pur": 1,
+    "rev": 89600,
+    "roas": 0.61
+   },
+   {
+    "name": "064_261119_199_on_구만구천_T(가성비)",
+    "camp": "fb_OE_abo_04",
+    "spend": 115575,
+    "ctr": 2.86,
+    "clicks": 69,
+    "atc": 4,
+    "pur": 1,
+    "rev": 89600,
+    "roas": 0.78
+   },
+   {
+    "name": "261124_337_ypd_PC방한시간_T(가성비)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 78017,
+    "ctr": 1.73,
+    "clicks": 22,
+    "atc": 1,
+    "pur": 1,
+    "rev": 92600,
+    "roas": 1.19
+   },
+   {
+    "name": "261123_345_qt_벌써샀니_T(프로모션)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 64253,
+    "ctr": 2.29,
+    "clicks": 24,
+    "atc": 6,
+    "pur": 1,
+    "rev": 89600,
+    "roas": 1.39
+   },
+   {
+    "name": "261110_321_on_오프파는방법_T",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 59699,
+    "ctr": 6.7,
+    "clicks": 159,
+    "atc": 2,
+    "pur": 2,
+    "rev": 179200,
+    "roas": 3.0
+   },
+   {
+    "name": "261124_341_on_가난하든귀하든_T(가성비)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 55684,
+    "ctr": 2.6,
+    "clicks": 15,
+    "atc": 2,
+    "pur": 2,
+    "rev": 179200,
+    "roas": 3.22
+   },
+   {
+    "name": "261123_346_qt_삼숫자_T(종합)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 52069,
+    "ctr": 5.48,
+    "clicks": 136,
+    "atc": 6,
+    "pur": 2,
+    "rev": 136900,
+    "roas": 2.63
+   },
+   {
+    "name": "260915_237_pdz_이렇게대답_T(눈치)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 27252,
+    "ctr": 5.96,
+    "clicks": 23,
+    "atc": 1,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261106_323_on_느와르_신상기밀유출_T",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 16112,
+    "ctr": 8.44,
+    "clicks": 35,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261123_335_qt_얼어죽든가_T(눈치)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 15785,
+    "ctr": 2.33,
+    "clicks": 9,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261120_331_nsw_한달째버튜버_AN(금연)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 14343,
+    "ctr": 6.53,
+    "clicks": 38,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260904_227_ypd_거지방_T(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 11733,
+    "ctr": 8.67,
+    "clicks": 71,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260904_222_HH_구만구천_A(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 10864,
+    "ctr": 7.04,
+    "clicks": 11,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261123_336_pdz_블프총정리_T(프로모션)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 7532,
+    "ctr": 2.94,
+    "clicks": 5,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261006_253_HH_돈많아_A(가성비)",
+    "camp": "fb_OE_cbo_11(asc)",
+    "spend": 6511,
+    "ctr": 7.04,
+    "clicks": 61,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261104_305_ypd_폐업인듯_T(가성비)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 3402,
+    "ctr": 2.13,
+    "clicks": 1,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261102_281_pdz_30대부터_A(금연)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 1540,
+    "ctr": 9.64,
+    "clicks": 11,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261109_315_HH_느와르_진토닉_3초표정(맛)",
+    "camp": "fb_OE_cbo_16_느와르(asc)",
+    "spend": 705,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261109_324_on_느와르_술텀블러_T",
+    "camp": "fb_OE_cbo_16_느와르(asc)",
+    "spend": 675,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261111_302_on_흡연차감가_T(눈치)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 580,
+    "ctr": 19.05,
+    "clicks": 4,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261120_310_nsw_느와르_큰손도움_AN",
+    "camp": "fb_OE_cbo_16_느와르(asc)",
+    "spend": 495,
+    "ctr": 6.25,
+    "clicks": 1,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261109_318_on_느와르_진토닉_알쓰2차_T(맛)",
+    "camp": "fb_OE_cbo_16_느와르(asc)",
+    "spend": 189,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261001_254_nsw_구만구천_AN(가성비)",
+    "camp": "fb_OE_cbo_13",
+    "spend": 180,
+    "ctr": 8.33,
+    "clicks": 1,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261109_314_HH_느와르_위스키_삼촌블라인드(맛)",
+    "camp": "fb_OE_cbo_16_느와르(asc)",
+    "spend": 130,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261109_316_pdz_느와르_진토닉_퇴근영수증_T(맛)",
+    "camp": "fb_OE_cbo_16_느와르(asc)",
+    "spend": 75,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "260727_90_JY_연초금지도시_유럽여행_AI",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 65,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261002_259_ypd_10시간자_T(금연_피로)",
+    "camp": "fb_OE_cbo_06(asc)",
+    "spend": 11,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   },
+   {
+    "name": "261109_319_pdz_느와르_술맛나는전담_T(맛)",
+    "camp": "fb_OE_cbo_16_느와르(asc)",
+    "spend": 10,
+    "ctr": 0.0,
+    "clicks": 0,
+    "atc": 0,
+    "pur": 0,
+    "rev": 0,
+    "roas": 0.0
+   }
+  ]
  },
  "2026-11-25": {
   "meta": {
-   "spend": 307733,
-   "impr": 8363,
-   "reach": 5441,
-   "clicks": 789,
-   "ctr": 9.2,
-   "cpc": 400,
-   "atc": 19,
-   "ic": 18,
-   "reg": 9,
-   "lpv": 657,
-   "pur": 6,
-   "rev": 499300,
-   "roas": 1.62,
-   "cpa": 51289
+   "spend": 1897979,
+   "impr": 50468,
+   "reach": 28957,
+   "clicks": 3971,
+   "ctr": 7.57,
+   "cpc": 497,
+   "atc": 90,
+   "ic": 102,
+   "reg": 44,
+   "lpv": 3218,
+   "pur": 32,
+   "rev": 2508900,
+   "roas": 1.32,
+   "cpa": 59312
   },
   "ages": [
    {
     "age": "18-24",
-    "atc": 1,
-    "pur": 1
+    "atc": 10,
+    "pur": 4
    },
    {
     "age": "25-34",
-    "atc": 11,
-    "pur": 2
+    "atc": 33,
+    "pur": 10
    },
    {
     "age": "35-44",
-    "atc": 4,
-    "pur": 1
+    "atc": 15,
+    "pur": 7
    },
    {
     "age": "45-54",
-    "atc": 3,
-    "pur": 2
+    "atc": 23,
+    "pur": 7
    },
    {
     "age": "55-64",
-    "atc": 0,
-    "pur": 0
+    "atc": 9,
+    "pur": 4
    },
    {
     "age": "65+",
     "atc": 0,
     "pur": 0
+   },
+   {
+    "age": "Unknown",
+    "atc": 0,
+    "pur": 0
    }
   ],
   "c24": {
-   "sales": 1151900,
-   "orders": 13,
-   "qty": 62,
-   "aov": 88608,
+   "sales": 4763500,
+   "orders": 71,
+   "qty": 285,
+   "aov": 67092,
+   "refund": 299200
+  },
+  "updated": "2026-11-26 08:00"
+ },
+ "2026-11-26": {
+  "meta": {
+   "spend": 424380,
+   "impr": 10460,
+   "reach": 7280,
+   "clicks": 752,
+   "ctr": 7.02,
+   "cpc": 578,
+   "atc": 9,
+   "ic": 14,
+   "reg": 8,
+   "lpv": 594,
+   "pur": 3,
+   "rev": 247900,
+   "roas": 0.58,
+   "cpa": 141460
+  },
+  "ages": [
+   {
+    "age": "18-24",
+    "atc": 0,
+    "pur": 0
+   },
+   {
+    "age": "25-34",
+    "atc": 3,
+    "pur": 2
+   },
+   {
+    "age": "35-44",
+    "atc": 1,
+    "pur": 0
+   },
+   {
+    "age": "45-54",
+    "atc": 4,
+    "pur": 0
+   },
+   {
+    "age": "55-64",
+    "atc": 1,
+    "pur": 1
+   },
+   {
+    "age": "65+",
+    "atc": 0,
+    "pur": 0
+   },
+   {
+    "age": "Unknown",
+    "atc": 0,
+    "pur": 0
+   }
+  ],
+  "c24": {
+   "sales": 1007000,
+   "orders": 11,
+   "qty": 56,
+   "aov": 91545,
    "refund": 0
   },
-  "updated": "2026-11-25 08:00"
+  "updated": "2026-11-26 08:00"
  }
 };
-window.OFFEGO_UPDATED = "2026-11-25 08:00";
+window.OFFEGO_UPDATED = "2026-11-26 08:00";
