@@ -98433,7 +98433,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-27 07:36",
+      "scraped_at": "2026-11-27 08:05",
       "summary": {
         "spend": 0,
         "revenue": 0,
