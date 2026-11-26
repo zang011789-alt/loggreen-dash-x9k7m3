@@ -98636,7 +98636,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-26 17:06",
+      "scraped_at": "2026-11-26 18:36",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98782,7 +98782,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-26 17:10",
+      "scraped_at": "2026-11-26 18:40",
       "summary": {
         "spend": 724098,
         "revenue": 590447,
@@ -99150,7 +99150,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-26 17:08",
+      "scraped_at": "2026-11-26 18:38",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -99296,10 +99296,10 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-26 17:12",
+      "scraped_at": "2026-11-26 18:42",
       "summary": {
-        "spend": 469599,
-        "revenue": 54524,
+        "spend": 532871,
+        "revenue": 61439,
         "roas": 0.12
       },
       "campaigns": [
@@ -99308,7 +99308,7 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 1,
           "cpa": 0,
-          "spend": 124405,
+          "spend": 144765,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99323,8 +99323,8 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 0,
           "cpa": 200000,
-          "spend": 54524,
-          "revenue": 54524,
+          "spend": 61439,
+          "revenue": 61439,
           "roas": 0.0,
           "cpc": 0,
           "ctr": 0.0,
@@ -99338,7 +99338,7 @@ window.TIKTOK_HISTORY = {
           "status": "active",
           "budget": 1,
           "cpa": 0,
-          "spend": 125372,
+          "spend": 140888,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99382,8 +99382,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 260000,
-          "cpa": 165298,
-          "spend": 165298,
+          "cpa": 185779,
+          "spend": 185779,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
