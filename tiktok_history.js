@@ -98433,7 +98433,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-27 11:05",
+      "scraped_at": "2026-11-27 11:35",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -98579,7 +98579,7 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-27 11:09",
+      "scraped_at": "2026-11-27 11:39",
       "summary": {
         "spend": 746792,
         "revenue": 0,
@@ -98947,7 +98947,7 @@ window.TIKTOK_HISTORY = {
       ]
     },
     "offego": {
-      "scraped_at": "2026-11-27 11:07",
+      "scraped_at": "2026-11-27 11:37",
       "summary": {
         "spend": 0,
         "revenue": 0,
@@ -99093,9 +99093,9 @@ window.TIKTOK_HISTORY = {
       "ads": []
     },
     "ridermune": {
-      "scraped_at": "2026-11-27 11:11",
+      "scraped_at": "2026-11-27 11:41",
       "summary": {
-        "spend": 247963,
+        "spend": 260763,
         "revenue": 0,
         "roas": 0.0
       },
@@ -99104,8 +99104,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_047(구매30)",
           "status": "active",
           "budget": 200000,
-          "cpa": 66095,
-          "spend": 66095,
+          "cpa": 69355,
+          "spend": 69355,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99119,8 +99119,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_046",
           "status": "active",
           "budget": 200000,
-          "cpa": 20981,
-          "spend": 20981,
+          "cpa": 22233,
+          "spend": 22233,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99134,8 +99134,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_045",
           "status": "active",
           "budget": 200000,
-          "cpa": 63232,
-          "spend": 63232,
+          "cpa": 65774,
+          "spend": 65774,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
@@ -99179,8 +99179,8 @@ window.TIKTOK_HISTORY = {
           "name": "tk_kd_spc_034(T)",
           "status": "active",
           "budget": 260000,
-          "cpa": 97655,
-          "spend": 97655,
+          "cpa": 103401,
+          "spend": 103401,
           "revenue": 0,
           "roas": 0.0,
           "cpc": 0,
